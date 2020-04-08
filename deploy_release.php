@@ -1,7 +1,6 @@
 <?php
 
-$op=[];
-echo exec("rm -rf kfs_release", $op);
+echo exec("rm -rf kfs_release", $op, $v);
 print_r($op);
 //exec("git clone -b release https://github.com/komplexitaeter/kfs kfs_release");
 //exec("rm -rf kfs_release/.git");
