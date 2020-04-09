@@ -16,14 +16,14 @@
 
     function renderSVG(){
         var request = new XMLHttpRequest();
-        request.open("GET", "read_svg.php?id=11", true);
+        request.open("GET", "read_svg.php?id=1", true);
         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
 
         request.addEventListener('load', function (event) {
             if (request.status >= 200 && request.status < 300) {
                 console.log(request.responseText);
-                document.getElementById("svg_render").src="read_svg.php?id=11";
+                document.getElementById("svg_render").src="read_svg.php?id=1";
 
             } else {
                 console.warn(request.statusText, request.responseText);
