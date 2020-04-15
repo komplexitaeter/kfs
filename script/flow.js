@@ -82,6 +82,7 @@ function refreshAttendeesList(simulation_id, session_key){
             else{
                 document.getElementById('start_simulation_button').disabled=true;
             }
+            console.log(myJson.length);
         });
 }
 
