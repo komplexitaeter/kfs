@@ -20,7 +20,16 @@ $success = mysqli_real_connect(
     _MYSQL_PORT
 );
 
-$sql = "SELECT * FROM kfs_attendees_tbl WHERE simulation_id=".$simulation_id." AND TIMESTAMPDIFF( SECOND, last_callback_date, CURRENT_TIMESTAMP) < 30" ;
+$sql = "DELETE FROM kfs_attendees_tbl WHERE TIMESTAMPDIFF( SECOND, last_callback_date, CURRENT_TIMESTAMP) > 30 AND simulation_id=".$simulation_id;
+if(!$result = $link->query($sql))
+{
+    if ($link->connect_errno) {
+        printf("\n Fail: %s\n", $link->connect_error);
+        exit();
+    }
+}
+
+$sql = "SELECT * FROM kfs_attendees_tbl WHERE simulation_id=".$simulation_id;
 $objs= array();
 
 if ($result = $link->query($sql)) {

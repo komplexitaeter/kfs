@@ -15,15 +15,13 @@
 </div>
 
 <div id="attendees_list" class="display_block">
-    <input type="text" id="current_user" type="text" placeholder="Type in your name!" onclick="editName()" />
-    <input type="text" type="text" value="unknown participant" readonly />
-    <input type="text" type="text" value="unknown participant" readonly />
-    <input type="text" type="text" value="unknown participant" readonly />
+   <div class="attendee" id="current_user"><button class="avatar">&nbsp;</button><input class="attendee_name" type="text" placeholder="Type in your name!" onchange="editNameCurrentUser()"/><button class="ready_button_active">&nbsp;</button></div>
 </div>
 
 
+
 <div id="start_simulation" class="display_block">
-    <input type="submit" value="Simulation starten" onclick="create_simulation()" disabled/>
+    <input type="submit" value="Simulation starten" onclick="startSimulation()" disabled/>
 </div>
 
 </body>

@@ -18,6 +18,7 @@ function getSimulationId(){
 }
 
 function refreshAttendeesList(simulation_id, session_key){
+
     const url ='./get_attendees.php?simulation_id='+simulation_id+'&session_key='+session_key;
     fetch(url)
         .then((response) => {
@@ -25,10 +26,84 @@ function refreshAttendeesList(simulation_id, session_key){
         })
 
         .then((myJson) => {
+            var list_of_session_keys = new Array();
             myJson.forEach(obj => {
-                console.log(obj.session_key);
-            });
+                if(obj.session_key!=session_key) {
+                    list_of_session_keys[obj.session_key] = true;
+                    if (!document.getElementById(obj.session_key)) {
+                        addAttendeeField(obj.session_key, obj.name);
+                    } else {
+                        updateAttendeeName(obj.session_key, obj.name);
+                    }
+                }
+                else{
+                    var crt = document.getElementById("current_user").querySelector(".attendee_name");
+
+                    if(document.activeElement != crt){
+                        if(crt.value!=obj.name) {
+                            crt.value = obj.name;
+                        }
+                    }
+                }
+            }
+            );
+            var inp = document.getElementById("attendees_list").children;
+            for (var i = 0; i < inp.length ; i++) {
+                if(inp[i].id!='current_user')
+                    if (!list_of_session_keys[inp[i].id]) {
+                        removeAttendeeField(inp[i].id);
+                    }
+            }
         });
+}
+
+function editNameCurrentUser(){
+    var new_name=document.getElementById("current_user").querySelector(".attendee_name").value;
+    const url ='./update_attendee.php?simulation_id='+getSimulationId()+'&session_key='+getSessionKey()+'&name='+new_name;
+    fetch(url);
+
+}
+
+function updateAttendeeName(session_key, name){
+    var e = document.getElementById(session_key).querySelector(".attendee_name");
+    if(name==null){
+        name = "unknown attendee";
+    }
+    if(e.value != name) {
+        e.value = name;
+    }
+}
+
+function removeAttendeeField(session_key){
+    document.getElementById(session_key).remove();
+}
+
+function addAttendeeField(session_key, name){
+    var div = document.createElement("div");
+        div.className="attendee";
+    var name = document.createElement("input");
+        name.type="text";
+        name.readOnly=true;
+        name.className="attendee_name";
+    var avatar = document.createElement("button");
+        avatar.readOnly=true;
+        avatar.className="avatar";
+        avatar.disabled=true;
+        avatar.innerHTML="&nbsp";
+    var ready = document.createElement("button");
+        ready.readOnly=true;
+        ready.className="ready_button";
+        ready.disabled=true;
+        ready.innerHTML="&nbsp";
+    div.appendChild(avatar);
+    div.appendChild(name);
+    div.appendChild(ready);
+    if(name==null){
+        name.value = name;
+    }
+    div.id=session_key;
+
+    document.getElementById("attendees_list").appendChild(div);
 }
 
 function loadCheckIn() {
@@ -47,9 +122,6 @@ function copyContent(content){
 
     /* Copy the text inside the text field */
     document.execCommand("copy");
-
-    /* Alert the copied text */
-    alert("Copied the text: " + copyText.value);
 }
 
 function create_simulation() {
@@ -69,7 +141,6 @@ function create_simulation() {
         })
 
         .then((myJson) => {
-            //document.getElementById("create_simulation").style.backgroundColor="red";
             location.href = './checkin.php?simulation_id='+myJson.simulation_id;
         });
     }, 1);
