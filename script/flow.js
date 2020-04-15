@@ -13,8 +13,26 @@ function getSessionKey(){
 function getSimulationId(){
     var url = new URL(window.location.href);
     var c = url.searchParams.get('simulation_id');
-   // console.log("simulation_id: "+c);
     return c;
+}
+
+function switchCurrentUserReadyStatus(){
+    const url ='./update_attendee.php?simulation_id='+getSimulationId()+'&session_key='+getSessionKey()+'&switch_status=1';
+    fetch(url);
+}
+
+function updateReadyStatus(session_key, ready_to_start){
+    var e = document.getElementById(session_key);
+    if(ready_to_start==1){
+        if(e.querySelector('.ready_button_active')==null){
+            e.querySelector('.ready_button').className="ready_button_active";
+        }
+    }
+    else{
+        if(e.querySelector('.ready_button')==null){
+            e.querySelector('.ready_button_active').className="ready_button";
+        }
+    }
 }
 
 function refreshAttendeesList(simulation_id, session_key){
@@ -27,7 +45,9 @@ function refreshAttendeesList(simulation_id, session_key){
 
         .then((myJson) => {
             var list_of_session_keys = new Array();
+            var readiness_level = 0;
             myJson.forEach(obj => {
+                readiness_level+=parseInt(obj.ready_to_start);
                 if(obj.session_key!=session_key) {
                     list_of_session_keys[obj.session_key] = true;
                     if (!document.getElementById(obj.session_key)) {
@@ -35,6 +55,7 @@ function refreshAttendeesList(simulation_id, session_key){
                     } else {
                         updateAttendeeName(obj.session_key, obj.name);
                     }
+                    updateReadyStatus(obj.session_key, obj.ready_to_start);
                 }
                 else{
                     var crt = document.getElementById("current_user").querySelector(".attendee_name");
@@ -44,6 +65,7 @@ function refreshAttendeesList(simulation_id, session_key){
                             crt.value = obj.name;
                         }
                     }
+                    updateReadyStatus("current_user", obj.ready_to_start);
                 }
             }
             );
@@ -53,6 +75,12 @@ function refreshAttendeesList(simulation_id, session_key){
                     if (!list_of_session_keys[inp[i].id]) {
                         removeAttendeeField(inp[i].id);
                     }
+            }
+            if(readiness_level==myJson.length){
+                document.getElementById('start_simulation_button').disabled=false;
+            }
+            else{
+                document.getElementById('start_simulation_button').disabled=true;
             }
         });
 }

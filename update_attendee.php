@@ -2,6 +2,7 @@
 $simulation_id = filter_input(INPUT_GET, 'simulation_id');
 $session_key = filter_input(INPUT_GET, 'session_key');
 $new_name = filter_input(INPUT_GET, 'name');
+$switch_status = filter_input(INPUT_GET, 'switch_status');
 
 header('Content-Type: application/json');
 header ("Pragma-directive: no-cache");
@@ -21,7 +22,29 @@ $success = mysqli_real_connect(
     _MYSQL_PORT
 );
 
-$sql = "UPDATE kfs_attendees_tbl SET name = '".$new_name."' WHERE session_key='".$session_key."' AND simulation_id='".$simulation_id."'";
+$sql_set = array();
+
+if($switch_status!=null){
+    array_push($sql_set, "ready_to_start = NOT ready_to_start");
+}
+
+if($new_name!=null){
+    array_push($sql_set, "name = '".$new_name."'");
+}
+
+if(count($sql_set)==0){
+    $link->close();
+    exit(0);
+}
+
+for($i=0; $i<count($sql_set);$i++){
+    if($i>0){
+        $sql_set.=", ";
+    }
+    $sql_update .= $sql_set[$i];
+}
+
+$sql = "UPDATE kfs_attendees_tbl SET ".$sql_update." WHERE session_key='".$session_key."' AND simulation_id='".$simulation_id."'";
 
 if(!$result = $link->query($sql))
     {

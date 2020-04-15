@@ -11,6 +11,16 @@
     cursor: pointer;
 }
 
+#current_user .ready_button_active{
+    opacity: 1;
+    background-color: green;
+    border: greenyellow 4px solid;
+}
+
+#current_user .ready_button{
+    border: greenyellow 4px solid;
+}
+
 .attendee{
     broder: black 10px solid;
 }
@@ -37,9 +47,9 @@
 .ready_button_active{
     background-image: url("./src/start_ready.png");
     background-size: contain;
-    background-color: green;
+    background-color: greenyellow;
     border: 1px greenyellow solid;
-    opacity: 1;
+    opacity: 0.6;
 }
 
 input{
@@ -66,14 +76,19 @@ input{
     width: 50%;
 }
 
-#start_simulation input{
+#start_simulation_button{
     width: 100%;
     height: 4.0em;
     border-radius: 1.75em;
     outline:none;
     color: azure;
     font-size: larger;
-    background-color: rgba(255, 0, 255, 0.3);
+    background-color: rgba(255, 0, 255, 1);
     border: none;
     cursor: pointer;
+}
+
+#start_simulation_button:disabled{
+    background-color: rgba(255, 0, 255, 0.4);
+    cursor: not-allowed;
 }
