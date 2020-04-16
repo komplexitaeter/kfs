@@ -1,8 +1,6 @@
 <?php
 $simulation_id = filter_input(INPUT_GET, 'simulation_id');
 $session_key = filter_input(INPUT_GET, 'session_key');
-$new_name = filter_input(INPUT_GET, 'name');
-$switch_status = filter_input(INPUT_GET, 'switch_status');
 
 header('Content-Type: application/json');
 header ("Pragma-directive: no-cache");
@@ -24,12 +22,21 @@ $success = mysqli_real_connect(
 
 $sql_set = array();
 
-if($switch_status!=null){
-    array_push($sql_set, "ready_to_start = NOT ready_to_start");
+if(isset($_GET['switch_status'])){
+    $switch_status = filter_input(INPUT_GET, 'switch_status');
+    if ($switch_status==1) {
+        array_push($sql_set, "ready_to_start = NOT ready_to_start");
+    }
 }
 
-if($new_name!=null){
-    array_push($sql_set, "name = '".$new_name."'");
+if(isset($_GET['name'])){
+    $new_name = filter_input(INPUT_GET, 'name');
+    if (strlen($new_name)>0) {
+        array_push($sql_set, "name = '".$new_name."'");
+    }
+    else {
+        array_push($sql_set, "name = NULL");
+    }
 }
 
 if(count($sql_set)==0){
