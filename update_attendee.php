@@ -22,10 +22,18 @@ $success = mysqli_real_connect(
 
 $sql_set = array();
 
-if(isset($_GET['switch_status'])){
-    $switch_status = filter_input(INPUT_GET, 'switch_status');
-    if ($switch_status==1) {
-        array_push($sql_set, "ready_to_start = NOT ready_to_start");
+if(isset($_GET['ready_to_start'])){
+    $ready_to_start = filter_input(INPUT_GET, 'ready_to_start');
+    if ($ready_to_start = 0 | $ready_to_start = 1 ) {
+        array_push($sql_set, "ready_to_start = ".$ready_to_start );
+    }
+}
+else {
+    if (isset($_GET['switch_status'])){
+        $switch_status = filter_input(INPUT_GET, 'switch_status');
+        if ($switch_status==1) {
+            array_push($sql_set, "ready_to_start = NOT ready_to_start");
+        }
     }
 }
 
