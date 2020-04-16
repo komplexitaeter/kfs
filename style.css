@@ -11,14 +11,20 @@
     cursor: pointer;
 }
 
+#current_user .ready_button:disabled{
+    cursor: not-allowed;
+}
+
 #current_user .ready_button_active{
     opacity: 1;
     background-color: green;
     border: greenyellow 4px solid;
+    cursor: pointer;
 }
 
 #current_user .ready_button{
     border: greenyellow 4px solid;
+    cursor: pointer;
 }
 
 .attendee{
@@ -42,6 +48,7 @@
     background-size: contain;
     border: 1px lightgrey solid;
     opacity: 0.4;
+    cursor: not-allowed;
 }
 
 .ready_button_active{
@@ -50,6 +57,7 @@
     background-color: greenyellow;
     border: 1px greenyellow solid;
     opacity: 0.6;
+    cursor: not-allowed;
 }
 
 input{

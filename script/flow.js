@@ -21,17 +21,28 @@ function switchCurrentUserReadyStatus(){
     fetch(url);
 }
 
-function updateReadyStatus(session_key, ready_to_start){
+function updateReadyStatus(session_key, ready_to_start, name){
     var e = document.getElementById(session_key);
-    if(ready_to_start==1){
-        if(e.querySelector('.ready_button_active')==null){
-            e.querySelector('.ready_button').className="ready_button_active";
-        }
+    var current_object;
+
+    if(e.querySelector('.ready_button_active')==null) {
+        current_object = e.querySelector('.ready_button');
     }
-    else{
-        if(e.querySelector('.ready_button')==null){
-            e.querySelector('.ready_button_active').className="ready_button";
+    else {
+        current_object = e.querySelector('.ready_button_active');
+    }
+
+    if(ready_to_start==1){
+            current_object.className = "ready_button_active";
+            current_object.disabled=false;
         }
+    else{
+            current_object.className = "ready_button";
+            current_object.disabled=false;
+        }
+    if(name==null){
+        current_object.className="ready_button";
+        current_object.disabled=true;
     }
 }
 
@@ -65,7 +76,7 @@ function refreshAttendeesList(simulation_id, session_key){
                             crt.value = obj.name;
                         }
                     }
-                    updateReadyStatus("current_user", obj.ready_to_start);
+                        updateReadyStatus("current_user", obj.ready_to_start, obj.name);
                 }
             }
             );
@@ -82,7 +93,6 @@ function refreshAttendeesList(simulation_id, session_key){
             else{
                 document.getElementById('start_simulation_button').disabled=true;
             }
-            console.log(myJson.length);
         });
 }
 
@@ -90,7 +100,6 @@ function editNameCurrentUser(){
     var new_name=document.getElementById("current_user").querySelector(".attendee_name").value;
     const url ='./update_attendee.php?simulation_id='+getSimulationId()+'&session_key='+getSessionKey()+'&name='+new_name;
     fetch(url);
-
 }
 
 function updateAttendeeName(session_key, name){
