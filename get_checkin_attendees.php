@@ -20,6 +20,21 @@ $success = mysqli_real_connect(
     _MYSQL_PORT
 );
 
+$sql = "SELECT status_code FROM kfs_simulation_tbl WHERE simulation_id=".$simulation_id;
+if ($result = $link->query($sql)) {
+    if($obj = $result->fetch_object()) {
+        $status_code = $obj->status_code;
+    }
+    else{
+        $status_code = "NO_SIMULATION";
+    }
+}
+else {
+    if ($link->connect_errno) {
+        printf("\n Fail: %s\n", $link->connect_error);
+        exit();
+    }
+}
 
 /* check if the provided sim/session combo is already in DB */
 $attendee_not_found=true;
@@ -80,7 +95,9 @@ else{
     }
 }
 
-$myJSON = json_encode($objs);
+$myJSON_array = array("status_code"=>$status_code, "attendees"=>$objs);
+
+$myJSON = json_encode($myJSON_array);
 echo $myJSON;
 
 $link->close();

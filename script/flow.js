@@ -48,52 +48,64 @@ function updateReadyStatus(session_key, ready_to_start, name){
 
 function refreshAttendeesList(simulation_id, session_key){
 
-    const url ='./get_attendees.php?simulation_id='+simulation_id+'&session_key='+session_key;
+    const url ='./get_checkin_attendees.php?simulation_id='+simulation_id+'&session_key='+session_key;
     fetch(url)
         .then((response) => {
             return response.json();
         })
 
         .then((myJson) => {
-            var list_of_session_keys = new Array();
-            var readiness_level = 0;
-            myJson.forEach(obj => {
-                readiness_level+=parseInt(obj.ready_to_start);
-                if(obj.session_key!=session_key) {
-                    list_of_session_keys[obj.session_key] = true;
-                    if (!document.getElementById(obj.session_key)) {
-                        addAttendeeField(obj.session_key, obj.name);
-                    } else {
-                        updateAttendeeName(obj.session_key, obj.name);
-                    }
-                    updateReadyStatus(obj.session_key, obj.ready_to_start, obj.name);
-                }
-                else{
-                    var crt = document.getElementById("current_user").querySelector(".attendee_name");
+            switch(myJson.status_code) {
+                case "CHECKIN":
 
-                    if(document.activeElement != crt){
-                        if(crt.value!=obj.name) {
-                            crt.value = obj.name;
+                    var list_of_session_keys = new Array();
+                    var readiness_level = 0;
+                    myJson.attendees.forEach(obj => {
+                            readiness_level += parseInt(obj.ready_to_start);
+                            if (obj.session_key != session_key) {
+                                list_of_session_keys[obj.session_key] = true;
+                                if (!document.getElementById(obj.session_key)) {
+                                    addAttendeeField(obj.session_key, obj.name);
+                                } else {
+                                    updateAttendeeName(obj.session_key, obj.name);
+                                }
+                                updateReadyStatus(obj.session_key, obj.ready_to_start, obj.name);
+                            } else {
+                                var crt = document.getElementById("current_user").querySelector(".attendee_name");
+
+                                if (document.activeElement != crt) {
+                                    if (crt.value != obj.name) {
+                                        crt.value = obj.name;
+                                    }
+                                }
+                                updateReadyStatus("current_user", obj.ready_to_start, obj.name);
+                            }
                         }
+                    );
+                    var inp = document.getElementById("attendees_list").children;
+                    for (var i = 0; i < inp.length; i++) {
+                        if (inp[i].id != 'current_user')
+                            if (!list_of_session_keys[inp[i].id]) {
+                                removeAttendeeField(inp[i].id);
+                            }
                     }
-                        updateReadyStatus("current_user", obj.ready_to_start, obj.name);
-                }
-            }
-            );
-            var inp = document.getElementById("attendees_list").children;
-            for (var i = 0; i < inp.length ; i++) {
-                if(inp[i].id!='current_user')
-                    if (!list_of_session_keys[inp[i].id]) {
-                        removeAttendeeField(inp[i].id);
+                    if (readiness_level == myJson.attendees.length) {
+                        document.getElementById('start_simulation_button').disabled = false;
+                    } else {
+                        document.getElementById('start_simulation_button').disabled = true;
                     }
+                    break;
+                case "NO_SIMULATION":
+                   // alert("The required simulation ID does not exit. You will be taken to the home page.");
+                    location.href = './index.php';
+                    break;
+                case "RUNNING":
+                    location.href = './board.php?simulation_id='+simulation_id;
+                    break;
+                default:
+                    //alert("Undefined status_code - this is an error. Sorry.");
             }
-            if(readiness_level==myJson.length){
-                document.getElementById('start_simulation_button').disabled=false;
-            }
-            else{
-                document.getElementById('start_simulation_button').disabled=true;
-            }
-        });
+            });
 }
 
 function editNameCurrentUser(){
@@ -187,4 +199,9 @@ function create_simulation() {
         });
     }, 1);
 
+}
+
+function startSimulation(){
+    const url = './update_simulation.php?simulation_id='+getSimulationId()+'&status_code=RUNNING';
+    fetch(url);
 }
