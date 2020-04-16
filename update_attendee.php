@@ -24,8 +24,8 @@ $sql_set = array();
 
 if(isset($_GET['ready_to_start'])){
     $ready_to_start = filter_input(INPUT_GET, 'ready_to_start');
-    if ($ready_to_start = 0 | $ready_to_start = 1 ) {
-        array_push($sql_set, "ready_to_start = ".$ready_to_start );
+    if ($ready_to_start == 0 | $ready_to_start == 1 ) {
+        array_push($sql_set, "ready_to_start = ".$ready_to_start." ");
     }
 }
 else {
@@ -54,13 +54,13 @@ if(count($sql_set)==0){
 
 for($i=0; $i<count($sql_set);$i++){
     if($i>0){
-        $sql_set.=", ";
+        $sql_update.=", ";
     }
     $sql_update .= $sql_set[$i];
 }
 
 $sql = "UPDATE kfs_attendees_tbl SET ".$sql_update." WHERE session_key='".$session_key."' AND simulation_id='".$simulation_id."'";
-
+echo "$sql";
 if(!$result = $link->query($sql))
     {
         if ($link->connect_errno) {

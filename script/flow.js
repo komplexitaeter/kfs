@@ -98,7 +98,11 @@ function refreshAttendeesList(simulation_id, session_key){
 
 function editNameCurrentUser(){
     var new_name=document.getElementById("current_user").querySelector(".attendee_name").value;
-    const url ='./update_attendee.php?simulation_id='+getSimulationId()+'&session_key='+getSessionKey()+'&name='+new_name;
+    var c= "";
+    if(new_name==""){
+        c = "&ready_to_start=0";
+    }
+    const url ='./update_attendee.php?simulation_id='+getSimulationId()+'&session_key='+getSessionKey()+'&name='+new_name+c;
     fetch(url);
 }
 
