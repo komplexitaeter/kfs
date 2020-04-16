@@ -37,7 +37,7 @@ body{
 }
 
 .attendee{
-    border: 1px black solid;
+    background-color: azure;
 }
 
 #observers{
@@ -45,7 +45,11 @@ body{
     grid-area: 4 / 1 / 5 / 2;
 }
 
-.attendee #current_user{
+.not_current_user{
+    border: 1px black solid;
+}
+
+.current_user{
     border: 1px darkgreen solid;
 }
 

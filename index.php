@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Kanban Ship Building Flow Simulation Online</title>
-    <script src="./lib/fabric.js"></script>
     <script src="./script/flow.js"></script>
     <link rel="stylesheet" type="text/css" href="./style.css">
 </head>

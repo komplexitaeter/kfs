@@ -5,9 +5,10 @@
     <title>Board Kanban Ship Building Flow Simulation Online</title>
     <script src="./lib/fabric.js"></script>
     <script src="./script/flow.js"></script>
+    <script src="./script/board.js"></script>
     <link rel="stylesheet" type="text/css" href="./board.css">
 </head>
-<body>
+<body onload="loadBoard()">
 
 
 <div id="backlog">
@@ -15,8 +16,6 @@
 </div>
 <div id="controls">&nbsp;</div>
 <div id="observers">
-    <div id="current_user" class="attendee">&nbsp;</div>
-    <div id="session_key" class="attendee">&nbsp;</div>
 </div>
 <div id="stations">
     <div id="1" class="station">&nbsp;</div>
