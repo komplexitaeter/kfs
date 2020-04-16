@@ -66,7 +66,7 @@ function refreshAttendeesList(simulation_id, session_key){
                     } else {
                         updateAttendeeName(obj.session_key, obj.name);
                     }
-                    updateReadyStatus(obj.session_key, obj.ready_to_start);
+                    updateReadyStatus(obj.session_key, obj.ready_to_start, obj.name);
                 }
                 else{
                     var crt = document.getElementById("current_user").querySelector(".attendee_name");
