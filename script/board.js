@@ -160,7 +160,6 @@ function renderSVG(station_id){
     request.open("GET", "read_svg.php?id=1", true);
     request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
-
     request.addEventListener('load', function (event) {
         if (request.status >= 200 && request.status < 300) {
             console.log(request.responseText);
