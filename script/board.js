@@ -6,7 +6,6 @@ function loadBoard(){
 
 function refreshBoard(simulation_id, session_key){
     const url ='./get_board.php?simulation_id='+simulation_id+'&session_key='+session_key;
-    console.log(url);
     fetch(url)
         .then((response) => {
             return response.json();
@@ -35,7 +34,6 @@ function displayAttendees(attendees, simulation_id, session_key){
         let myDiv;
         /*check if attendee has a div, if not create it*/
         myDiv = document.getElementById(obj.session_key);
-        console.log(myDiv,session_key)
         if(myDiv ==  null){
             myDiv = createAttendeeDiv(obj, session_key);
         }
@@ -54,7 +52,7 @@ function putAttendeeDivAtTheRightPosition(myDiv, obj){
 }
 
 function markTimeoutAttendee(myDiv){
-    myDiv.style.backgroundColor = "red";
+    myDiv.classList.add("timeout_user");
 }
 
 function createAttendeeDiv(obj, session_key){
@@ -67,6 +65,6 @@ function createAttendeeDiv(obj, session_key){
         myDiv.classList.add("not_current_user");
     }
     myDiv.id = obj.session_key;
-    myDiv.innerHTML = obj.name;
+    myDiv.innerHTML = '<button class="avatar">&nbsp;</button>'+obj.name;
     return myDiv;
 }

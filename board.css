@@ -36,21 +36,53 @@ body{
     grid-area: 3 / 1 / 4 / 2;
 }
 
-.attendee{
-    background-color: azure;
-}
 
 #observers{
     border: 1px black solid;
+    padding:0.5em;
     grid-area: 4 / 1 / 5 / 2;
 }
 
+.attendee{
+    background-color: cyan;
+    width: auto;
+    height: 3em;
+    border-radius: 1.25em;
+    padding-top: 0.3em;
+    padding-left: 0.3em;
+    margin-bottom: 0.5em;
+    text-align: center;
+    overflow: hidden;
+    border: 3px solid darkcyan;
+}
+
+.avatar{
+    height: 2.9em;
+    width: 2.9em;
+    border-radius: 50%;
+    outline: none;
+    border: 1px lightgrey solid;
+    background-color: rgba(255,255,0,1);
+    float:left;
+}
+
 .not_current_user{
-    border: 1px black solid;
+
 }
 
 .current_user{
-    border: 1px darkgreen solid;
+    background-color: aquamarine;
+}
+
+.timeout_user{
+    border: 3px solid orangered;
+    background-color: tomato;
+    animation:blinkingDiv 0.8s infinite;
+}
+
+@keyframes blinkingDiv{
+    0%{    background-color: orangered;    }
+    100%{   background-color: tomato;    }
 }
 
 #stations{
