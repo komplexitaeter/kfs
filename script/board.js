@@ -38,6 +38,9 @@ function displayStations(stations){
         if(myDiv === null){
             recreateStations=true;
         }
+        else{
+            renderSVG(obj.station_id)
+        }
     });
     if(recreateStations){
         Array.from(document.getElementsByClassName("station")).forEach( div => {
@@ -58,6 +61,17 @@ function createStationDiv(station){
     let stationDiv = document.createElement("div");
     stationDiv.id = station.station_id;
     stationDiv.classList.add("station");
+
+    let stationLabel = document.createElement("div");
+    stationLabel.classList.add("station_label");
+    stationLabel.innerHTML=station.station_name;
+
+    let stationThumbnail = document.createElement("img");
+    stationThumbnail.classList.add("station_thumbnail");
+
+    stationDiv.appendChild(stationLabel);
+    stationDiv.appendChild(stationThumbnail);
+
     document.getElementById("stations").appendChild(stationDiv);
 }
 
@@ -139,4 +153,26 @@ function drop(ev) {
     ev.preventDefault();
     var data = ev.dataTransfer.getData("text");
     updateAttendeeStation(data, ev.target.id, getSimulationId());
+}
+
+function renderSVG(station_id){
+    var request = new XMLHttpRequest();
+    request.open("GET", "read_svg.php?id=1", true);
+    request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+
+    request.addEventListener('load', function (event) {
+        if (request.status >= 200 && request.status < 300) {
+            console.log(request.responseText);
+            let e = Array.from(document.getElementById(station_id).getElementsByClassName("station_thumbnail"));
+            e.forEach( obj => {
+                obj.src="read_svg.php?id=1";
+            });
+
+        } else {
+            console.warn(request.statusText, request.responseText);
+        }
+    });
+
+    request.send();
 }

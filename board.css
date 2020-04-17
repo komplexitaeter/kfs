@@ -12,7 +12,7 @@ html{
 
 body{
     display: grid;
-    grid-template-columns: 18% 82%;
+    grid-template-columns: 12% 88%;
     grid-template-rows: 30% 10% 20% 40%;
     min-height: 100%;
     margin: 0px;
@@ -20,7 +20,7 @@ body{
 
 #backlog{
     border: 1px black solid;
-    grid-area: 1 / 1 / 3 / 2;
+    grid-area: 1 / 1 / 2 / 2;
 }
 
 .item{
@@ -33,7 +33,7 @@ body{
 
 #controls{
     border: 1px black solid;
-    grid-area: 3 / 1 / 4 / 2;
+    grid-area: 2 / 1 / 4 / 2;
 }
 
 
@@ -93,8 +93,6 @@ body{
     grid-area: 1 / 2 / 2 / 3;
     font-size: 0;
     display:flex;
-    overflow:hidden;
-
 }
 
 .station{
@@ -102,6 +100,8 @@ body{
     width: 15%;
     height: 100%;
     font-size: initial;
+    overflow: visible;
+    position:relative;
 }
 
 #done.station{
@@ -110,8 +110,27 @@ body{
     min-width:10%;
     max-width:100%;
     float: right;
+}
 
+.station_label{
+    position:absolute;
+    text-align: center;
+    width: 95%;
+    bottom: -5%;
+    left: 2.5%;
+    background-color: navajowhite;
+    border-radius:100px;
+    /*border-bottom-left-radius: 25%;
+    border-top-right-radius: 25%;*/
+}
 
+.station_thumbnail{
+    position: absolute;
+    width: 90%;
+    left:5%;
+    height: 40%;
+    border: 1px dotted lightgrey;
+    bottom: 5%;
 }
 
 #workspace{
