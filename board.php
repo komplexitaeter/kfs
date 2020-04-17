@@ -15,13 +15,9 @@
     <div id="item_id" class="item">&nbsp;</div>
 </div>
 <div id="controls">&nbsp;</div>
-<div id="observers">
-</div>
+<div id="observers" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
 <div id="stations" ondrop="drop(event)" ondragover="allowDrop(event)">
-    <div id="1" class="station">&nbsp;</div>
-    <div id="2" class="station">&nbsp;</div>
-    <div id="3" class="station">&nbsp;</div>
-    <div id="4" class="station">&nbsp;</div>
+
     <div id="done" class="station">&nbsp;</div>
 </div>
 <div id="workspace" class="">&nbsp;</div>

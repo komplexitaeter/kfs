@@ -63,7 +63,23 @@ else{
     }
 }
 
-$myJSON_array = array("status_code"=>$status_code, "attendees"=>$objs);
+/* query all working station for this simulation */
+$sql = "SELECT confs.* FROM kfs_simulation_tbl as sims, kfs_station_conf_tbl as confs WHERE sims.simulation_id='".$simulation_id."' AND confs.configuration_name = sims.configuration_name";
+$stations= array();
+
+if ($result = $link->query($sql)) {
+    while(  $obj = $result->fetch_object()) {
+        array_push($stations, $obj);
+    }
+}
+else{
+    if ($link->connect_errno) {
+        printf("\n Fail: %s\n", $link->connect_error);
+        exit();
+    }
+}
+
+$myJSON_array = array("status_code"=>$status_code, "attendees"=>$objs, "stations"=>$stations);
 
 $myJSON = json_encode($myJSON_array);
 echo $myJSON;

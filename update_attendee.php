@@ -47,6 +47,16 @@ if(isset($_GET['name'])){
     }
 }
 
+if(isset($_GET['station_id'])){
+    $station_id = filter_input(INPUT_GET, 'station_id');
+    if (strlen($station_id)>0) {
+        array_push($sql_set, "station_id = '".$station_id."'");
+    }
+    else {
+        array_push($sql_set, "station_id = NULL");
+    }
+}
+
 if(count($sql_set)==0){
     $link->close();
     exit(0);

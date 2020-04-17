@@ -12,7 +12,7 @@ html{
 
 body{
     display: grid;
-    grid-template-columns: 25% 75%;
+    grid-template-columns: 18% 82%;
     grid-template-rows: 30% 10% 20% 40%;
     min-height: 100%;
     margin: 0px;
@@ -91,15 +91,27 @@ body{
 #stations{
     border: 1px black solid;
     grid-area: 1 / 2 / 2 / 3;
+    font-size: 0;
+    display:flex;
+    overflow:hidden;
+
 }
 
 .station{
     border: 1px black solid;
-    display:inline-block;
+    width: 15%;
+    height: 100%;
+    font-size: initial;
 }
 
-.station #done{
+#done.station{
     border: 1px black solid;
+    background-color: greenyellow;
+    min-width:10%;
+    max-width:100%;
+    float: right;
+
+
 }
 
 #workspace{

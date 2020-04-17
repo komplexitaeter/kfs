@@ -10,11 +10,11 @@ function refreshBoard(simulation_id, session_key){
         .then((response) => {
             return response.json();
         })
-
         .then((myJson) => {
             switch(myJson.status_code) {
                 case "RUNNING":
-                    displayAttendees(myJson.attendees, simulation_id, session_key);
+                    displayStations(myJson.stations);
+                    displayAttendees(myJson.attendees, session_key);
                     break;
                 case "NO_SIMULATION":
                     // alert("The required simulation ID does not exit. You will be taken to the home page.");
@@ -29,7 +29,39 @@ function refreshBoard(simulation_id, session_key){
         });
 }
 
-function displayAttendees(attendees, simulation_id, session_key){
+function displayStations(stations){
+    let recreateStations = false;
+    stations.forEach(obj => {
+        let myDiv;
+        /*check if at least one station hasn't a div, then delete all station divs and create them all again*/
+        myDiv = document.getElementById(obj.station_id);
+        if(myDiv === null){
+            recreateStations=true;
+        }
+    });
+    if(recreateStations){
+        Array.from(document.getElementsByClassName("station")).forEach( div => {
+            div.remove();
+            });
+        stations.forEach(obj => {
+            createStationDiv(obj);
+            });
+    /*add the done column as last station*/
+        let doneDiv = document.createElement("div");
+        doneDiv.id = "done";
+        doneDiv.classList.add("station");
+        document.getElementById("stations").appendChild(doneDiv);
+    }
+}
+
+function createStationDiv(station){
+    let stationDiv = document.createElement("div");
+    stationDiv.id = station.station_id;
+    stationDiv.classList.add("station");
+    document.getElementById("stations").appendChild(stationDiv);
+}
+
+function displayAttendees(attendees, session_key){
     attendees.forEach(obj => {
         let myDiv;
         /*check if attendee has a div, if not create it*/
@@ -41,18 +73,31 @@ function displayAttendees(attendees, simulation_id, session_key){
         putAttendeeDivAtTheRightPosition(myDiv, obj);
         /*identify time out attendees and mark them*/
         if(obj.timeout > 30){
-            markTimeoutAttendee(myDiv);
+            switchTimeoutAttendee(myDiv, true);
+        }
+        else{
+            switchTimeoutAttendee(myDiv, false);
         }
     }
     );
 }
 
 function putAttendeeDivAtTheRightPosition(myDiv, obj){
-    document.getElementById("observers").appendChild(myDiv);
+    if (obj.station_id == null) {
+        obj.station_id = "observers";
+    } /*todo*/
+    if((myDiv.parentElement == null) || (obj.station_id != myDiv.parentElement.id)) {
+        document.getElementById(obj.station_id).appendChild(myDiv);
+    }
 }
 
-function markTimeoutAttendee(myDiv){
-    myDiv.classList.add("timeout_user");
+function switchTimeoutAttendee(myDiv, bool){
+    if(bool){
+        myDiv.classList.add("timeout_user");
+    }
+    else{
+        myDiv.classList.remove("timeout_user");
+    }
 }
 
 function createAttendeeDiv(obj, session_key){
@@ -60,7 +105,6 @@ function createAttendeeDiv(obj, session_key){
     myDiv.classList.add("attendee");
     if(obj.session_key == session_key){
         myDiv.classList.add("current_user");
-        //dragElement(myDiv);
     }
     else{
         myDiv.classList.add("not_current_user");
@@ -70,6 +114,17 @@ function createAttendeeDiv(obj, session_key){
     myDiv.draggable=true;
     myDiv.ondragstart=drag;
     return myDiv;
+}
+
+function updateAttendeeStation(session_key, station_id, simulation_id){
+    if(parseInt(station_id)||station_id == 'observers') {
+        if(station_id == 'observers'){station_id="";}
+        const url = './update_attendee.php?simulation_id=' + simulation_id + '&session_key=' + session_key + '&station_id=' + station_id;
+        fetch(url);
+        // .then((response) => {
+        //     return response.json();
+        // })
+    }
 }
 
 function allowDrop(ev) {
@@ -83,72 +138,5 @@ function drag(ev) {
 function drop(ev) {
     ev.preventDefault();
     var data = ev.dataTransfer.getData("text");
-   console.log(ev.target.id);
+    updateAttendeeStation(data, ev.target.id, getSimulationId());
 }
-
-/*
-function dragElement(elmnt) {
-    var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-    elmnt.onmousedown = dragMouseDown;
-
-    function dragMouseDown(e) {
-        if(initDivMouseOver(document.getElementById('stations'))){
-           // elmnt.parentElement = document.getElementById('stations');
-        }
-        e = e || window.event;
-        e.preventDefault();
-        // get the mouse cursor position at startup:
-        pos3 = e.clientX;
-        pos4 = e.clientY;
-        document.onmouseup = closeDragElement;
-        // call a function whenever the cursor moves:
-        document.onmousemove = elementDrag;
-        let wdt = elmnt.offsetWidth;
-        elmnt.style.width = wdt+'px';
-        elmnt.style.position = 'absolute';
-    }
-
-    function elementDrag(e) {
-        e = e || window.event;
-        e.preventDefault();
-        // calculate the new cursor position:
-        pos1 = pos3 - e.clientX;
-        pos2 = pos4 - e.clientY;
-        pos3 = e.clientX;
-        pos4 = e.clientY;
-
-        // set the element's new position:
-        elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-        elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-    }
-
-    function closeDragElement() {
-        // stop moving when mouse button is released:
-        document.onmouseup = null;
-        document.onmousemove = null;
-        if(initDivMouseOver(document.getElementById('stations'))){
-           elmnt.parentElement = document.getElementById('stations');
-        }
-        elmnt.style.position = 'initial';
-        elmnt.style.top = 'initial';
-        elmnt.style.left = 'initial';
-        elmnt.style.width = 'auto';
-    }
-}
-
-
-function initDivMouseOver(e)   {
-    //var div = document.getElementById(e.id);
-    e.mouseIsOver = false;
-    e.onmouseover = function()   {
-        this.mouseIsOver = true;
-        console.log(e.mouseIsOver);
-    };
-    e.onmouseout = function()   {
-        this.mouseIsOver = false;
-        console.log(e.mouseIsOver);
-    };
-
-    return e.mouseIsOver;
-}
-*/
