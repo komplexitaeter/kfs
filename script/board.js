@@ -60,23 +60,41 @@ function createAttendeeDiv(obj, session_key){
     myDiv.classList.add("attendee");
     if(obj.session_key == session_key){
         myDiv.classList.add("current_user");
-        dragElement(myDiv);
+        //dragElement(myDiv);
     }
     else{
         myDiv.classList.add("not_current_user");
     }
     myDiv.id = obj.session_key;
     myDiv.innerHTML = '<button class="avatar">&nbsp;</button>'+obj.name;
+    myDiv.draggable=true;
+    myDiv.ondragstart=drag;
     return myDiv;
 }
 
+function allowDrop(ev) {
+    ev.preventDefault();
+}
 
+function drag(ev) {
+    ev.dataTransfer.setData("text", ev.target.id);
+}
+
+function drop(ev) {
+    ev.preventDefault();
+    var data = ev.dataTransfer.getData("text");
+   console.log(ev.target.id);
+}
+
+/*
 function dragElement(elmnt) {
     var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-
     elmnt.onmousedown = dragMouseDown;
 
     function dragMouseDown(e) {
+        if(initDivMouseOver(document.getElementById('stations'))){
+           // elmnt.parentElement = document.getElementById('stations');
+        }
         e = e || window.event;
         e.preventDefault();
         // get the mouse cursor position at startup:
@@ -85,6 +103,8 @@ function dragElement(elmnt) {
         document.onmouseup = closeDragElement;
         // call a function whenever the cursor moves:
         document.onmousemove = elementDrag;
+        let wdt = elmnt.offsetWidth;
+        elmnt.style.width = wdt+'px';
         elmnt.style.position = 'absolute';
     }
 
@@ -96,6 +116,7 @@ function dragElement(elmnt) {
         pos2 = pos4 - e.clientY;
         pos3 = e.clientX;
         pos4 = e.clientY;
+
         // set the element's new position:
         elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
         elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
@@ -105,6 +126,29 @@ function dragElement(elmnt) {
         // stop moving when mouse button is released:
         document.onmouseup = null;
         document.onmousemove = null;
-        elmnt.style.position = 'reset'; /*todo*/
+        if(initDivMouseOver(document.getElementById('stations'))){
+           elmnt.parentElement = document.getElementById('stations');
+        }
+        elmnt.style.position = 'initial';
+        elmnt.style.top = 'initial';
+        elmnt.style.left = 'initial';
+        elmnt.style.width = 'auto';
     }
 }
+
+
+function initDivMouseOver(e)   {
+    //var div = document.getElementById(e.id);
+    e.mouseIsOver = false;
+    e.onmouseover = function()   {
+        this.mouseIsOver = true;
+        console.log(e.mouseIsOver);
+    };
+    e.onmouseout = function()   {
+        this.mouseIsOver = false;
+        console.log(e.mouseIsOver);
+    };
+
+    return e.mouseIsOver;
+}
+*/

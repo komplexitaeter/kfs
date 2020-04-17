@@ -17,7 +17,7 @@
 <div id="controls">&nbsp;</div>
 <div id="observers">
 </div>
-<div id="stations">
+<div id="stations" ondrop="drop(event)" ondragover="allowDrop(event)">
     <div id="1" class="station">&nbsp;</div>
     <div id="2" class="station">&nbsp;</div>
     <div id="3" class="station">&nbsp;</div>
