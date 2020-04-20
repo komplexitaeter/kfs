@@ -16,7 +16,7 @@
 </div>
 <div id="controls">
     <button id="play" class="button_play" onclick="pressPlay()">&nbsp;</button>
-    <button id="pause" class="button_pause" onclick="pressPause()" disabled>&nbsp;</button>
+    <button id="pause" class="button_pause" onclick="pressPause()">&nbsp;</button>
     <button id="reset" class="button_reset" onclick="pressReset()">Reset</button>
     <div id="clock" class="clock_display">&nbsp;</div>
 </div>

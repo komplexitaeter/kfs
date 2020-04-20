@@ -44,20 +44,25 @@ function displayControls(round){
     let totalDuration;
     let playButton = document.getElementById("play");
     let stopButton = document.getElementById("pause");
+    let resetButton = document.getElementById("reset");
 
     if((round.last_start_time == null)&&(round.last_stop_time == null)){
         totalDuration = sec2time(totalDuration);
         playButton.disabled=false;
         stopButton.disabled=true;
+        resetButton.disabled=true;
     }
     else{
         if((round.last_start_time == null)){
             playButton.disabled=true;
             stopButton.disabled=false;
+            resetButton.disabled=false;
+
         }
         else{
             playButton.disabled=false;
             stopButton.disabled=true;
+            resetButton.disabled=true;
         }
         totalDuration = sec2time(parseInt(round.cumulative_time_s) + parseInt(round.current_time_s));
     }
