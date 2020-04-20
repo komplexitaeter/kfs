@@ -54,6 +54,7 @@ body{
     text-align: center;
     overflow: hidden;
     border: 3px solid darkcyan;
+    position:relative;
 }
 
 .avatar{
@@ -66,6 +67,10 @@ body{
     border: 1px lightgrey solid;
     background-color: rgba(255,255,0,1);
     float:left;
+}
+
+.attendee:active{
+    width:3.1em;
 }
 
 .not_current_user{
@@ -89,19 +94,26 @@ body{
 }
 
 #stations{
-    border: 1px black solid;
+    border: 0px black solid;
     grid-area: 1 / 2 / 2 / 3;
     font-size: 0;
     display:flex;
+    background-image: url("./src/workflow_arrow.png");
+    background-repeat: no-repeat;
+    background-size: 89% 100%;
 }
 
 .station{
     border: 1px black solid;
+    border-left: 3px dashed lightgrey;
+    border-right: none;
+    border-bottom: 2px lightgrey;
     width: 15%;
     height: 100%;
     font-size: initial;
     overflow: visible;
     position:relative;
+    opacity: 1;
 }
 
 #done.station{
@@ -131,6 +143,14 @@ body{
     height: 40%;
     border: 1px dotted lightgrey;
     bottom: 5%;
+    background-color: transparent;
+}
+
+.station .attendee{
+    width:3.1em;
+    float:right;
+    right: 2%;
+    top: 2%;
 }
 
 #workspace{
