@@ -33,9 +33,45 @@ body{
 
 #controls{
     border: 1px black solid;
+    padding:1em;
     grid-area: 2 / 1 / 4 / 2;
 }
 
+.clock_display{
+    width:75%;
+    height: 30%;
+    background: black;
+    color: greenyellow;
+}
+
+.button_play{
+    outline:none;
+    width: 30px;
+    height: 30px;
+    box-sizing: border-box;
+    background-color: transparent;
+    border-width: 15px 0px 15px 30px;
+    border-color: transparent transparent transparent #202020;
+}
+
+.button_play:disabled{
+    border-color: transparent transparent transparent lightgrey;
+}
+
+.button_pause {
+    outline:none;
+    width: 30px;
+    height: 30px;
+    box-sizing: border-box;
+    background-color: transparent;
+    border-style: double;
+    border-width: 0px 0px 0px 15px;
+    border-color: #202020;
+}
+
+.button_pause:disabled{
+    border-color: transparent transparent transparent lightgrey;
+}
 
 #observers{
     border: 1px black solid;

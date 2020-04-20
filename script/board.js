@@ -15,6 +15,7 @@ function refreshBoard(simulation_id, session_key){
                 case "RUNNING":
                     displayStations(myJson.stations);
                     displayAttendees(myJson.attendees, session_key);
+                    displayControls(myJson.current_round);
                     break;
                 case "NO_SIMULATION":
                     // alert("The required simulation ID does not exit. You will be taken to the home page.");
@@ -27,6 +28,40 @@ function refreshBoard(simulation_id, session_key){
                 //alert("Undefined status_code - this is an error. Sorry.");
             }
         });
+}
+
+function sec2time(timeInSeconds) {
+    var pad = function(num, size) { return ('000' + num).slice(size * -1); },
+        time = parseFloat(timeInSeconds).toFixed(3),
+        hours = Math.floor(time / 60 / 60),
+        minutes = Math.floor(time / 60) % 60,
+        seconds = Math.floor(time - minutes * 60);
+
+    return pad(hours, 2) + ':' + pad(minutes, 2) + ':' + pad(seconds, 2);
+}
+
+function displayControls(round){
+    let totalDuration;
+    let playButton = document.getElementById("play");
+    let stopButton = document.getElementById("pause");
+
+    if((round.last_start_time == null)&&(round.last_stop_time == null)){
+        totalDuration = sec2time(totalDuration);
+        playButton.disabled=false;
+        stopButton.disabled=true;
+    }
+    else{
+        if((round.last_start_time == null)){
+            playButton.disabled=true;
+            stopButton.disabled=false;
+        }
+        else{
+            playButton.disabled=false;
+            stopButton.disabled=true;
+        }
+        totalDuration = sec2time(parseInt(round.cumulative_time_s) + parseInt(round.current_time_s));
+    }
+    document.getElementById("clock").innerText = totalDuration;
 }
 
 function displayStations(stations){
@@ -140,6 +175,22 @@ function updateAttendeeStation(session_key, station_id, simulation_id){
         //     return response.json();
         // })
     }
+}
+
+
+function pressPlay(){
+    const url = './update_current_round.php?simulation_id=' + getSimulationId() + '&action=start';
+    fetch(url);
+}
+
+function pressPause(){
+    const url = './update_current_round.php?simulation_id=' + getSimulationId() + '&action=stop';
+    fetch(url);
+}
+
+function pressReset(){
+    const url = './update_current_round.php?simulation_id=' + getSimulationId() + '&action=reset';
+    fetch(url);
 }
 
 function allowDrop(ev) {
