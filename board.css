@@ -39,7 +39,7 @@ body{
 
 #observers{
     border: 1px black solid;
-    padding:0.5em;
+    padding:0.1em;
     grid-area: 4 / 1 / 5 / 2;
 }
 
@@ -52,9 +52,16 @@ body{
     padding-left: 0.3em;
     margin-bottom: 0.5em;
     text-align: center;
-    overflow: hidden;
     border: 3px solid darkcyan;
     position:relative;
+}
+
+.station .attendee{
+    overflow:visible;
+}
+
+#observers .attendee{
+    overflow:hidden;
 }
 
 .avatar{
@@ -69,8 +76,25 @@ body{
     float:left;
 }
 
-.attendee:active{
-    width:3.1em;
+.station .attendee_name_label{
+     position: absolute;
+     text-align: center;
+     width: 100%;
+     bottom: 0%;
+     left: 0%;
+     font-size: x-small;
+     background-color: cyan;
+     border-radius:100px;
+     overflow:hidden;
+ }
+
+#observers .attendee_name_label{
+    position: absolute;
+    border-radius:100px;
+    left: 2.9em;
+    background-color:transparent;
+    bottom:0.8em;
+    width: auto;
 }
 
 .not_current_user{

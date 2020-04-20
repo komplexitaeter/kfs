@@ -124,7 +124,8 @@ function createAttendeeDiv(obj, session_key){
         myDiv.classList.add("not_current_user");
     }
     myDiv.id = obj.session_key;
-    myDiv.innerHTML = '<button class="avatar">&nbsp;</button>'+obj.name;
+    myDiv.innerHTML = '<button class="avatar">&nbsp;</button>';
+    myDiv.innerHTML += '<div class="attendee_name_label">'+obj.name+'</div>';
     myDiv.draggable=true;
     myDiv.ondragstart=drag;
     return myDiv;
@@ -147,6 +148,11 @@ function allowDrop(ev) {
 
 function drag(ev) {
     ev.dataTransfer.setData("text", ev.target.id);
+    var crt = ev.target.cloneNode(true);
+    crt.style.backgroundColor = "red";
+    crt.style.width = "3.1em";
+    document.body.appendChild(crt);
+    ev.dataTransfer.setDragImage(crt, 25,25, 0);
 }
 
 function drop(ev) {
@@ -162,7 +168,7 @@ function renderSVG(station_id){
 
     request.addEventListener('load', function (event) {
         if (request.status >= 200 && request.status < 300) {
-            console.log(request.responseText);
+            //console.log(request.responseText);
             let e = Array.from(document.getElementById(station_id).getElementsByClassName("station_thumbnail"));
             e.forEach( obj => {
                 obj.src="read_svg.php?id=1";
