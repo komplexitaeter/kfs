@@ -31,6 +31,9 @@ function refreshBoard(simulation_id, session_key){
 }
 
 function sec2time(timeInSeconds) {
+    if(isNaN(timeInSeconds)){
+        timeInSeconds=0;
+    }
     var pad = function(num, size) { return ('000' + num).slice(size * -1); },
         time = parseFloat(timeInSeconds).toFixed(3),
         hours = Math.floor(time / 60 / 60),
@@ -41,31 +44,38 @@ function sec2time(timeInSeconds) {
 }
 
 function displayControls(round){
+
     let totalDuration;
     let playButton = document.getElementById("play");
     let stopButton = document.getElementById("pause");
     let resetButton = document.getElementById("reset");
 
     if((round.last_start_time == null)&&(round.last_stop_time == null)){
-        totalDuration = sec2time(totalDuration);
         playButton.disabled=false;
         stopButton.disabled=true;
         resetButton.disabled=true;
     }
-    else{
-        if((round.last_start_time == null)){
-            playButton.disabled=true;
-            stopButton.disabled=false;
-            resetButton.disabled=false;
 
-        }
-        else{
-            playButton.disabled=false;
-            stopButton.disabled=true;
-            resetButton.disabled=true;
-        }
-        totalDuration = sec2time(parseInt(round.cumulative_time_s) + parseInt(round.current_time_s));
+    if((round.last_start_time == null)&&(round.last_stop_time != null)){
+        playButton.disabled = false;
+        stopButton.disabled = false;
+        resetButton.disabled = false;
+        console.log("Unfortunately there is an error");
     }
+
+    if((round.last_start_time != null)&&(round.last_stop_time == null)){
+        playButton.disabled = true;
+        stopButton.disabled = false;
+        resetButton.disabled = true;
+    }
+
+    if((round.last_start_time != null)&&(round.last_stop_time != null)){
+        playButton.disabled = false;
+        stopButton.disabled = true;
+        resetButton.disabled = false;
+    }
+
+    totalDuration = sec2time(parseInt(round.total_time_s));
     document.getElementById("clock").innerText = totalDuration;
 }
 
@@ -105,6 +115,7 @@ function createStationDiv(station){
     let stationLabel = document.createElement("div");
     stationLabel.classList.add("station_label");
     stationLabel.innerHTML=station.station_name;
+    stationLabel.style.backgroundImage="url('./src/station_label_"+ ( 1 + parseInt(station.station_pos) % 4 ) +".png')";
 
     let stationThumbnail = document.createElement("img");
     stationThumbnail.classList.add("station_thumbnail");

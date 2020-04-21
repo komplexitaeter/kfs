@@ -187,13 +187,16 @@ body{
 .station_label{
     position:absolute;
     text-align: center;
+    font-size: initial;
+    font-variant: small-caps;
     width: 95%;
     bottom: -5%;
     left: 2.5%;
     background-color: navajowhite;
-    border-radius:100px;
-    /*border-bottom-left-radius: 25%;
-    border-top-right-radius: 25%;*/
+    background-image: url("./src/station_label_3.png");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+
 }
 
 .station_thumbnail{
