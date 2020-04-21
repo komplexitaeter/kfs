@@ -95,7 +95,27 @@ else{
     }
 }
 
-$myJSON_array = array("status_code"=>$status_code, "attendees"=>$objs, "stations"=>$stations, "current_round"=>$current_round);
+/* query all items for current round */
+$sql = "SELECT item.*, TIMESTAMPDIFF( SECOND, COALESCE(item.start_time, CURRENT_TIMESTAMP), COALESCE(item.end_time, CURRENT_TIMESTAMP))-cumulative_pause_time_s as cycle_time_s FROM kfs_simulation_tbl as sims, kfs_items_tbl as item WHERE sims.simulation_id='".$simulation_id."' AND item.round_id = sims.current_round_id;";
+$items = array();
+
+if ($result = $link->query($sql)) {
+    while(  $obj = $result->fetch_object()) {
+        array_push($items, $obj);
+    }
+}
+else{
+    if ($link->connect_errno) {
+        printf("\n Fail: %s\n", $link->connect_error);
+        exit();
+    }
+}
+
+$myJSON_array = array("status_code"=>$status_code
+                    , "attendees"=>$objs
+                    , "stations"=>$stations
+                    , "current_round"=>$current_round
+                    , "items_list"=>$items);
 
 $myJSON = json_encode($myJSON_array);
 echo $myJSON;
