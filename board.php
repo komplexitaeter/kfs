@@ -13,9 +13,9 @@
 <div id="backlog">
 </div>
 <div id="controls">
-    <button id="play" class="button_play" onclick="pressPlay()">&nbsp;</button>
-    <button id="pause" class="button_pause" onclick="pressPause()">&nbsp;</button>
-    <button id="reset" class="button_reset" onclick="pressReset()">Reset</button>
+    <button id="play" class="control_button button_play" onclick="pressPlay()">&nbsp;</button>
+    <button id="pause" class="control_button button_pause" onclick="pressPause()">&nbsp;</button>
+    <button id="reset" class="control_button button_reset" onclick="pressReset()">&nbsp;</button>
     <div id="clock" class="clock_display">&nbsp;</div>
 </div>
 <div id="observers">

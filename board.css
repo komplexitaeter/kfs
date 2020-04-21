@@ -2,6 +2,11 @@
 grid-area: start row / start column / end row / end column;
  */
 
+@font-face {
+    font-family: Komplexitater;
+    src: url('./src/komplexitater.ttf');
+}
+
 * {
     box-sizing: border-box;
 }
@@ -13,7 +18,7 @@ html{
 body{
     display: grid;
     grid-template-columns: 12% 88%;
-    grid-template-rows: 30% 10% 20% 40%;
+    grid-template-rows: 30% 10% 10% 50%;
     min-height: 100%;
     margin: 0px;
     overflow: hidden;
@@ -22,6 +27,7 @@ body{
 #backlog{
     border: 1px black solid;
     grid-area: 1 / 1 / 2 / 2;
+    overflow:scroll;
 }
 
 .item{
@@ -30,61 +36,85 @@ body{
     padding-left: 0.5em;
     padding-top: 0.5em;
     background-color: transparent;
-    background-image: url("./src/item_border_small.png");
+    background-image: url("./src/item_border_small_2.png");
     background-size: 100% 100%;
     background-repeat: no-repeat;
 }
 
-#item_id{
 
+.station .item{
+    font-size: x-small;
+    padding: 0.5em;
+    padding-left: 1em;
+    width:75%;
+    opacity: 0.8;
 }
 
 #controls{
     border: 1px black solid;
-    padding:1em;
+    padding:0.5em;
     grid-area: 2 / 1 / 4 / 2;
+    background-color: aliceblue;
+    position:relative;
+}
+
+.clock_digit{
+    width:12%;
 }
 
 .clock_display{
+    position:absolute;
+    margin-top: 1em;
+    left: 10%;
     width:75%;
-    height: 30%;
-    background: black;
-    color: greenyellow;
+    height: auto;
+    padding: 0.5em;
+    background: lightgrey;
+    border-radius: 150px;
+}
+
+.control_button{
+    outline:none;
+    width: 45px;
+    height: 45px;
+    box-sizing: border-box;
+    background-size: 90%;
+    background-color: lightgrey;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius:50%;
 }
 
 .button_play{
-    outline:none;
-    width: 30px;
-    height: 30px;
-    box-sizing: border-box;
-    background-color: transparent;
-    border-width: 15px 0px 15px 30px;
-    border-color: transparent transparent transparent #202020;
+    background-image: url("./src/play_button.png");
 }
 
 .button_play:disabled{
-    border-color: transparent transparent transparent lightgrey;
+    opacity: 0.4;
 }
 
 .button_pause {
-    outline:none;
-    width: 30px;
-    height: 30px;
-    box-sizing: border-box;
-    background-color: transparent;
-    border-style: double;
-    border-width: 0px 0px 0px 15px;
-    border-color: #202020;
+    background-image: url("./src/stop_button.png");
 }
 
 .button_pause:disabled{
-    border-color: transparent transparent transparent lightgrey;
+    opacity: 0.4;
+}
+
+.button_reset{
+    background-image: url("./src/reset_button.png");
+}
+
+.button_reset:disabled{
+    opacity: 0.4;
 }
 
 #observers{
     border: 1px black solid;
     padding:0.1em;
     grid-area: 4 / 1 / 5 / 2;
+    background-color: darkgray;
+    position:relative;
 }
 
 .attendee{
@@ -96,6 +126,7 @@ body{
     padding-left: 0.3em;
     margin-bottom: 0.5em;
     text-align: center;
+    font-family: Komplexitater;
     border: none;
     position:relative;
     z-index:3; /*although position: relative - because position set to absolute when drag&dropped within other elements*/
@@ -209,13 +240,14 @@ body{
 .station_label{
     position:absolute;
     text-align: center;
-    font-size: initial;
+    font-size: large;
+    font-family: Komplexitater;
     font-variant: small-caps;
+    padding-top: 0.3em;
     height: 1.5em;
     width: 95%;
     bottom: -5%;
     left: 2.5%;
-    background-color: navajowhite;
     background-image: url("./src/station_label_3.png");
     background-size: 100% 100%;
     background-repeat: no-repeat;

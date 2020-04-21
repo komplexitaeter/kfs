@@ -45,10 +45,27 @@ function sec2time(timeInSeconds) {
     return pad(hours, 2) + ':' + pad(minutes, 2) + ':' + pad(seconds, 2);
 }
 
+function complexClock(time){
+    let digits = [];
+    let clockDisplay="";
+    for(var i=0; i<10;i++){
+        digits[i]="<img src='./src/"+i+".png' class='clock_digit'>";
+    }
+    digits[':']="<img src='./src/dots.png' class='clock_digit'>";
+    let stime = time.toString();
+    console.log("stime: "+stime+" time: "+time)
+    for(i=0;i<stime.length;i++){
+            clockDisplay += digits[stime.charAt(i)];
+    }
+    return clockDisplay;
+
+}
+
 function displayItems(items_list){
+
     let itemDivIdArray = []; /*only for items not in progress*/
     items_list.forEach( obj => {
-        let currentItemDivId = obj.round_id+'_'+obj.item_id;
+       let currentItemDivId = obj.round_id+'_'+obj.item_id;
        if(obj.is_in_progress == 0){
            itemDivIdArray.push(currentItemDivId);
        }
@@ -64,7 +81,7 @@ function displayItems(items_list){
     });
 
     /*go through all the item divs on page and identify those without corresponding itemDivId - then remove those*/
-    let itemDivsOnPage = array.from(document.getElementsByClassName("item"));
+    let itemDivsOnPage = Array.from(document.getElementsByClassName("item"));
     itemDivsOnPage.forEach( div => {
         if (itemDivIdArray.indexOf(div.id) == -1) {
             div.remove();
@@ -103,9 +120,12 @@ function displayControls(round){
         stopButton.disabled = true;
         resetButton.disabled = false;
     }
-
+    /*
     totalDuration = sec2time(parseInt(round.total_time_s));
     document.getElementById("clock").innerText = totalDuration;
+    */
+    totalDuration = complexClock(sec2time(parseInt(round.total_time_s)));
+    document.getElementById("clock").innerHTML = totalDuration;
 }
 
 function displayStations(stations){
@@ -137,7 +157,7 @@ function displayStations(stations){
 }
 
 function updateItemDiv(obj, currentItemDivId){
-    currentItemDivId.innerText = "Order #"+obj.order_number+" | "+sec2time(cycle_time_s)+" | "+obj.price+" €";
+    currentItemDivId.innerText = "Order #"+obj.order_number+" | "+sec2time(obj.cycle_time_s)+" | "+obj.price+" €";
 }
 
 function createItemDiv(obj, currentItemDivId){
@@ -145,13 +165,17 @@ function createItemDiv(obj, currentItemDivId){
     div.id = currentItemDivId;
     div.classList.add("item");
     div.innerText = "Order #"+obj.order_number+" | "+obj.price+" €";
-    document.getElementById(obj.current_station).appendChild(div);
+    if(obj.current_station_id == null){obj.current_station_id = "backlog";}
+    document.getElementById(obj.current_station_id).appendChild(div);
 }
 
 function putItemDivAtTheRightPosition(obj, currentItemDivId){
-    let div = document.getElementById("div");
-    if(div.parentElement.id != obj.current_station){
-        document.getElementById(obj.current_station).appendChild(div);
+    let div = document.getElementById(currentItemDivId);
+    if(obj.current_station_id == null){
+        obj.current_station_id = "backlog";
+    }
+    if(div.parentElement.id != obj.current_station_id){
+        document.getElementById(obj.current_station_id).appendChild(div);
     }
 }
 
