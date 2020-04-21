@@ -11,6 +11,7 @@
 <body onload="loadBoard()">
 
 <div id="backlog">
+    <div class="station_label">Backlog</div>
 </div>
 <div id="controls">
     <button id="play" class="control_button button_play" onclick="pressPlay()">&nbsp;</button>

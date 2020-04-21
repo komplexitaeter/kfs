@@ -53,7 +53,6 @@ function complexClock(time){
     }
     digits[':']="<img src='./src/dots.png' class='clock_digit'>";
     let stime = time.toString();
-    console.log("stime: "+stime+" time: "+time)
     for(i=0;i<stime.length;i++){
             clockDisplay += digits[stime.charAt(i)];
     }
@@ -152,19 +151,23 @@ function displayStations(stations){
         let doneDiv = document.createElement("div");
         doneDiv.id = "done";
         doneDiv.classList.add("station");
+        let doneLabel = document.createElement("div");
+        doneLabel.classList.add("station_label");
+        doneLabel.innerText="Done";
+        doneDiv.appendChild(doneLabel);
         document.getElementById("stations").appendChild(doneDiv);
     }
 }
 
 function updateItemDiv(obj, currentItemDivId){
-    currentItemDivId.innerText = "Order #"+obj.order_number+" | "+sec2time(obj.cycle_time_s)+" | "+obj.price+" €";
+    currentItemDivId.innerText = "#"+obj.order_number+" | "+sec2time(obj.cycle_time_s)+" | "+obj.price+" €";
 }
 
 function createItemDiv(obj, currentItemDivId){
     let div = document.createElement("div");
     div.id = currentItemDivId;
     div.classList.add("item");
-    div.innerText = "Order #"+obj.order_number+" | "+obj.price+" €";
+    div.innerText = "#"+obj.order_number+" | "+obj.price+" €";
     if(obj.current_station_id == null){obj.current_station_id = "backlog";}
     document.getElementById(obj.current_station_id).appendChild(div);
 }

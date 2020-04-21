@@ -25,15 +25,18 @@ body{
 }
 
 #backlog{
-    border: 1px black solid;
+    border: none;
     grid-area: 1 / 1 / 2 / 2;
-    overflow:scroll;
+    overflow-x:hidden;
+    overflow:visible;
+    position: relative;
 }
 
 .item{
     margin:0.1em;
     height:2em;
-    padding-left: 0.5em;
+    font-size: x-small;
+    padding-left: 1.5em;
     padding-top: 0.5em;
     background-color: transparent;
     background-image: url("./src/item_border_small_2.png");
@@ -76,8 +79,8 @@ body{
 
 .control_button{
     outline:none;
-    width: 45px;
-    height: 45px;
+    width: 28%;
+    height: auto;
     box-sizing: border-box;
     background-size: 90%;
     background-color: lightgrey;
@@ -128,6 +131,7 @@ body{
     margin-bottom: 0.5em;
     text-align: center;
     font-family: Komplexitater;
+    font-size: large;
     border: none;
     position:relative;
     z-index:3; /*although position: relative - because position set to absolute when drag&dropped within other elements*/
@@ -235,11 +239,12 @@ body{
 }
 
 #done.station{
-    border: 1px black solid;
-    background-color: greenyellow;
+    background-color: rgba(123,255,55,0.8);
     min-width:10%;
     max-width:100%;
     float: right;
+    position:relative;
+    overflow:visible;
 }
 
 .station_label{
