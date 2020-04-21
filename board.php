@@ -10,9 +10,7 @@
 </head>
 <body onload="loadBoard()">
 
-
 <div id="backlog">
-    <div id="item_id" class="item">&nbsp;</div>
 </div>
 <div id="controls">
     <button id="play" class="button_play" onclick="pressPlay()">&nbsp;</button>
@@ -20,10 +18,13 @@
     <button id="reset" class="button_reset" onclick="pressReset()">Reset</button>
     <div id="clock" class="clock_display">&nbsp;</div>
 </div>
-<div id="observers" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-<div id="stations" ondrop="drop(event)" ondragover="allowDrop(event)">
+<div id="observers">
+    <div class="drop_target"  ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+</div>
+<div id="stations">
 
-    <div id="done" class="station">&nbsp;</div>
+    <div id="done" class="station">&nbsp;
+    </div>
 </div>
 <div id="workspace" class="">&nbsp;</div>
 

@@ -5,6 +5,7 @@ function loadBoard(){
 }
 
 function refreshBoard(simulation_id, session_key){
+
     const url ='./get_board.php?simulation_id='+simulation_id+'&session_key='+session_key;
     fetch(url)
         .then((response) => {
@@ -16,6 +17,7 @@ function refreshBoard(simulation_id, session_key){
                     displayStations(myJson.stations);
                     displayAttendees(myJson.attendees, session_key);
                     displayControls(myJson.current_round);
+                    displayItems(myJson.items_list);
                     break;
                 case "NO_SIMULATION":
                     // alert("The required simulation ID does not exit. You will be taken to the home page.");
@@ -41,6 +43,33 @@ function sec2time(timeInSeconds) {
         seconds = Math.floor(time - minutes * 60);
 
     return pad(hours, 2) + ':' + pad(minutes, 2) + ':' + pad(seconds, 2);
+}
+
+function displayItems(items_list){
+    let itemDivIdArray = []; /*only for items not in progress*/
+    items_list.forEach( obj => {
+        let currentItemDivId = obj.round_id+'_'+obj.item_id;
+       if(obj.is_in_progress == 0){
+           itemDivIdArray.push(currentItemDivId);
+       }
+        /*go through each item in the round and check if element exists*/
+        if(document.getElementById(currentItemDivId) != null){
+            updateItemDiv(obj, currentItemDivId);
+        }
+        else{
+            createItemDiv(obj, currentItemDivId);
+        }
+
+        putItemDivAtTheRightPosition(obj, currentItemDivId);
+    });
+
+    /*go through all the item divs on page and identify those without corresponding itemDivId - then remove those*/
+    let itemDivsOnPage = array.from(document.getElementsByClassName("item"));
+    itemDivsOnPage.forEach( div => {
+        if (itemDivIdArray.indexOf(div.id) == -1) {
+            div.remove();
+        }
+    });
 }
 
 function displayControls(round){
@@ -107,10 +136,34 @@ function displayStations(stations){
     }
 }
 
+function updateItemDiv(obj, currentItemDivId){
+    currentItemDivId.innerText = "Order #"+obj.order_number+" | "+sec2time(cycle_time_s)+" | "+obj.price+" €";
+}
+
+function createItemDiv(obj, currentItemDivId){
+    let div = document.createElement("div");
+    div.id = currentItemDivId;
+    div.classList.add("item");
+    div.innerText = "Order #"+obj.order_number+" | "+obj.price+" €";
+    document.getElementById(obj.current_station).appendChild(div);
+}
+
+function putItemDivAtTheRightPosition(obj, currentItemDivId){
+    let div = document.getElementById("div");
+    if(div.parentElement.id != obj.current_station){
+        document.getElementById(obj.current_station).appendChild(div);
+    }
+}
+
 function createStationDiv(station){
     let stationDiv = document.createElement("div");
     stationDiv.id = station.station_id;
     stationDiv.classList.add("station");
+    let stationDropTarget = document.createElement("div");
+    stationDropTarget.classList.add("drop_target");
+    stationDropTarget.ondrop = drop;
+    stationDropTarget.ondragover = allowDrop;
+    stationDiv.appendChild(stationDropTarget);
 
     let stationLabel = document.createElement("div");
     stationLabel.classList.add("station_label");
@@ -216,8 +269,9 @@ function allowDrop(ev) {
 function drag(ev) {
     ev.dataTransfer.setData("text", ev.target.id);
     var crt = ev.target.cloneNode(true);
-    crt.style.backgroundColor = "red";
-    crt.style.width = "3.1em";
+    crt.id="image_"+ev.target.id;
+    crt.style.backgroundColor = "transparent";
+    crt.style.width = "3.1em"
     document.body.appendChild(crt);
     ev.dataTransfer.setDragImage(crt, 25,25, 0);
 }
@@ -225,7 +279,9 @@ function drag(ev) {
 function drop(ev) {
     ev.preventDefault();
     var data = ev.dataTransfer.getData("text");
-    updateAttendeeStation(data, ev.target.id, getSimulationId());
+    document.getElementById("image_"+data).remove();
+    updateAttendeeStation(data, ev.target.parentElement.id, getSimulationId());
+
 }
 
 function renderSVG(station_id){

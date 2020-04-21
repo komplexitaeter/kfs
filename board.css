@@ -16,6 +16,7 @@ body{
     grid-template-rows: 30% 10% 20% 40%;
     min-height: 100%;
     margin: 0px;
+    overflow: hidden;
 }
 
 #backlog{
@@ -24,7 +25,14 @@ body{
 }
 
 .item{
-    border: 1px black solid;
+    margin:0.1em;
+    height:2em;
+    padding-left: 0.5em;
+    padding-top: 0.5em;
+    background-color: transparent;
+    background-image: url("./src/item_border_small.png");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
 }
 
 #item_id{
@@ -80,7 +88,7 @@ body{
 }
 
 .attendee{
-    background-color: cyan;
+    background-color: transparent;
     width: auto;
     height: 3em;
     border-radius: 1.5em;
@@ -88,8 +96,9 @@ body{
     padding-left: 0.3em;
     margin-bottom: 0.5em;
     text-align: center;
-    border: 3px solid darkcyan;
+    border: none;
     position:relative;
+    z-index:3; /*although position: relative - because position set to absolute when drag&dropped within other elements*/
 }
 
 .station .attendee{
@@ -105,10 +114,13 @@ body{
     width: 3em;
     margin-top: -0.3em;
     margin-left: -0.2em;
-    border-radius: 50%;
     outline: none;
-    border: 1px lightgrey solid;
-    background-color: rgba(255,255,0,1);
+    border: none;
+    border-radius: 50%;
+    background-image: url('./src/avatar_1.png');
+    background-color: transparent;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
     float:left;
 }
 
@@ -138,7 +150,7 @@ body{
 }
 
 .current_user{
-    background-color: aquamarine;
+    background-color: transparent;
 }
 
 .timeout_user{
@@ -176,6 +188,16 @@ body{
     opacity: 1;
 }
 
+.drop_target{
+    position: absolute;
+    left:0;
+    right:0;
+    top:0;
+    bottom:0;
+    background-color: transparent;
+    z-index:2;
+}
+
 #done.station{
     border: 1px black solid;
     background-color: greenyellow;
@@ -189,6 +211,7 @@ body{
     text-align: center;
     font-size: initial;
     font-variant: small-caps;
+    height: 1.5em;
     width: 95%;
     bottom: -5%;
     left: 2.5%;
@@ -196,7 +219,7 @@ body{
     background-image: url("./src/station_label_3.png");
     background-size: 100% 100%;
     background-repeat: no-repeat;
-
+    z-index:1;
 }
 
 .station_thumbnail{
@@ -206,7 +229,8 @@ body{
     height: 40%;
     border: 1px dotted lightgrey;
     bottom: 5%;
-    background-color: transparent;
+    background-color: rgba(255,255,255,0.7);
+    z-index:0;
 }
 
 .station .attendee{
@@ -214,6 +238,7 @@ body{
     float:right;
     right: 2%;
     top: 2%;
+    position:absolute;
 }
 
 #workspace{
