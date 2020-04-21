@@ -1,13 +1,16 @@
 <?php
+require 'config.php';
+require 'items_lib.php';
+
 $simulation_id = filter_input(INPUT_GET, 'simulation_id');
 
 header('Content-Type: application/json');
-header ("Pragma-directive: no-cache");
-header ("Cache-directive: no-cache");
-header ("Cache-control: no-cache");
-header ("Pragma: no-cache");
-header ("Expires: 0");
-require 'config.php';
+header('Pragma-directive: no-cache');
+header('Cache-directive: no-cache');
+header('Cache-control: no-cache"');
+header('Pragma: no-cache');
+header('Expires: 0');
+
 
 $link = mysqli_init();
 $success = mysqli_real_connect(
@@ -37,11 +40,7 @@ if(isset($_GET['status_code'])){
             if(!$result = $link->query($sql)) exit('INTERNAL_ERROR');
 
             /* create some items*/
-            $sql = 'INSERT'.' INTO kfs_items_tbl(order_number,round_id,prio,price,current_station_id)';
-            for ($i=0;$i<20;$i++) {
-                if ($i==0) $sql.='VALUES'; else $sql.=',';
-                $sql.="('".str_pad($i, 3, "0", STR_PAD_LEFT)."',LAST_INSERT_ID(),".$i.",100,null)";
-            }
+            $sql = get_create_items_sql(null); /* get round id from last insert */
             if(!$result = $link->query($sql)) exit('INTERNAL_ERROR');
 
         }

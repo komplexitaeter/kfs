@@ -1,5 +1,6 @@
 <?php
 require 'config.php';
+require 'items_lib.php';
 
 $simulation_id = filter_input(INPUT_GET, 'simulation_id', FILTER_SANITIZE_NUMBER_INT);
 $action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_STRING);
@@ -68,7 +69,7 @@ if ($action == 'start') {
         /*
          * when restarting a previously stopped round, add the
          * time in seconds, spend on the prior round to the
-         * cumulativ_time_s field, to keep it in memory
+         * cumulative_time_s field, to keep it in memory
          */
         $sql = 'UPDATE kfs_rounds_tbl SET cumulative_time_s=coalesce(cumulative_time_s, 0)+timestampdiff(SECOND, last_start_time, last_stop_time), last_start_time=current_timestamp, last_stop_time=null WHERE round_id='.$current_round->current_round_id;
         array_push($sql_dml, $sql);
@@ -106,6 +107,9 @@ if ($action == 'reset') {
         $sql ='INSERT INTO kfs_rounds_tbl(simulation_id) VALUES ('.$simulation_id.')';
         array_push($sql_dml, $sql);
         $sql ='UPDATE kfs_simulation_tbl SET current_round_id = LAST_INSERT_ID() WHERE simulation_id='.$simulation_id;
+        array_push($sql_dml, $sql);
+        /* create some items*/
+        $sql = get_create_items_sql(null); /* get round id from last insert */
         array_push($sql_dml, $sql);
     }
     else exit ('INVALID_STATE_TO_RESET_ROUND');
