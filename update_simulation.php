@@ -26,13 +26,15 @@ if(isset($_GET['status_code'])){
     if (strlen($status_code)>0) {
         array_push($sql_set, "status_code = '".$status_code."'");
         if($status_code=="RUNNING") {
+            /* delete inactive attendees */
             $sql = "DELETE FROM kfs_attendees_tbl WHERE TIMESTAMPDIFF( SECOND, last_callback_date, CURRENT_TIMESTAMP) >= 30 AND simulation_id=" . $simulation_id;
-            if (!$result = $link->query($sql)) {
-                if ($link->connect_errno) {
-                    printf("\n Fail: %s\n", $link->connect_error);
-                    exit();
-                }
-            }
+            if(!$result = $link->query($sql)) exit('INTERNAL_ERROR');
+
+            /* create un-started round */
+            $sql ='INSERT INTO kfs_rounds_tbl(simulation_id) VALUES ('.$simulation_id.')';
+            if(!$result = $link->query($sql)) exit('INTERNAL_ERROR');
+            $sql ='UPDATE kfs_simulation_tbl SET current_round_id = LAST_INSERT_ID() WHERE simulation_id='.$simulation_id;
+            if(!$result = $link->query($sql)) exit('INTERNAL_ERROR');
         }
     }
 }
@@ -42,6 +44,7 @@ if(count($sql_set)==0){
     exit(0);
 }
 
+$sql_update = '';
 for($i=0; $i<count($sql_set);$i++){
     if($i>0){
         $sql_update.=", ";

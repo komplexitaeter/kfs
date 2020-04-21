@@ -62,6 +62,7 @@ if(count($sql_set)==0){
     exit(0);
 }
 
+$sql_update = '';
 for($i=0; $i<count($sql_set);$i++){
     if($i>0){
         $sql_update.=", ";
