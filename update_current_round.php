@@ -72,6 +72,7 @@ if ($action == 'start') {
          */
         $sql = 'UPDATE kfs_rounds_tbl SET cumulative_time_s=coalesce(cumulative_time_s, 0)+timestampdiff(SECOND, last_start_time, last_stop_time), last_start_time=current_timestamp, last_stop_time=null WHERE round_id='.$current_round->current_round_id;
         array_push($sql_dml, $sql);
+        /*todo: add pause_time to cumulative_pause_time_s on all started and not finished currents_rounds items*/
     }
     else exit ('INVALID_STATE_TO_START_ROUND');
 }
