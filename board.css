@@ -48,6 +48,7 @@ body{
     padding-left: 1em;
     width:75%;
     opacity: 0.8;
+    background-color: aliceblue;
 }
 
 #controls{
@@ -207,16 +208,20 @@ body{
 }
 
 .station{
-    border: 1px black solid;
-    border-left: 3px dashed lightgrey;
-    border-right: none;
-    border-bottom: 2px lightgrey;
     width: 15%;
     height: 100%;
     font-size: initial;
     overflow: visible;
     position:relative;
     opacity: 1;
+    border-left: 5px solid transparent;
+    border-image: url("./src/border_orange.png") 50 stretch;
+    /*
+    background-image: url("./src/border_orange.png");
+    background-size: 5%;
+    background-position: left;
+    background-repeat: no-repeat;
+    */
 }
 
 .drop_target{
@@ -251,7 +256,7 @@ body{
     background-image: url("./src/station_label_3.png");
     background-size: 100% 100%;
     background-repeat: no-repeat;
-    z-index:1;
+    z-index:2;
 }
 
 .station_thumbnail{
@@ -262,7 +267,7 @@ body{
     border: 1px dotted lightgrey;
     bottom: 5%;
     background-color: rgba(255,255,255,0.7);
-    z-index:0;
+    z-index:1;
 }
 
 .station .attendee{
