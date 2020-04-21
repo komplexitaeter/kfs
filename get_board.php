@@ -80,7 +80,7 @@ else{
 }
 
 /* query current round for this simulation, if exists */
-$sql = "SELECT round.*, TIMESTAMPDIFF( SECOND, round.last_start_time, COALESCE(round.last_stop_time, CURRENT_TIMESTAMP)) as current_time_s  FROM kfs_simulation_tbl as sims, kfs_rounds_tbl as round WHERE sims.simulation_id='".$simulation_id."' AND round.round_id = sims.current_round_id";
+$sql = "SELECT round.*, COALESCE(cumulative_time_s, 0) + TIMESTAMPDIFF( SECOND, round.last_start_time, COALESCE(round.last_stop_time, CURRENT_TIMESTAMP)) as total_time_s  FROM kfs_simulation_tbl as sims, kfs_rounds_tbl as round WHERE sims.simulation_id='".$simulation_id."' AND round.round_id = sims.current_round_id";
 $current_round = null;
 
 if ($result = $link->query($sql)) {
