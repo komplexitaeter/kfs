@@ -42,7 +42,7 @@ function sec2time(timeInSeconds) {
         minutes = Math.floor(time / 60) % 60,
         seconds = Math.floor(time - minutes * 60);
 
-    return pad(hours, 2) + ':' + pad(minutes, 2) + ':' + pad(seconds, 2);
+    return pad(minutes, 2) + ':' + pad(seconds, 2);
 }
 
 function complexClock(time){
@@ -160,7 +160,7 @@ function displayStations(stations){
 }
 
 function updateItemDiv(obj, currentItemDivId){
-    currentItemDivId.innerText = "#"+obj.order_number+" | "+sec2time(obj.cycle_time_s)+" | "+obj.price+" €";
+    document.getElementById(currentItemDivId).innerText = "#"+obj.order_number+" | "+sec2time(obj.cycle_time_s)+" | "+obj.price+" €";
 }
 
 function createItemDiv(obj, currentItemDivId){
