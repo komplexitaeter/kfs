@@ -114,7 +114,7 @@ deleteOutdatedItemsOnWorkbench("work_in_progress",workbench.current_item);
     itemsToCreate = [];
 
 /********Check if the buttons on the workbench are clickable*********/
-if((current_round.last_start_time != null)&&(current_round.last_stop_time == null)){
+if(!((current_round.last_start_time != null)&&(current_round.last_stop_time == null))){
     document.getElementById("pull_button").disabled=true;
     document.getElementById("push_button").disabled=true;
 }
@@ -173,8 +173,9 @@ function createAreaOnWorkbench(area){
             todoColumnLabel.classList.add("column_label");
             todoColumnLabel.innerText = "To Do";
             pullButton.id="pull_button";
+            pullButton.name="start";
             pullButton.classList.add("p_button");
-            pullButton.onlick = moveItemOnWorkbench('start');
+            pullButton.onclick = moveItemOnWorkbench;
 
             workbench.appendChild(todoColumn);
             todoColumn.append(pullButton);
@@ -191,8 +192,9 @@ function createAreaOnWorkbench(area){
             doneColumnLabel.classList.add("column_label");
             doneColumnLabel.innerText = "Done";
             pushButton.id="push_button";
+            pushButton.name="finish";
             pushButton.classList.add("p_button");
-            pushButton.onlick = moveItemOnWorkbench('finish');
+            pushButton.onclick = moveItemOnWorkbench;
 
             workbench.appendChild(doneColumn);
             doneColumn.appendChild(pushButton);
@@ -231,9 +233,9 @@ function createAreaOnWorkbench(area){
     }
 }
 
-function moveItemOnWorkbench(action){
+function moveItemOnWorkbench(e){
     const url = "./update_workbench.php"
-        +"?action="+action
+        +"?action="+e.target.name
         +"&simulation_id="+getSimulationId()
         +"&session_key="+getSessionKey();
     fetch(url);
