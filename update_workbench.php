@@ -109,7 +109,7 @@ if ($action=='start') {
 
     /* start item based on station pos */
     if ($meta_data->station_pos == 1) {
-        $sql = "UPDATE kfs_items_tbl SET start_time=current_timestamp, is_in_progress=true WHERE item_id=".$item_id;
+        $sql = "UPDATE kfs_items_tbl SET start_time=current_timestamp, is_in_progress=true, current_station_id=".$meta_data->station_id." WHERE item_id=".$item_id;
     }
     else {
         $sql = "UPDATE kfs_items_tbl SET is_in_progress=true WHERE item_id=".$item_id;

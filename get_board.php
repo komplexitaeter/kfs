@@ -174,6 +174,7 @@ if ($meta_data != null) {
 
     /* query the current item */
     $sql = 'SELECT * FROM kfs_items_tbl WHERE current_station_id='.$meta_data->station_id.' and is_in_progress = true and round_id='.$meta_data->current_round_id.' ORDER BY prio';;
+   //error_log($sql);
     if ($result = $link->query($sql)) {
         if(  $obj = $result->fetch_object()) {
             $current_item = $obj;
