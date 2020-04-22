@@ -219,7 +219,7 @@ body{
     position:relative;
     opacity: 1;
     border-left: 5px solid transparent;
-    border-image: url("./src/border_orange.png") 50 stretch;
+    border-image: url("./src/border_grey.png") 50 stretch;
     /*
     background-image: url("./src/border_orange.png");
     background-size: 5%;
@@ -293,7 +293,75 @@ body{
     position:absolute;
 }
 
-#workspace{
+/*****************************Workbench elements***********************************/
+
+#workbench{
     border: 1px black solid;
     grid-area: 2 / 2 / 5 / 3;
+    position:relative;
+}
+
+.workarea{
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-image: url("./src/border_orange.png") 35 repeat;
+    height: 100%;
+    top:0;
+    left: 15%;
+    width:70%;
+    position: absolute;
+
+}
+
+.workinprogress{
+    right: 2%;
+    top: 5%;
+    height: 30%;
+    width: 18%;
+    position:absolute;
+    background-image: url("./src/container_grey_vertical.png");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+
+.tools{
+    right: 2%;
+    top: 37%;
+    height: 60%;
+    width: 18%;
+    position: absolute;
+    background-image: url("./src/container_grey_vertical.png");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+
+.column{
+    position:absolute;
+    width:15%;
+    height: 100%;
+    top: 0;
+}
+
+.todo{
+    left:0;
+}
+
+.done{
+    right:0;
+}
+
+.column_label{
+    position:absolute;
+    text-align: center;
+    font-size: large;
+    font-family: Komplexitater;
+    font-variant: small-caps;
+    padding-top: 0.3em;
+    height: 1.5em;
+    width: 95%;
+    bottom: 5%;
+    left: 2.5%;
+    background-image: url("./src/border_blue.png");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
 }

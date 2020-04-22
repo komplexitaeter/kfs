@@ -18,6 +18,7 @@ function refreshBoard(simulation_id, session_key){
                     displayAttendees(myJson.attendees, session_key);
                     displayControls(myJson.current_round);
                     displayItems(myJson.items_list);
+                    displayWorkbench(myJson.workbench);
                     break;
                 case "NO_SIMULATION":
                     // alert("The required simulation ID does not exit. You will be taken to the home page.");
@@ -32,7 +33,7 @@ function refreshBoard(simulation_id, session_key){
         });
 }
 
-function sec2time(timeInSeconds) {
+function sec2time(timeInSeconds, getHours) {
     if(isNaN(timeInSeconds)){
         timeInSeconds=0;
     }
@@ -41,8 +42,12 @@ function sec2time(timeInSeconds) {
         hours = Math.floor(time / 60 / 60),
         minutes = Math.floor(time / 60) % 60,
         seconds = Math.floor(time - minutes * 60);
-
-    return pad(minutes, 2) + ':' + pad(seconds, 2);
+    if(getHours) {
+        return pad(hours, 2) + ':' + pad(minutes, 2) + ':' + pad(seconds, 2);
+    }
+    else{
+        return pad(minutes, 2) + ':' + pad(seconds, 2);
+    }
 }
 
 function complexClock(time){
@@ -58,6 +63,71 @@ function complexClock(time){
     }
     return clockDisplay;
 
+}
+
+function displayWorkbench(workbench){
+
+    if(document.getElementById("todo_column") == null){
+        createAreaOnWorkbench("todo");
+    }
+
+    if(document.getElementById("done_column") == null){
+        createAreaOnWorkbench("done");
+    }
+
+    if(document.getElementById("workarea") == null){
+        createAreaOnWorkbench("workarea");
+    }
+}
+
+function createAreaOnWorkbench(area){
+    let workbench = document.getElementById("workbench");
+    switch(area){
+        case "todo":
+            let todoColumn = document.createElement("div");
+            let todoColumnLabel = document.createElement("div");
+
+            todoColumn.classList.add("column", "todo");
+            todoColumn.id="todo_column";
+            todoColumnLabel.classList.add("column_label");
+            todoColumnLabel.innerText = "To Do";
+
+            workbench.appendChild(todoColumn);
+            document.getElementById("todo_column").appendChild(todoColumnLabel)
+            break;
+
+        case "done":
+            let doneColumn = document.createElement("div");
+            let doneColumnLabel = document.createElement("div");
+
+            doneColumn.classList.add("column",  "done");
+            doneColumn.id="done_column";
+            doneColumnLabel.classList.add("column_label");
+            doneColumnLabel.innerText = "Done";
+
+            workbench.appendChild(doneColumn);
+            document.getElementById("done_column").appendChild(doneColumnLabel);
+            break;
+
+        case "workarea":
+            let workarea = document.createElement("div");
+            let workinprogress = document.createElement("div");
+            let tools = document.createElement("div");
+
+            workarea.classList.add("workarea");
+            workarea.id="workarea";
+
+            workinprogress.classList.add("workinprogress");
+            tools.classList.add("tools");
+
+            workbench.appendChild(workarea);
+            workarea.appendChild(workinprogress);
+            workarea.appendChild(tools);
+            break;
+
+        default:
+            return 0;
+    }
 }
 
 function displayItems(items_list){
@@ -123,7 +193,7 @@ function displayControls(round){
     totalDuration = sec2time(parseInt(round.total_time_s));
     document.getElementById("clock").innerText = totalDuration;
     */
-    totalDuration = complexClock(sec2time(parseInt(round.total_time_s)));
+    totalDuration = complexClock(sec2time(parseInt(round.total_time_s), 1));
     document.getElementById("clock").innerHTML = totalDuration;
 }
 

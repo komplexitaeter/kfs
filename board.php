@@ -27,7 +27,7 @@
     <div id="done" class="station">&nbsp;
     </div>
 </div>
-<div id="workspace" class="">&nbsp;</div>
+<div id="workbench" class="">&nbsp;</div>
 
 
 </body>
