@@ -56,6 +56,7 @@ $sql = "select sim.simulation_id
            from kfs_items_tbl itm
           where itm.round_id = krt.round_id
             and itm.is_in_progress = true
+            and itm.current_station_id = kat.station_id
          ) as current_work_item_id
      from kfs_simulation_tbl sim
      join kfs_attendees_tbl kat on kat.simulation_id = sim.simulation_id
@@ -63,6 +64,7 @@ $sql = "select sim.simulation_id
      left outer join kfs_rounds_tbl krt on krt.round_id = sim.current_round_id
     where sim.simulation_id = ". $simulation_id."
       and kat.session_key = '". $session_key . "'";
+error_log($sql);
 
 if ($result = $link->query($sql)) {
     if(  $obj = $result->fetch_object()) {

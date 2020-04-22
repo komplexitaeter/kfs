@@ -9,8 +9,8 @@ function get_create_items_sql($round_id) {
     for ($i=0;$i<20;$i++) {
         $station_id = $sids[mt_rand(0, count($sids)-1)];
         if ($i==0) $sql.='VALUES'; else $sql.=',';
-        $sql.="('".str_pad($i+1, 3, "0", STR_PAD_LEFT)."',".$round_id.",".($i+1).",100,".$station_id.")";
+        $sql.="('".str_pad($i+1, 2, "0", STR_PAD_LEFT)."',".$round_id.",".($i+1).",100,".$station_id.")";
     }
-    error_log($sql);
+
     return $sql;
 }

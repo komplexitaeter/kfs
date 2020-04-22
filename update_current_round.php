@@ -29,14 +29,13 @@ $success = mysqli_real_connect(
  * query current_round data, if round is set
  * .. mind the outer join, pls
  */
-$sql  = 'SELECT sims.simulation_id';
-$sql .= '      ,sims.current_round_id';
-$sql .= '      ,round.last_start_time';
-$sql .= '     ,round.last_stop_time';
-$sql .= '  FROM kfs_simulation_tbl AS sims';
-$sql .= '  LEFT OUTER JOIN kfs_rounds_tbl AS round';
-$sql .= '    ON round.round_id = sims.current_round_id';
-$sql .= ' WHERE sims.simulation_id = '.$simulation_id;
+$sql  = "SELECT sims.simulation_id
+               ,sims.current_round_id
+               ,round.last_start_time
+               ,round.last_stop_time
+           FROM kfs_simulation_tbl AS sims
+           LEFT OUTER JOIN kfs_rounds_tbl AS round ON round.round_id = sims.current_round_id
+          WHERE sims.simulation_id = ".$simulation_id;
 
 $current_round = null;
 
