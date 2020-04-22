@@ -73,7 +73,7 @@ if ($action == 'start') {
          */
         $sql = 'UPDATE kfs_rounds_tbl SET cumulative_time_s=coalesce(cumulative_time_s, 0)+timestampdiff(SECOND, last_start_time, last_stop_time), last_start_time=current_timestamp, last_stop_time=null WHERE round_id='.$current_round->current_round_id;
         array_push($sql_dml, $sql);
-        $sql = 'UPDATE kfs_items_tbl SET cumulative_pause_time_s=coalesce(cumulative_pause_time_s, 0) + timestampdiff(SECOND, last_pause_start_time, current_timestamp), last_pause_start_time=null WHERE start_time is not null and end_time is null round_id='.$current_round->current_round_id;
+        $sql = 'UPDATE kfs_items_tbl SET cumulative_pause_time_s=coalesce(cumulative_pause_time_s, 0) + timestampdiff(SECOND, last_pause_start_time, current_timestamp), last_pause_start_time=null WHERE start_time is not null and end_time is null and round_id='.$current_round->current_round_id;
         array_push($sql_dml, $sql);
     }
     else exit ('INVALID_STATE_TO_START_ROUND');
@@ -88,7 +88,7 @@ if ($action == 'stop') {
         && $current_round->last_stop_time == null) {
         $sql = 'UPDATE kfs_rounds_tbl SET last_stop_time=current_timestamp WHERE round_id='.$current_round->current_round_id;
         array_push($sql_dml, $sql);
-        $sql = 'UPDATE kfs_items_tbl SET last_pause_start_time=current_timestamp WHERE start_time is not null and end_time is null round_id='.$current_round->current_round_id;
+        $sql = 'UPDATE kfs_items_tbl SET last_pause_start_time=current_timestamp WHERE start_time is not null and end_time is null and round_id='.$current_round->current_round_id;
         array_push($sql_dml, $sql);
     }
     else exit ('INVALID_STATE_TO_STOP_ROUND');
