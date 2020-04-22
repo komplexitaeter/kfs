@@ -96,7 +96,7 @@ else{
 }
 
 /* query all items for current round */
-$sql = "SELECT item.*, TIMESTAMPDIFF( SECOND, COALESCE(item.start_time, CURRENT_TIMESTAMP), COALESCE(item.end_time, item.last_pause_start_time, CURRENT_TIMESTAMP))-cumulative_pause_time_s as cycle_time_s FROM kfs_simulation_tbl as sims, kfs_items_tbl as item WHERE sims.simulation_id='".$simulation_id."' AND item.round_id = sims.current_round_id;";
+$sql = "SELECT item.*, TIMESTAMPDIFF( SECOND, COALESCE(item.start_time, CURRENT_TIMESTAMP), COALESCE(item.end_time, item.last_pause_start_time, CURRENT_TIMESTAMP))-cumulative_pause_time_s as cycle_time_s FROM kfs_simulation_tbl as sims, kfs_items_tbl as item WHERE sims.simulation_id='".$simulation_id."' AND item.round_id = sims.current_round_id ORDER BY item.prio;";
 $items = array();
 
 if ($result = $link->query($sql)) {
@@ -111,11 +111,119 @@ else{
     }
 }
 
+
+/*
+ *  Query all data concerning the current_users workbench
+ *  -> what is his current work item
+ *  -> what items are in his individual to-do column
+ *  -> what items are in his done column waiting
+ *
+ */
+$workbench = null;
+$meta_data = null;
+$todo_items = array();
+$current_item = null;
+$done_items = array();
+
+$sql = 'select kat.station_id';
+$sql.= '      ,(select station_pos from kfs_station_conf_tbl sco where sco.station_id = kat.station_id) as station_pos';
+$sql.= '      ,(select count(1) from kfs_station_conf_tbl sco where sco.configuration_name = sim.configuration_name) as station_count';
+$sql.= '      ,sim.current_round_id';
+$sql.= '      ,(select psco.station_id';
+$sql.= '         from kfs_station_conf_tbl sco';
+$sql.= '             ,kfs_station_conf_tbl psco';
+$sql.= '        where sco.station_id = kat.station_id';
+$sql.= '          and psco.configuration_name = sco.configuration_name';
+$sql.= '          and psco.station_pos = sco.station_pos - 1) as previous_station_id';
+$sql.= '      ,(select nsco.station_id';
+$sql.= '          from kfs_station_conf_tbl sco';
+$sql.= '              ,kfs_station_conf_tbl nsco';
+$sql.= '         where sco.station_id = kat.station_id';
+$sql.= '           and nsco.configuration_name = sco.configuration_name';
+$sql.= '           and nsco.station_pos = sco.station_pos + 1) as next_station_id';
+$sql.= '  from kfs_simulation_tbl sim';
+$sql.= '  join kfs_attendees_tbl kat on sim.simulation_id = kat.simulation_id';
+$sql.= ' where sim.simulation_id = '. $simulation_id;
+$sql.= "   and kat.session_key = '". $session_key . "'";
+if ($result = $link->query($sql)) {
+    if(  $obj = $result->fetch_object()) {
+        $meta_data = $obj;
+    }
+}
+else{
+    if ($link->connect_errno) {
+        printf("\n Fail: %s\n", $link->connect_error);
+        exit();
+    }
+}
+
+if ($meta_data != null) {
+    /* query to-to items from Backlog or from previous station? */
+    if ($meta_data->station_pos==1) {
+        /* query all items from backlog */
+        $sql = 'SELECT * FROM kfs_items_tbl WHERE current_station_id is null and end_time is null and round_id='.$meta_data->current_round_id.' ORDER BY prio';;
+    }
+    else {
+        $sql = 'SELECT * FROM kfs_items_tbl WHERE current_station_id='.$meta_data->station_id.' and is_in_progress = false and round_id='.$meta_data->current_round_id.' ORDER BY prio';;
+    }
+    if ($result = $link->query($sql)) {
+        while(  $obj = $result->fetch_object()) {
+            array_push($todo_items, $obj);
+        }
+    }
+    else{
+        if ($link->connect_errno) {
+            printf("\n Fail: %s\n", $link->connect_error);
+            exit();
+        }
+    }
+
+    /* query the current item */
+    $sql = 'SELECT * FROM kfs_items_tbl WHERE current_station_id='.$meta_data->station_id.' and is_in_progress = true and round_id='.$meta_data->current_round_id.' ORDER BY prio';;
+    if ($result = $link->query($sql)) {
+        if(  $obj = $result->fetch_object()) {
+            $current_item = $obj;
+        }
+    }
+    else{
+        if ($link->connect_errno) {
+            printf("\n Fail: %s\n", $link->connect_error);
+            exit();
+        }
+    }
+
+    /* query done items from Done column or from next station? */
+    if ($meta_data->station_pos==$meta_data->station_count) {
+        /* query all items from backlog */
+        $sql = 'SELECT * FROM kfs_items_tbl WHERE current_station_id is null and end_time is not null and round_id='.$meta_data->current_round_id.' ORDER BY prio';
+    }
+    else {
+        $sql = 'SELECT * FROM kfs_items_tbl WHERE current_station_id='.$meta_data->next_station_id.' and round_id='.$meta_data->current_round_id.' ORDER BY prio';
+    }
+    if ($result = $link->query($sql)) {
+        while(  $obj = $result->fetch_object()) {
+            array_push($todo_items, $obj);
+        }
+    }
+    else{
+        if ($link->connect_errno) {
+            printf("\n Fail: %s\n", $link->connect_error);
+            exit();
+        }
+    }
+}
+
+$workbench = array("meta_data"=>$meta_data
+                  ,"todo_items"=>$todo_items
+                  ,"current_item"=>$current_item
+                  ,"done_items"=>$done_items);
+
 $myJSON_array = array("status_code"=>$status_code
                     , "attendees"=>$objs
                     , "stations"=>$stations
                     , "current_round"=>$current_round
-                    , "items_list"=>$items);
+                    , "items_list"=>$items
+                    , "workbench"=>$workbench);
 
 $myJSON = json_encode($myJSON_array);
 echo $myJSON;
