@@ -293,6 +293,7 @@ body{
     border: none;
     grid-area: 2 / 2 / 5 / 3;
     position:relative;
+    background-color: white;
 }
 
 .workarea{
@@ -305,6 +306,14 @@ body{
     width:70%;
     position: absolute;
 
+}
+
+.work_in_progress .station_label, .tools .station_label{
+    background-image: url("./src/station_label_2.png");
+    background-color: white;
+    width:80%;
+    left:10%;
+    bottom:-2%;
 }
 
 .work_in_progress{
@@ -347,7 +356,7 @@ body{
 }
 
 .todo .p_button{
-    right:0%;
+    right:-13%;
 }
 
 .done{
@@ -355,16 +364,29 @@ body{
 }
 
 .done .p_button{
-    left:0%;
+    left:-15%;
 }
 
 .p_button{
     position:absolute;
-    width:3em;
-    height:3em;
-    top:50%;
+    width:3.5em;
+    height:3.5em;
+    top:45%;
     border-radius: 50%;
-    background-image: url('./src/play_button.png');
+    background-image: url('./src/p_button.png');
+    background-color: white;
+    opacity: 1;
+    background-size:100%;
+    background-repeat: no-repeat;
+    z-index:1;
+    outline:none;
+    cursor:pointer;
+    border:none;
+}
+
+.p_button:disabled{
+    background-image: url('./src/p_button_disabled.png');
+    cursor: not-allowed;
 }
 
 .column_label{
@@ -381,4 +403,5 @@ body{
     background-image: url("./src/border_blue.png");
     background-size: 100% 100%;
     background-repeat: no-repeat;
+    background-color:white;
 }

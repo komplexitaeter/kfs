@@ -218,8 +218,8 @@ function createAreaOnWorkbench(area){
 
             tools.classList.add("tools");
             tools.id = "tools";
-            workinprogressLabel.classList.add("station_label");
-            workinprogressLabel.innerText = "Toolbox";
+            toolsLabel.classList.add("station_label");
+            toolsLabel.innerText = "Toolbox";
 
             workbench.appendChild(workarea);
             workarea.appendChild(workinprogress);
@@ -356,7 +356,12 @@ function createItemDiv(obj, currentItemDivId){
 function putItemDivAtTheRightPosition(obj, currentItemDivId){
     let div = document.getElementById(currentItemDivId);
     if(obj.current_station_id == null){
-        obj.current_station_id = "backlog";
+        if(obj.end_time != null) {
+            obj.current_station_id = "done";
+        }
+        else{
+            obj.current_station_id = "backlog";
+        }
     }
     if(div.parentElement.id != obj.current_station_id){
         document.getElementById(obj.current_station_id).appendChild(div);
