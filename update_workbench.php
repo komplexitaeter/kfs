@@ -17,6 +17,16 @@ function exit_with_status($status_code) {
     exit(0);
 }
 
+$link = mysqli_init();
+$success = mysqli_real_connect(
+    $link,
+    _MYSQL_HOST,
+    _MYSQL_USER,
+    _MYSQL_PWD,
+    _MYSQL_DB,
+    _MYSQL_PORT
+);
+
 /* do some checks on the input params */
 if ($simulation_id == null) exit_with_status('NO_SIMULATION_ID_SET');
 if (!in_array($action, array('start','finish'))) exit_with_status('NO_VALID_ACTION_SET');
@@ -50,7 +60,7 @@ $sql = "select sim.simulation_id
      from kfs_simulation_tbl sim
      join kfs_attendees_tbl kat on kat.simulation_id = sim.simulation_id
      left outer join kfs_station_conf_tbl ksct on ksct.station_id = kat.station_id
-     left outer join kfs_rounds_tbl krt on krt.simulation_id = sim.current_round_id
+     left outer join kfs_rounds_tbl krt on krt.round_id = sim.current_round_id
     where sim.simulation_id = ". $simulation_id."
       and kat.session_key = '". $session_key . "'";
 
@@ -73,9 +83,9 @@ if (!($meta_data->last_start_time != null && $meta_data->last_stop_time == null)
 if ($meta_data->station_id == null) exit_with_status('ATTENDEE_IS_OBSERVER');
 
 /* want to start the next work item */
-if ($action=='') {
+if ($action=='start') {
     /* check if attendee has nothing to-do right now in his station */
-    if ($meta_data->current_work_item != null) exit_with_status('ALREADY_WORK_IN_PROGRESS');
+    if ($meta_data->current_work_item_id != null) exit_with_status('ALREADY_WORK_IN_PROGRESS');
 
     /* query next to do item based on my stations position  */
     $item_id = null;
@@ -114,15 +124,15 @@ if ($action=='') {
 /* want to stop the current work item */
 if ($action=='finish') {
     /* check if attendee has a unfinished item in his station */
-    if ($meta_data->current_work_item == null) exit_with_status('NO_WORK_IN_PROGRESS');
+    if ($meta_data->current_work_item_id == null) exit_with_status('NO_WORK_IN_PROGRESS');
 
     /* set do done based on current station pos */
     if ($meta_data->station_pos == $meta_data->station_count) {
         /* last station before done column */
-        $sql = "UPDATE kfs_items_tbl SET end_time=current_timestamp, is_in_progress=false, current_station_id=null WHERE item_id=".$item_id;
+        $sql = "UPDATE kfs_items_tbl SET end_time=current_timestamp, is_in_progress=false, current_station_id=null WHERE item_id=".$meta_data->current_work_item_id;
     }
     else {
-        $sql = "UPDATE kfs_items_tbl SET is_in_progress=false, current_station_id=".$meta_data->next_station_id." WHERE item_id=".$item_id;
+        $sql = "UPDATE kfs_items_tbl SET is_in_progress=false, current_station_id=".$meta_data->next_station_id." WHERE item_id=".$meta_data->current_work_item_id;
     }
 
     /* do the dml */
