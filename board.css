@@ -39,7 +39,7 @@ body{
     padding-left: 1.5em;
     padding-top: 0.5em;
     background-color: transparent;
-    background-image: url("./src/item_border_small_2.png");
+    background-image: url("./src/item_border_small.png");
     background-size: 100% 100%;
     background-repeat: no-repeat;
 }
@@ -220,12 +220,6 @@ body{
     opacity: 1;
     border-left: 5px solid transparent;
     border-image: url("./src/border_grey.png") 50 stretch;
-    /*
-    background-image: url("./src/border_orange.png");
-    background-size: 5%;
-    background-position: left;
-    background-repeat: no-repeat;
-    */
 }
 
 .drop_target{
@@ -249,12 +243,12 @@ body{
 
 #done .station_label{
     background-image: url("./src/border_blue.png");
-    background-color: cyan;
+    background-color: white;
 }
 
 #backlog .station_label{
     background-image: url("./src/border_blue.png");
-    background-color: cyan;
+    background-color: white;
 }
 
 .station_label{
@@ -268,7 +262,7 @@ body{
     width: 95%;
     bottom: -5%;
     left: 2.5%;
-    background-image: url("./src/station_label_3.png");
+    background-color: rgba(255,255,255,1);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     z-index:2;
@@ -296,7 +290,7 @@ body{
 /*****************************Workbench elements***********************************/
 
 #workbench{
-    border: 1px black solid;
+    border: none;
     grid-area: 2 / 2 / 5 / 3;
     position:relative;
 }
@@ -313,7 +307,7 @@ body{
 
 }
 
-.workinprogress{
+.work_in_progress{
     right: 2%;
     top: 5%;
     height: 30%;
@@ -322,6 +316,11 @@ body{
     background-image: url("./src/container_grey_vertical.png");
     background-size: 100% 100%;
     background-repeat: no-repeat;
+    padding:0.5em;
+}
+
+.work_in_progress .item{
+
 }
 
 .tools{
@@ -340,14 +339,32 @@ body{
     width:15%;
     height: 100%;
     top: 0;
+    padding-top: 2%;
 }
 
 .todo{
     left:0;
 }
 
+.todo .p_button{
+    right:0%;
+}
+
 .done{
     right:0;
+}
+
+.done .p_button{
+    left:0%;
+}
+
+.p_button{
+    position:absolute;
+    width:3em;
+    height:3em;
+    top:50%;
+    border-radius: 50%;
+    background-image: url('./src/play_button.png');
 }
 
 .column_label{

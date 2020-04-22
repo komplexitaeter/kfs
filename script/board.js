@@ -18,7 +18,7 @@ function refreshBoard(simulation_id, session_key){
                     displayAttendees(myJson.attendees, session_key);
                     displayControls(myJson.current_round);
                     displayItems(myJson.items_list);
-                    displayWorkbench(myJson.workbench);
+                    displayWorkbench(myJson.workbench, myJson.current_round);
                     break;
                 case "NO_SIMULATION":
                     // alert("The required simulation ID does not exit. You will be taken to the home page.");
@@ -65,8 +65,8 @@ function complexClock(time){
 
 }
 
-function displayWorkbench(workbench){
-
+function displayWorkbench(workbench, current_round){
+/********Check if the different areas on the workbench are already here, if not create them*********/
     if(document.getElementById("todo_column") == null){
         createAreaOnWorkbench("todo");
     }
@@ -78,6 +78,86 @@ function displayWorkbench(workbench){
     if(document.getElementById("workarea") == null){
         createAreaOnWorkbench("workarea");
     }
+
+/********check if some items are displayed at the wrong position, if so, delete them***********/
+
+deleteOutdatedItemsOnWorkbench("todo_column",workbench.todo_items);
+deleteOutdatedItemsOnWorkbench("done_column",workbench.done_items);
+deleteOutdatedItemsOnWorkbench("work_in_progress",workbench.current_item);
+
+/********Check if all the items in the workbench object are already here, if not, trigger creation*********/
+    let itemsToCreate = [];
+
+    workbench.todo_items.forEach( item => {
+        if(document.getElementById("workbench_"+item.item_id) == null){
+            itemsToCreate.push(item);
+        }
+    });
+    createItemsOnWorkbench(itemsToCreate, "todo_column");
+    itemsToCreate = [];
+
+    workbench.done_items.forEach( item => {
+        if(document.getElementById("workbench_"+item.item_id) == null){
+            itemsToCreate.push(item);
+        }
+    });
+    createItemsOnWorkbench(itemsToCreate, "done_column");
+    itemsToCreate = [];
+
+    if(workbench.current_item){
+        item = workbench.current_item;
+        if(document.getElementById("workbench_"+item.item_id) == null){
+            itemsToCreate.push(item);
+        }
+    }
+    createItemsOnWorkbench(itemsToCreate, "work_in_progress");
+    itemsToCreate = [];
+
+/********Check if the buttons on the workbench are clickable*********/
+if((current_round.last_start_time != null)&&(current_round.last_stop_time == null)){
+    document.getElementById("pull_button").disabled=true;
+    document.getElementById("push_button").disabled=true;
+}
+else{
+    if((workbench.current_item)&&(workbench.todo_items)){
+        document.getElementById("pull_button").disabled=true;
+        document.getElementById("push_button").disabled=false;
+    }
+    if((workbench.current_item == null)&&(workbench.todo_items)){
+        document.getElementById("pull_button").disabled=false;
+        document.getElementById("push_button").disabled=true;
+
+    }
+}
+
+}
+
+function deleteOutdatedItemsOnWorkbench(divToCheck, itemsCurrentData){
+    let itemsToCheck = Array.from(document.getElementById(divToCheck).getElementsByClassName("item"));
+    itemsToCheck.forEach( itemToCheck => {
+        let idToCheck = itemToCheck.id.split('_').pop();
+        let itemExists = 0;
+        itemsCurrentData.forEach(obj => {
+            if(obj.item_id == idToCheck){
+                itemExists = 1;
+            }
+        });
+        if(itemExists == 0){
+            itemToCheck.remove();
+        }
+    });
+}
+
+function createItemsOnWorkbench(itemsToCreate, targetDivId) {
+    if (itemsToCreate.length > 0) {
+        itemsToCreate.forEach(item => {
+            let div = document.createElement("div");
+            div.id = "workbench_" + item.item_id;
+            div.classList.add("item");
+            div.innerText = "#" + item.order_number + " | " + item.price + " €";
+            document.getElementById(targetDivId).appendChild(div);
+        });
+    }
 }
 
 function createAreaOnWorkbench(area){
@@ -86,48 +166,77 @@ function createAreaOnWorkbench(area){
         case "todo":
             let todoColumn = document.createElement("div");
             let todoColumnLabel = document.createElement("div");
+            let pullButton = document.createElement("button");
 
             todoColumn.classList.add("column", "todo");
             todoColumn.id="todo_column";
             todoColumnLabel.classList.add("column_label");
             todoColumnLabel.innerText = "To Do";
+            pullButton.id="pull_button";
+            pullButton.classList.add("p_button");
+            pullButton.onlick = moveItemOnWorkbench('start');
 
             workbench.appendChild(todoColumn);
-            document.getElementById("todo_column").appendChild(todoColumnLabel)
+            todoColumn.append(pullButton);
+            todoColumn.appendChild(todoColumnLabel)
             break;
 
         case "done":
             let doneColumn = document.createElement("div");
             let doneColumnLabel = document.createElement("div");
+            let pushButton = document.createElement("button");
 
             doneColumn.classList.add("column",  "done");
             doneColumn.id="done_column";
             doneColumnLabel.classList.add("column_label");
             doneColumnLabel.innerText = "Done";
+            pushButton.id="push_button";
+            pushButton.classList.add("p_button");
+            pushButton.onlick = moveItemOnWorkbench('finish');
 
             workbench.appendChild(doneColumn);
-            document.getElementById("done_column").appendChild(doneColumnLabel);
+            doneColumn.appendChild(pushButton);
+            doneColumn.appendChild(doneColumnLabel);
             break;
 
         case "workarea":
             let workarea = document.createElement("div");
             let workinprogress = document.createElement("div");
             let tools = document.createElement("div");
+            let workinprogressLabel = document.createElement("div");
+            let toolsLabel = document.createElement("div");
 
             workarea.classList.add("workarea");
             workarea.id="workarea";
 
-            workinprogress.classList.add("workinprogress");
+            workinprogress.classList.add("work_in_progress");
+            workinprogress.id = "work_in_progress";
+            workinprogressLabel.classList.add("station_label");
+            workinprogressLabel.innerText = "Work in Progress";
+
             tools.classList.add("tools");
+            tools.id = "tools";
+            workinprogressLabel.classList.add("station_label");
+            workinprogressLabel.innerText = "Toolbox";
 
             workbench.appendChild(workarea);
             workarea.appendChild(workinprogress);
+            workinprogress.appendChild(workinprogressLabel);
             workarea.appendChild(tools);
+            tools.appendChild(toolsLabel);
             break;
 
         default:
             return 0;
     }
+}
+
+function moveItemOnWorkbench(action){
+    const url = "./update_workbench.php"
+        +"?action="+action
+        +"&simulation_id="+getSimulationId()
+        +"&session_key="+getSessionKey();
+    fetch(url);
 }
 
 function displayItems(items_list){
