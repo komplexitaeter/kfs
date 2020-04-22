@@ -1,6 +1,7 @@
 <?php
 function get_create_items_sql($round_id) {
-    $sids = array('null','null','null','123321','124421','125521','126621','127721','128821','129921','131131');
+    //$sids = array('null','null','null','123321','124421','125521','126621','127721','128821','129921','131131');
+    $sids = array('null');
     $station_id = null;
 
     $sql = 'INSERT'.' INTO kfs_items_tbl(order_number,round_id,prio,price,current_station_id)';
