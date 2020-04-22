@@ -202,7 +202,7 @@ if ($meta_data != null) {
     }
     if ($result = $link->query($sql)) {
         while(  $obj = $result->fetch_object()) {
-            array_push($todo_items, $obj);
+            array_push($done_items, $obj);
         }
     }
     else{
