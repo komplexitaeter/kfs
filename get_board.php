@@ -193,7 +193,7 @@ if ($meta_data != null) {
         $sql = 'SELECT * FROM kfs_items_tbl WHERE current_station_id is null and end_time is not null and round_id='.$meta_data->current_round_id.' ORDER BY prio';
     }
     else {
-        $sql = 'SELECT * FROM kfs_items_tbl WHERE current_station_id='.$meta_data->next_station_id.' and round_id='.$meta_data->current_round_id.' ORDER BY prio';
+        $sql = 'SELECT * FROM kfs_items_tbl WHERE current_station_id='.$meta_data->next_station_id.' and is_in_progress=false and round_id='.$meta_data->current_round_id.' ORDER BY prio';
     }
     if ($result = $link->query($sql)) {
         while(  $obj = $result->fetch_object()) {
