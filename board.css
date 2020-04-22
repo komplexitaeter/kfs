@@ -247,6 +247,16 @@ body{
     overflow:visible;
 }
 
+#done .station_label{
+    background-image: url("./src/border_blue.png");
+    background-color: cyan;
+}
+
+#backlog .station_label{
+    background-image: url("./src/border_blue.png");
+    background-color: cyan;
+}
+
 .station_label{
     position:absolute;
     text-align: center;
