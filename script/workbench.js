@@ -28,7 +28,7 @@ class Workbench {
 
         this.canvas.add(new fabric.Rect({
             top: 10, left: 10, width: 15, height: 15, fill: 'blue'
-        }));station_name
+        }));
 
     }
     getStationId() {
