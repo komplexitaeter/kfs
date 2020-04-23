@@ -220,6 +220,7 @@ body{
     position:relative;
     opacity: 1;
     border-left: 5px solid transparent;
+    border-rirght:none;
     border-image: url("./src/border_grey.png") 50 stretch;
 }
 
