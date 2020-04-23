@@ -1,3 +1,4 @@
+
 function loadBoard(){
     setInterval(function(){
         refreshBoard(getSimulationId(),getSessionKey());
@@ -5,6 +6,10 @@ function loadBoard(){
 }
 
 function refreshBoard(simulation_id, session_key){
+
+    import Workbench from "./createMaste.js";
+    var myWB = new Workbench();
+    myWB.loadSVG();
 
     const url ='./get_board.php?simulation_id='+simulation_id+'&session_key='+session_key;
     fetch(url)
