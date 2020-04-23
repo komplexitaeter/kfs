@@ -111,7 +111,16 @@ if ($action=='start') {
 
     /* start item based on station pos */
     if ($meta_data->station_pos == 1) {
-        $sql = "UPDATE kfs_items_tbl SET start_time=current_timestamp, is_in_progress=true, current_station_id=".$meta_data->station_id." WHERE item_id=".$item_id;
+        $sql =  "UPDATE kfs_items_tbl as itm
+                    SET itm.start_time=current_timestamp
+                      , itm.is_in_progress=true
+                      , itm.current_station_id=".$meta_data->station_id."
+                      , itm.start_time_s = (
+                             select COALESCE(cumulative_time_s, 0) + TIMESTAMPDIFF( SECOND, round.last_start_time, COALESCE(round.last_stop_time, CURRENT_TIMESTAMP))
+                               from kfs_rounds_tbl as round
+                              where round.round_id=itm.round_id
+                         )
+                  WHERE itm.item_id=".$item_id;
     }
     else {
         $sql = "UPDATE kfs_items_tbl SET is_in_progress=true WHERE item_id=".$item_id;
@@ -131,7 +140,16 @@ if ($action=='finish') {
     /* set do done based on current station pos */
     if ($meta_data->station_pos == $meta_data->station_count) {
         /* last station before done column */
-        $sql = "UPDATE kfs_items_tbl SET end_time=current_timestamp, is_in_progress=false, current_station_id=null WHERE item_id=".$meta_data->current_work_item_id;
+        $sql = "UPDATE kfs_items_tbl as itm
+                   SET itm.end_time=current_timestamp
+                     , itm.is_in_progress=false
+                     , itm.current_station_id=null 
+                     , itm.end_time_s = (
+                             select COALESCE(cumulative_time_s, 0) + TIMESTAMPDIFF( SECOND, round.last_start_time, COALESCE(round.last_stop_time, CURRENT_TIMESTAMP))
+                               from kfs_rounds_tbl as round
+                              where round.round_id=itm.round_id
+                       )
+                 WHERE itm.item_id=".$meta_data->current_work_item_id;
     }
     else {
         $sql = "UPDATE kfs_items_tbl SET is_in_progress=false, current_station_id=".$meta_data->next_station_id." WHERE item_id=".$meta_data->current_work_item_id;
