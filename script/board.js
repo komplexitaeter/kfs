@@ -7,10 +7,6 @@ function loadBoard(){
 
 function refreshBoard(simulation_id, session_key){
 
-    import Workbench from "./createMaste.js";
-    var myWB = new Workbench();
-    myWB.loadSVG();
-
     const url ='./get_board.php?simulation_id='+simulation_id+'&session_key='+session_key;
     fetch(url)
         .then((response) => {
@@ -85,6 +81,10 @@ function displayWorkbench(workbench, current_round){
         createAreaOnWorkbench("workarea");
     }
 
+    if(document.getElementById("workbench_canvas") == null){
+        createAreaOnWorkbench("workbench_canvas");
+    }
+
 /********check if some items are displayed at the wrong position, if so, delete them***********/
 
 deleteOutdatedItemsOnWorkbench("todo_column",workbench.todo_items);
@@ -135,6 +135,8 @@ else{
 
     }
 }
+
+loadWorkbench('DefaultDrawWorkbench', 'Test', workbench.meta_data.station_id);
 
 }
 
@@ -233,7 +235,11 @@ function createAreaOnWorkbench(area){
             workarea.appendChild(tools);
             tools.appendChild(toolsLabel);
             break;
-
+        case "workbench_canvas":
+            let canvas = document.createElement('canvas');
+            canvas.id = 'workbench_canvas';
+            document.getElementById('workarea').appendChild(canvas);
+            break;
         default:
             return 0;
     }

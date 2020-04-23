@@ -3,8 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Board Kanban Ship Building Flow Simulation Online</title>
-    <script src="./lib/fabric.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/3.6.3/fabric.min.js"></script>
     <script src="./script/flow.js"></script>
+
+    <script src="./script/workbench.js"></script>
+    <script src="./script/default_draw.js"></script>
+
     <script src="./script/board.js"></script>
     <link rel="stylesheet" type="text/css" href="./board.css">
 </head>

@@ -407,3 +407,7 @@ body{
     background-repeat: no-repeat;
     background-color:white;
 }
+
+#workbench_canvas {
+    background-color: transparent;
+}
