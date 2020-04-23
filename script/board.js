@@ -30,6 +30,7 @@ function refreshBoard(simulation_id, session_key){
                 default:
                 //alert("Undefined status_code - this is an error. Sorry.");
             }
+            document.body.style.visibility = 'visible';
         });
 }
 
