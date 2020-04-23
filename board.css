@@ -19,6 +19,8 @@ body{
     display: grid;
     grid-template-columns: 12% 88%;
     grid-template-rows: 30% 10% 10% 50%;
+    height: 100vh;
+    width: 100vw;
     min-height: 100%;
     margin: 0px;
     overflow: hidden;
@@ -56,8 +58,8 @@ body{
 }
 
 #controls{
-    border: 1px black solid;
-    padding:0.5em;
+
+    padding:1em;
     grid-area: 2 / 1 / 4 / 2;
     background-color: aliceblue;
     position:relative;
@@ -74,16 +76,18 @@ body{
     width:75%;
     height: auto;
     padding: 0.5em;
-    background: lightgrey;
-    border-radius: 150px;
+    background-image: url("./src/border_round_orange.png");
+    background-repeat: no-repeat;
+    background-size: 100%;
 }
 
 .control_button{
     outline:none;
-    width: 28%;
-    height: auto;
+    width: 2.5em;
+    height: 2.5em;
     box-sizing: border-box;
-    background-size: 90%;
+    border:none;
+    background-size: 100%;
     background-color: lightgrey;
     background-position: center;
     background-repeat: no-repeat;
@@ -115,7 +119,6 @@ body{
 }
 
 #observers{
-    border: 1px black solid;
     padding:0.1em;
     grid-area: 4 / 1 / 5 / 2;
     background-color: darkgray;
@@ -355,6 +358,9 @@ body{
 
 .todo{
     left:0;
+    border-left: 5px solid transparent;
+    border-right-width: 0px;
+    border-image: url("./src/border_grey.png") 55 repeat;
 }
 
 .todo .p_button{
