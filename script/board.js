@@ -1,3 +1,4 @@
+var fCanvas;
 
 function loadBoard(){
     setInterval(function(){
@@ -15,6 +16,7 @@ function refreshBoard(simulation_id, session_key){
         .then((myJson) => {
             switch(myJson.status_code) {
                 case "RUNNING":
+                    window.addEventListener('resize', resizeCanvas);
                     displayStations(myJson.stations);
                     displayAttendees(myJson.attendees, session_key);
                     displayControls(myJson.current_round);
@@ -135,9 +137,9 @@ else{
 
     }
 }
-
-loadWorkbench('DefaultDrawWorkbench', 'Test', workbench.meta_data.station_id);
-
+    if(workbench.meta_data) {
+        loadWorkbench('DefaultDrawWorkbench', 'Test', workbench.meta_data.station_id);
+    }
 }
 
 function deleteOutdatedItemsOnWorkbench(divToCheck, itemsCurrentData){
@@ -235,10 +237,16 @@ function createAreaOnWorkbench(area){
             workarea.appendChild(tools);
             tools.appendChild(toolsLabel);
             break;
+
         case "workbench_canvas":
             let canvas = document.createElement('canvas');
             canvas.id = 'workbench_canvas';
             document.getElementById('workarea').appendChild(canvas);
+            fCanvas = new fabric.Canvas('workbench_canvas', { isDrawingMode: true, freeDrawingCursor: "default", backgroundColor: "transparent" });
+            let width = document.getElementById('workarea').clientWidth * 0.78;
+            let height = document.getElementById('workarea').clientHeight;
+            fCanvas.setHeight(height);
+            fCanvas.setWidth( width);
             break;
         default:
             return 0;
@@ -492,11 +500,12 @@ function allowDrop(ev) {
 }
 
 function drag(ev) {
+    console.log("drag with "+ev.target.id);
     ev.dataTransfer.setData("text", ev.target.id);
     var crt = ev.target.cloneNode(true);
     crt.id="image_"+ev.target.id;
     crt.style.backgroundColor = "transparent";
-    crt.style.width = "3.1em"
+    crt.style.width = "3.1em";
     document.body.appendChild(crt);
     ev.dataTransfer.setDragImage(crt, 25,25, 0);
 }
@@ -508,6 +517,22 @@ function drop(ev) {
     updateAttendeeStation(data, ev.target.parentElement.id, getSimulationId());
 
 }
+
+function resizeCanvas(){
+
+    let width = document.getElementById('workarea').clientWidth * 0.78;
+    let height = document.getElementById('workarea').clientHeight;
+
+    let zoomfactor = width / fCanvas.getWidth();
+
+    fCanvas.setHeight(height);
+    fCanvas.setWidth(width);
+    fCanvas.setZoom(zoomfactor);
+    fCanvas.calcOffset();
+    fCanvas.renderAll();
+
+}
+
 
 function renderSVG(station_id){
     var request = new XMLHttpRequest();
