@@ -167,8 +167,8 @@ if ($action=='finish') {
 }
 
 /*  update the thumbnail of current workbench  */
-if ($action!='thumbnail_update') {
-    if ($meta_data.thumbnail_cnt==0) {
+if ($action=='thumbnail_update') {
+    if ($meta_data->thumbnail_cnt==0) {
         $sql = "INSERT INTO kfs_workbench_tbl(simulation_id, station_id, workbench_svg) 
                      VALUES (".$simulation_id.",".$meta_data->station_id.",'".$thumbnail_svg."')";
     }

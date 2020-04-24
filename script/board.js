@@ -297,20 +297,18 @@ function displayItems(items_list){
 function sendSVGForThumbnail(simulation_id, station_id){
     let url = "update_workbench.php?"
         +'simulation_id='+simulation_id
-        +'&station_id='+station_id
+        +'&session_key='+getSessionKey()
         +'&action=thumbnail_update';
     let request = new XMLHttpRequest();
     request.open("POST", url, true);
     request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-
     request.addEventListener('load', function (event) {
         if (request.status >= 200 && request.status < 300) {
-            console.log(url + ' says: ' + request.responseText);
+            //console.log(request.responseText);
         } else {
             console.warn(request.statusText, request.responseText);
         }
     });
-
     request.send('thumbnail_svg='+fCanvas.toSVG());
 }
 
