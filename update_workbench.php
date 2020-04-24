@@ -4,6 +4,8 @@ require 'config.php';
 $simulation_id = filter_input(INPUT_GET, 'simulation_id', FILTER_SANITIZE_NUMBER_INT);
 $action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_STRING);
 $session_key = filter_input(INPUT_GET, 'session_key', FILTER_SANITIZE_STRING);
+$thumbnail_svg = filter_input(INPUT_POST, 'thumbnail_svg');
+
 
 header('Content-Type: application/json');
 header('Pragma-directive: no-cache');
@@ -29,7 +31,7 @@ $success = mysqli_real_connect(
 
 /* do some checks on the input params */
 if ($simulation_id == null) exit_with_status('NO_SIMULATION_ID_SET');
-if (!in_array($action, array('start','finish'))) exit_with_status('NO_VALID_ACTION_SET');
+if (!in_array($action, array('start','finish','thumbnail_update'))) exit_with_status('NO_VALID_ACTION_SET');
 if ($session_key == null) exit_with_status('NO_SESSION_KEY_SET');
 
 /* based on the input params query some meta data */
@@ -58,13 +60,16 @@ $sql = "select sim.simulation_id
             and itm.is_in_progress = true
             and itm.current_station_id = kat.station_id
          ) as current_work_item_id
+        ,(select count(1) 
+           from kfs_workbench_tbl kwb
+          where kwb.simulation_id = sim.simulation_id
+            and kwb.station_id = kat.station_id) as thumbnail_cnt
      from kfs_simulation_tbl sim
      join kfs_attendees_tbl kat on kat.simulation_id = sim.simulation_id
      left outer join kfs_station_conf_tbl ksct on ksct.station_id = kat.station_id
      left outer join kfs_rounds_tbl krt on krt.round_id = sim.current_round_id
     where sim.simulation_id = ". $simulation_id."
       and kat.session_key = '". $session_key . "'";
-error_log($sql);
 
 if ($result = $link->query($sql)) {
     if(  $obj = $result->fetch_object()) {
@@ -79,10 +84,12 @@ else{
 }
 
 /* to some more checks based on the meta data */
-if ($meta_data->current_round_id == null) exit_with_status('NO_CURRENT_ROUND');
-if (!($meta_data->last_start_time != null && $meta_data->last_stop_time == null))
-    exit_with_status('CURRENT_ROUND_NOT_STARTED');
 if ($meta_data->station_id == null) exit_with_status('ATTENDEE_IS_OBSERVER');
+if ($action!='thumbnail_update') {
+    if ($meta_data->current_round_id == null) exit_with_status('NO_CURRENT_ROUND');
+    if (!($meta_data->last_start_time != null && $meta_data->last_stop_time == null))
+        exit_with_status('CURRENT_ROUND_NOT_STARTED');
+}
 
 /* want to start the next work item */
 if ($action=='start') {
@@ -159,6 +166,20 @@ if ($action=='finish') {
     if(!$result = $link->query($sql)) exit('INTERNAL_ERROR_004');
 }
 
+/*  update the thumbnail of current workbench  */
+if ($action!='thumbnail_update') {
+    if ($meta_data.thumbnail_cnt==0) {
+        $sql = "INSERT INTO kfs_workbench_tbl(simulation_id, station_id, workbench_svg) 
+                     VALUES (".$simulation_id.",".$meta_data->station_id.",'".$thumbnail_svg."')";
+    }
+    else {
+        $sql = "UPDATE kfs_workbench_tbl 
+                   SET workbench_svg = '".$thumbnail_svg."'
+                 WHERE simulation_id=".$simulation_id."
+                   AND station_id=".$meta_data->station_id;
+    }
+    if(!$result = $link->query($sql)) exit('INTERNAL_ERROR_005');
+}
 
-/* looks like we made it up this far, unexpectedly  */
+    /* looks like we made it up this far, unexpectedly  */
 exit_with_status('SUCCESS');
