@@ -136,7 +136,7 @@ body{
     text-align: center;
     font-family: Komplexitater;
     font-size: large;
-    border: none;
+    border: 1px solid black;
     position:relative;
     z-index:3; /*although position: relative - because position set to absolute when drag&dropped within other elements*/
 }

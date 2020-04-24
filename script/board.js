@@ -17,11 +17,11 @@ function refreshBoard(simulation_id, session_key){
             switch(myJson.status_code) {
                 case "RUNNING":
                     window.addEventListener('resize', resizeCanvas);
-                    displayStations(myJson.stations);
+                    displayStations(myJson.stations, simulation_id);
                     displayAttendees(myJson.attendees, session_key);
                     displayControls(myJson.current_round);
                     displayItems(myJson.items_list);
-                    displayWorkbench(myJson.workbench, myJson.current_round);
+                    displayWorkbench(myJson.workbench, myJson.current_round, simulation_id);
                     break;
                 case "NO_SIMULATION":
                     // alert("The required simulation ID does not exit. You will be taken to the home page.");
@@ -69,7 +69,7 @@ function complexClock(time){
 
 }
 
-function displayWorkbench(workbench, current_round){
+function displayWorkbench(workbench, current_round, simulation_id){
 /********Check if the different areas on the workbench are already here, if not create them*********/
     if(document.getElementById("todo_column") == null){
         createAreaOnWorkbench("todo");
@@ -92,6 +92,7 @@ function displayWorkbench(workbench, current_round){
 deleteOutdatedItemsOnWorkbench("todo_column",workbench.todo_items);
 deleteOutdatedItemsOnWorkbench("done_column",workbench.done_items);
 deleteOutdatedItemsOnWorkbench("work_in_progress",workbench.current_item);
+
 
 /********Check if all the items in the workbench object are already here, if not, trigger creation*********/
     let itemsToCreate = [];
@@ -137,8 +138,12 @@ else{
 
     }
 }
+
+/********If the current user is part of the simulation, load the workbench and send SVG from the canvas to the DB******/
     if(workbench.meta_data) {
         loadWorkbench('DefaultDrawWorkbench', 'Test', workbench.meta_data.station_id);
+
+        sendSVGForThumbnail(simulation_id, workbench.meta_data.station_id);
     }
 }
 
@@ -289,6 +294,26 @@ function displayItems(items_list){
     });
 }
 
+function sendSVGForThumbnail(simulation_id, station_id){
+    let url = "update_workbench.php?"
+        +'simulation_id='+simulation_id
+        +'&station_id='+station_id
+        +'&action=thumbnail_update';
+    let request = new XMLHttpRequest();
+    request.open("POST", url, true);
+    request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+    request.addEventListener('load', function (event) {
+        if (request.status >= 200 && request.status < 300) {
+            console.log(url + ' says: ' + request.responseText);
+        } else {
+            console.warn(request.statusText, request.responseText);
+        }
+    });
+
+    request.send('thumbnail_svg='+fCanvas.toSVG());
+}
+
 function displayControls(round){
 
     let totalDuration;
@@ -328,7 +353,7 @@ function displayControls(round){
     document.getElementById("clock").innerHTML = totalDuration;
 }
 
-function displayStations(stations){
+function displayStations(stations, simulation_id){
     let recreateStations = false;
     stations.forEach(obj => {
         let myDiv;
@@ -338,7 +363,7 @@ function displayStations(stations){
             recreateStations=true;
         }
         else{
-            renderSVG(obj.station_id)
+            renderSVG(obj.station_id, simulation_id)
         }
     });
     if(recreateStations){
@@ -461,7 +486,7 @@ function createAttendeeDiv(obj, session_key){
         myDiv.classList.add("not_current_user");
     }
     myDiv.id = obj.session_key;
-    myDiv.innerHTML = '<button class="avatar">&nbsp;</button>';
+    myDiv.innerHTML = '<div class="avatar">&nbsp;</div>';
     myDiv.innerHTML += '<div class="attendee_name_label">'+obj.name+'</div>';
     myDiv.draggable=true;
     myDiv.ondragstart=drag;
@@ -500,7 +525,6 @@ function allowDrop(ev) {
 }
 
 function drag(ev) {
-    console.log("drag with "+ev.target.id);
     ev.dataTransfer.setData("text", ev.target.id);
     var crt = ev.target.cloneNode(true);
     crt.id="image_"+ev.target.id;
@@ -534,9 +558,14 @@ function resizeCanvas(){
 }
 
 
-function renderSVG(station_id){
+function renderSVG(station_id, simulation_id){
+
+    let url = "get_thumbnail.php?"
+        +"simulation_id="+simulation_id
+        +"&station_id="+station_id;
+
     var request = new XMLHttpRequest();
-    request.open("GET", "read_svg.php?id=1", true);
+    request.open("GET", url, true); //get_thumbnail simulation id and station id
     request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
     request.addEventListener('load', function (event) {
@@ -544,7 +573,7 @@ function renderSVG(station_id){
             //console.log(request.responseText);
             let e = Array.from(document.getElementById(station_id).getElementsByClassName("station_thumbnail"));
             e.forEach( obj => {
-                obj.src="read_svg.php?id=1";
+                obj.src=url;
             });
 
         } else {
