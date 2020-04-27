@@ -51,6 +51,7 @@ class Workbench {
 }
 
 function loadWorkbench(implName, implParam, stationId) {
+
     if (workbench == null || workbench.getStationId() != stationId) {
 
         switch (implName) {

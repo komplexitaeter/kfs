@@ -127,6 +127,7 @@ $done_items = array();
 
 $sql = 'select kat.station_id';
 $sql.= '      ,(select station_pos from kfs_station_conf_tbl sco where sco.station_id = kat.station_id) as station_pos';
+$sql.= '      ,(select implementation_class from kfs_station_conf_tbl sco where sco.station_id = kat.station_id) as implementation_class';
 $sql.= '      ,(select count(1) from kfs_station_conf_tbl sco where sco.configuration_name = sim.configuration_name) as station_count';
 $sql.= '      ,sim.current_round_id';
 $sql.= '      ,(select nsco.station_id';

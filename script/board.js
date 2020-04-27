@@ -141,8 +141,7 @@ else{
 
 /********If the current user is part of the simulation, load the workbench and send SVG from the canvas to the DB******/
     if(workbench.meta_data) {
-        loadWorkbench('DefaultDrawWorkbench', 'Test', workbench.meta_data.station_id);
-
+        loadWorkbench(workbench.meta_data.implementation_class, 'Test', workbench.meta_data.station_id);
         sendSVGForThumbnail(simulation_id, workbench.meta_data.station_id);
     }
 }
@@ -252,7 +251,7 @@ function createAreaOnWorkbench(area){
             let height = document.getElementById('workarea').clientHeight;
             fCanvas.setHeight(height);
             fCanvas.setWidth( width);
-            break;
+
         default:
             return 0;
     }
