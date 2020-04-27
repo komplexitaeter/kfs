@@ -103,6 +103,8 @@ function loadWorkbench(implName, implParam, stationId) {
             case "DefaultDrawWorkbench":
                 workbenchGlobal = new DefaultDrawWorkbench();
                 break;
+            default:
+                workbenchGlobal = new Workbench();
         }
         workbenchGlobal.setContext(implParam, stationId);
 
