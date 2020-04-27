@@ -5,6 +5,7 @@ $simulation_id = filter_input(INPUT_GET, 'simulation_id', FILTER_SANITIZE_NUMBER
 $action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_STRING);
 $session_key = filter_input(INPUT_GET, 'session_key', FILTER_SANITIZE_STRING);
 $thumbnail_svg = filter_input(INPUT_POST, 'thumbnail_svg');
+$item_svg = filter_input(INPUT_POST, 'item_svg');
 
 
 header('Content-Type: application/json');
@@ -156,10 +157,14 @@ if ($action=='finish') {
                                from kfs_rounds_tbl as round
                               where round.round_id=itm.round_id
                        )
+                      ,item_svg = '".$item_svg."'
                  WHERE itm.item_id=".$meta_data->current_work_item_id;
     }
     else {
-        $sql = "UPDATE kfs_items_tbl SET is_in_progress=false, current_station_id=".$meta_data->next_station_id." WHERE item_id=".$meta_data->current_work_item_id;
+        $sql = "UPDATE kfs_items_tbl 
+                   SET is_in_progress=false
+                     , item_svg = '".$item_svg."'
+                     , current_station_id=".$meta_data->next_station_id." WHERE item_id=".$meta_data->current_work_item_id;
     }
 
     /* do the dml */

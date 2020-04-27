@@ -96,7 +96,12 @@ else{
 }
 
 /* query all items for current round */
-$sql = "SELECT item.*, TIMESTAMPDIFF( SECOND, COALESCE(item.start_time, CURRENT_TIMESTAMP), COALESCE(item.end_time, item.last_pause_start_time, CURRENT_TIMESTAMP))-cumulative_pause_time_s as cycle_time_s FROM kfs_simulation_tbl as sims, kfs_items_tbl as item WHERE sims.simulation_id='".$simulation_id."' AND item.round_id = sims.current_round_id ORDER BY item.prio;";
+$sql = "SELECT item.item_id
+             , item.order_number
+             , item.price
+             , item.round_id
+             , item.is_in_progress
+             , TIMESTAMPDIFF( SECOND, COALESCE(item.start_time, CURRENT_TIMESTAMP), COALESCE(item.end_time, item.last_pause_start_time, CURRENT_TIMESTAMP))-cumulative_pause_time_s as cycle_time_s FROM kfs_simulation_tbl as sims, kfs_items_tbl as item WHERE sims.simulation_id='".$simulation_id."' AND item.round_id = sims.current_round_id ORDER BY item.prio;";
 $items = array();
 
 if ($result = $link->query($sql)) {
@@ -156,10 +161,10 @@ if ($meta_data != null) {
     /* query to-to items from Backlog or from previous station? */
     if ($meta_data->station_pos==1) {
         /* query all items from backlog */
-        $sql = 'SELECT * FROM kfs_items_tbl WHERE current_station_id is null and end_time is null and round_id='.$meta_data->current_round_id.' ORDER BY prio';;
+        $sql = 'SELECT item_id, order_number, price FROM kfs_items_tbl WHERE current_station_id is null and end_time is null and round_id='.$meta_data->current_round_id.' ORDER BY prio';;
     }
     else {
-        $sql = 'SELECT * FROM kfs_items_tbl WHERE current_station_id='.$meta_data->station_id.' and is_in_progress = false and round_id='.$meta_data->current_round_id.' ORDER BY prio';;
+        $sql = 'SELECT item_id, order_number, price FROM kfs_items_tbl WHERE current_station_id='.$meta_data->station_id.' and is_in_progress = false and round_id='.$meta_data->current_round_id.' ORDER BY prio';;
     }
     if ($result = $link->query($sql)) {
         while(  $obj = $result->fetch_object()) {
@@ -174,7 +179,7 @@ if ($meta_data != null) {
     }
 
     /* query the current item */
-    $sql = 'SELECT * FROM kfs_items_tbl WHERE current_station_id='.$meta_data->station_id.' and is_in_progress = true and round_id='.$meta_data->current_round_id.' ORDER BY prio';;
+    $sql = 'SELECT item_id, order_number, price, item_svg FROM kfs_items_tbl WHERE current_station_id='.$meta_data->station_id.' and is_in_progress = true and round_id='.$meta_data->current_round_id.' ORDER BY prio';;
    //error_log($sql);
     if ($result = $link->query($sql)) {
         if(  $obj = $result->fetch_object()) {
@@ -191,10 +196,10 @@ if ($meta_data != null) {
     /* query done items from Done column or from next station? */
     if ($meta_data->station_pos==$meta_data->station_count) {
         /* query all items from backlog */
-        $sql = 'SELECT * FROM kfs_items_tbl WHERE current_station_id is null and end_time is not null and round_id='.$meta_data->current_round_id.' ORDER BY prio';
+        $sql = 'SELECT item_id, order_number, price FROM kfs_items_tbl WHERE current_station_id is null and end_time is not null and round_id='.$meta_data->current_round_id.' ORDER BY prio';
     }
     else {
-        $sql = 'SELECT * FROM kfs_items_tbl WHERE current_station_id='.$meta_data->next_station_id.' and is_in_progress=false and round_id='.$meta_data->current_round_id.' ORDER BY prio';
+        $sql = 'SELECT item_id, order_number, price FROM kfs_items_tbl WHERE current_station_id='.$meta_data->next_station_id.' and is_in_progress=false and round_id='.$meta_data->current_round_id.' ORDER BY prio';
     }
     if ($result = $link->query($sql)) {
         while(  $obj = $result->fetch_object()) {
