@@ -1,4 +1,4 @@
-var workbench;
+var workbenchGlobal;
 
 class Workbench {
     constructor() {
@@ -14,12 +14,57 @@ class Workbench {
 
         this.implParam = implParam;
         this.stationId = stationId;
+        this.initiate();
 
         fCanvas.clear();
 
     }
     getStationId() {
         return this.stationId;
+    }
+
+    getItemId(){
+        return this.itemId;
+    }
+
+    setCurrentItem(item_id, item_svg){
+        if(this.itemId != item_id){
+            this.itemId = item_id;
+            this.start(item_svg);
+        }
+    }
+
+    disableWorkbench(){
+        if(this.lockedDiv == null) {
+            this.lockedDiv = document.createElement("div");
+            this.lockedDiv.classList.add("locked_div");
+            document.getElementById('workbench').appendChild(this.lockedDiv);
+        }
+    }
+
+    enableWorkbench(){
+        if(this.lockedDiv) {
+            this.lockedDiv.remove();
+            this.lockedDiv = null;
+        }
+    }
+
+    unsetItem(){
+        if(this.itemId != null){
+            this.initiate();
+            this.itemId = null;
+        }
+    }
+
+    initiate(){
+            fCanvas.clear();
+    }
+
+    finish(){
+        this.itemId = null;
+    }
+
+    start(item_svg){
     }
 
 
@@ -52,14 +97,14 @@ class Workbench {
 
 function loadWorkbench(implName, implParam, stationId) {
 
-    if (workbench == null || workbench.getStationId() != stationId) {
+    if (workbenchGlobal == null || workbenchGlobal.getStationId() != stationId) {
 
         switch (implName) {
             case "DefaultDrawWorkbench":
-                workbench = new DefaultDrawWorkbench();
+                workbenchGlobal = new DefaultDrawWorkbench();
                 break;
         }
-        workbench.setContext(implParam, stationId);
+        workbenchGlobal.setContext(implParam, stationId);
 
     }
 }

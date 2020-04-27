@@ -101,6 +101,9 @@ $sql = "SELECT item.item_id
              , item.price
              , item.round_id
              , item.is_in_progress
+             , item.current_station_id
+             , item.start_time 
+             , item.end_time
              , TIMESTAMPDIFF( SECOND, COALESCE(item.start_time, CURRENT_TIMESTAMP), COALESCE(item.end_time, item.last_pause_start_time, CURRENT_TIMESTAMP))-cumulative_pause_time_s as cycle_time_s FROM kfs_simulation_tbl as sims, kfs_items_tbl as item WHERE sims.simulation_id='".$simulation_id."' AND item.round_id = sims.current_round_id ORDER BY item.prio;";
 $items = array();
 

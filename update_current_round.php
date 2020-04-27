@@ -110,6 +110,8 @@ if ($action == 'reset') {
         array_push($sql_dml, $sql);
         $sql ='UPDATE kfs_simulation_tbl SET current_round_id = LAST_INSERT_ID() WHERE simulation_id='.$simulation_id;
         array_push($sql_dml, $sql);
+        $sql ='UPDATE kfs_workbench_tbl SET workbench_svg = NULL WHERE simulation_id='.$simulation_id;
+        array_push($sql_dml, $sql);
         /* create some items*/
         $sql = get_create_items_sql(null); /* get round id from last insert */
         array_push($sql_dml, $sql);

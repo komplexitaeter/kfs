@@ -122,28 +122,40 @@ deleteOutdatedItemsOnWorkbench("work_in_progress",workbench.current_item);
     createItemsOnWorkbench(itemsToCreate, "work_in_progress");
     itemsToCreate = [];
 
-/********Check if the buttons on the workbench are clickable*********/
-if(!((current_round.last_start_time != null)&&(current_round.last_stop_time == null))){
-    document.getElementById("pull_button").disabled=true;
-    document.getElementById("push_button").disabled=true;
-}
-else{
-    if((workbench.current_item)&&(workbench.todo_items)){
-        document.getElementById("pull_button").disabled=true;
-        document.getElementById("push_button").disabled=false;
-    }
-    if((workbench.current_item == null)&&(workbench.todo_items)){
-        document.getElementById("pull_button").disabled=false;
-        document.getElementById("push_button").disabled=true;
 
-    }
-}
 
 /********If the current user is part of the simulation, load the workbench and send SVG from the canvas to the DB******/
     if(workbench.meta_data) {
-        loadWorkbench(workbench.meta_data.implementation_class, 'Test', workbench.meta_data.station_id);
+        loadWorkbench(workbench.meta_data.implementation_class, '', workbench.meta_data.station_id);
         sendSVGForThumbnail(simulation_id, workbench.meta_data.station_id);
+        if(workbench.current_item != null){
+            workbenchGlobal.setCurrentItem(workbench.current_item.item_id, workbench.current_item.item_svg);
+        }
+        else{
+            workbenchGlobal.unsetItem();
+        }
     }
+
+    /********Check if the buttons on the workbench are clickable*********/
+    if(!((current_round.last_start_time != null)&&(current_round.last_stop_time == null))){
+        document.getElementById("pull_button").disabled=true;
+        document.getElementById("push_button").disabled=true;
+        workbenchGlobal.disableWorkbench();
+    }
+    else{
+        if((workbench.current_item)&&(workbench.todo_items)){
+            document.getElementById("pull_button").disabled=true;
+            document.getElementById("push_button").disabled=false;
+            workbenchGlobal.enableWorkbench();
+        }
+        if((workbench.current_item == null)&&(workbench.todo_items)){
+            document.getElementById("pull_button").disabled=false;
+            document.getElementById("push_button").disabled=true;
+            workbenchGlobal.disableWorkbench();
+
+        }
+    }
+
 }
 
 function deleteOutdatedItemsOnWorkbench(divToCheck, itemsCurrentData){
@@ -258,11 +270,36 @@ function createAreaOnWorkbench(area){
 }
 
 function moveItemOnWorkbench(e){
-    const url = "./update_workbench.php"
-        +"?action="+e.target.name
-        +"&simulation_id="+getSimulationId()
-        +"&session_key="+getSessionKey();
-    fetch(url);
+    let url;
+    switch (e.target.name) {
+        case "finish":
+            var item_svg = workbenchGlobal.finish();
+            url = "./update_workbench.php"
+                + "?action=" + e.target.name
+                + "&simulation_id=" + getSimulationId()
+                + "&session_key=" + getSessionKey();
+
+            let request = new XMLHttpRequest();
+            request.open("POST", url, true);
+            request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            request.addEventListener('load', function (event) {
+                if (request.status >= 200 && request.status < 300) {
+                    //console.log(request.responseText);
+                } else {
+                    console.warn(request.statusText, request.responseText);
+                }
+            });
+            request.send('item_svg='+item_svg);
+
+        break;
+        case "start":
+            url = "./update_workbench.php"
+                + "?action=" + e.target.name
+                + "&simulation_id=" + getSimulationId()
+                + "&session_key=" + getSessionKey();
+            fetch(url);
+        break;
+    }
 }
 
 function displayItems(items_list){
@@ -310,6 +347,7 @@ function sendSVGForThumbnail(simulation_id, station_id){
     });
     request.send('thumbnail_svg='+fCanvas.toSVG());
 }
+
 
 function displayControls(round){
 
