@@ -6,7 +6,7 @@ class DefaultDrawWorkbench extends Workbench {
     initiate(){
         super.initiate();
         var that = this;
-        fabric.loadSVGFromURL('./src/ship_template/paths', function (objects, options) {
+        fabric.loadSVGFromURL('./src/ship_template/hull', function (objects, options) {
             that.paths = fabric.util.groupSVGElements(objects, options);
             that.paths.set({
                 top: 0.1 * fCanvas.height,
@@ -15,6 +15,12 @@ class DefaultDrawWorkbench extends Workbench {
                 scaleX: 0.8 * (fCanvas.width / that.paths.width),
                 opacity: 0.3
             });
+            objects.forEach(obj =>{
+            if(obj.id == 'hull'){
+                obj.strokeWidth = 5;
+            }
+            });
+
             fCanvas.add(that.paths);
             fCanvas.calcOffset();
             fCanvas.renderAll();
