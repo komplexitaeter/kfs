@@ -5,10 +5,16 @@ class Workbench {
     }
     setContext(implParam, stationId) {
 
-        this.implParam = implParam;
         this.stationId = stationId;
-        this.initiate();
 
+        if (implParam != null) {
+            this.implParam = JSON.parse(implParam);
+        }
+        else {
+            this.implParam = null;
+        }
+
+        this.initiate();
         fCanvas.clear();
 
     }

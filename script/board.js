@@ -126,7 +126,10 @@ deleteOutdatedItemsOnWorkbench("work_in_progress",workbench.current_item);
 
 /********If the current user is part of the simulation, load the workbench and send SVG from the canvas to the DB******/
     if(workbench.meta_data) {
-        loadWorkbench(workbench.meta_data.implementation_class, '', workbench.meta_data.station_id);
+        loadWorkbench(
+             workbench.meta_data.implementation_class
+            ,workbench.meta_data.params_json
+            ,workbench.meta_data.station_id);
         sendSVGForThumbnail(simulation_id, workbench.meta_data.station_id);
         if(workbench.current_item != null){
             workbenchGlobal.setCurrentItem(workbench.current_item.item_id, workbench.current_item.item_svg);
