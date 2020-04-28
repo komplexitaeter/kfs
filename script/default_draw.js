@@ -13,7 +13,7 @@ class DefaultDrawWorkbench extends Workbench {
                 left: 0.05 * fCanvas.width,
                 scaleY: 1 * (fCanvas.height / that.paths.height),
                 scaleX: 1 * (fCanvas.width / that.paths.width),
-                opacity: 0.3
+                opacity: 0.5
             });
 
             objects.forEach(obj =>{
