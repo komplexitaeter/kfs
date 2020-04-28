@@ -13,14 +13,14 @@ class DefaultDrawWorkbench extends Workbench {
                 left: 0.05 * fCanvas.width,
                 scaleY: 1 * (fCanvas.height / that.paths.height),
                 scaleX: 1 * (fCanvas.width / that.paths.width),
-                opacity: 0.5
+                opacity: 0.6
             });
 
             objects.forEach(obj =>{
                 if (obj.id == that.implParam.path_id) {
                     obj.strokeWidth = 4;
                     obj.strokeDashArray = [6,4];
-                    obj.fill = 'blue';
+                    obj.fill = 'rgba(0,0,255,0.4)';
                 }
                 else {
                     obj.strokeWidth = 1;
