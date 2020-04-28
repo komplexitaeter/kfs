@@ -34,17 +34,17 @@ class Workbench {
     }
 
     disableWorkbench(){
-        if(this.lockedDiv == null) {
-            this.lockedDiv = document.createElement("div");
-            this.lockedDiv.classList.add("locked_div");
-            document.getElementById('workbench').appendChild(this.lockedDiv);
+        if(document.getElementById("locked_div") == null) {
+            let lockedDiv = document.createElement("div");
+            lockedDiv.classList.add("locked_div");
+            lockedDiv.id = "locked_div";
+            document.getElementById('workbench').appendChild(lockedDiv);
         }
     }
 
     enableWorkbench(){
-        if(this.lockedDiv) {
-            this.lockedDiv.remove();
-            this.lockedDiv = null;
+        if(document.getElementById("locked_div") != null) {
+            document.getElementById("locked_div").remove();
         }
     }
 
