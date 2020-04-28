@@ -41,13 +41,25 @@ class DefaultDrawWorkbench extends Workbench {
         if(svg_code) {
             var that = this;
             fabric.loadSVGFromString(svg_code, function (objects, options) {
+             let scale = options.viewBoxHeight / fCanvas.height;
+
+
                 that.item = fabric.util.groupSVGElements(objects, options);
-                /*that.item.set({
-                    top: 0.1 * fCanvas.height,
-                    left: 0.1 * fCanvas.width,
-                    scaleY: 0.8 * (fCanvas.height / that.item.height),
-                    scaleX: 0.8 * (fCanvas.width / that.item.width)
-                });*/
+
+                scale = fCanvas.height / options.height;
+
+
+                that.item.set({
+                    left: (fCanvas.width- scale*that.item.width)/2,
+                    top: (fCanvas.height- scale*that.item.height)/2,
+
+                    scaleY: scale,
+                    scaleX: scale,
+                });
+
+
+
+
                 fCanvas.add(that.item);
                 fCanvas.calcOffset();
                 fCanvas.renderAll();
