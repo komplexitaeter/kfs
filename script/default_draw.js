@@ -6,18 +6,14 @@ class DefaultDrawWorkbench extends Workbench {
     initiate(){
         super.initiate();
         var that = this;
+        fCanvas.isDrawingMode = true;
+        fCanvas.freeDrawingCursor = "crosshair";
+        let drawingLineWidthEl = document.getElementById('drawing-line-width');
+        let drawingColorEl = document.getElementById("color-1");
+        fCanvas.freeDrawingBrush.color = drawingColorEl.value;
+        fCanvas.freeDrawingBrush.width = parseInt(drawingLineWidthEl.value, 10) || 1;
+
         fabric.loadSVGFromURL('./src/ship_template/ship_template.svg', function (objects, options) {
-            that.paths = fabric.util.groupSVGElements(objects, options);
-
-            that.paths.set({
-                top: 0 * fCanvas.height,
-                left: (fCanvas.width- (fCanvas.height / that.paths.height)*that.paths.width)/2,
-                scaleY: 1.15 * (fCanvas.height / that.paths.height),
-                scaleX: 1.15 * (fCanvas.height / that.paths.height),
-                opacity: 0.6
-            });
-
-
             objects.forEach(obj =>{
                 if (obj.id == that.implParam.path_id) {
                     obj.strokeWidth = 3;
@@ -30,10 +26,25 @@ class DefaultDrawWorkbench extends Workbench {
                 }
             });
 
+            that.paths = fabric.util.groupSVGElements(objects, options);
+
+            that.paths.set({
+                top: 0 * fCanvas.height,
+                left: (fCanvas.width- (fCanvas.height / that.paths.height)*that.paths.width)/2,
+                scaleY: 1.15 * (fCanvas.height / that.paths.height),
+                scaleX: 1.15 * (fCanvas.height / that.paths.height),
+                opacity: 0.6
+            });
+
+
             fCanvas.add(that.paths);
             fCanvas.calcOffset();
             fCanvas.renderAll();
         });
+
+        document.getElementById("tools").appendChild(document.getElementById("toolbox_default_draw"));
+        document.getElementById("toolbox_default_draw").className = "visible_div";
+
     }
 
     start(svg_code) {
@@ -41,12 +52,10 @@ class DefaultDrawWorkbench extends Workbench {
         if(svg_code) {
             var that = this;
             fabric.loadSVGFromString(svg_code, function (objects, options) {
-             let scale = options.viewBoxHeight / fCanvas.height;
-
 
                 that.item = fabric.util.groupSVGElements(objects, options);
 
-                scale = fCanvas.height / options.height;
+                let scale = fCanvas.height / options.height;
 
 
                 that.item.set({
@@ -57,10 +66,8 @@ class DefaultDrawWorkbench extends Workbench {
                     scaleX: scale,
                 });
 
-
-
-
                 fCanvas.add(that.item);
+
                 fCanvas.calcOffset();
                 fCanvas.renderAll();
             });

@@ -261,7 +261,7 @@ function createAreaOnWorkbench(area){
             let canvas = document.createElement('canvas');
             canvas.id = 'workbench_canvas';
             document.getElementById('workarea').appendChild(canvas);
-            fCanvas = new fabric.Canvas('workbench_canvas', { isDrawingMode: true, freeDrawingCursor: "default", backgroundColor: "transparent" });
+            fCanvas = new fabric.Canvas('workbench_canvas', { isDrawingMode: false, backgroundColor: "transparent" });
             let width = document.getElementById('workarea').clientWidth * 0.78;
             let height = document.getElementById('workarea').clientHeight;
             fCanvas.setHeight(height);
@@ -540,6 +540,27 @@ function updateAttendeeStation(session_key, station_id, simulation_id){
         //     return response.json();
         // })
     }
+}
+
+/******Toolbox for the default_draw implementation**********/
+
+function changeDrawingColor(e) {
+    fCanvas.freeDrawingBrush.color = e.target.value;
+}
+
+function clearDrawing() {
+    workbenchGlobal.initiate();
+}
+
+function changeDrawingBrush(e) {
+    fCanvas.freeDrawingBrush = new fabric[e.target.value + 'Brush'](fCanvas);
+    fCanvas.freeDrawingBrush.color=document.getElementById("colorPicker").colorValue.value;
+    fCanvas.freeDrawingBrush.width=parseInt(document.getElementById('drawing-line-width').value, 10);
+}
+
+function changeDrawingLineWidth (e) {
+    fCanvas.freeDrawingBrush.width = parseInt(e.target.value, 10) || 1;
+    e.target.previousSibling.innerHTML = e.target.value;
 }
 
 

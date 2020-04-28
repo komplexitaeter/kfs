@@ -426,3 +426,67 @@ body{
 #workbench_canvas {
     background-color: transparent;
 }
+
+/*********Workbench > Toolbox **************/
+.invisible_div{
+    visibility:hidden;
+}
+
+.visible_div{
+    visibility: visible;
+}
+
+.custom-radios input[type="radio"] {
+    display: none;
+}
+
+.custom-radios label {
+    color: #333;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+}
+
+.custom-radios span {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    margin: -1px 4px 0 0;
+    vertical-align: middle;
+    cursor: pointer;
+    border-radius: 50%;
+    border: 2px solid #FFFFFF;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.33);
+    background-repeat: no-repeat;
+    background-position: center;
+    text-align: center;
+    line-height: 44px;
+}
+
+.custom-radios img {
+    opacity: 0;
+    width: 50%;
+    height: auto;
+
+    transition: all .3s ease;
+}
+
+
+#color-1 + label span {
+    background-color: #2ecc71;
+}
+
+#color-2 + label span {
+    background-color: #3498db;
+}
+
+#color-3 + label span {
+    background-color: #f1c40f;
+}
+
+#color-4 + label span {
+    background-color: #e74c3c;
+}
+
+.custom-radios :checked + label span img {
+    opacity: 1;
+}
