@@ -8,13 +8,15 @@ class DefaultDrawWorkbench extends Workbench {
         var that = this;
         fabric.loadSVGFromURL('./src/ship_template/ship_template.svg', function (objects, options) {
             that.paths = fabric.util.groupSVGElements(objects, options);
+
             that.paths.set({
                 top: 0 * fCanvas.height,
-                left: 0 * fCanvas.width,
+                left: (fCanvas.width- (fCanvas.height / that.paths.height)*that.paths.width)/2,
                 scaleY: 1.15 * (fCanvas.height / that.paths.height),
-                scaleX: 1.15 * (fCanvas.width / that.paths.width),
+                scaleX: 1.15 * (fCanvas.height / that.paths.height),
                 opacity: 0.6
             });
+
 
             objects.forEach(obj =>{
                 if (obj.id == that.implParam.path_id) {
