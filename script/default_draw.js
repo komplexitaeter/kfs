@@ -28,13 +28,16 @@ class DefaultDrawWorkbench extends Workbench {
 
             that.paths = fabric.util.groupSVGElements(objects, options);
 
+            let scale = fCanvas.height / options.height;
+
             that.paths.set({
-                top: 0 * fCanvas.height,
-                left: (fCanvas.width- (fCanvas.height / that.paths.height)*that.paths.width)/2,
-                scaleY: 1.15 * (fCanvas.height / that.paths.height),
-                scaleX: 1.15 * (fCanvas.height / that.paths.height),
+                top: (fCanvas.height- scale*options.height)/2,
+                left: (fCanvas.width- scale*options.width)/2,
+                scaleY: 1.15 * scale,
+                scaleX: 1.15 * scale,
                 opacity: 0.6
             });
+
 
 
             fCanvas.add(that.paths);
@@ -59,11 +62,10 @@ class DefaultDrawWorkbench extends Workbench {
 
 
                 that.item.set({
-                    left: (fCanvas.width- scale*that.item.width)/2,
                     top: (fCanvas.height- scale*that.item.height)/2,
-
+                    left: (fCanvas.width- scale*that.item.width)/2,
                     scaleY: scale,
-                    scaleX: scale,
+                    scaleX: scale
                 });
 
                 fCanvas.add(that.item);

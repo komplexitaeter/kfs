@@ -605,14 +605,10 @@ function resizeCanvas(){
 
     let width = document.getElementById('workarea').clientWidth * 0.78;
     let height = document.getElementById('workarea').clientHeight;
-
-    let zoomfactor = width / fCanvas.getWidth();
-
     fCanvas.setHeight(height);
     fCanvas.setWidth(width);
-    fCanvas.setZoom(zoomfactor);
-    fCanvas.calcOffset();
-    fCanvas.renderAll();
+    workbenchGlobal.unsetItem();
+    workbenchGlobal.initiate();
 
 }
 
