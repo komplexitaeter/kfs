@@ -18,13 +18,13 @@ class DefaultDrawWorkbench extends Workbench {
 
             objects.forEach(obj =>{
                 if (obj.id == that.implParam.path_id) {
-                    obj.strokeWidth = 4;
-                    obj.strokeDashArray = [6,4];
+                    obj.strokeWidth = 3;
+                    obj.strokeDashArray = [7,4];
                     obj.fill = 'rgba(0,0,255,0.4)';
                 }
                 else {
                     obj.strokeWidth = 1;
-                    obj.strokeDashArray = [3,3];
+                    obj.strokeDashArray = [5,4];
                 }
             });
 
