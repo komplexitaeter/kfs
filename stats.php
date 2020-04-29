@@ -50,8 +50,9 @@
 </table>
 
 <h2>Details</h2>
-<table>
-    <tr>
+<input type="hidden" id="round_details_round_id" value="">
+<table id="round_details">
+    <tr class="detailTH">
         <th>Minute</th>
         <th>Items completed</th>
         <th>Average Cycle Tine</th>

@@ -26,6 +26,7 @@ function refreshStats(simulation_id, session_key){
                 case "STATS":
                     displayRoundSwitch(myJson);
                     displayRoundData(myJson);
+                    displayDetails(myJson);
                     break;
                 default:
                 //alert("Undefined status_code - this is an error. Sorry.");
@@ -63,6 +64,42 @@ function displayRoundData(myJson) {
     document.getElementById('first_item_cycle_time').textContent = sec2time(myJson.round_data.first_item_cycle_time);
     document.getElementById('last_item_cycle_time').textContent = sec2time(myJson.round_data.last_item_cycle_time);
     document.getElementById('avg_throughput').textContent = myJson.round_data.avg_throughput;
+}
+
+function displayDetails(myJson) {
+    let hidden_id= document.getElementById('round_details_round_id')
+    let tbl = document.getElementById('round_details');
+
+    if (hidden_id.value != myJson.stats_round_id) {
+        /* remember what rounds detail data is displayed  */
+        hidden_id.value = myJson.stats_round_id;
+
+        /* go through all table data rows and delete them */
+        let rows = Array.from(tbl.getElementsByTagName('tr'));
+        rows.forEach(row => {
+            if (!row.classList.contains('detailTH')) {
+                row.remove();
+            }
+        });
+
+        /* go through all stats details and create a table row for each */
+
+        let tr = document.createElement('tr');
+        let td1 = document.createElement('td');
+        let td2 = document.createElement('td');
+        let td3 = document.createElement('td');
+
+        td1.textContent = 'a';
+        td2.textContent = 'b';
+        td3.textContent = 'c';
+
+        tr.appendChild(td1);
+        tr.appendChild(td2);
+        tr.appendChild(td3);
+
+        tbl.appendChild(tr);
+
+    }
 }
 
 function changeRound(roundswitch) {
