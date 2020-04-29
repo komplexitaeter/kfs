@@ -140,22 +140,37 @@ deleteOutdatedItemsOnWorkbench("work_in_progress",workbench.current_item);
     }
 
     /********Check if the buttons on the workbench are clickable*********/
+    let hasToDo=false;
+    if (workbench.todo_items!=null && workbench.todo_items.length>0) {
+        hasToDo=true;
+    }
+
     if(!((current_round.last_start_time != null)&&(current_round.last_stop_time == null))){
+        /* round is paused */
         document.getElementById("pull_button").disabled=true;
         document.getElementById("push_button").disabled=true;
         workbenchGlobal.disableWorkbench();
     }
     else{
-        if((workbench.current_item)&&(workbench.todo_items)){
+        if((workbench.current_item != null )&&(hasToDo)){
             document.getElementById("pull_button").disabled=true;
             document.getElementById("push_button").disabled=false;
             workbenchGlobal.enableWorkbench();
         }
-        if((workbench.current_item == null)&&(workbench.todo_items)){
+        if((workbench.current_item == null)&&(hasToDo)){
             document.getElementById("pull_button").disabled=false;
             document.getElementById("push_button").disabled=true;
             workbenchGlobal.disableWorkbench();
-
+        }
+        if((workbench.current_item == null)&&(!hasToDo)){
+            document.getElementById("pull_button").disabled=true;
+            document.getElementById("push_button").disabled=true;
+            workbenchGlobal.disableWorkbench();
+        }
+        if((workbench.current_item != null)&&(!hasToDo)){
+            document.getElementById("pull_button").disabled=true;
+            document.getElementById("push_button").disabled=false;
+            workbenchGlobal.enableWorkbench();
         }
     }
 
