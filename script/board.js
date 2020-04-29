@@ -294,24 +294,30 @@ function moveItemOnWorkbench(e){
     let url;
     switch (e.target.name) {
         case "finish":
-            var item_svg = workbenchGlobal.finish();
-            url = "./update_workbench.php"
-                + "?action=" + e.target.name
-                + "&simulation_id=" + getSimulationId()
-                + "&session_key=" + getSessionKey();
+            let item_status = workbenchGlobal.finish();
 
-            let request = new XMLHttpRequest();
-            request.open("POST", url, true);
-            request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-            request.addEventListener('load', function (event) {
-                if (request.status >= 200 && request.status < 300) {
-                    //console.log(request.responseText);
-                } else {
-                    console.warn(request.statusText, request.responseText);
-                }
-            });
-            request.send('item_svg='+item_svg);
+            if (item_status[0]=='FAIL') {
+                alert(item_status[1]);
+            }
+            else {
+                let item_svg = item_status[1];
+                url = "./update_workbench.php"
+                    + "?action=" + e.target.name
+                    + "&simulation_id=" + getSimulationId()
+                    + "&session_key=" + getSessionKey();
 
+                let request = new XMLHttpRequest();
+                request.open("POST", url, true);
+                request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                request.addEventListener('load', function (event) {
+                    if (request.status >= 200 && request.status < 300) {
+                        //console.log(request.responseText);
+                    } else {
+                        console.warn(request.statusText, request.responseText);
+                    }
+                });
+                request.send('item_svg=' + item_svg);
+            }
         break;
         case "start":
             url = "./update_workbench.php"

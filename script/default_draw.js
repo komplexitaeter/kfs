@@ -52,6 +52,7 @@ class DefaultDrawWorkbench extends Workbench {
 
     start(svg_code) {
         super.start(svg_code);
+
         if(svg_code) {
             var that = this;
             fabric.loadSVGFromString(svg_code, function (objects, options) {
@@ -74,15 +75,32 @@ class DefaultDrawWorkbench extends Workbench {
                 fCanvas.renderAll();
             });
         }
+        else {
+            fCanvas.calcOffset();
+            fCanvas.renderAll();
+        }
+
+        /*
+        * remember the number of objects on canvas for a later check if
+        * som work has been done
+        * */
+        this.objectsCount = fCanvas.getObjects().length;
+
     }
 
     finish() {
-        super.finish();
-        let svg_code;
-        fCanvas.remove(this.paths);
-        svg_code = fCanvas.toSVG();
-        fCanvas.clear();
-        fCanvas.add(this.paths);
-        return svg_code;
+        if (this.objectsCount == fCanvas.getObjects().length) {
+            return ['FAIL','No work has been done!'];
+        }
+        else {
+            super.finish();
+            fCanvas.getObjects().length;
+            let svg_code;
+            fCanvas.remove(this.paths);
+            svg_code = fCanvas.toSVG();
+            fCanvas.clear();
+            fCanvas.add(this.paths);
+            return ['SUCCESS', svg_code];
+        }
     }
 }

@@ -58,8 +58,8 @@ body{
 }
 
 #controls{
-
-    padding:1em;
+    padding: 0.8em;
+    padding-top: 20%;
     grid-area: 2 / 1 / 4 / 2;
     background-color: aliceblue;
     position:relative;
@@ -71,7 +71,7 @@ body{
 
 .clock_display{
     position:absolute;
-    margin-top: 1em;
+    margin-top: 0.6em;
     left: 10%;
     width:75%;
     height: auto;
@@ -83,7 +83,7 @@ body{
 
 .control_button{
     outline:none;
-    width: 2.5em;
+    width: 2.4em;
     height: 2.5em;
     box-sizing: border-box;
     border:none;
@@ -99,7 +99,7 @@ body{
 }
 
 .button_play:disabled{
-    opacity: 0.4;
+    opacity: 0.2;
 }
 
 .button_pause {
@@ -107,7 +107,7 @@ body{
 }
 
 .button_pause:disabled{
-    opacity: 0.4;
+    opacity: 0.2;
 }
 
 .button_reset{
@@ -115,7 +115,7 @@ body{
 }
 
 .button_reset:disabled{
-    opacity: 0.4;
+    opacity: 0.2;
 }
 
 .button_stats{
@@ -123,7 +123,7 @@ body{
 }
 
 .button_stats:disabled{
-    opacity: 0.4;
+    opacity: 0.2;
 }
 
 #observers{
@@ -224,7 +224,7 @@ body{
 }
 
 .station{
-    width: 15%;
+    width: 100%;
     height: 100%;
     font-size: initial;
     overflow: visible;
@@ -235,6 +235,15 @@ body{
     border-image: url("./src/border_grey.png") 50 stretch;
 }
 
+#done.station{
+    background-color: rgba(123,255,55,0.8);
+    min-width:15.5%;
+    max-width:100%;
+    float: right;
+    position:relative;
+    overflow:visible;
+}
+
 .drop_target{
     position: absolute;
     left:0;
@@ -243,15 +252,6 @@ body{
     bottom:0;
     background-color: transparent;
     z-index:2;
-}
-
-#done.station{
-    background-color: rgba(123,255,55,0.8);
-    min-width:10%;
-    max-width:100%;
-    float: right;
-    position:relative;
-    overflow:visible;
 }
 
 #done .station_label{
