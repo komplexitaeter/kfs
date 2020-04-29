@@ -32,7 +32,7 @@
         <td id="total_items_cnt"></td>
     </tr>
     <tr>
-        <th>Average Throughput (items/min):</th>
+        <th>Average Throughput:</th>
         <td id="avg_throughput"></td>
     </tr>
     <tr>

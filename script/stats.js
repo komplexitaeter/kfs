@@ -84,21 +84,24 @@ function displayDetails(myJson) {
 
         /* go through all stats details and create a table row for each */
 
-        let tr = document.createElement('tr');
-        let td1 = document.createElement('td');
-        let td2 = document.createElement('td');
-        let td3 = document.createElement('td');
+        myJson.round_details.forEach(row => {
 
-        td1.textContent = 'a';
-        td2.textContent = 'b';
-        td3.textContent = 'c';
+            let tr = document.createElement('tr');
+            let td1 = document.createElement('td');
+            let td2 = document.createElement('td');
+            let td3 = document.createElement('td');
 
-        tr.appendChild(td1);
-        tr.appendChild(td2);
-        tr.appendChild(td3);
+            td1.textContent = row.minute;
+            td2.textContent = row.items_cnt;
+            td3.textContent = sec2time(row.avg_cycle_time);
 
-        tbl.appendChild(tr);
+            tr.appendChild(td1);
+            tr.appendChild(td2);
+            tr.appendChild(td3);
 
+            tbl.appendChild(tr);
+
+        });
     }
 }
 
