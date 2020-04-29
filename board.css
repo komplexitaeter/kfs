@@ -381,7 +381,7 @@ body{
 }
 
 .todo .p_button{
-    right:-13%;
+    right:-2em;
 }
 
 .done{
@@ -389,7 +389,7 @@ body{
 }
 
 .done .p_button{
-    left:-15%;
+    left:-2em;
 }
 
 .p_button{
