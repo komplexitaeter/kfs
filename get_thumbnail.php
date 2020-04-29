@@ -32,10 +32,14 @@ $success = mysqli_real_connect(
     _MYSQL_PORT
 );
 
-$sql = "SELECT workbench_svg 
-          FROM kfs_workbench_tbl 
-         WHERE station_id =".$station_id."
-           AND simulation_id =".$simulation_id;
+$sql = "SELECT w.workbench_svg 
+          FROM kfs_workbench_tbl w
+         WHERE w.station_id =$station_id
+           AND w.simulation_id = $simulation_id
+           AND (select count(1) 
+                  from kfs_attendees_tbl a
+                 where a.simulation_id = w.simulation_id
+                   and a.station_id = w.station_id) >0 ";
 
     if ($result = $link->query($sql)) {
         if ($obj = $result->fetch_object()) {
