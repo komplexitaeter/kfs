@@ -30,6 +30,9 @@ function refreshBoard(simulation_id, session_key){
                 case "CHECKIN":
                     location.href = './checkin.php?simulation_id='+simulation_id;
                     break;
+                case "STATS":
+                    location.href = './stats.php?simulation_id='+simulation_id;
+                    break;
                 default:
                 //alert("Undefined status_code - this is an error. Sorry.");
             }
@@ -373,17 +376,21 @@ function displayControls(round){
     let playButton = document.getElementById("play");
     let stopButton = document.getElementById("pause");
     let resetButton = document.getElementById("reset");
+    let statsButton = document.getElementById("stats");
+
 
     if((round.last_start_time == null)&&(round.last_stop_time == null)){
         playButton.disabled=false;
         stopButton.disabled=true;
-        resetButton.disabled=true;
+        resetButton.disabled=true
+        statsButton.disabled=false;
     }
 
     if((round.last_start_time == null)&&(round.last_stop_time != null)){
-        playButton.disabled = false;
-        stopButton.disabled = false;
-        resetButton.disabled = false;
+        playButton.disabled = true;
+        stopButton.disabled = true;
+        resetButton.disabled = true;
+        statsButton.disabled = true;
         console.log("Unfortunately there is an error");
     }
 
@@ -391,12 +398,14 @@ function displayControls(round){
         playButton.disabled = true;
         stopButton.disabled = false;
         resetButton.disabled = true;
+        statsButton.disabled = true;
     }
 
     if((round.last_start_time != null)&&(round.last_stop_time != null)){
         playButton.disabled = false;
         stopButton.disabled = true;
         resetButton.disabled = false;
+        statsButton.disabled = false;
     }
     /*
     totalDuration = sec2time(parseInt(round.total_time_s));
@@ -591,6 +600,11 @@ function pressPause(){
 
 function pressReset(){
     const url = './update_current_round.php?simulation_id=' + getSimulationId() + '&action=reset';
+    fetch(url);
+}
+
+function pressStats(){
+    const url = './update_simulation.php?simulation_id='+getSimulationId()+'&status_code=STATS';
     fetch(url);
 }
 

@@ -27,7 +27,13 @@ $sql_set = array();
 if(isset($_GET['status_code'])){
     $status_code = filter_input(INPUT_GET, 'status_code');
     if (strlen($status_code)>0) {
-        array_push($sql_set, "status_code = '".$status_code."'");
+        if ($status_code=='RERUNNING') {
+            array_push($sql_set, "status_code = 'RUNNING'");
+        }
+        else {
+            array_push($sql_set, "status_code = '".$status_code."'");
+        }
+
         if($status_code=="RUNNING") {
             /* delete inactive attendees */
             $sql = "DELETE FROM kfs_attendees_tbl WHERE TIMESTAMPDIFF( SECOND, last_callback_date, CURRENT_TIMESTAMP) >= 30 AND simulation_id=" . $simulation_id;
@@ -46,6 +52,12 @@ if(isset($_GET['status_code'])){
         }
     }
 }
+
+if(isset($_GET['stats_round_id'])){
+    $stats_round_id = filter_input(INPUT_GET, 'stats_round_id', FILTER_SANITIZE_NUMBER_INT);
+    if ($stats_round_id!= null) array_push($sql_set, "stats_round_id = $stats_round_id");
+}
+
 
 if(count($sql_set)==0){
     $link->close();

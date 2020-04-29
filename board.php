@@ -24,6 +24,7 @@
     <button id="pause" class="control_button button_pause" onclick="pressPause()">&nbsp;</button>
     <button id="reset" class="control_button button_reset" onclick="pressReset()">&nbsp;</button>
     <div id="clock" class="clock_display">&nbsp;</div>
+    <button id="stats" class="control_button button_stats" onclick="pressStats()">&nbsp;</button>
 </div>
 <div id="observers">
     <div class="drop_target"  ondrop="drop(event)" ondragover="allowDrop(event)"></div>

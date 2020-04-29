@@ -118,6 +118,14 @@ body{
     opacity: 0.4;
 }
 
+.button_stats{
+    background-image: url("./src/stats_button.png");
+}
+
+.button_stats:disabled{
+    opacity: 0.4;
+}
+
 #observers{
     padding:0.1em;
     grid-area: 4 / 1 / 5 / 2;
