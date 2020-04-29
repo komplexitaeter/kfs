@@ -20,32 +20,36 @@
 <h2>Round Data</h2>
 <table>
     <tr>
-        <th>Total duration:</th>
-        <td>3:12:09</td>
+        <th>Total Duration:</th>
+        <td id="total_time_s"></td>
+    </tr>
+    <tr>
+        <th>Total Money earned:</th>
+        <td id="total_money_earned"></td>
     </tr>
     <tr>
         <th>Total items completed:</th>
-        <td>34</td>
+        <td id="total_items_cnt"></td>
     </tr>
     <tr>
         <th>Average Throughput (items/min):</th>
-        <td>11.6</td>
+        <td id="avg_throughput"></td>
     </tr>
     <tr>
         <th>Average Cycle Time:</th>
-        <td>5:23:23</td>
+        <td id="avg_cycle_time"></td>
     </tr>
     <tr>
         <th>First Item Cycle Time:</th>
-        <td>1:01:10</td>
+        <td id="first_item_cycle_time"></td>
     </tr>
     <tr>
         <th>Last Item Cycle Time:</th>
-        <td>8:31:56</td>
+        <td id="last_item_cycle_time"></td>
     </tr>
 </table>
 
-<h3>Details</h3>
+<h2>Details</h2>
 <table>
     <tr>
         <th>Minute</th>

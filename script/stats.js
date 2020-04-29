@@ -25,6 +25,7 @@ function refreshStats(simulation_id, session_key){
                     break;
                 case "STATS":
                     displayRoundSwitch(myJson);
+                    displayRoundData(myJson);
                     break;
                 default:
                 //alert("Undefined status_code - this is an error. Sorry.");
@@ -41,15 +42,27 @@ function backToSimulationPressed() {
 function displayRoundSwitch(myJson) {
     let roundswitch = document.getElementById('roundswitch');
     if (roundswitch.childElementCount==0) {
+        let i=0;
         myJson.rounds.forEach( item => {
+            i++;
             let round = document.createElement('option')
             round.value = item.round_id;
             round.id = 'roundswitch-'+item.round_id;
-            round.text =  item.round_description;
+            round.text = 'Round '+i+' - '+  item.round_description;
             roundswitch.appendChild(round);
         });
     }
     roundswitch.value = myJson.stats_round_id;
+}
+
+function displayRoundData(myJson) {
+    document.getElementById('total_time_s').textContent = sec2time(myJson.round_data.total_time_s);
+    document.getElementById('total_items_cnt').textContent = myJson.round_data.total_items_cnt;
+    document.getElementById('total_money_earned').textContent = myJson.round_data.total_money_earned+' €';
+    document.getElementById('avg_cycle_time').textContent = sec2time(myJson.round_data.avg_cycle_time);
+    document.getElementById('first_item_cycle_time').textContent = sec2time(myJson.round_data.first_item_cycle_time);
+    document.getElementById('last_item_cycle_time').textContent = sec2time(myJson.round_data.last_item_cycle_time);
+    document.getElementById('avg_throughput').textContent = myJson.round_data.avg_throughput;
 }
 
 function changeRound(roundswitch) {
