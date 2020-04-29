@@ -108,6 +108,11 @@ $sql = "select round(avg(mins.items_cnt),1) as avg_throughput from (
                                     where x.round_id = $stats_round_id
                                       and x.end_time_s is not null
                                       and x.current_station_id is null)
+                       and minute != (select floor((min(x.end_time_s)) / 60)
+                                    from kfs_items_tbl x
+                                    where x.round_id = $stats_round_id
+                                      and x.end_time_s is not null
+                                      and x.current_station_id is null)                  
               ) as mins";
 
 if ($result = $link->query($sql)) {
