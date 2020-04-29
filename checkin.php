@@ -14,7 +14,7 @@
 </div>
 
 <div id="attendees_list" class="display_block">
-   <div class="attendee" id="current_user"><button class="avatar">&nbsp;</button><input class="attendee_name" type="text" placeholder="Type in your name!" onchange="editNameCurrentUser()"/><button class="ready_button_active" onclick="switchCurrentUserReadyStatus()">&nbsp;</button></div>
+   <div class="attendee" id="current_user"><button class="avatar">&nbsp;</button><input class="attendee_name" type="text" placeholder="Type in your name!"  maxlength="15" onchange="editNameCurrentUser()" onsubmit="editNameCurrentUser()" autocomplete="off" spellcheck="false" /><button id="flag_button" class="ready_button_active" onclick="switchCurrentUserReadyStatus()">&nbsp;</button></div>
 </div>
 
 

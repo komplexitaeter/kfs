@@ -114,8 +114,13 @@ function editNameCurrentUser(){
     if(new_name==""){
         c = "&ready_to_start=0";
     }
+    else {
+        c = "&ready_to_start=1";
+    }
+
     const url ='./update_attendee.php?simulation_id='+getSimulationId()+'&session_key='+getSessionKey()+'&name='+new_name+c;
     fetch(url);
+    document.getElementById('flag_button').focus();
 }
 
 function updateAttendeeName(session_key, name){
