@@ -579,7 +579,13 @@ function changeDrawingColor(e) {
 }
 
 function clearDrawing() {
-    workbenchGlobal.initiate();
+    let i=0;
+    fCanvas.getObjects().forEach(obj => {
+        i++;
+        if (i>workbenchGlobal.objectsCountOrig) {
+            fCanvas.remove(obj);
+        }
+    });
 }
 
 function changeDrawingBrush(e) {
