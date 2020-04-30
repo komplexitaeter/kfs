@@ -5,6 +5,7 @@ class DefaultDrawWorkbench extends Workbench {
 
     initiate(){
         super.initiate();
+
         var that = this;
         fCanvas.isDrawingMode = true;
         fCanvas.freeDrawingCursor = "crosshair";
@@ -92,6 +93,11 @@ class DefaultDrawWorkbench extends Workbench {
             this.objectsCountOrig++;
         }
 
+
+        /*
+         * Randomize items work instruction
+         */
+        document.getElementById('workbench_'+this.itemId).textContent = this.implParam.instruction;
     }
 
     finish() {

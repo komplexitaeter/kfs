@@ -73,7 +73,8 @@ class Workbench {
     }
 
     initiate(){
-            fCanvas.clear();
+        /* erase Canvas */
+        fCanvas.clear();
     }
 
     finish(){

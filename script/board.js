@@ -351,7 +351,7 @@ function displayItems(items_list){
     /*go through all the item divs on page and identify those without corresponding itemDivId - then remove those*/
     let itemDivsOnPage = Array.from(document.getElementsByClassName("item"));
     itemDivsOnPage.forEach( div => {
-        if (itemDivIdArray.indexOf(div.id) == -1) {
+        if ( (!div.id.includes('workbench_')) &&  itemDivIdArray.indexOf(div.id) == -1) {
             div.remove();
         }
     });
