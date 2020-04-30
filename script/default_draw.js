@@ -1,6 +1,17 @@
 class DefaultDrawWorkbench extends Workbench {
     setContext(implParam, stationId) {
         super.setContext(implParam, stationId);
+
+        this.colorArray = [
+            {colorName: "green", colorCode: "#2ecc71"},
+            {colorName: "blue", colorCode: "#3498db"},
+            {colorName: "yellow", colorCode: "#f1c40f"},
+            {colorName: "red", colorCode: "#e74c3c"},
+            {colorName: "brown", colorCode: "#dea06e"},
+            {colorName: "pink", colorCode: "#ff97e3"},
+            {colorName: "black", colorCode: "#656565"},
+            {colorName: "white", colorCode: "#ffffff"},
+        ];
     }
 
     initiate(){
@@ -97,7 +108,16 @@ class DefaultDrawWorkbench extends Workbench {
         /*
          * Randomize items work instruction
          */
-        document.getElementById('workbench_'+this.itemId).textContent = this.implParam.instruction;
+        let p = document.getElementById("instruction");
+        if(p == null) {
+            p = document.createElement("p");
+            p.id = "instruction";
+            let color = this.colorArray[Math.floor(Math.random()*7)];
+            let text = this.implParam.instruction.replace("[COLOR]","<b style='color:"+color.colorCode+";'>"+color.colorName+"</b>");
+            console.log(text);
+            p.innerHTML = text;
+            document.getElementById("workbench_" + this.itemId).appendChild(p);
+        }
     }
 
     finish() {

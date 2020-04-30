@@ -47,6 +47,11 @@ body{
     background-repeat: no-repeat;
 }
 
+.work_in_progress p{
+    font-family: Komplexitater;
+    font-size: large;
+}
+
 
 .station .item{
     font-size: x-small;
@@ -561,7 +566,6 @@ body{
     opacity: 0;
     width: 50%;
     height: auto;
-
     transition: all .3s ease;
 }
 
@@ -583,11 +587,19 @@ body{
 }
 
 #color-5 + label span {
-    background-color: black;
+    background-color: #dea06e;
 }
 
 #color-6 + label span {
-    background-color: blue;
+    background-color: #ff97e3;
+}
+
+#color-7 + label span {
+    background-color: #656565;
+}
+
+#color-8 + label span {
+    background-color: #ffffff;
 }
 
 .custom-radios :checked + label span img {

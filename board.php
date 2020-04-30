@@ -98,7 +98,7 @@
                 </div>
 
                 <div >
-                    <input type="radio" id="color-5" name="colorValue" value="black">
+                    <input type="radio" id="color-5" name="colorValue" value="#dea06e">
                     <label for="color-5">
       <span>
         <img src="./src/checked.png" alt="Checked Icon" />
@@ -107,8 +107,26 @@
                 </div>
 
                 <div >
-                    <input type="radio" id="color-6" name="colorValue" value="blue">
+                    <input type="radio" id="color-6" name="colorValue" value="#ff97e3">
                     <label for="color-6">
+      <span>
+        <img src="./src/checked.png" alt="Checked Icon" />
+      </span>
+                    </label>
+                </div>
+
+                <div >
+                    <input type="radio" id="color-7" name="colorValue" value="#656565">
+                    <label for="color-7">
+      <span>
+        <img src="./src/checked.png" alt="Checked Icon" />
+      </span>
+                    </label>
+                </div>
+
+                <div >
+                    <input type="radio" id="color-8" name="colorValue" value="#ffffff">
+                    <label for="color-8">
       <span>
         <img src="./src/checked.png" alt="Checked Icon" />
       </span>

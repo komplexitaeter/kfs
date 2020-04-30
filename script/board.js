@@ -1,5 +1,6 @@
 var fCanvas;
 
+
 function loadBoard(){
     setInterval(function(){
         refreshBoard(getSimulationId(),getSessionKey());
@@ -94,7 +95,7 @@ function displayWorkbench(workbench, current_round, simulation_id){
 
 deleteOutdatedItemsOnWorkbench("todo_column",workbench.todo_items);
 deleteOutdatedItemsOnWorkbench("done_column",workbench.done_items);
-deleteOutdatedItemsOnWorkbench("work_in_progress",workbench.current_item);
+deleteOutdatedItemsOnWorkbench("work_in_progress",[workbench.current_item]);
 
 
 /********Check if all the items in the workbench object are already here, if not, trigger creation*********/
@@ -185,7 +186,7 @@ function deleteOutdatedItemsOnWorkbench(divToCheck, itemsCurrentData){
         let idToCheck = itemToCheck.id.split('_').pop();
         let itemExists = 0;
         itemsCurrentData.forEach(obj => {
-            if(obj.item_id == idToCheck){
+            if(obj != null && obj.item_id == idToCheck){
                 itemExists = 1;
             }
         });
@@ -268,11 +269,41 @@ function createAreaOnWorkbench(area){
             toolsLabel.classList.add("station_label");
             toolsLabel.innerText = "Toolbox";
 
+            /*Generate color picker for the toolbox*/
+            /*
+            let form = document.createElement("form");
+            form.name="colorPicker";
+            form.id="colorPicker";
+            form.className = "custom-radios";
+            for(i=0;i<colorArray.length;i++){
+                let div = document.createElement("div");
+                let input = document.createElement("input");
+                let label = document.createElement("label");
+                let span = document.createElement("span");
+                let img = document.createElement("img");
+                input.type="radio";
+                input.id="color-"+(i+1);
+                input.name="colorValue";
+                input.value=colorArray[i].colorCode;
+                if(i==0){input.checked = true;}
+                label.for="color-"+(i+1);
+                img.src="./src/checked.png";
+                img.alt="Checked Icon";
+                span.appendChild(img);
+                label.appendChild(span);
+                div.appendChild(input);
+                div.appendChild(label);
+
+                form.appendChild(div);
+            }
+            */
+
             workbench.appendChild(workarea);
             workarea.appendChild(workinprogress);
             workinprogress.appendChild(workinprogressLabel);
             workarea.appendChild(tools);
             tools.appendChild(toolsLabel);
+            //document.getElementById("drawing-mode-options").appendChild(form);
             break;
 
         case "workbench_canvas":

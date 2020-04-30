@@ -1,6 +1,7 @@
 var workbenchGlobal;
 
 class Workbench {
+
     constructor() {
     }
     setContext(implParam, stationId) {
