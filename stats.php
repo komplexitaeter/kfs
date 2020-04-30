@@ -11,6 +11,7 @@
 
     <link rel="stylesheet" type="text/css" href="./stats.css">
 </head>
+
 <body onload="loadStats()">
 
 <button onclick="backToSimulationPressed()">Back to Simulation</button>

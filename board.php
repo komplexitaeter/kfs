@@ -40,16 +40,25 @@
 <div id="toolbox_default_draw" class="invisible_div">
     <div style="display: inline-block; margin-left: 10px" >
         <div id="drawing-mode-options">
-            <button id="clear-canvas" class="btn btn-info" onclick="clearDrawing(event);">Clear</button><br>
-            <label for="drawing-mode-selector">Mode:</label>
+            <button id="clear-canvas" class="tools_button" onclick="clearDrawing(event);">CLEAR</button>
+            <button id="cancel-action" class="tools_button" onclick="cancelLastAction(event);">UNDO</button>
+            <!--<label for="drawing-mode-selector">Mode:</label>
             <select id="drawing-mode-selector" onchange="changeDrawingBrush(event);">
                 <option>Pencil</option>
                 <option>Circle</option>
                 <option>Spray</option>
-            </select><br>
-
-            <label for="drawing-line-width">Line width:</label>
-            <span class="info">15</span><input type="range" value="15" min="0" max="150" id="drawing-line-width" onchange="changeDrawingLineWidth(event);"><br>
+            </select><br>-->
+            <br/>
+            <!--<label for="drawing-line-width">Line width:</label>
+            <span class="info">15</span>-->
+            <input class="slider" type="range" step="5" value="5" min="0" max="20" id="drawing-line-width" onchange="changeDrawingLineWidth(event);">
+            <div class="sliderticks">
+                <p id="p1"></p>
+                <p id="p2"></p>
+                <p id="p3"></p>
+                <p id="p4"></p>
+                <p id="p5"></p>
+            </div>
 
             <form name="colorPicker" id="colorPicker" class="custom-radios" onchange="changeDrawingColor(event);">
                 <div >
@@ -82,6 +91,24 @@
                 <div >
                     <input type="radio" id="color-4" name="colorValue" value="#e74c3c">
                     <label for="color-4">
+      <span>
+        <img src="./src/checked.png" alt="Checked Icon" />
+      </span>
+                    </label>
+                </div>
+
+                <div >
+                    <input type="radio" id="color-5" name="colorValue" value="black">
+                    <label for="color-5">
+      <span>
+        <img src="./src/checked.png" alt="Checked Icon" />
+      </span>
+                    </label>
+                </div>
+
+                <div >
+                    <input type="radio" id="color-6" name="colorValue" value="blue">
+                    <label for="color-6">
       <span>
         <img src="./src/checked.png" alt="Checked Icon" />
       </span>

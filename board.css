@@ -83,8 +83,8 @@ body{
 
 .control_button{
     outline:none;
-    width: 2.4em;
-    height: 2.5em;
+    width: 2.3em;
+    height: 2.3em;
     box-sizing: border-box;
     border:none;
     background-size: 100%;
@@ -128,6 +128,7 @@ body{
 
 #observers{
     padding:0.1em;
+    padding-top: 0.5em;
     grid-area: 4 / 1 / 5 / 2;
     background-color: aliceblue;
     position:relative;
@@ -327,6 +328,20 @@ body{
     position: absolute;
     z-index: 3;
     cursor: not-allowed;
+
+    opacity: 0.8;
+    background-size: 40%;
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-position-y: center;
+}
+
+.simulation_paused{
+    background-image: url("./src/stop_button_large.png");
+}
+
+.no_work_in_progress{
+    background-image: url("./src/p_button_large.png");
 }
 
 .work_in_progress .station_label, .tools .station_label{
@@ -354,6 +369,7 @@ body{
 }
 
 .tools{
+    display: flex;
     right: 2%;
     top: 37%;
     height: 60%;
@@ -443,6 +459,78 @@ body{
     visibility: visible;
 }
 
+.tools_button{
+    margin: 0.3em;
+    margin-top:1em;
+    ouline:none;
+    box-shadow: 1px 3px 3px #888888;
+    font-family: Komplexitater;
+    font-size: large;
+    border:none;
+    background-color: transparent;
+    background-image: url("./src/border_blue.png");
+    background-size: 100% 100%;
+}
+
+.slider{
+    width: 90%;
+}
+
+.sliderticks {
+    width:100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 10px;
+}
+
+.sliderticks p {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    background: black;
+    line-height: 20px;
+    margin: 0 0 20px 0;
+    border-radius: 50%;
+}
+
+#p1{
+    margin-top: 9px;
+    height: 2px;
+    width: 2px;
+}
+
+#p2{
+    margin-top: 7.5px;
+    height: 5px;
+    width: 5px;
+}
+
+#p3{
+    margin-top: 5px;
+    height: 10px;
+    width: 10px;
+}
+
+#p4{
+    margin-top: 2.5px;
+    height: 15px;
+    width: 15px;
+}
+
+#p5{
+    height: 20px;
+    width: 20px;
+}
+
+.custom-radios{
+    margin-top: 0.5em;
+}
+
+.custom-radios div{
+    float: left;
+}
+
 .custom-radios input[type="radio"] {
     display: none;
 }
@@ -492,6 +580,14 @@ body{
 
 #color-4 + label span {
     background-color: #e74c3c;
+}
+
+#color-5 + label span {
+    background-color: black;
+}
+
+#color-6 + label span {
+    background-color: blue;
 }
 
 .custom-radios :checked + label span img {

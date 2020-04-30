@@ -152,7 +152,7 @@ deleteOutdatedItemsOnWorkbench("work_in_progress",workbench.current_item);
         /* round is paused */
         document.getElementById("pull_button").disabled=true;
         document.getElementById("push_button").disabled=true;
-        workbenchGlobal.disableWorkbench();
+        workbenchGlobal.disableWorkbench('pause');
     }
     else{
         if((workbench.current_item != null )&&(hasToDo)){
@@ -163,12 +163,12 @@ deleteOutdatedItemsOnWorkbench("work_in_progress",workbench.current_item);
         if((workbench.current_item == null)&&(hasToDo)){
             document.getElementById("pull_button").disabled=false;
             document.getElementById("push_button").disabled=true;
-            workbenchGlobal.disableWorkbench();
+            workbenchGlobal.disableWorkbench('no_wip');
         }
         if((workbench.current_item == null)&&(!hasToDo)){
             document.getElementById("pull_button").disabled=true;
             document.getElementById("push_button").disabled=true;
-            workbenchGlobal.disableWorkbench();
+            workbenchGlobal.disableWorkbench('no_wip');
         }
         if((workbench.current_item != null)&&(!hasToDo)){
             document.getElementById("pull_button").disabled=true;
@@ -588,6 +588,12 @@ function clearDrawing() {
     });
 }
 
+function cancelLastAction(){
+    if(fCanvas.getObjects().length-1 > workbenchGlobal.objectsCountOrig) {
+        fCanvas.remove(fCanvas.getObjects()[fCanvas.getObjects().length - 1]);
+    }
+}
+
 function changeDrawingBrush(e) {
     fCanvas.freeDrawingBrush = new fabric[e.target.value + 'Brush'](fCanvas);
     fCanvas.freeDrawingBrush.color=document.getElementById("colorPicker").colorValue.value;
@@ -596,7 +602,7 @@ function changeDrawingBrush(e) {
 
 function changeDrawingLineWidth (e) {
     fCanvas.freeDrawingBrush.width = parseInt(e.target.value, 10) || 1;
-    e.target.previousSibling.innerHTML = e.target.value;
+    //e.target.previousSibling.innerHTML = e.target.value;
 }
 
 
