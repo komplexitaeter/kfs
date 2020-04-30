@@ -75,16 +75,22 @@ class DefaultDrawWorkbench extends Workbench {
                 fCanvas.renderAll();
             });
         }
-        else {
-            fCanvas.calcOffset();
-            fCanvas.renderAll();
-        }
 
         /*
         * remember the number of objects on canvas for a later check if
         * som work has been done
         * */
         this.objectsCount = fCanvas.getObjects().length;
+
+        /*
+         * workaround: fixes a scaling issue, when only one path was
+         * drawn in the first station
+         * */
+        if (this.objectsCount==1) {
+            let pxl = new fabric.Circle(0,'white',1,1);
+            fCanvas.add(pxl);
+            this.objectsCount++;
+        }
 
     }
 
