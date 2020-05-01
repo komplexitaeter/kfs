@@ -4,7 +4,7 @@ grid-area: start row / start column / end row / end column;
 
 @font-face {
     font-family: Komplexitater;
-    src: url('./src/komplexitater.ttf');
+    src: url('./src/Komplexitater.ttf');
 }
 
 * {
