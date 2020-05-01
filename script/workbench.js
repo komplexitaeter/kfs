@@ -85,6 +85,14 @@ class Workbench {
     start(item_svg){
     }
 
+    setHash(hash) {
+        this.hash = hash;
+    }
+
+    getHash() {
+        return this.hash;
+    }
+
 }
 
 function loadWorkbench(implName, implParam, stationId) {

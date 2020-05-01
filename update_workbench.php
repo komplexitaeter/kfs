@@ -1,11 +1,16 @@
 <?php
 require 'config.php';
 
+/* GET Parameters */
 $simulation_id = filter_input(INPUT_GET, 'simulation_id', FILTER_SANITIZE_NUMBER_INT);
 $action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_STRING);
 $session_key = filter_input(INPUT_GET, 'session_key', FILTER_SANITIZE_STRING);
 $thumbnail_svg = filter_input(INPUT_POST, 'thumbnail_svg');
+$svg_hash = filter_input(INPUT_GET, 'svg_hash', FILTER_SANITIZE_NUMBER_INT );
+
+/* POST Parameters */
 $item_svg = filter_input(INPUT_POST, 'item_svg');
+
 
 
 header('Content-Type: application/json');
@@ -173,13 +178,17 @@ if ($action=='finish') {
 
 /*  update the thumbnail of current workbench  */
 if ($action=='thumbnail_update') {
+
+    if ($svg_hash == null) $svg_hash = 0;
+
     if ($meta_data->thumbnail_cnt==0) {
-        $sql = "INSERT INTO kfs_workbench_tbl(simulation_id, station_id, workbench_svg) 
-                     VALUES (".$simulation_id.",".$meta_data->station_id.",'".$thumbnail_svg."')";
+        $sql = "INSERT INTO kfs_workbench_tbl(simulation_id, station_id, workbench_svg, svg_hash) 
+                     VALUES (".$simulation_id.",".$meta_data->station_id.",'".$thumbnail_svg."',".$svg_hash.")";
     }
     else {
         $sql = "UPDATE kfs_workbench_tbl 
                    SET workbench_svg = '".$thumbnail_svg."'
+                     , svg_hash = ".$svg_hash."
                  WHERE simulation_id=".$simulation_id."
                    AND station_id=".$meta_data->station_id;
     }

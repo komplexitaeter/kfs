@@ -388,22 +388,44 @@ function displayItems(items_list){
     });
 }
 
+function hashCode(str) {
+    let hash = 0;
+    if (str.length == 0) return hash;
+    let char;
+    for (let i = 0; i < str.length; i++) {
+        char = str.charCodeAt(i);
+        hash = ((hash << 5) - hash) + char;
+        hash = hash & hash; // Convert to 32bit integer
+    }
+    return hash;
+}
+
 function sendSVGForThumbnail(simulation_id, station_id){
-    let url = "update_workbench.php?"
-        +'simulation_id='+simulation_id
-        +'&session_key='+getSessionKey()
-        +'&action=thumbnail_update';
-    let request = new XMLHttpRequest();
-    request.open("POST", url, true);
-    request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    request.addEventListener('load', function (event) {
-        if (request.status >= 200 && request.status < 300) {
-            //console.log(request.responseText);
-        } else {
-            console.warn(request.statusText, request.responseText);
-        }
-    });
-    request.send('thumbnail_svg='+fCanvas.toSVG());
+    let svgCode = fCanvas.toSVG();
+    let svgHash = hashCode(svgCode);
+
+    if (workbenchGlobal.getHash() != svgHash) {
+
+        let url = "update_workbench.php?"
+            + 'simulation_id=' + simulation_id
+            + '&session_key=' + getSessionKey()
+            + '&svg_hash=' +svgHash
+            + '&action=thumbnail_update';
+
+        let request = new XMLHttpRequest();
+        request.open("POST", url, true);
+        request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        request.addEventListener('load', function (event) {
+            if (request.status >= 200 && request.status < 300) {
+                //console.log(request.responseText);
+            } else {
+                console.warn(request.statusText, request.responseText);
+            }
+        });
+        request.send('thumbnail_svg=' + svgCode);
+
+        workbenchGlobal.setHash(svgHash);
+    }
 }
 
 
@@ -462,7 +484,7 @@ function displayStations(stations, simulation_id){
             recreateStations=true;
         }
         else{
-            renderSVG(obj.station_id, simulation_id)
+            updateThumbnail(obj.station_id, simulation_id, obj.svg_hash);
         }
     });
     if(recreateStations){
@@ -691,8 +713,9 @@ function resizeCanvas(){
 }
 
 
-function renderSVG(station_id, simulation_id){
+function updateThumbnail(station_id, simulation_id, svg_hash) {
 
+    /*
     let url = "get_thumbnail.php?"
         +"simulation_id="+simulation_id
         +"&station_id="+station_id;
@@ -715,4 +738,17 @@ function renderSVG(station_id, simulation_id){
     });
 
     request.send();
+     */
+
+    let url = "get_thumbnail.php?"
+        +"simulation_id="+simulation_id
+        +"&station_id="+station_id
+        +"&svg_hash="+svg_hash;
+
+    let e = Array.from(document.getElementById(station_id).getElementsByClassName("station_thumbnail"));
+    e.forEach( obj => {
+        if (!obj.src.includes(url)) {
+            obj.src=url;
+        }
+    });
 }

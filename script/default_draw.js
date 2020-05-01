@@ -114,7 +114,6 @@ class DefaultDrawWorkbench extends Workbench {
             p.id = "instruction";
             let color = this.colorArray[Math.floor(Math.random()*7)];
             let text = this.implParam.instruction.replace("[COLOR]","<b style='color:"+color.colorCode+";'>"+color.colorName+"</b>");
-            console.log(text);
             p.innerHTML = text;
             document.getElementById("workbench_" + this.itemId).appendChild(p);
         }

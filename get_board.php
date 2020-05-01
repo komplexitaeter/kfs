@@ -64,7 +64,14 @@ else{
 }
 
 /* query all working station for this simulation */
-$sql = "SELECT confs.* FROM kfs_simulation_tbl as sims, kfs_station_conf_tbl as confs WHERE sims.simulation_id='".$simulation_id."' AND confs.configuration_name = sims.configuration_name ORDER BY confs.station_pos";
+$sql = "SELECT confs.*
+              ,w.svg_hash
+         FROM kfs_simulation_tbl as sims
+         join kfs_station_conf_tbl as confs on confs.configuration_name = sims.configuration_name
+         left outer join kfs_workbench_tbl w on w.station_id = confs.station_id and w.simulation_id = sims.simulation_id
+        WHERE sims.simulation_id=$simulation_id
+        ORDER BY confs.station_pos";
+
 $stations= array();
 
 if ($result = $link->query($sql)) {
