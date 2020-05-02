@@ -27,10 +27,10 @@ class Workbench {
         return this.itemId;
     }
 
-    setCurrentItem(item_id, item_svg){
+    setCurrentItem(item_id){
         if(this.itemId != item_id){
             this.itemId = item_id;
-            this.start(item_svg);
+            this.start();
         }
     }
 
@@ -82,7 +82,7 @@ class Workbench {
         this.itemId = null;
     }
 
-    start(item_svg){
+    start(){
     }
 
     setHash(hash) {

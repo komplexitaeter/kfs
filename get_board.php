@@ -1,6 +1,6 @@
 <?php
-$simulation_id = filter_input(INPUT_GET, 'simulation_id');
-$session_key = filter_input(INPUT_GET, 'session_key');
+$simulation_id = filter_input(INPUT_GET, 'simulation_id', FILTER_SANITIZE_NUMBER_INT);
+$session_key = filter_input(INPUT_GET, 'session_key', FILTER_SANITIZE_STRING);
 
 header('Content-Type: application/json');
 header ("Pragma-directive: no-cache");
@@ -48,7 +48,12 @@ if(!$result = $link->query($sql))
 }
 
 /* query all simulations attendees */
-$sql = "SELECT tbl.*, TIMESTAMPDIFF( SECOND, tbl.last_callback_date, CURRENT_TIMESTAMP) as timeout FROM kfs_attendees_tbl as tbl WHERE simulation_id=".$simulation_id;
+$sql = "SELECT tbl.attendee_id
+             , tbl.session_key
+             , tbl.name
+             , tbl.station_id
+             , tbl.avatar_code
+             , TIMESTAMPDIFF( SECOND, tbl.last_callback_date, CURRENT_TIMESTAMP) as timeout FROM kfs_attendees_tbl as tbl WHERE simulation_id=".$simulation_id;
 $objs= array();
 
 if ($result = $link->query($sql)) {
@@ -64,27 +69,29 @@ else{
 }
 
 /* query all working station for this simulation */
-$sql = "SELECT confs.*
-              ,w.svg_hash
-         FROM kfs_simulation_tbl as sims
-         join kfs_station_conf_tbl as confs on confs.configuration_name = sims.configuration_name
-         left outer join kfs_workbench_tbl w on w.station_id = confs.station_id and w.simulation_id = sims.simulation_id
-        WHERE sims.simulation_id=$simulation_id
-        ORDER BY confs.station_pos";
+$sql = "SELECT confs.station_id
+          ,confs.station_name
+          ,confs.station_pos
+          ,w.svg_hash
+     FROM kfs_simulation_tbl as sims
+     join kfs_station_conf_tbl as confs on confs.configuration_name = sims.configuration_name
+     left outer join kfs_workbench_tbl w on w.station_id = confs.station_id and w.simulation_id = sims.simulation_id
+    WHERE sims.simulation_id=$simulation_id
+    ORDER BY confs.station_pos";
 
-$stations= array();
+$stations = array();
 
 if ($result = $link->query($sql)) {
-    while(  $obj = $result->fetch_object()) {
+    while ($obj = $result->fetch_object()) {
         array_push($stations, $obj);
     }
-}
-else{
+} else {
     if ($link->connect_errno) {
         printf("\n Fail: %s\n", $link->connect_error);
         exit();
     }
 }
+
 
 /* query current round for this simulation, if exists */
 $sql = "SELECT round.*, COALESCE(cumulative_time_s, 0) + TIMESTAMPDIFF( SECOND, round.last_start_time, COALESCE(round.last_stop_time, CURRENT_TIMESTAMP)) as total_time_s  FROM kfs_simulation_tbl as sims, kfs_rounds_tbl as round WHERE sims.simulation_id='".$simulation_id."' AND round.round_id = sims.current_round_id";
@@ -190,7 +197,7 @@ if ($meta_data != null) {
     }
 
     /* query the current item */
-    $sql = 'SELECT item_id, order_number, price, item_svg FROM kfs_items_tbl WHERE current_station_id='.$meta_data->station_id.' and is_in_progress = true and round_id='.$meta_data->current_round_id.' ORDER BY prio';;
+    $sql = 'SELECT item_id, order_number, price FROM kfs_items_tbl WHERE current_station_id='.$meta_data->station_id.' and is_in_progress = true and round_id='.$meta_data->current_round_id.' ORDER BY prio';;
    //error_log($sql);
     if ($result = $link->query($sql)) {
         if(  $obj = $result->fetch_object()) {

@@ -50,8 +50,6 @@ class DefaultDrawWorkbench extends Workbench {
                 opacity: 0.6
             });
 
-
-
             fCanvas.add(that.paths);
             fCanvas.calcOffset();
             fCanvas.renderAll();
@@ -62,47 +60,48 @@ class DefaultDrawWorkbench extends Workbench {
 
     }
 
-    start(svg_code) {
-        super.start(svg_code);
+    start() {
+        super.start();
 
-        if(svg_code) {
-            var that = this;
-            fabric.loadSVGFromString(svg_code, function (objects, options) {
+        let that = this;
+        fabric.loadSVGFromURL('./get_item_svg.php?item_id='+this.itemId, function (objects, options) {
 
-                that.item = fabric.util.groupSVGElements(objects, options);
+            that.item = fabric.util.groupSVGElements(objects, options);
 
-                let scale = fCanvas.height / options.height;
+            let scale = fCanvas.height / options.height;
 
 
-                that.item.set({
-                    top: (fCanvas.height- scale*that.item.height)/2,
-                    left: (fCanvas.width- scale*that.item.width)/2,
-                    scaleY: scale,
-                    scaleX: scale
-                });
-
-                fCanvas.add(that.item);
-
-                fCanvas.calcOffset();
-                fCanvas.renderAll();
+            that.item.set({
+                top: (fCanvas.height- scale*that.item.height)/2,
+                left: (fCanvas.width- scale*that.item.width)/2,
+                scaleY: scale,
+                scaleX: scale
             });
-        }
 
-        /*
-        * remember the number of objects on canvas for a later check if
-        * som work has been done
-        * */
-        this.objectsCountOrig = fCanvas.getObjects().length;
+            fCanvas.add(that.item);
 
-        /*
-         * workaround: fixes a scaling issue, when only one path was
-         * drawn in the first station
-         * */
-        if (this.objectsCountOrig==1) {
-            let pxl = new fabric.Circle(0,'white',1,1);
-            fCanvas.add(pxl);
-            this.objectsCountOrig++;
-        }
+            /*
+            * remember the number of objects on canvas for a later check if
+            * som work has been done
+            * */
+            that.objectsCountOrig = fCanvas.getObjects().length;
+
+            /*
+             * workaround: fixes a scaling issue, when only two path was
+             * drawn in the first station
+             * 1 = Background
+             * 2 = item_svg (even if it is empty)
+             * */
+
+            if (that.objectsCountOrig<=2) {
+                let pxl = new fabric.Circle(0,'white',1,1);
+                fCanvas.add(pxl);
+                that.objectsCountOrig = fCanvas.getObjects().length;
+            }
+
+            fCanvas.calcOffset();
+            fCanvas.renderAll();
+        });
 
 
         /*

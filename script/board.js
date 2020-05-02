@@ -9,7 +9,12 @@ function loadBoard(){
 
 function refreshBoard(simulation_id, session_key){
 
-    const url ='./get_board.php?simulation_id='+simulation_id+'&session_key='+session_key;
+    let firstload = false;
+    if (document.body.style.visibility != 'visible') firstload = true;
+
+
+    let url ='./get_board.php?simulation_id='+simulation_id+'&session_key='+session_key;
+
     fetch(url)
         .then((response) => {
             return response.json();
@@ -37,7 +42,7 @@ function refreshBoard(simulation_id, session_key){
                 default:
                 //alert("Undefined status_code - this is an error. Sorry.");
             }
-            document.body.style.visibility = 'visible';
+            if (firstload) document.body.style.visibility = 'visible';
         });
 }
 
@@ -136,7 +141,7 @@ deleteOutdatedItemsOnWorkbench("work_in_progress",[workbench.current_item]);
             ,workbench.meta_data.station_id);
         sendSVGForThumbnail(simulation_id, workbench.meta_data.station_id);
         if(workbench.current_item != null){
-            workbenchGlobal.setCurrentItem(workbench.current_item.item_id, workbench.current_item.item_svg);
+            workbenchGlobal.setCurrentItem(workbench.current_item.item_id);
         }
         else{
             workbenchGlobal.unsetItem();
@@ -642,7 +647,7 @@ function clearDrawing() {
 }
 
 function cancelLastAction(){
-    if(fCanvas.getObjects().length-1 > workbenchGlobal.objectsCountOrig) {
+    if(fCanvas.getObjects().length > workbenchGlobal.objectsCountOrig) {
         fCanvas.remove(fCanvas.getObjects()[fCanvas.getObjects().length - 1]);
     }
 }
@@ -714,31 +719,6 @@ function resizeCanvas(){
 
 
 function updateThumbnail(station_id, simulation_id, svg_hash) {
-
-    /*
-    let url = "get_thumbnail.php?"
-        +"simulation_id="+simulation_id
-        +"&station_id="+station_id;
-
-    var request = new XMLHttpRequest();
-    request.open("GET", url, true); //get_thumbnail simulation id and station id
-    request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-
-    request.addEventListener('load', function (event) {
-        if (request.status >= 200 && request.status < 300) {
-            //console.log(request.responseText);
-            let e = Array.from(document.getElementById(station_id).getElementsByClassName("station_thumbnail"));
-            e.forEach( obj => {
-                obj.src=url;
-            });
-
-        } else {
-            console.warn(request.statusText, request.responseText);
-        }
-    });
-
-    request.send();
-     */
 
     let url = "get_thumbnail.php?"
         +"simulation_id="+simulation_id
