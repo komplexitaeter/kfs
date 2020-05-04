@@ -20,7 +20,7 @@ class DefaultDrawWorkbench extends Workbench {
         var that = this;
         fCanvas.isDrawingMode = true;
         fCanvas.freeDrawingCursor = "crosshair";
-        let drawingLineWidthEl = document.getElementById('drawing-line-width');
+        let drawingLineWidthEl = document.getElementById('width-5');
         let drawingColorEl = document.getElementById("color-1");
         fCanvas.freeDrawingBrush.color = drawingColorEl.value;
         fCanvas.freeDrawingBrush.width = parseInt(drawingLineWidthEl.value, 10) || 1;
@@ -111,7 +111,7 @@ class DefaultDrawWorkbench extends Workbench {
         if(p == null) {
             p = document.createElement("p");
             p.id = "instruction";
-            let color = this.colorArray[Math.floor(Math.random()*7)];
+            let color = this.colorArray[Math.floor(Math.random()*7)]; //ignore index "8" because it's white and hence invisible
             let text = this.implParam.instruction.replace("[COLOR]","<b style='color:"+color.colorCode+";'>"+color.colorName+"</b>");
             p.innerHTML = text;
             document.getElementById("workbench_" + this.itemId).appendChild(p);
