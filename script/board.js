@@ -217,7 +217,7 @@ function createItemsOnWorkbench(itemsToCreate, targetDivId) {
             let div = document.createElement("div");
             div.id = "workbench_" + item.item_id;
             div.classList.add("item");
-            div.innerText = "#" + item.order_number + " | " + item.price + " €";
+            div.innerText = "#" + item.order_number + " | " + item.price + "€";
             document.getElementById(targetDivId).appendChild(div);
         });
     }
@@ -380,9 +380,12 @@ function displayItems(items_list){
     let itemDivIdArray = []; /*only for items not in progress*/
     items_list.forEach( obj => {
        let currentItemDivId = obj.round_id+'_'+obj.item_id;
-       if(obj.is_in_progress == 0){
-           itemDivIdArray.push(currentItemDivId);
-       }
+
+       /* remember all items that should not be removed by
+         "garbage collector" later
+        */
+       itemDivIdArray.push(currentItemDivId);
+
         /*go through each item in the round and check if element exists*/
         if(document.getElementById(currentItemDivId) != null){
             updateItemDiv(obj, currentItemDivId);
@@ -527,14 +530,21 @@ function displayStations(stations, simulation_id){
 }
 
 function updateItemDiv(obj, currentItemDivId){
-    document.getElementById(currentItemDivId).innerText = "#"+obj.order_number+" | "+sec2time(obj.cycle_time_s)+" | "+obj.price+" €";
+    let item = document.getElementById(currentItemDivId);
+    item.innerText = "#"+obj.order_number+" | "+sec2time(obj.cycle_time_s)+" | "+obj.price+"€";
+    if (obj.wip == '0') {
+        item.classList.remove('wip_item');
+    }
+    else {
+        item.classList.add('wip_item');
+    }
 }
 
 function createItemDiv(obj, currentItemDivId){
     let div = document.createElement("div");
     div.id = currentItemDivId;
     div.classList.add("item");
-    div.innerText = "#"+obj.order_number+" | "+obj.price+" €";
+    div.innerText = "#"+obj.order_number+" | "+obj.price+"€";
     if(obj.current_station_id == null){obj.current_station_id = "backlog";}
     document.getElementById(obj.current_station_id).appendChild(div);
 }

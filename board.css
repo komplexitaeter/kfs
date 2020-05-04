@@ -47,6 +47,10 @@ body{
     background-repeat: no-repeat;
 }
 
+.station .wip_item {
+    color: deeppink;
+}
+
 
 
 
