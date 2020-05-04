@@ -47,9 +47,11 @@ if(isset($_GET['name'])){
     }
 }
 
+$reset_thumbnail = false;
 if(isset($_GET['station_id'])){
     $station_id = filter_input(INPUT_GET, 'station_id');
     if (strlen($station_id)>0) {
+        $reset_thumbnail = true;
         array_push($sql_set, "station_id = '".$station_id."'");
     }
     else {
@@ -60,6 +62,20 @@ if(isset($_GET['station_id'])){
 if(count($sql_set)==0){
     $link->close();
     exit(0);
+}
+
+if ($reset_thumbnail) {
+    $sql_t =   "update kfs_workbench_tbl w
+                     set w.svg_hash = null
+                       ,w.workbench_svg = null
+                    where w.simulation_id = 11
+                        and w.station_id = (
+                        select a.station_id
+                        from kfs_attendees_tbl a
+                        where a.simulation_id = $simulation_id
+                        and a.session_key = '$session_key'
+                        )";
+    $link->query($sql_t);
 }
 
 $sql_update = '';

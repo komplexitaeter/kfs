@@ -10,6 +10,8 @@ header("Expires: 0");
 
 $simulation_id = filter_input(INPUT_GET, 'simulation_id', FILTER_SANITIZE_NUMBER_INT);
 $station_id = filter_input(INPUT_GET, 'station_id', FILTER_SANITIZE_NUMBER_INT);
+$svg_hash = filter_input(INPUT_GET, 'svg_hash', FILTER_SANITIZE_NUMBER_INT );
+
 
 function exit_with_status($status_code) {
     if ($status_code!=null) error_log($status_code);
@@ -19,7 +21,9 @@ function exit_with_status($status_code) {
 }
 
 if ($simulation_id==null) exit_with_status('NO_SIMULATION_ID_SET');
-if ($simulation_id==null) exit_with_status('NO_STATION_ID_SET');
+if ($station_id==null) exit_with_status('NO_STATION_ID_SET');
+if ($svg_hash==null) exit_with_status('NO_SVG_HASH_SET');
+
 
 
 $link = mysqli_init();
@@ -36,6 +40,7 @@ $sql = "SELECT w.workbench_svg
           FROM kfs_workbench_tbl w
          WHERE w.station_id =$station_id
            AND w.simulation_id = $simulation_id
+           and w.svg_hash = $svg_hash
            AND (select count(1) 
                   from kfs_attendees_tbl a
                  where a.simulation_id = w.simulation_id

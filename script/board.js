@@ -499,7 +499,12 @@ function displayStations(stations, simulation_id){
             recreateStations=true;
         }
         else{
-            updateThumbnail(obj.station_id, simulation_id, obj.svg_hash);
+            if (obj.workers_cnt == '0') {
+                updateThumbnail(obj.station_id, -1, '');
+            }
+            else {
+                updateThumbnail(obj.station_id, simulation_id, obj.svg_hash);
+            }
         }
     });
     if(recreateStations){
@@ -724,7 +729,6 @@ function drop(ev) {
     var data = ev.dataTransfer.getData("text");
     document.getElementById("image_"+data).remove();
     updateAttendeeStation(data, ev.target.parentElement.id, getSimulationId());
-
 }
 
 function resizeCanvas(){

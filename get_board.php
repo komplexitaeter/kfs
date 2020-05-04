@@ -93,6 +93,10 @@ $sql = "SELECT confs.station_id
           ,confs.station_name
           ,confs.station_pos
           ,w.svg_hash
+          ,(select count(1) 
+              from kfs_attendees_tbl as t
+             where t.simulation_id = sims.simulation_id
+              and t.station_id = confs.station_id) workers_cnt
      FROM kfs_simulation_tbl as sims
      join kfs_station_conf_tbl as confs on confs.configuration_name = sims.configuration_name
      left outer join kfs_workbench_tbl w on w.station_id = confs.station_id and w.simulation_id = sims.simulation_id
