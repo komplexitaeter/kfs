@@ -28,6 +28,7 @@ function refreshBoard(simulation_id, session_key){
                     displayControls(myJson.current_round);
                     displayItems(myJson.items_list);
                     displayWorkbench(myJson.workbench, myJson.current_round, simulation_id);
+                    autoPullItem(myJson.workbench);
                     break;
                 case "NO_SIMULATION":
                     // alert("The required simulation ID does not exit. You will be taken to the home page.");
@@ -182,6 +183,15 @@ deleteOutdatedItemsOnWorkbench("work_in_progress",[workbench.current_item]);
             workbenchGlobal.enableWorkbench();
         }
     }
+
+    let auto_pull = document.getElementById('auto_pull');
+    if (current_round.auto_pull == 1 && auto_pull.checked != true) {
+        auto_pull.checked = true;
+    }
+    else if (current_round.auto_pull == 0 && auto_pull.checked != false) {
+        auto_pull.checked = false;
+    }
+
 
 }
 
@@ -630,6 +640,17 @@ function updateAttendeeStation(session_key, station_id, simulation_id){
     }
 }
 
+function autoPullItem(workbench) {
+   // alert('X='+doAutoPull);
+ if (workbench.do_auto_pull=='1' && workbench.current_item==null) {
+     url = "./update_workbench.php"
+         + "?action=start"
+         + "&simulation_id=" + getSimulationId()
+         + "&session_key=" + getSessionKey();
+     fetch(url);
+ }
+}
+
 /******Toolbox for the default_draw implementation**********/
 
 function changeDrawingColor(e) {
@@ -683,6 +704,12 @@ function pressStats(){
     const url = './update_simulation.php?simulation_id='+getSimulationId()+'&status_code=STATS';
     fetch(url);
 }
+
+function pressAutoPull() {
+    const url = './update_current_round.php?simulation_id=' + getSimulationId() + '&action=toggle_auto_pull';
+    fetch(url);
+}
+
 
 function allowDrop(ev) {
     ev.preventDefault();

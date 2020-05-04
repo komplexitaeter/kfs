@@ -89,7 +89,7 @@ else{
     exit_with_status('INTERNAL_ERROR_001');
 }
 
-/* to some more checks based on the meta data */
+/* do some more checks based on the meta data */
 if ($meta_data->station_id == null) exit_with_status('ATTENDEE_IS_OBSERVER');
 if ($action!='thumbnail_update') {
     if ($meta_data->current_round_id == null) exit_with_status('NO_CURRENT_ROUND');

@@ -1,4 +1,7 @@
 <?php
+require 'config.php';
+require 'items_lib.php';
+
 $simulation_id = filter_input(INPUT_GET, 'simulation_id', FILTER_SANITIZE_NUMBER_INT);
 $session_key = filter_input(INPUT_GET, 'session_key', FILTER_SANITIZE_STRING);
 
@@ -8,7 +11,6 @@ header ("Cache-directive: no-cache");
 header ("Cache-control: no-cache");
 header ("Pragma: no-cache");
 header ("Expires: 0");
-require 'config.php';
 
 $link = mysqli_init();
 $success = mysqli_real_connect(
@@ -21,10 +23,27 @@ $success = mysqli_real_connect(
 );
 
 /*verify status of the current simulation*/
-$sql = "SELECT status_code FROM kfs_simulation_tbl WHERE simulation_id=".$simulation_id;
+$sql = "SELECT s.status_code 
+              ,case  when s.status_code = 'RUNNING'
+                      and r.last_start_time is not null
+                      and r.last_stop_time is null
+                      and r.auto_pull
+               then 1 end as auto_pull
+         FROM kfs_simulation_tbl  as s
+    LEFT OUTER JOIN kfs_rounds_tbl as r 
+       ON r.round_id = s.current_round_id
+        WHERE s.simulation_id=$simulation_id";
+
 if ($result = $link->query($sql)) {
     if($obj = $result->fetch_object()) {
         $status_code = $obj->status_code;
+        if ($obj->auto_pull === '1') {
+            $do_auto_pull = '1';
+        }
+        else {
+            $do_auto_pull = '0';
+        }
+
     }
     else{
         $status_code = "NO_SIMULATION";
@@ -36,6 +55,7 @@ else {
         exit();
     }
 }
+
 
 /*identify attendees that may have a tech issue and not be able to participate anymore*/
 $sql="UPDATE kfs_attendees_tbl SET last_callback_date = CURRENT_TIMESTAMP WHERE simulation_id=".$simulation_id." AND session_key ='".$session_key."'";
@@ -235,7 +255,8 @@ if ($meta_data != null) {
 $workbench = array("meta_data"=>$meta_data
                   ,"todo_items"=>$todo_items
                   ,"current_item"=>$current_item
-                  ,"done_items"=>$done_items);
+                  ,"done_items"=>$done_items
+                  ,"do_auto_pull"=>$do_auto_pull);
 
 $myJSON_array = array("status_code"=>$status_code
                     , "attendees"=>$objs
