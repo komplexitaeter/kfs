@@ -673,12 +673,6 @@ function cancelLastAction(){
     }
 }
 
-function changeDrawingBrush(e) {
-    fCanvas.freeDrawingBrush = new fabric[e.target.value + 'Brush'](fCanvas);
-    fCanvas.freeDrawingBrush.color=document.getElementById("colorPicker").colorValue.value;
-    fCanvas.freeDrawingBrush.width=parseInt(document.getElementById('drawing-line-width').value, 10);
-}
-
 function changeDrawingLineWidth (e) {
     fCanvas.freeDrawingBrush.width = parseInt(e.target.value, 10) || 1;
     //e.target.previousSibling.innerHTML = e.target.value;
