@@ -89,25 +89,17 @@ else{
 }
 
 /* query all working station for this simulation */
-$sql = "SELECT confs.station_id
-          ,confs.station_name
-          ,confs.station_pos
-          ,w.svg_hash
-          ,(select count(1) 
-              from kfs_attendees_tbl as t
-             where t.simulation_id = sims.simulation_id
-              and t.station_id = confs.station_id) workers_cnt
-     FROM kfs_simulation_tbl as sims
-     join kfs_station_conf_tbl as confs on confs.configuration_name = sims.configuration_name
-     left outer join kfs_workbench_tbl w on w.station_id = confs.station_id and w.simulation_id = sims.simulation_id
-    WHERE sims.simulation_id=$simulation_id
-    ORDER BY confs.station_pos";
+$sql = get_stations_status_sql($simulation_id);
 
 $stations = array();
+$meta_data = null;
 
 if ($result = $link->query($sql)) {
     while ($obj = $result->fetch_object()) {
         array_push($stations, $obj);
+        if ($obj->session_key == $session_key) {
+            $meta_data = $obj;
+        }
     }
 } else {
     if ($link->connect_errno) {
@@ -166,38 +158,10 @@ else{
  *
  */
 $workbench = null;
-$meta_data = null;
 $todo_items = array();
 $current_item = null;
 $done_items = array();
 
-$sql = 'select kat.station_id';
-$sql.= '      ,(select station_pos from kfs_station_conf_tbl sco where sco.station_id = kat.station_id) as station_pos';
-$sql.= '      ,(select implementation_class from kfs_station_conf_tbl sco where sco.station_id = kat.station_id) as implementation_class';
-$sql.= '      ,(select params_json from kfs_station_conf_tbl sco where sco.station_id = kat.station_id) as params_json';
-$sql.= '      ,(select count(1) from kfs_station_conf_tbl sco where sco.configuration_name = sim.configuration_name) as station_count';
-$sql.= '      ,sim.current_round_id';
-$sql.= '      ,(select nsco.station_id';
-$sql.= '          from kfs_station_conf_tbl sco';
-$sql.= '              ,kfs_station_conf_tbl nsco';
-$sql.= '         where sco.station_id = kat.station_id';
-$sql.= '           and nsco.configuration_name = sco.configuration_name';
-$sql.= '           and nsco.station_pos = sco.station_pos + 1) as next_station_id';
-$sql.= '  from kfs_simulation_tbl sim';
-$sql.= '  join kfs_attendees_tbl kat on sim.simulation_id = kat.simulation_id';
-$sql.= ' where sim.simulation_id = '. $simulation_id;
-$sql.= "   and kat.session_key = '". $session_key . "'";
-if ($result = $link->query($sql)) {
-    if(  $obj = $result->fetch_object()) {
-        $meta_data = $obj;
-    }
-}
-else{
-    if ($link->connect_errno) {
-        printf("\n Fail: %s\n", $link->connect_error);
-        exit();
-    }
-}
 
 if ($meta_data != null) {
     /* query to-to items from Backlog or from previous station? */
