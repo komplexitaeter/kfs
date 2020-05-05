@@ -34,6 +34,26 @@ function get_stations_status_sql($simulation_id) {
            end
           else 'unattended'
        end as locked_div
+      ,case when !is_attended
+              or is_paused
+              or current_items_cnt>0
+              or (not auto_pull and wip_next_station_cnt>0)
+              or todo_items_cnt = 0
+            then 'inactive'
+            else 'active'
+       end as pull
+      ,case when !is_attended
+              or is_paused
+            then 'inactive'
+            when current_items_cnt = 0
+             and not auto_pull
+             and wip_next_station_cnt>0
+            then 'glass_hour'
+            when current_items_cnt > 0
+            then 'active'
+            else 'inactive'
+             end as push
+      ,auto_pull
       ,svg_hash
       ,session_key
       ,current_round_id
@@ -65,6 +85,7 @@ select sc.station_id
         from kfs_items_tbl i
         where i.round_id = krt.round_id
           and i.current_station_id = pos_s.station_id
+          and i.is_in_progress = false
         ) as wip_next_station_cnt
       ,krt.auto_pull
       ,w.svg_hash

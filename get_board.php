@@ -1,6 +1,6 @@
 <?php
 require 'config.php';
-require 'items_lib.php';
+require 'sql_lib.php';
 
 $simulation_id = filter_input(INPUT_GET, 'simulation_id', FILTER_SANITIZE_NUMBER_INT);
 $session_key = filter_input(INPUT_GET, 'session_key', FILTER_SANITIZE_STRING);
@@ -185,7 +185,21 @@ if ($meta_data != null) {
     }
 
     /* query the current item */
-    $sql = 'SELECT item_id, order_number, price FROM kfs_items_tbl WHERE current_station_id='.$meta_data->station_id.' and is_in_progress = true and round_id='.$meta_data->current_round_id.' ORDER BY prio';;
+    $sql = "SELECT i.item_id
+                 , i.order_number
+                 , i.price 
+              FROM kfs_items_tbl i
+              join kfs_rounds_tbl r on r.round_id = i.round_id
+             WHERE ((i.current_station_id=$meta_data->station_id
+                 and i.is_in_progress = true)
+                   or 
+                   ((not r.auto_pull)
+                    and i.current_station_id=$meta_data->next_station_id
+                    and  i.is_in_progress = false 
+                    ))
+               and i.round_id=$meta_data->current_round_id 
+             ORDER BY i.prio DESC";
+
    //error_log($sql);
     if ($result = $link->query($sql)) {
         if(  $obj = $result->fetch_object()) {
@@ -200,22 +214,23 @@ if ($meta_data != null) {
     }
 
     /* query done items from Done column or from next station? */
-    if ($meta_data->station_pos==$meta_data->station_count) {
-        /* query all items from backlog */
-        $sql = 'SELECT item_id, order_number, price FROM kfs_items_tbl WHERE current_station_id is null and end_time is not null and round_id='.$meta_data->current_round_id.' ORDER BY prio';
-    }
-    else {
-        $sql = 'SELECT item_id, order_number, price FROM kfs_items_tbl WHERE current_station_id='.$meta_data->next_station_id.' and is_in_progress=false and round_id='.$meta_data->current_round_id.' ORDER BY prio';
-    }
-    if ($result = $link->query($sql)) {
-        while(  $obj = $result->fetch_object()) {
-            array_push($done_items, $obj);
+
+    if ($meta_data->auto_pull=='1') {
+        if ($meta_data->station_pos == $meta_data->station_count) {
+            /* query all items from backlog */
+            $sql = 'SELECT item_id, order_number, price FROM kfs_items_tbl WHERE current_station_id is null and end_time is not null and round_id=' . $meta_data->current_round_id . ' ORDER BY prio';
+        } else {
+            $sql = 'SELECT item_id, order_number, price FROM kfs_items_tbl WHERE current_station_id=' . $meta_data->next_station_id . ' and is_in_progress=false and round_id=' . $meta_data->current_round_id . ' ORDER BY prio';
         }
-    }
-    else{
-        if ($link->connect_errno) {
-            printf("\n Fail: %s\n", $link->connect_error);
-            exit();
+        if ($result = $link->query($sql)) {
+            while ($obj = $result->fetch_object()) {
+                array_push($done_items, $obj);
+            }
+        } else {
+            if ($link->connect_errno) {
+                printf("\n Fail: %s\n", $link->connect_error);
+                exit();
+            }
         }
     }
 }

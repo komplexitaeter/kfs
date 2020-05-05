@@ -1,6 +1,6 @@
 <?php
 require 'config.php';
-require 'items_lib.php';
+require 'sql_lib.php';
 
 $simulation_id = filter_input(INPUT_GET, 'simulation_id');
 
