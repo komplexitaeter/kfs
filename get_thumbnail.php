@@ -14,7 +14,6 @@ $svg_hash = filter_input(INPUT_GET, 'svg_hash', FILTER_SANITIZE_NUMBER_INT );
 
 
 function exit_with_status($status_code) {
-    if ($status_code!=null) error_log($status_code);
     $empty_svg='<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1 1" width="1" height="1" id="starter_svg"></svg>';
     echo($empty_svg);
     exit(0);

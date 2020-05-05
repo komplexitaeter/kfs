@@ -7,6 +7,12 @@ body {
     text-align: center;
 }
 
+#back_btn {
+    position: absolute;
+    top: 1em;
+    left: 1em;
+}
+
 table {
     margin: auto;
 }
@@ -18,3 +24,9 @@ th {
 td {
     text-align: right;
 }
+
+.frame {
+    display: inline-block;
+    margin: 3%;
+}
+
