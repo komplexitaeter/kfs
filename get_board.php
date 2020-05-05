@@ -226,7 +226,7 @@ if ($meta_data != null) {
                  and i.is_in_progress = true)
                    or 
                    ((not r.auto_pull)
-                    and i.current_station_id=$meta_data->next_station_id
+                    and i.current_station_id='$meta_data->next_station_id'
                     and  i.is_in_progress = false 
                     ))
                and i.round_id=$meta_data->current_round_id 
