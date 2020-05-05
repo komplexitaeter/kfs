@@ -19,15 +19,30 @@
 <div id="backlog">
     <div class="station_label">Backlog</div>
 </div>
+
 <div id="controls">
     <button id="play" class="control_button button_play" onclick="pressPlay()">&nbsp;</button>
     <button id="pause" class="control_button button_pause" onclick="pressPause()">&nbsp;</button>
     <button id="reset" class="control_button button_reset" onclick="pressReset()">&nbsp;</button>
     <button id="stats" class="control_button button_stats" onclick="pressStats()">&nbsp;</button>
     <div id="clock" class="clock_display">&nbsp;</div>
-    <input type="checkbox" id="auto_pull" name="auto_pull" onclick="pressAutoPull()" />
-    <label for="auto_pull">Push Mode</label>
+
+    <div class="control_toggle_push_container">
+        <div>
+            <label for="auto_pull" class="toggle_left">Pull</label>
+            <label for="auto_pull" class="toggle_right">Push</label>
+
+            <span class="containing_span" onclick="pressAutoPull()">
+                <input type="checkbox" class="control_toggle_push" id="auto_pull" name="auto_pull"  />
+                <span class="contained_span" onclick="">
+                </span>
+            </span>
+        </div>
+    </div>
+
+
 </div>
+
 <div id="observers">
     <div class="drop_target"  ondrop="drop(event)" ondragover="allowDrop(event)"></div>
 </div>
@@ -47,7 +62,7 @@
             <br/>
             <form name="widthPicker" id="widthPicker" class="custom-radios" onchange="changeDrawingLineWidth(event);">
                 <div >
-                    <input type="radio" id="width-1" name="widthValue" value="1" checked>
+                    <input type="radio" id="width-1" name="widthValue" value="1">
                     <label for="width-1">
       <span>
         <img src="./src/checked.png" alt="Checked Icon" />
@@ -56,7 +71,7 @@
                 </div>
 
                 <div >
-                    <input type="radio" id="width-2" name="widthValue" value="5">
+                    <input type="radio" id="width-2" name="widthValue" value="5" checked>
                     <label for="width-2">
       <span>
         <img src="./src/checked.png" alt="Checked Icon" />

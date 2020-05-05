@@ -12,6 +12,10 @@ class DefaultDrawWorkbench extends Workbench {
             {colorName: "black", colorCode: "#656565"},
             {colorName: "white", colorCode: "#ffffff"},
         ];
+        /*set the tools back to their default position on station change*/
+        document.getElementById('width-2').checked=true;
+        document.getElementById("color-1").checked=true;
+
     }
 
     initiate(){
@@ -20,7 +24,7 @@ class DefaultDrawWorkbench extends Workbench {
         var that = this;
         fCanvas.isDrawingMode = true;
         fCanvas.freeDrawingCursor = "crosshair";
-        let drawingLineWidthEl = document.getElementById('width-5');
+        let drawingLineWidthEl = document.getElementById('width-2');
         let drawingColorEl = document.getElementById("color-1");
         fCanvas.freeDrawingBrush.color = drawingColorEl.value;
         fCanvas.freeDrawingBrush.width = parseInt(drawingLineWidthEl.value, 10) || 1;
