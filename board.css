@@ -45,13 +45,12 @@ body{
     background-image: url("./src/item_border_small.png");
     background-size: 100% 100%;
     background-repeat: no-repeat;
+    cursor: default;
 }
 
 .station .wip_item {
     color: deeppink;
 }
-
-
 
 
 .station .item{
@@ -69,6 +68,7 @@ body{
     grid-area: 2 / 1 / 4 / 2;
     background-color: aliceblue;
     position:relative;
+    cursor: default;
 }
 
 .clock_digit{
@@ -98,7 +98,13 @@ body{
     background-position: center;
     background-repeat: no-repeat;
     border-radius:50%;
+    cursor: pointer;
 }
+
+.control_button:disabled {
+    cursor:default;
+}
+
 
 .button_play{
     background-image: url("./src/play_button.png");
@@ -152,6 +158,7 @@ body{
     font-family: Komplexitater;
     font-size: large;
     border: none;
+    cursor: pointer;
     position:relative;
     z-index:3; /*although position: relative - because position set to absolute when drag&dropped within other elements*/
 }
@@ -285,6 +292,7 @@ body{
     background-size: 100% 100%;
     background-repeat: no-repeat;
     z-index:2;
+    cursor: default;
 }
 
 .station_thumbnail{
@@ -384,6 +392,7 @@ body{
     background-image: url("./src/container_grey_vertical.png");
     background-size: 100% 100%;
     background-repeat: no-repeat;
+    cursor: default;
 }
 
 .column{
@@ -476,6 +485,7 @@ body{
     background-color: transparent;
     background-image: url("./src/border_blue.png");
     background-size: 100% 100%;
+    cursor: pointer;
 }
 
 
