@@ -546,7 +546,32 @@ function createItemDiv(obj, currentItemDivId){
     div.classList.add("item");
     div.innerText = "#"+obj.order_number+" | "+obj.price+"€";
     if(obj.current_station_id == null){obj.current_station_id = "backlog";}
+    div.onmouseover=displayItemPreview;
+    div.onmouseout=removeItemPreview;
     document.getElementById(obj.current_station_id).appendChild(div);
+}
+
+function displayItemPreview(e){
+    if(e.target.parentElement.id!="backlog") {
+        let div_preview = document.createElement("img");
+
+        div_preview.classList.add("item_preview");
+        div_preview.style.visibility = "hidden";
+        document.body.appendChild(div_preview);
+        div_preview.style.left = (e.clientX - div_preview.clientWidth) + "px";
+        div_preview.style.top = e.clientY + "px";
+
+        let item_id = e.target.id.split('_')[1];
+        let url = "./get_item_svg.php?"
+            +"item_id="+item_id;
+
+        div_preview.src = url;
+        div_preview.style.visibility = "visible";
+    }
+}
+
+function removeItemPreview(){
+    document.querySelectorAll('.item_preview').forEach(e => e.remove());
 }
 
 function putItemDivAtTheRightPosition(obj, currentItemDivId){
@@ -570,6 +595,7 @@ function createStationDiv(station){
     stationDiv.classList.add("station");
     let stationDropTarget = document.createElement("div");
     stationDropTarget.classList.add("drop_target");
+    stationDropTarget.style.pointerEvents = "none";
     stationDropTarget.ondrop = drop;
     stationDropTarget.ondragover = allowDrop;
     stationDiv.appendChild(stationDropTarget);
@@ -724,6 +750,7 @@ function allowDrop(ev) {
     ev.preventDefault();
 }
 
+/***switch pointer-events on the drop_targets while dragging to allow item_preview on mouseover for lower z-index children***/
 function drag(ev) {
     ev.dataTransfer.setData("text", ev.target.id);
     var crt = ev.target.cloneNode(true);
@@ -732,6 +759,9 @@ function drag(ev) {
     crt.style.width = "3.1em";
     document.body.appendChild(crt);
     ev.dataTransfer.setDragImage(crt, 25,25, 0);
+    Array.from(document.getElementsByClassName("drop_target")).forEach(o => {
+       o.style.pointerEvents = "auto";
+    });
 }
 
 function drop(ev) {
@@ -739,6 +769,9 @@ function drop(ev) {
     var data = ev.dataTransfer.getData("text");
     document.getElementById("image_"+data).remove();
     updateAttendeeStation(data, ev.target.parentElement.id, getSimulationId());
+    Array.from(document.getElementsByClassName("drop_target")).forEach(o => {
+        o.style.pointerEvents = "none";
+    });
 }
 
 function resizeCanvas(){

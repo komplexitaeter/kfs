@@ -30,7 +30,6 @@ body{
 #backlog{
     border: none;
     grid-area: 1 / 1 / 2 / 2;
-    overflow-x:hidden;
     overflow:visible;
     position: relative;
 }
@@ -45,7 +44,22 @@ body{
     background-image: url("./src/item_border_small.png");
     background-size: 100% 100%;
     background-repeat: no-repeat;
+    cursor: default;
 }
+
+.item_preview{
+    position:absolute;
+    width:150px;
+    height:125px;
+    z-index:3;
+    cursor: default;
+    background-image: url("./src/container_grey_vertical.png");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-color: aliceblue;
+    opacity: 0.8;
+}
+
 
 
 .station .item{
@@ -301,7 +315,7 @@ body{
 }
 
 #done.station{
-    background-color: rgba(123,255,55,0.8);
+    background-color: rgba(123,255,55,0.5);
     min-width:15.5%;
     max-width:100%;
     float: right;
