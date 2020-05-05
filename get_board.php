@@ -126,7 +126,38 @@ else{
 }
 
 /* query all items for current round */
-$sql = "SELECT item.item_id
+if ($meta_data->auto_pull =='0') {
+    $sql = "SELECT item.item_id
+     , item.order_number
+     , item.price
+     , item.round_id
+     , case when scp.station_id is not null
+             and item.is_in_progress = false
+            then scp.station_id
+            else item.current_station_id
+            end as current_station_id
+     , item.start_time
+     , item.end_time
+     , case when scp.station_id is not null
+             and item.is_in_progress = false
+            then 2
+            else item.is_in_progress
+            end as wip
+     , TIMESTAMPDIFF( SECOND, COALESCE(item.start_time, CURRENT_TIMESTAMP), COALESCE(item.end_time, item.last_pause_start_time, CURRENT_TIMESTAMP))-cumulative_pause_time_s as cycle_time_s
+FROM  kfs_simulation_tbl as sims
+  join kfs_items_tbl as item
+  on item.round_id = sims.current_round_id
+         left outer join kfs_station_conf_tbl scc
+                         on scc.configuration_name = sims.configuration_name
+                             and scc.station_id = item.current_station_id
+         left outer join kfs_station_conf_tbl scp
+                         on scp.configuration_name = scc.configuration_name
+                             and scp.station_pos = scc.station_pos - 1
+WHERE sims.simulation_id=$simulation_id";
+
+}
+else {
+    $sql = "SELECT item.item_id
              , item.order_number
              , item.price
              , item.round_id
@@ -134,7 +165,8 @@ $sql = "SELECT item.item_id
              , item.start_time 
              , item.end_time
              , item.is_in_progress as wip
-             , TIMESTAMPDIFF( SECOND, COALESCE(item.start_time, CURRENT_TIMESTAMP), COALESCE(item.end_time, item.last_pause_start_time, CURRENT_TIMESTAMP))-cumulative_pause_time_s as cycle_time_s FROM kfs_simulation_tbl as sims, kfs_items_tbl as item WHERE sims.simulation_id='".$simulation_id."' AND item.round_id = sims.current_round_id ORDER BY item.prio;";
+             , TIMESTAMPDIFF( SECOND, COALESCE(item.start_time, CURRENT_TIMESTAMP), COALESCE(item.end_time, item.last_pause_start_time, CURRENT_TIMESTAMP))-cumulative_pause_time_s as cycle_time_s FROM kfs_simulation_tbl as sims, kfs_items_tbl as item WHERE sims.simulation_id='" . $simulation_id . "' AND item.round_id = sims.current_round_id ORDER BY item.prio;";
+}
 $items = array();
 
 if ($result = $link->query($sql)) {

@@ -535,9 +535,15 @@ function updateItemDiv(obj, currentItemDivId){
     item.innerText = "#"+obj.order_number+" | "+sec2time(obj.cycle_time_s)+" | "+obj.price+"€";
     if (obj.wip == '0') {
         item.classList.remove('wip_item');
+        item.classList.remove('done_item');
+    }
+    else if (obj.wip == '1') {
+        item.classList.add('wip_item');
+        item.classList.remove('done_item');
     }
     else {
-        item.classList.add('wip_item');
+        item.classList.remove('wip_item');
+        item.classList.add('done_item');
     }
 }
 

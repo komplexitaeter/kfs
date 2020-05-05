@@ -75,6 +75,32 @@ body{
     background-image: url("./src/item_border_small_pink.png");
 }
 
+.station .done_item {
+    color: deeppink;
+    background-image: url("./src/item_border_small_pink.png");
+    animation: blinkingDone 1.4s infinite;
+}
+@keyframes blinkingDone {
+    0% {
+        opacity: 0.2;
+    }
+    20% {
+        opacity: 0.5;
+    }
+    40% {
+        opacity: 0.75;
+    }
+    60% {
+        opacity: 1;
+    }
+    80% {
+        opacity: 0.6;
+    }
+    100% {
+        opacity: 0.2;
+    }
+}
+
 
 #controls{
     padding: 0.8em;

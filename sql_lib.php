@@ -16,12 +16,7 @@ function get_create_items_sql($round_id) {
 }
 
 function get_stations_status_sql($simulation_id) {
- $sql=   "select station_id
-      ,station_name
-      ,station_pos
-      ,implementation_class
-      ,params_json
-      ,station_count
+ $sql=   "select x.*
       ,case when is_attended then
          case when is_paused then 'simulation_paused'
               else case when current_items_cnt>0 then 'none'
@@ -53,11 +48,6 @@ function get_stations_status_sql($simulation_id) {
             then 'active'
             else 'inactive'
              end as push
-      ,auto_pull
-      ,svg_hash
-      ,session_key
-      ,current_round_id
-      ,next_station_id
   from (
 select sc.station_id
       ,sc.station_name
