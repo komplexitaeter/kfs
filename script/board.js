@@ -28,7 +28,7 @@ function refreshBoard(simulation_id, session_key){
                     displayControls(myJson.current_round);
                     displayItems(myJson.items_list);
                     displayWorkbench(myJson.workbench, myJson.current_round, simulation_id);
-                    autoPullItem(myJson.workbench);
+                    //autoPullItem(myJson.workbench);
                     break;
                 case "NO_SIMULATION":
                     // alert("The required simulation ID does not exit. You will be taken to the home page.");
@@ -503,11 +503,11 @@ function displayStations(stations, simulation_id){
         }
         else{
 /***TODO: catch lockedDiv status and give it to updateThumbnail, create case no worker on thumbnail*/
-            if (obj.workers_cnt == '0') {
-                updateThumbnail(obj.station_id, -1, '');
+            if (obj.locked_div == 'unattended') {
+                updateThumbnail(obj.station_id, -1, '', obj.locked_div);
             }
             else {
-                updateThumbnail(obj.station_id, simulation_id, obj.svg_hash);
+                updateThumbnail(obj.station_id, simulation_id, obj.svg_hash, obj.locked_div);
             }
         }
     });
@@ -787,7 +787,7 @@ function resizeCanvas(){
 }
 
 
-function updateThumbnail(station_id, simulation_id, svg_hash) {
+function updateThumbnail(station_id, simulation_id, svg_hash, locked_div) {
 
     let url = "get_thumbnail.php?"
         +"simulation_id="+simulation_id
@@ -798,6 +798,27 @@ function updateThumbnail(station_id, simulation_id, svg_hash) {
     e.forEach( obj => {
         if (!obj.src.includes(url)) {
             obj.src=url;
+        }
+        switch(locked_div){
+            case "coffee_break":
+                obj.classList.remove("simulation_paused", "pull_ready", "unattended", "none");
+                obj.classList.add("coffee_break");
+                break;
+            case "simulation_paused":
+                obj.classList.remove("coffee_break", "pull_ready", "unattended", "none");
+                obj.classList.add("simulation_paused");
+                break;
+            case "pull_ready":
+                obj.classList.remove("coffee_break", "simulation_paused", "unattended", "none");
+                obj.classList.add("pull_ready");
+                break;
+            case "unattended":
+                obj.classList.remove("coffee_break", "simulation_paused", "pull_ready", "none");
+                obj.classList.add("unattended");
+                break;
+            case "none":
+                obj.classList.remove("coffee_break", "simulation_paused", "pull_ready", "unattended");
+                break;
         }
     });
 }

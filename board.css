@@ -367,9 +367,45 @@ body{
     height: 40%;
     border: 1px dotted lightgrey;
     bottom: 5%;
-    background-color: rgba(255,255,255,0.7);
+    background-color: rgba(255,255,255,0.8);
     z-index:1;
 }
+
+/***classes for handling different locked_div display status on .station_thumbnail***/
+
+.coffee_break{
+    background-image: url("./src/coffee_break_large.png");
+    background-position: center;
+    background-size: auto 80%;
+    background-repeat: no-repeat;
+}
+.simulation_paused{
+    background-image: url("./src/stop_button_large.png");
+    background-position: center;
+    background-size: auto 80%;
+    background-repeat: no-repeat;
+}
+
+.pull_ready{
+    background-image: url("./src/p_button_large.png");
+    background-position: center;
+    background-size: auto 80%;
+    background-repeat: no-repeat;
+}
+
+.unattended{
+    background-image: url("./src/avatar_empty.png");
+    background-position: center;
+    background-size: auto 80%;
+    background-repeat: no-repeat;
+}
+
+.none{
+
+}
+
+
+/****************/
 
 .station .attendee{
     width:3.1em;
@@ -443,10 +479,6 @@ body{
     padding:0.5em;
 }
 
-.work_in_progress .item{
-
-}
-
 .tools{
     display: flex;
     right: 2%;
@@ -474,9 +506,22 @@ body{
     border-image: url("./src/border_grey.png") 55 repeat;
 }
 
+
+@keyframes blinkingpbutton{
+    0%{    background-image: url('./src/p_button.png'); }
+    50%{ background-image: url('./src/p_button_disabled.png');  }
+    100%{   background-image: url('./src/p_button.png');  }
+}
+
+.todo .p_button:enabled{
+    animation: blinkingpbutton 0.8s infinite;
+}
+
 .todo .p_button{
     right:-2em;
 }
+
+
 
 .done{
     right:0;
@@ -673,6 +718,17 @@ body{
     border-color: lightgrey;
 }
 
+
+@keyframes incomingItem{
+    0%{  position: relative; left: -500%; background-color: cyan;}
+    75%{  position: relative; left: -125%; background-color: cyan;}
+    100%{  position: relative; left: 0%; background-color: cyan;}
+}
+
+.work_in_progress .item{
+    animation: incomingItem 0.7s ease;
+}
+
 @keyframes blinkingInstruction{
     0%{    color: orangered;  }
     50%{ color: transparent;  }
@@ -682,5 +738,5 @@ body{
 .work_in_progress p{
     font-family: Komplexitater;
     font-size: large;
-    animation: blinkingInstruction 1.3s 2;
+    animation: blinkingInstruction 0.6s linear 0.7s 1;
 }
