@@ -38,6 +38,13 @@ class DefaultDrawWorkbench extends Workbench {
                 }
             });
 
+            /* remove old artifacts, just to be sure */
+            if (that.paths!=null) {
+                fCanvas.remove(that.paths);
+                that.paths=null;
+                fCanvas.clear();
+            }
+
             that.paths = fabric.util.groupSVGElements(objects, options);
 
             let scale = fCanvas.height / options.height;
