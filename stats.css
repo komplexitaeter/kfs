@@ -11,10 +11,23 @@ body {
     position: absolute;
     top: 1em;
     left: 1em;
+    ouline:none;
+    box-shadow: 1px 3px 3px #888888;
+    font-family: Komplexitater;
+    font-size: large;
+    border:none;
+    background-color: transparent;
+    background-image: url("./src/border_blue.png");
+    background-size: 100% 100%;
+    cursor: pointer;
 }
 
 table {
     margin: auto;
+}
+
+h2{
+    font-family: Komplexitater;
 }
 
 th {
@@ -28,5 +41,10 @@ td {
 .frame {
     display: inline-block;
     margin: 3%;
+    background-image: url("./src/container_grey_vertical.png");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    padding:20px;
 }
 

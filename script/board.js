@@ -84,7 +84,7 @@ function displayWorkbench(workbench, current_round, simulation_id){
     if(document.getElementById("todo_column") == null){
         createAreaOnWorkbench("todo");
     }
-
+/****TODO: WIP1, Arbeit fertig aber noch nicht weggepullt -> Text in Done Spalte (parameter mitgeben)***/
     if(document.getElementById("done_column") == null){
         createAreaOnWorkbench("done");
     }
@@ -154,7 +154,7 @@ deleteOutdatedItemsOnWorkbench("work_in_progress",[workbench.current_item]);
     if (workbench.todo_items!=null && workbench.todo_items.length>0) {
         hasToDo=true;
     }
-
+/***TODO: push, pull, lockeddiv Logiken werden hier aus dem JSON gelesen und angezeigt*****/
     if(!((current_round.last_start_time != null)&&(current_round.last_stop_time == null))){
         /* round is paused */
         document.getElementById("pull_button").disabled=true;
@@ -502,6 +502,7 @@ function displayStations(stations, simulation_id){
             recreateStations=true;
         }
         else{
+/***TODO: catch lockedDiv status and give it to updateThumbnail, create case no worker on thumbnail*/
             if (obj.workers_cnt == '0') {
                 updateThumbnail(obj.station_id, -1, '');
             }
