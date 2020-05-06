@@ -153,7 +153,7 @@ FROM  kfs_simulation_tbl as sims
          left outer join kfs_station_conf_tbl scp
                          on scp.configuration_name = scc.configuration_name
                              and scp.station_pos = scc.station_pos - 1
-WHERE sims.simulation_id=$simulation_id";
+WHERE sims.simulation_id=$simulation_id ORDER BY item.prio";
 
 }
 else {
@@ -165,7 +165,7 @@ else {
              , item.start_time 
              , item.end_time
              , item.is_in_progress as wip
-             , TIMESTAMPDIFF( SECOND, COALESCE(item.start_time, CURRENT_TIMESTAMP), COALESCE(item.end_time, item.last_pause_start_time, CURRENT_TIMESTAMP))-cumulative_pause_time_s as cycle_time_s FROM kfs_simulation_tbl as sims, kfs_items_tbl as item WHERE sims.simulation_id='" . $simulation_id . "' AND item.round_id = sims.current_round_id ORDER BY item.prio;";
+             , TIMESTAMPDIFF( SECOND, COALESCE(item.start_time, CURRENT_TIMESTAMP), COALESCE(item.end_time, item.last_pause_start_time, CURRENT_TIMESTAMP))-cumulative_pause_time_s as cycle_time_s FROM kfs_simulation_tbl as sims, kfs_items_tbl as item WHERE sims.simulation_id='" . $simulation_id . "' AND item.round_id = sims.current_round_id ORDER BY item.prio";
 }
 $items = array();
 
