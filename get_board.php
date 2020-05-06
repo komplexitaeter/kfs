@@ -92,7 +92,7 @@ else{
 $sql = get_stations_status_sql($simulation_id);
 
 $stations = array();
-$meta_data = array();
+$meta_data = (object) array();
 
 if ($result = $link->query($sql)) {
     while ($obj = $result->fetch_object()) {
