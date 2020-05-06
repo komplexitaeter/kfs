@@ -113,10 +113,6 @@ else{
     }
 }
 
-echo $status_code." | ". $configuration_name;
-print_r($obj);
-print_r($conf);
-
 $myJSON_array = array("status_code"=>$status_code
                     , "attendees"=>$objs
                     , "configuration_name"=>$configuration_name
