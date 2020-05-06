@@ -46,17 +46,40 @@ class Workbench {
 /***Disable Workbench and show different image depending on state
  * Note: Removing a class that does not exist, does NOT throw an error****/
         switch(state) {
-            case "no_wip":
+            case "coffee_break":
+                lockedDiv.classList.add("coffee_break");
                 lockedDiv.classList.remove("simulation_paused");
-                lockedDiv.classList.add("no_work_in_progress");
+                lockedDiv.classList.remove("pull_ready");
+                lockedDiv.classList.remove("unattended");
+                lockedDiv.classList.remove("none");
                 break;
-            case "pause":
-                lockedDiv.classList.remove("no_work_in_progress");
+            case "simulation_paused":
+                lockedDiv.classList.remove("coffee_break");
                 lockedDiv.classList.add("simulation_paused");
+                lockedDiv.classList.remove("pull_ready");
+                lockedDiv.classList.remove("unattended");
+                lockedDiv.classList.remove("none");
+                break;
+            case "pull_ready":
+                lockedDiv.classList.remove("coffee_break");
+                lockedDiv.classList.remove("simulation_paused");
+                lockedDiv.classList.add("pull_ready");
+                lockedDiv.classList.remove("unattended");
+                lockedDiv.classList.remove("none");
+                break;
+            case "unattended":
+                lockedDiv.classList.remove("coffee_break");
+                lockedDiv.classList.remove("simulation_paused");
+                lockedDiv.classList.remove("pull_ready");
+                lockedDiv.classList.add("unattended");
+                lockedDiv.classList.remove("none");
                 break;
             default:
-                lockedDiv.classList.remove("no_work_in_progress");
-                lockedDiv.classList.add("simulation_paused");
+                lockedDiv.classList.remove("coffee_break");
+                lockedDiv.classList.remove("simulation_paused");
+                lockedDiv.classList.remove("pull_ready");
+                lockedDiv.classList.remove("unattended");
+                lockedDiv.classList.add("none");
                 break;
         }
     }
