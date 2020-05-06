@@ -9,7 +9,7 @@ header ("Cache-control: no-cache");
 header ("Pragma: no-cache");
 header ("Expires: 0");
 require 'config.php';
-//change in file to force commit
+
 $link = mysqli_init();
 $success = mysqli_real_connect(
     $link,
@@ -21,6 +21,10 @@ $success = mysqli_real_connect(
 );
 
 $sql = "SELECT status_code, configuration_name FROM kfs_simulation_tbl WHERE simulation_id=".$simulation_id;
+
+error_log("Celine sagt:".$sql);
+echo "Celine sagt:".$sql;
+
 if ($result = $link->query($sql)) {
     if($obj = $result->fetch_object()) {
         $status_code = $obj->status_code;
