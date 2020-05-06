@@ -20,10 +20,11 @@ $success = mysqli_real_connect(
     _MYSQL_PORT
 );
 
-$sql = "SELECT status_code FROM kfs_simulation_tbl WHERE simulation_id=".$simulation_id;
+$sql = "SELECT status_code, configuration_name FROM kfs_simulation_tbl WHERE simulation_id=".$simulation_id;
 if ($result = $link->query($sql)) {
     if($obj = $result->fetch_object()) {
         $status_code = $obj->status_code;
+        $configuration_name = $obj->configuration_name;
     }
     else{
         $status_code = "NO_SIMULATION";
@@ -95,7 +96,26 @@ else{
     }
 }
 
-$myJSON_array = array("status_code"=>$status_code, "attendees"=>$objs);
+/* query all simulations attendees whit a callback up-to-date */
+$sql = "SELECT * FROM kfs_configurations_tbl ORDER BY min_player_recom";
+$conf = array();
+
+if ($result = $link->query($sql)) {
+    while(  $obj = $result->fetch_object()) {
+        array_push($conf, $obj);
+    }
+}
+else{
+    if ($link->connect_errno) {
+        printf("\n Fail: %s\n", $link->connect_error);
+        exit();
+    }
+}
+
+$myJSON_array = array("status_code"=>$status_code
+                    , "attendees"=>$objs
+                    , "configuration_name"=>$configuration_name
+                    , "configurations"=>$conf);
 
 $myJSON = json_encode($myJSON_array);
 echo $myJSON;

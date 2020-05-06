@@ -63,6 +63,12 @@ if(isset($_GET['stats_round_id'])){
     }
 }
 
+if(isset($_GET['configuration_name'])){
+    $configuration_name = filter_input(INPUT_GET, 'i', FILTER_SANITIZE_STRING);
+    if ($$configuration_name != null) {
+        if ($stats_round_id != null) array_push($sql_set, "configuration_name = $configuration_name");
+    }
+}
 
 if(count($sql_set)==0){
     $link->close();
