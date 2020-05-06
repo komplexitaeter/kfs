@@ -170,13 +170,16 @@ deleteOutdatedItemsOnWorkbench("work_in_progress",[workbench.current_item]);
     /* set the status of the workbenches push button (finish current item) */
     if (workbench.meta_data.push == 'active') {
         document.getElementById("push_button").disabled=false;
+        document.getElementById("push_button").classList.remove("glass_hour");
     }
     else if (workbench.meta_data.push == 'glass_hour') {
         /* todo: set a css class for button image with a glass hour  */
         document.getElementById("push_button").disabled=true;
+        document.getElementById("push_button").classList.add("glass_hour");
     }
     else {
         document.getElementById("push_button").disabled=true;
+        document.getElementById("push_button").classList.remove("glass_hour");
     }
 
 

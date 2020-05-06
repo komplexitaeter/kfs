@@ -37,7 +37,7 @@ class DefaultDrawWorkbench extends Workbench {
                     obj.fill = 'rgba(0,0,255,0.4)';
                 }
                 else {
-                    obj.strokeWidth = 1;
+                    obj.strokeWidth = 0;
                     obj.strokeDashArray = [5,4];
                 }
             });

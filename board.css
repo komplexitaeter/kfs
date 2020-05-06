@@ -547,14 +547,12 @@ body{
     right:-2em;
 }
 
-
-
 .done{
     right:0;
 }
 
 .done .p_button{
-    left:-2em;
+     left:-2em;
 }
 
 .p_button{
@@ -577,6 +575,21 @@ body{
 .p_button:disabled{
     background-image: url('./src/p_button_disabled.png');
     cursor: not-allowed;
+}
+
+@keyframes glass_hourAnimation{
+    0%{transform: rotate(0deg);}
+    50%{transform: rotate(180deg);}
+    100%{transform: rotate(360deg);}
+}
+
+.glass_hour:disabled{
+    background-image: url('./src/glass_hour.png');
+    background-color: white;
+    opacity: 1;
+    background-size:100%;
+    background-repeat: no-repeat;
+    animation: glass_hourAnimation 3s infinite;
 }
 
 .column_label{
