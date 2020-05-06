@@ -96,9 +96,30 @@ $meta_data = array();
 
 if ($result = $link->query($sql)) {
     while ($obj = $result->fetch_object()) {
-        array_push($stations, $obj);
+
+        $station = (object) array(
+            "station_id"=>$obj->station_id,
+            "station_name"=>$obj->station_name,
+            "station_pos"=>$obj->station_pos,
+            "locked_div"=>$obj->locked_div,
+            "svg_hash"=>$obj->svg_hash
+        );
+        array_push($stations, $station);
+
         if ($obj->session_key == $session_key) {
-            $meta_data = $obj;
+            $meta_data = (object) array(
+                "station_id"=>$obj->station_id,
+                "next_station_id"=>$obj->next_station_id,
+                "station_pos"=>$obj->station_pos,
+                "station_count"=>$obj->station_count,
+                "current_round_id"=>$obj->current_round_id,
+                "implementation_class"=>$obj->implementation_class,
+                "params_json"=>$obj->params_json,
+                "pull"=>$obj->pull,
+                "push"=>$obj->push,
+                "locked_div"=>$obj->locked_div,
+                "auto_pull"=>$obj->auto_pull
+            );
         }
     }
 } else {
