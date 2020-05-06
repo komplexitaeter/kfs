@@ -126,7 +126,7 @@ else{
 }
 
 /* query all items for current round */
-if ($meta_data->auto_pull =='0') {
+if ($meta_data != null && $meta_data->auto_pull =='0') {
     $sql = "SELECT item.item_id
      , item.order_number
      , item.price

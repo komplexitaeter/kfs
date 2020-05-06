@@ -122,9 +122,12 @@ class DefaultDrawWorkbench extends Workbench {
         if(p == null) {
             p = document.createElement("p");
             p.id = "instruction";
-            let color = this.colorArray[Math.floor(Math.random()*7)]; //ignore index "8" because it's white and hence invisible
-            let text = this.implParam.instruction.replace("[COLOR]","<b style='color:"+color.colorCode+";'>"+color.colorName+"</b>");
-            p.innerHTML = text;
+            if (this.instructionItemId == null || this.instructionItemId != this.itemId) {
+                this.instructionItemId = this.itemId;
+                let color = this.colorArray[Math.floor(Math.random()*7)]; //ignore index "8" because it's white and hence invisible
+                this.instructionText = this.implParam.instruction.replace("[COLOR]","<b style='color:"+color.colorCode+";'>"+color.colorName+"</b>");
+            }
+            p.innerHTML = this.instructionText;
             document.getElementById("workbench_" + this.itemId).appendChild(p);
         }
     }
