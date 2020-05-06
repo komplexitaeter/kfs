@@ -24,10 +24,8 @@ $sql = "SELECT status_code, configuration_name FROM kfs_simulation_tbl WHERE sim
 
 if ($result = $link->query($sql)) {
     if($obj = $result->fetch_object()) {
-        echo "Celine wird sagen...";
         $status_code = $obj->status_code;
         $configuration_name = $obj->configuration_name;
-        echo "Celine sagt: ".$status_code." UND ".$configuration_name;
     }
     else{
         $status_code = "NO_SIMULATION";
@@ -114,11 +112,12 @@ else{
         exit();
     }
 }
-
+echo "Celine sagt: ".$status_code." UND ".$configuration_name;
 $myJSON_array = array("status_code"=>$status_code
                     , "attendees"=>$objs
                     , "configuration_name"=>$configuration_name
                     , "configurations"=>$conf);
+echo "Celine sagt DANACH: ".$status_code." UND ".$configuration_name;
 
 $myJSON = json_encode($myJSON_array);
 echo $myJSON;
