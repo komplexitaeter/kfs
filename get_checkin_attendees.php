@@ -112,6 +112,9 @@ else{
         exit();
     }
 }
+
+echo $status_code." | ". $configuration_name;
+
 $myJSON_array = array("status_code"=>$status_code
                     , "attendees"=>$objs
                     , "configuration_name"=>$configuration_name
