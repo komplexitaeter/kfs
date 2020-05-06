@@ -42,6 +42,7 @@ class Workbench {
             lockedDiv.id = "locked_div";
             document.getElementById('workbench').appendChild(lockedDiv);
         }
+
 /***Disable Workbench and show different image depending on state
  * Note: Removing a class that does not exist, does NOT throw an error****/
         switch(state) {

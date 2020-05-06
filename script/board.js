@@ -150,40 +150,37 @@ deleteOutdatedItemsOnWorkbench("work_in_progress",[workbench.current_item]);
     }
 
     /********Check if the buttons on the workbench are clickable*********/
-    let hasToDo=false;
-    if (workbench.todo_items!=null && workbench.todo_items.length>0) {
-        hasToDo=true;
+
+    /* set the status of the workbenches pull button (start next item) */
+    if (workbench.meta_data.pull == 'active') {
+        document.getElementById("pull_button").disabled=false;
     }
-/***TODO: push, pull, lockeddiv Logiken werden hier aus dem JSON gelesen und angezeigt*****/
-    if(!((current_round.last_start_time != null)&&(current_round.last_stop_time == null))){
-        /* round is paused */
+    else {
         document.getElementById("pull_button").disabled=true;
-        document.getElementById("push_button").disabled=true;
-        workbenchGlobal.disableWorkbench('pause');
-    }
-    else{
-        if((workbench.current_item != null )&&(hasToDo)){
-            document.getElementById("pull_button").disabled=true;
-            document.getElementById("push_button").disabled=false;
-            workbenchGlobal.enableWorkbench();
-        }
-        if((workbench.current_item == null)&&(hasToDo)){
-            document.getElementById("pull_button").disabled=false;
-            document.getElementById("push_button").disabled=true;
-            workbenchGlobal.disableWorkbench('no_wip');
-        }
-        if((workbench.current_item == null)&&(!hasToDo)){
-            document.getElementById("pull_button").disabled=true;
-            document.getElementById("push_button").disabled=true;
-            workbenchGlobal.disableWorkbench('no_wip');
-        }
-        if((workbench.current_item != null)&&(!hasToDo)){
-            document.getElementById("pull_button").disabled=true;
-            document.getElementById("push_button").disabled=false;
-            workbenchGlobal.enableWorkbench();
-        }
     }
 
+    /* set the status of the workbenches work-area (aka locked_div) */
+    if (workbench.meta_data.locked_div == 'none') {
+        workbenchGlobal.enableWorkbench();
+    }
+    else {
+        workbenchGlobal.disableWorkbench(workbench.meta_data.locked_div);
+    }
+
+    /* set the status of the workbenches push button (finish current item) */
+    if (workbench.meta_data.push == 'active') {
+        document.getElementById("push_button").disabled=false;
+    }
+    else if (workbench.meta_data.push == 'glass_hour') {
+        /* todo: set a css class for button image with a glass hour  */
+        document.getElementById("push_button").disabled=true;
+    }
+    else {
+        document.getElementById("push_button").disabled=true;
+    }
+
+
+    /* set the status of the Push-Pull toggle switch */
     let auto_pull = document.getElementById('auto_pull');
     if (current_round.auto_pull == 1 && auto_pull.checked != true) {
         auto_pull.checked = true;
