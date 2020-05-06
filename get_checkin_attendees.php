@@ -112,12 +112,10 @@ else{
         exit();
     }
 }
-echo "Celine sagt: ".$status_code." UND ".$configuration_name;
 $myJSON_array = array("status_code"=>$status_code
                     , "attendees"=>$objs
                     , "configuration_name"=>$configuration_name
                     , "configurations"=>$conf);
-echo "Celine sagt DANACH: ".$status_code." UND ".$configuration_name;
 
 $myJSON = json_encode($myJSON_array);
 echo $myJSON;
