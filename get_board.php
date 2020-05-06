@@ -92,7 +92,7 @@ else{
 $sql = get_stations_status_sql($simulation_id);
 
 $stations = array();
-$meta_data = null;
+$meta_data = array();
 
 if ($result = $link->query($sql)) {
     while ($obj = $result->fetch_object()) {
@@ -266,6 +266,8 @@ if ($meta_data != null) {
         }
     }
 }
+
+
 
 $workbench = array("meta_data"=>$meta_data
                   ,"todo_items"=>$todo_items
