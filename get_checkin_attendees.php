@@ -22,13 +22,12 @@ $success = mysqli_real_connect(
 
 $sql = "SELECT status_code, configuration_name FROM kfs_simulation_tbl WHERE simulation_id=".$simulation_id;
 
-error_log("Celine sagt:".$sql);
-echo "Celine sagt:".$sql;
-
 if ($result = $link->query($sql)) {
     if($obj = $result->fetch_object()) {
+        echo "Celine wird sagen...";
         $status_code = $obj->status_code;
         $configuration_name = $obj->configuration_name;
+        echo "Celine sagt: ".$status_code." UND ".$configuration_name;
     }
     else{
         $status_code = "NO_SIMULATION";
