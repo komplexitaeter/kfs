@@ -58,6 +58,8 @@ function refreshAttendeesList(simulation_id, session_key){
             switch(myJson.status_code) {
                 case "CHECKIN":
 
+                    displayConfigurationsList(myJson.configuration_name, myJson.configurations);
+
                     var list_of_session_keys = new Array();
                     var readiness_level = 0;
                     myJson.attendees.forEach(obj => {
@@ -208,5 +210,27 @@ function create_simulation() {
 
 function startSimulation(){
     const url = './update_simulation.php?simulation_id='+getSimulationId()+'&status_code=RUNNING';
+    fetch(url);
+}
+
+function displayConfigurationsList(configuration_name, configurations){
+    let list = document.getElementById("pick_configuration");
+    if (list.childElementCount == 0) {
+        configurations.forEach(item => {
+            let option = document.createElement('option');
+            option.value = item.configuration_name;
+            option.id = item.configuration_name;
+            option.text = item.description;
+            list.appendChild(option);
+        });
+    }
+    list.value=configuration_name;
+}
+
+function switchConfiguration(){
+    let list = document.getElementById("pick_configuration");
+    let url = "./update_simulation.php?"
+                +"simulation_id="+getSimulationId()
+                +"&configuration_name="+list.value;
     fetch(url);
 }

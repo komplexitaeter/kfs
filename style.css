@@ -1,10 +1,44 @@
+body{
+    background-color: rgba(233,233,233,0.5);
+}
+
+#vertical_container{
+    margin:auto;
+    width:50%;
+    border:none;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-image: url("./src/border_grey.png") 55 repeat;
+    position: relative;
+}
+
 .display_block{
-    margin: auto;
     margin-top: 0.4em;
-    width: 50%;
-    border: 3px dotted gray;
-    padding: 10px;
+    width: 100%;
+
+
     text-align: center;
+}
+
+.link_checkin{
+    width:auto;
+
+    background-size: 100% 100%;
+    padding:0.5em;
+    border:none;
+    outline:none;
+}
+
+.button_checkin {
+    ouline:none;
+    box-shadow: 1px 3px 3px #888888;
+    font-family: Komplexitater;
+    font-size: large;
+    border:none;
+    background-color: transparent;
+    background-image: url("./src/border_blue.png");
+    background-size: 100% 100%;
+    cursor: pointer;
 }
 
 #current_user .avatar, #current_user .ready_button_active, #current_user .ready_button{
@@ -45,6 +79,7 @@
 }
 
 .ready_button{
+    left:82%;
     background-image: url("./src/start_ready.png");
     background-size: contain;
     border: 1px lightgrey solid;
@@ -53,6 +88,7 @@
 }
 
 .ready_button_active{
+    left:82%;
     background-image: url("./src/start_ready.png");
     background-size: contain;
     background-color: greenyellow;
@@ -68,17 +104,25 @@ input{
 }
 
 #attendees_list input{
+    font-family: Komplexitater;
+    font-size: 1.8em;
     width: 75%;
-    height: 3.5em;
+    height: 1.5em;
     border-radius: 1.75em;
-    padding:1em;
+    padding-left: 1em;
     outline:none;
-    background-color: rgba(0,255,255,0.2);
-    border: cyan 1px solid;
+    border:none;
+    background-image: url("./src/border_round_orange_large.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100% 100%;
+    background-color: rgba(248, 159, 56, 0.1);
 }
 
 #attendees_list #current_user input{
-    border: 4px solid cyan;
+/*border: 4px solid cyan;*/
+    border:none;
+    background-color: rgba(248, 159, 56, 0.3);
 }
 
 #share input{
@@ -86,18 +130,23 @@ input{
 }
 
 #start_simulation_button{
-    width: 100%;
-    height: 4.0em;
+    font-family: Komplexitater;
+    font-size: 2.5em;
+    width: 75%;
+    height: 1em;
+
     border-radius: 1.75em;
     outline:none;
-    color: azure;
-    font-size: larger;
-    background-color: rgba(255, 0, 255, 1);
+    color: green;
+    background-color: rgba(53, 132, 60, 0.4);
+    background-image: url("./src/border_round_green_large.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100% 100%;
     border: none;
     cursor: pointer;
 }
 
 #start_simulation_button:disabled{
-    background-color: rgba(255, 0, 255, 0.4);
-    cursor: not-allowed;
+    display:none;
 }
