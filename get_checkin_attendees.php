@@ -9,7 +9,7 @@ header ("Cache-control: no-cache");
 header ("Pragma: no-cache");
 header ("Expires: 0");
 require 'config.php';
-
+//change in file to force commit
 $link = mysqli_init();
 $success = mysqli_real_connect(
     $link,
