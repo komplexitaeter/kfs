@@ -671,6 +671,8 @@ function createAttendeeDiv(obj, session_key){
     }
     myDiv.id = obj.session_key;
     myDiv.innerHTML = '<div class="avatar">&nbsp;</div>';
+    if(obj.avatar_code == null){obj.avatar_code = 1;}
+    myDiv.querySelector(".avatar").style.backgroundImage = "url('./src/avatar_"+obj.avatar_code+".png')";
     myDiv.innerHTML += '<div class="attendee_name_label">'+obj.name+'</div>';
     myDiv.draggable=true;
     myDiv.ondragstart=drag;

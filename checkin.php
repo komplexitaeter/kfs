@@ -14,8 +14,8 @@
         <button onclick="copyContent('link')" class="button_checkin">Link kopieren</button>
     </div>
 
-    <div id="configurations" class="display_block">
-            <label for="pick_configuration">Choose a configuration:</label>
+    <div id="configurations" class="display_block configuration_pick">
+            <label for="pick_configuration">Current configuration is</label>
             <select id="pick_configuration" onchange="switchConfiguration()">
 
             </select>

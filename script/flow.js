@@ -67,19 +67,22 @@ function refreshAttendeesList(simulation_id, session_key){
                             if (obj.session_key != session_key) {
                                 list_of_session_keys[obj.session_key] = true;
                                 if (!document.getElementById(obj.session_key)) {
-                                    addAttendeeField(obj.session_key, obj.name);
+                                    addAttendeeField(obj.session_key, obj.name, obj.avatar_code);
                                 } else {
                                     updateAttendeeName(obj.session_key, obj.name);
                                 }
                                 updateReadyStatus(obj.session_key, obj.ready_to_start, obj.name);
                             } else {
                                 var crt = document.getElementById("current_user").querySelector(".attendee_name");
+                                var avt = document.getElementById("current_user").querySelector(".avatar");
 
                                 if (document.activeElement != crt) {
                                     if (crt.value != obj.name) {
                                         crt.value = obj.name;
                                     }
                                 }
+                                if(obj.avatar_code == null){obj.avatar_code = 1;}
+                                avt.style.backgroundImage = "url('./src/avatar_"+obj.avatar_code+".png')";
                                 updateReadyStatus("current_user", obj.ready_to_start, obj.name);
                             }
                         }
@@ -139,7 +142,8 @@ function removeAttendeeField(session_key){
     document.getElementById(session_key).remove();
 }
 
-function addAttendeeField(session_key, name){
+function addAttendeeField(session_key, name,avatar_code){
+    if(avatar_code == null){avatar_code = 1;}
     var div = document.createElement("div");
         div.className="attendee";
     var name = document.createElement("input");
@@ -151,6 +155,7 @@ function addAttendeeField(session_key, name){
         avatar.className="avatar";
         avatar.disabled=true;
         avatar.innerHTML="&nbsp";
+        avatar.style.backgroundImage= "url('./src/avatar_"+avatar_code+".png')";
     var ready = document.createElement("button");
         ready.readOnly=true;
         ready.className="ready_button";

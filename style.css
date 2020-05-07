@@ -29,6 +29,33 @@ body{
     outline:none;
 }
 
+.configuration_pick{
+    font-family: Komplexitater;
+    font-size: x-large;
+    padding: 0.5em 0em 0.5em 0em;
+}
+
+.configuration_pick select{
+    border:none;
+    outline: none;
+    background-color: transparent;
+    vertical-align: middle;
+    font-family: Komplexitater;
+    font-size: x-large;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;       /* Remove default arrow */
+}
+
+.configuration_pick option{
+    background-color: rgba(200,200,200,0.5);
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: 0px;
+    outline:0px;
+}
+
 .button_checkin {
     ouline:none;
     box-shadow: 1px 3px 3px #888888;
@@ -62,23 +89,26 @@ body{
 }
 
 .attendee{
-
+    margin-bottom: 0.5em;
 }
 
 .attendee button{
-    height: 3.5em;
-    width: 3.5em;
+    height: 3.5rem;
+    width: 3.5rem;
     border-radius: 50%;
     outline: none;
 }
 
 .avatar{
-    border: 1px lightgrey solid;
+    border: none;
     background-color: rgba(255,255,0,0.2);
-    display: none;
+    display: inline-block;
+    background-size: cover;
+    box-sizing: border-box;
 }
 
 .ready_button{
+    box-sizing: border-box;
     left:82%;
     background-image: url("./src/start_ready.png");
     background-size: contain;
@@ -88,6 +118,7 @@ body{
 }
 
 .ready_button_active{
+    box-sizing: border-box;
     left:82%;
     background-image: url("./src/start_ready.png");
     background-size: contain;
@@ -100,14 +131,16 @@ body{
 input{
     width: 100%;
     box-sizing: border-box;
-    margin:0.3em;
+    margin:0em 0.3em 0em 0.3em;
 }
 
 #attendees_list input{
     font-family: Komplexitater;
-    font-size: 1.8em;
+    font-size: x-large;
+    vertical-align: bottom;
     width: 75%;
-    height: 1.5em;
+    height: 3.5rem;
+    box-sizing: border-box;
     border-radius: 1.75em;
     padding-left: 1em;
     outline:none;
@@ -131,10 +164,9 @@ input{
 
 #start_simulation_button{
     font-family: Komplexitater;
-    font-size: 2.5em;
+    font-size: xx-large;
     width: 75%;
-    height: 1em;
-
+    height: 3.5rem;
     border-radius: 1.75em;
     outline:none;
     color: green;
