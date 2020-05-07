@@ -45,6 +45,7 @@
 
 <div id="observers">
     <div class="drop_target"  ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+    <div id="brand"><a href="https://www.komplexitaeter.de" target="_blank"><img src="./src/brand.png"></img></a></div>
 </div>
 <div id="stations">
 

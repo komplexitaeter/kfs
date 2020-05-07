@@ -779,3 +779,13 @@ body{
     font-size: large;
     animation: blinkingInstruction 0.6s linear 0.7s 1;
 }
+
+#brand {
+    position: absolute;
+    left: 10%;
+    bottom: 0;
+    z-index: 99;
+}
+#brand img {
+    width: 80%;
+}
