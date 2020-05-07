@@ -60,7 +60,34 @@ else {
 
 /* insert or update current attendee in db and set callback */
 if($attendee_not_found){
-    $sql="INSERT INTO kfs_attendees_tbl(simulation_id, session_key) VALUES (".$simulation_id.",'".$session_key."')";
+
+    /* find a avatar, that is ... if possible ... not used */
+    $avatar_code = null;
+    $sql="select code from (
+                select 1 as code
+                union select 2
+                union select 3
+                union select 4
+                union select 5
+                union select 6
+                union select 7
+                union select 8
+                union select 9) as ac
+                where not exists(select 1
+                                   from kfs_attendees_tbl a
+                                  where a.simulation_id = $simulation_id
+                                    and a.avatar_code = ac.code)
+                order by rand()";
+    if ($result = $link->query($sql)) {
+        if ($obj = $result->fetch_object()) {
+            $avatar_code = $obj->code;
+        }
+    }
+    if ($avatar_code==null) {
+        $avatar_code = mt_rand(1,9);
+    }
+
+    $sql="INSERT INTO kfs_attendees_tbl(simulation_id, session_key, avatar_code) VALUES ($simulation_id,'$session_key','$avatar_code')";
     if(!$result = $link->query($sql))
     {
         if ($link->connect_errno) {
