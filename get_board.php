@@ -92,7 +92,19 @@ else{
 $sql = get_stations_status_sql($simulation_id);
 
 $stations = array();
-$meta_data = (object) array();
+$meta_data = (object) array(
+    "station_id"=>null,
+    "next_station_id"=>null,
+    "station_pos"=>null,
+    "station_count"=>null,
+    "current_round_id"=>null,
+    "implementation_class"=>null,
+    "params_json"=>null,
+    "pull"=>null,
+    "push"=>null,
+    "locked_div"=>null,
+    "auto_pull"=>null
+);
 
 if ($result = $link->query($sql)) {
     while ($obj = $result->fetch_object()) {
