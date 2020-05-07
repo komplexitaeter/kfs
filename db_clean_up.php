@@ -16,11 +16,14 @@ $success = mysqli_real_connect(
  * attendees and remove all user-data
  */
 $sql="select a.simulation_id
-        from kfs_attendees_tbl a
-        join kfs_simulation_tbl s on s.simulation_id = a.simulation_id
-       where timestampdiff( second, a.last_callback_date, current_timestamp) >  60*60*24
-         and s.status_code != 'CHECKIN'
-       group by simulation_id";
+  , max(a.last_callback_date)
+,min(a.last_callback_date)
+from kfs_attendees_tbl a
+         join kfs_simulation_tbl s on s.simulation_id = a.simulation_id
+where s.status_code != 'CHECKIN'
+group by simulation_id
+having timestampdiff( second, max(a.last_callback_date), current_timestamp) >  60*60*24
+";
 
 if ($result = $link->query($sql)) {
     while ($sim = $result->fetch_object()) {
