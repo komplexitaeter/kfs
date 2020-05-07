@@ -20,7 +20,6 @@ $sql="select a.simulation_id
 ,min(a.last_callback_date)
 from kfs_attendees_tbl a
          join kfs_simulation_tbl s on s.simulation_id = a.simulation_id
-where s.status_code != 'CHECKIN'
 group by simulation_id
 having timestampdiff( second, max(a.last_callback_date), current_timestamp) >  60*60*24
 ";
