@@ -38,3 +38,4 @@ if ($result = $link->query($sql)) {
         $link->query("update kfs_simulation_tbl set status_code = 'CHECKIN' where simulation_id = $sim->simulation_id");
     }
 }
+

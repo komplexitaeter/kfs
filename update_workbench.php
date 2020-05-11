@@ -141,6 +141,18 @@ if ($action=='start') {
 
     /* do the dml */
     if(!$result = $link->query($sql)) exit('INTERNAL_ERROR_003');
+
+    /* measure the time for each station */
+    $sql = "INSERT INTO kfs_work_results_tbl(station_id, item_id, start_time_s) 
+            VALUES ($meta_data->station_id, $item_id,
+                    (
+                             select COALESCE(cumulative_time_s, 0) + TIMESTAMPDIFF( SECOND, round.last_start_time, COALESCE(round.last_stop_time, CURRENT_TIMESTAMP))
+                               from kfs_rounds_tbl as round
+                              where round.round_id=$meta_data->current_round_id
+                         )
+                    )";
+    if(!$result = $link->query($sql)) exit('INTERNAL_ERROR_003a');
+
 }
 
 
@@ -174,6 +186,19 @@ if ($action=='finish') {
 
     /* do the dml */
     if(!$result = $link->query($sql)) exit('INTERNAL_ERROR_004');
+
+
+    $sql = "UPDATE kfs_work_results_tbl 
+               SET end_time_s =   (
+                             SELECT COALESCE(cumulative_time_s, 0) + TIMESTAMPDIFF( SECOND, round.last_start_time, COALESCE(round.last_stop_time, CURRENT_TIMESTAMP))
+                               FROM kfs_rounds_tbl AS round
+                              WHERE round.round_id=$meta_data->current_round_id
+                         )
+             WHERE station_id = $meta_data->station_id
+               AND item_id = $meta_data->current_work_item_id";
+
+    if(!$result = $link->query($sql)) exit('INTERNAL_ERROR_004a');
+
 }
 
 /*  update the thumbnail of current workbench  */
