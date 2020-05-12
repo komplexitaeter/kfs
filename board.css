@@ -355,7 +355,7 @@ body{
     max-width:100%;
     float: right;
     position:relative;
-    overflow:scroll;
+    overflow:visible;
 }
 
 .drop_target{
