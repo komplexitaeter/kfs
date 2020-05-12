@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Param</title>
+    <style>
+        body {
+        }
+        div {
+            border: 1px solid black;
+            width: 130px;
+            display: inline-block;
+            background-color: #3498db;
+            margin: 2px;
+        }
+    </style>
+</head>
+<body>
+</body>
+<script>
+    class station {
+        constructor(lead_time) {
+            this.wip = 0;
+            this.lead_time = lead_time;
+            this.tick_counter = 0;
+        }
+    }
+
+    function sleepFor( sleepDuration ){
+        var now = new Date().getTime();
+        while(new Date().getTime() < now + sleepDuration){ /* do nothing */ }
+    }
+
+    function tick() {
+        console.log(i);
+
+        /* for station = 0 */
+
+        if (stations[0].wip == 0) {
+            stations[0].wip++;
+            stations[0].tick_counter = 0;
+        }
+        else {
+            stations[0].tick_counter++;
+            if (stations[0].tick_counter>stations[0].lead_time) {
+                stations[0].wip--;
+                stations[1].wip++;
+            }
+        }
+
+        /* for each station behind first station*/
+        for (let s=1; s<stations.length; s++) {
+            if (stations[s].wip > 0) {
+                stations[s].tick_counter++;
+                if (stations[s].tick_counter>stations[s].lead_time) {
+                    stations[s].wip--;
+                    stations[s].tick_counter = 0;
+                    if (s<stations.length-1) {
+                        stations[s+1].wip++;
+                    }
+                    else {
+                        if (done==0) {
+                            i_off = i;
+                        }
+                        done++;
+                    }
+                }
+            }
+        }
+
+        /* display current state */
+        let s=0;
+        let wip_global=0;
+        stations.forEach(station=>{
+            let station_div = document.getElementById(s);
+            if (station_div == null) {
+                station_div = document.createElement('div');
+                station_div.id = s.toString();
+                document.body.appendChild(station_div);
+            }
+
+            station_div.innerText = 's='+ s+' wip='+station.wip + ' tick_counter='+station.tick_counter;
+            station_div.style.height = (20 * station.wip).toString()+'px';
+
+            wip_global += station.wip;
+            s++;
+        });
+
+        let station_div = document.getElementById('done');
+        if (station_div == null) {
+            station_div = document.createElement('div');
+            station_div.id = 'done';
+            document.body.appendChild(station_div);
+        }
+
+
+
+        station_div.innerText = 'i='+i+  ' done='+ done.toString() + ' wip_g='+wip_global + ' tp='+(Math.round(done*10000/(i-i_off))/10000).toString();
+        station_div.style.height = (20 * done).toString()+'px';
+
+        i++;
+        if (i>12000) clearInterval(ticker);
+    }
+
+    let stations = [];
+    let done = 0;
+
+    /*
+    stations[0] = new station(85);
+    stations[1] = new station(76);
+    stations[2] = new station(86);
+    stations[3] = new station(85);
+    stations[4] = new station(82);
+    stations[5] = new station(75);
+    stations[6] = new station(99);
+    stations[7] = new station(111);
+    */
+
+    stations[0] = new station(60);
+    stations[1] = new station(76);
+    stations[2] = new station(86);
+    stations[3] = new station(85);
+    stations[4] = new station(82);
+    stations[5] = new station(75);
+    stations[6] = new station(99);
+    stations[7] = new station(111);
+
+    /* tick loop */
+    let i=0;
+    let i_off=0;
+    let ticker = setInterval(function(){ tick(); }, 10);
+
+
+
+
+</script>
+</html>
