@@ -100,7 +100,7 @@ select sc.station_id
     on w.station_id = sc.station_id
    and w.simulation_id = s.simulation_id
 where s.simulation_id = $simulation_id
-) as x"
+) as x order by x.station_pos"
 ;
 
 
