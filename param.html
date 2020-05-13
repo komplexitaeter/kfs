@@ -8,10 +8,12 @@
         }
         div {
             border: 1px solid black;
-            width: 130px;
-            display: inline-block;
+            width: 8%;
+            display: inline-flex;
             background-color: #3498db;
             margin: 2px;
+            padding-left: 5px;
+            padding-top: 10px;
         }
     </style>
 </head>
@@ -27,7 +29,7 @@
     }
 
     function sleepFor( sleepDuration ){
-        var now = new Date().getTime();
+        let now = new Date().getTime();
         while(new Date().getTime() < now + sleepDuration){ /* do nothing */ }
     }
 
@@ -36,15 +38,20 @@
 
         /* for station = 0 */
 
-        if (stations[0].wip == 0) {
+        if (stations[0].wip == 0 && i< iStop ) {
             stations[0].wip++;
             stations[0].tick_counter = 0;
         }
         else {
-            stations[0].tick_counter++;
-            if (stations[0].tick_counter>stations[0].lead_time) {
-                stations[0].wip--;
-                stations[1].wip++;
+            if (i< iStop || stations[0].wip>0 ) {
+                stations[0].tick_counter++;
+                if (stations[0].tick_counter > stations[0].lead_time) {
+                    stations[0].wip--;
+                    stations[1].wip++;
+                }
+            }
+            else {
+                stations[0].tick_counter = 0;
             }
         }
 
@@ -79,8 +86,12 @@
                 document.body.appendChild(station_div);
             }
 
-            station_div.innerText = 's='+ s+' wip='+station.wip + ' tick_counter='+station.tick_counter;
-            station_div.style.height = (20 * station.wip).toString()+'px';
+            station_div.innerHTML = 's='+ s+'</br>';
+            station_div.innerHTML+= 'lead_t='+station.lead_time/10+'s</br>';
+            station_div.innerHTML+= 'wip='+station.wip+'pcs</br>';
+            station_div.innerHTML+= 'cur='+Math.round(station.tick_counter/station.lead_time*100)+'%';
+
+            station_div.style.height = (15 * station.wip).toString()+'px';
 
             wip_global += station.wip;
             s++;
@@ -95,15 +106,33 @@
 
 
 
-        station_div.innerText = 'i='+i+  ' done='+ done.toString() + ' wip_g='+wip_global + ' tp='+(Math.round(done*10000/(i-i_off))/10000).toString();
-        station_div.style.height = (20 * done).toString()+'px';
+        station_div.innerHTML = 't='+i/10+'s<br/>';
+        station_div.innerHTML+= 'done='+ done.toString()+'pcs<br/>';
+        station_div.innerHTML+= 'wip_g='+wip_global+'pcs<br/>';
+
+        if (i_off>0) {
+            station_div.innerHTML += 'tp=' + ((Math.round(done * 10000 / (i - i_off)) / 1000)).toString() + 'pcs/s<br/>';
+            station_div.innerHTML += '1/tp=' + ((Math.round(1 / (done / (i - i_off))) / 1)).toString() + 's/pc';
+        }
+
+        station_div.style.height = (15 * done).toString()+'px';
 
         i++;
-        if (i>12000) clearInterval(ticker);
+        if (i==iStop) {
+            alert('Pause: Backlog is empty from now on');
+            //clearInterval(ticker);
+            //ticker = setInterval(function(){ tick(); }, 100);
+        }
+
+        if ( i>iStop && wip_global<=0 ) {
+            clearInterval(ticker);
+        }
+
     }
 
     let stations = [];
     let done = 0;
+    let iStop = 1800;
 
     /*
     stations[0] = new station(85);
@@ -117,12 +146,12 @@
     */
 
     stations[0] = new station(60);
-    stations[1] = new station(76);
-    stations[2] = new station(86);
-    stations[3] = new station(85);
-    stations[4] = new station(82);
-    stations[5] = new station(75);
-    stations[6] = new station(99);
+    stations[1] = new station(56);
+    stations[2] = new station(66);
+    stations[3] = new station(71);
+    stations[4] = new station(67);
+    stations[5] = new station(63);
+    stations[6] = new station(118);
     stations[7] = new station(111);
 
     /* tick loop */
