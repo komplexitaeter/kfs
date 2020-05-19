@@ -40,11 +40,23 @@ body{
     font-size: x-small;
     padding-left: 0.5em;
     padding-top: 0.5em;
-    background-color: transparent;
+    background-color: aliceblue;
     background-image: url("./src/item_border_small.png");
     background-size: 100% 100%;
     background-repeat: no-repeat;
     cursor: default;
+}
+
+.green_item{
+    background-color:green;
+}
+
+.red_item{
+    background-color:red;
+}
+
+.blue_item{
+    background-color:blue;
 }
 
 .item_preview{
@@ -60,6 +72,26 @@ body{
     opacity: 0.95;
 }
 
+.context_menu{
+    position:absolute;
+    width:150px;
+    height:auto;
+    z-index:4;
+    cursor: default;
+    opacity: 1;
+}
+
+.context_menu_option{
+    width:100%;
+    height:auto;
+    background-color: yellow;
+}
+
+.context_menu_option:hover{
+    width:100%;
+    height:auto;
+    background-color: yellowgreen;
+}
 
 
 .station .item{
@@ -68,7 +100,6 @@ body{
     padding-left: 0.5em;
     width:75%;
     opacity: 0.8;
-    background-color: aliceblue;
 }
 .station .wip_item {
     color: deeppink;

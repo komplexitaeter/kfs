@@ -284,35 +284,6 @@ function createAreaOnWorkbench(area){
             toolsLabel.classList.add("station_label");
             toolsLabel.innerText = "Toolbox";
 
-            /*Generate color picker for the toolbox*/
-            /*
-            let form = document.createElement("form");
-            form.name="colorPicker";
-            form.id="colorPicker";
-            form.className = "custom-radios";
-            for(i=0;i<colorArray.length;i++){
-                let div = document.createElement("div");
-                let input = document.createElement("input");
-                let label = document.createElement("label");
-                let span = document.createElement("span");
-                let img = document.createElement("img");
-                input.type="radio";
-                input.id="color-"+(i+1);
-                input.name="colorValue";
-                input.value=colorArray[i].colorCode;
-                if(i==0){input.checked = true;}
-                label.for="color-"+(i+1);
-                img.src="./src/checked.png";
-                img.alt="Checked Icon";
-                span.appendChild(img);
-                label.appendChild(span);
-                div.appendChild(input);
-                div.appendChild(label);
-
-                form.appendChild(div);
-            }
-            */
-
             workbench.appendChild(workarea);
             workarea.appendChild(workinprogress);
             workinprogress.appendChild(workinprogressLabel);
@@ -545,6 +516,40 @@ function updateItemDiv(obj, currentItemDivId){
         item.classList.remove('wip_item');
         item.classList.add('done_item');
     }
+
+    updateItemDivOptions(item, obj.options);
+
+}
+
+function updateItemDivOptions(itemDiv, options){
+    let workbenchItemDiv = document.getElementById("workbench_"+itemDiv.id.split('_')[1]);
+
+    switch(options){
+        case "red":
+            itemDiv.classList.remove("green_item","blue_item");
+            itemDiv.classList.add("red_item");
+            workbenchItemDiv.classList.remove("green_item","blue_item");
+            workbenchItemDiv.classList.add("red_item");
+            break;
+        case "green":
+            itemDiv.classList.remove("red_item","blue_item");
+            itemDiv.classList.add("green_item");
+            workbenchItemDiv.classList.remove("red_item","blue_item");
+            workbenchItemDiv.classList.add("green_item")
+            break;
+        case "blue":
+            itemDiv.classList.remove("red_item","green_item");
+            itemDiv.classList.add("blue_item");
+            workbenchItemDiv.classList.remove("red_item","blue_item");
+            workbenchItemDiv.classList.add("green_item")
+            break;
+        case "remove":
+            itemDiv.classList.remove("red_item","green_item","blue_item");
+            workbenchItemDiv.classList.remove("red_item","blue_item","blue_item");
+            break;
+        default:
+            return false;
+    }
 }
 
 function createItemDiv(obj, currentItemDivId){
@@ -555,6 +560,7 @@ function createItemDiv(obj, currentItemDivId){
     if(obj.current_station_id == null){obj.current_station_id = "backlog";}
     div.onmouseover=displayItemPreview;
     div.onmouseout=removeItemPreview;
+    div.oncontextmenu=rightClickItem;
     document.getElementById(obj.current_station_id).appendChild(div);
 }
 
@@ -699,6 +705,77 @@ function autoPullItem(workbench) {
          + "&session_key=" + getSessionKey();
      fetch(url);
  }
+}
+
+/****functions for the moderator****/
+
+function clearOpenedMenu(){
+    let openedMenu = Array.from(document.getElementsByClassName("context_menu"));
+    if(openedMenu != null){
+        openedMenu.forEach( obj=> {
+            obj.remove();
+        });
+    }
+}
+
+function updateItemOption(e){
+    /*reminder: option.id = item_id+"_"+key; */
+    let url = './update_items.php?'
+                +"item_id="+e.target.id.split('_')[0]
+                +"&options="+e.target.id.split('_')[1];
+    fetch(url);
+}
+
+function defineContextMenu(item_id){
+    let contextMenuArray = {
+        "red":"set item to red",
+        "green":"set item to green",
+        "blue":"set item to blue",
+        "remove":"remove color from item"
+    };
+
+    let contextMenu = document.createElement("div");
+    contextMenu.classList.add("context_menu");
+    contextMenu.style.visibility = "hidden";
+
+    for(var key in contextMenuArray)
+    {
+        var value = contextMenuArray[key];
+        let option = document.createElement("div");
+        option.classList.add("context_menu_option");
+        option.id = item_id+"_"+key;
+        option.value = item_id;
+        option.innerText = value;
+        option.onclick=updateItemOption;
+        contextMenu.append(option);
+    }
+
+
+    document.body.appendChild(contextMenu);
+    return contextMenu;
+}
+
+function rightClickItem(e){
+
+    let openedMenu = Array.from(document.getElementsByClassName("context_menu"));
+    if(openedMenu != null){
+        openedMenu.forEach( obj=> {
+            obj.remove();
+        });
+    }
+
+    let contextMenu = defineContextMenu(e.target.id.split('_')[1]);
+
+    /*position context menu to the left in case the cursor is on the far right*/
+    if(contextMenu.clientWidth + e.clientX > document.body.clientWidth){
+        contextMenu.style.left = (e.clientX - contextMenu.clientWidth) + "px";
+    }
+    else{
+        contextMenu.style.left = (e.clientX ) + "px";
+    }
+    contextMenu.style.top = e.clientY + "px";
+    contextMenu.style.visibility = "visible";
+
 }
 
 /******Toolbox for the default_draw implementation**********/

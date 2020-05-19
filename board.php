@@ -14,7 +14,7 @@
 
     <link rel="stylesheet" type="text/css" href="./board.css">
 </head>
-<body onload="loadBoard()">
+<body onload="loadBoard()" oncontextmenu="return false;" onclick="clearOpenedMenu()">
 
 <div id="backlog">
     <div class="station_label">Backlog</div>
