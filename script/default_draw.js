@@ -15,6 +15,12 @@ class DefaultDrawWorkbench extends Workbench {
         /*set the tools back to their default position on station change*/
         document.getElementById('width-2').checked=true;
         document.getElementById("color-1").checked=true;
+        let drawingLineWidthEl = document.getElementById('widthPicker');
+        let drawingColorEl = document.getElementById("colorPicker");
+
+        fCanvas.freeDrawingBrush.color = drawingColorEl.colorValue.value;
+        fCanvas.freeDrawingBrush.width = parseInt(drawingLineWidthEl.widthValue.value, 10) || 1;
+
 
     }
 
@@ -24,10 +30,11 @@ class DefaultDrawWorkbench extends Workbench {
         var that = this;
         fCanvas.isDrawingMode = true;
         fCanvas.freeDrawingCursor = "crosshair";
-        let drawingLineWidthEl = document.getElementById('width-2');
-        let drawingColorEl = document.getElementById("color-1");
-        fCanvas.freeDrawingBrush.color = drawingColorEl.value;
-        fCanvas.freeDrawingBrush.width = parseInt(drawingLineWidthEl.value, 10) || 1;
+        let drawingLineWidthEl = document.getElementById('widthPicker');
+        let drawingColorEl = document.getElementById("colorPicker");
+
+        fCanvas.freeDrawingBrush.color = drawingColorEl.colorValue.value;
+        fCanvas.freeDrawingBrush.width = parseInt(drawingLineWidthEl.widthValue.value, 10) || 1;
 
         fabric.loadSVGFromURL('./src/ship_template/ship_template.svg', function (objects, options) {
             objects.forEach(obj =>{
