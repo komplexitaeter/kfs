@@ -87,7 +87,7 @@ for($i=0; $i<count($sql_set);$i++){
 }
 
 $sql = "UPDATE kfs_attendees_tbl SET ".$sql_update." WHERE session_key='".$session_key."' AND simulation_id='".$simulation_id."'";
-echo "$sql";
+
 if(!$result = $link->query($sql))
     {
         if ($link->connect_errno) {
