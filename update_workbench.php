@@ -1,5 +1,6 @@
 <?php
 require 'config.php';
+require 'sql_lib.php';
 
 /* GET Parameters */
 $simulation_id = filter_input(INPUT_GET, 'simulation_id', FILTER_SANITIZE_NUMBER_INT);
@@ -134,6 +135,17 @@ if ($action=='start') {
                               where round.round_id=itm.round_id
                          )
                   WHERE itm.item_id=".$item_id;
+
+        $sql_items_cnt = "SELECT count(1) as cnt FROM kfs_items_tbl WHERE round_id = $meta_data->current_round_id";
+
+        $result = $link->query($sql_items_cnt);
+        $obj = $result->fetch_object();
+        $offset = $obj->cnt;
+
+        $sql_items = get_create_items_sql($meta_data->current_round_id, $offset, 1);
+        error_log('sql_items='.$sql_items);
+        $link->query($sql_items);
+
     }
     else {
         $sql = "UPDATE kfs_items_tbl SET is_in_progress=true WHERE item_id=".$item_id;

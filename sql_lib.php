@@ -1,19 +1,24 @@
 <?php
-function get_create_items_sql($round_id) {
+function get_create_items_sql($round_id, $offset, $count ) {
     //$sids = array('null','null','null','123321','124421','125521','126621','127721','128821','129921','131131');
     $sids = array('null');
     $station_id = null;
 
     $sql = 'INSERT'.' INTO kfs_items_tbl(order_number,round_id,prio,price,current_station_id)';
     if ($round_id==null) $round_id = 'LAST_INSERT_ID()';
-    for ($i=0;$i<20;$i++) {
+    if ($offset==null) $offset = 0;
+    if ($count==null) $count = 10;
+
+    for ($i=$offset;$i<$offset+$count;$i++) {
         $station_id = $sids[mt_rand(0, count($sids)-1)];
-        if ($i==0) $sql.='VALUES'; else $sql.=',';
+        if ($i==$offset) $sql.='VALUES'; else $sql.=',';
         $sql.="('".str_pad($i+1, 2, "0", STR_PAD_LEFT)."',".$round_id.",".($i+1).",100,".$station_id.")";
     }
 
     return $sql;
 }
+
+
 
 function get_stations_status_sql($simulation_id) {
  $sql=   "select x.*

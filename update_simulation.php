@@ -46,7 +46,7 @@ if(isset($_GET['status_code'])){
             if(!$result = $link->query($sql)) exit('INTERNAL_ERROR');
 
             /* create some items*/
-            $sql = get_create_items_sql(null); /* get round id from last insert */
+            $sql = get_create_items_sql(null, null, null); /* get round id from last insert */
             if(!$result = $link->query($sql)) exit('INTERNAL_ERROR');
 
         }

@@ -113,7 +113,7 @@ if ($action == 'reset') {
         $sql ='UPDATE kfs_workbench_tbl SET workbench_svg = NULL WHERE simulation_id='.$simulation_id;
         array_push($sql_dml, $sql);
         /* create some items*/
-        $sql = get_create_items_sql(null); /* get round id from last insert */
+        $sql = get_create_items_sql(null, null, null); /* get round id from last insert */
         array_push($sql_dml, $sql);
     }
     else exit ('INVALID_STATE_TO_RESET_ROUND');
