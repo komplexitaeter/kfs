@@ -48,6 +48,13 @@ if(isset($_GET['name'])){
     }
 }
 
+if(isset($_GET['role_code'])){
+    $role_code = filter_input(INPUT_GET, 'role_code', FILTER_SANITIZE_STRING);
+    if (strlen($role_code)>0 && in_array($role_code, array('OBSERVER','FACILITATOR'))) {
+        array_push($sql_set, "role_code = '".$role_code."'");
+    }
+}
+
 $reset_thumbnail = false;
 if(isset($_GET['station_id'])){
     $station_id = filter_input(INPUT_GET, 'station_id');
