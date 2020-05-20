@@ -528,27 +528,32 @@ function updateItemDivOptions(itemDiv, options){
         case "red":
             itemDiv.classList.remove("green_item","blue_item");
             itemDiv.classList.add("red_item");
-            workbenchItemDiv.classList.remove("green_item","blue_item");
-            workbenchItemDiv.classList.add("red_item");
+            if (workbenchItemDiv!=null) {
+                workbenchItemDiv.classList.remove("green_item", "blue_item");
+                workbenchItemDiv.classList.add("red_item");
+            }
             break;
         case "green":
             itemDiv.classList.remove("red_item","blue_item");
             itemDiv.classList.add("green_item");
-            workbenchItemDiv.classList.remove("red_item","blue_item");
-            workbenchItemDiv.classList.add("green_item")
+            if (workbenchItemDiv!=null) {
+                workbenchItemDiv.classList.remove("red_item", "blue_item");
+                workbenchItemDiv.classList.add("green_item");
+            }
             break;
         case "blue":
             itemDiv.classList.remove("red_item","green_item");
             itemDiv.classList.add("blue_item");
-            workbenchItemDiv.classList.remove("red_item","blue_item");
-            workbenchItemDiv.classList.add("green_item")
-            break;
-        case "remove":
-            itemDiv.classList.remove("red_item","green_item","blue_item");
-            workbenchItemDiv.classList.remove("red_item","blue_item","blue_item");
+            if (workbenchItemDiv!=null) {
+                workbenchItemDiv.classList.remove("red_item", "green_item");
+                workbenchItemDiv.classList.add("blue_item");
+            }
             break;
         default:
-            return false;
+            itemDiv.classList.remove("red_item","green_item","blue_item");
+            if (workbenchItemDiv!=null) {
+                workbenchItemDiv.classList.remove("red_item", "green_item", "blue_item");
+            }
     }
 }
 
@@ -731,7 +736,7 @@ function defineContextMenu(item_id){
         "red":"set item to red",
         "green":"set item to green",
         "blue":"set item to blue",
-        "remove":"remove color from item"
+        "":"remove color from item"
     };
 
     let contextMenu = document.createElement("div");
