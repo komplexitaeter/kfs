@@ -530,19 +530,19 @@ function updateItemDivOptions(itemDiv, options){
     switch(options){
         case "red":
             Array.from(itemDiv.getElementsByTagName("img"))[0].src = "./src/dot_red.png";
-            Array.from(workbenchItemDiv.getElementsByTagName("img"))[0].src = "./src/dot_red.png";
+            if(workbenchItemDiv!=null) Array.from(workbenchItemDiv.getElementsByTagName("img"))[0].src = "./src/dot_red.png";
             break;
         case "green":
             Array.from(itemDiv.getElementsByTagName("img"))[0].src = "./src/dot_green.png";
-            Array.from(workbenchItemDiv.getElementsByTagName("img"))[0].src = "./src/dot_green.png";
+            if(workbenchItemDiv!=null) Array.from(workbenchItemDiv.getElementsByTagName("img"))[0].src = "./src/dot_green.png";
             break;
         case "yellow":
             Array.from(itemDiv.getElementsByTagName("img"))[0].src = "./src/dot_yellow.png";
-            Array.from(workbenchItemDiv.getElementsByTagName("img"))[0].src = "./src/dot_yellow.png";
+            if(workbenchItemDiv!=null) Array.from(workbenchItemDiv.getElementsByTagName("img"))[0].src = "./src/dot_yellow.png";
             break;
         default:
             Array.from(itemDiv.getElementsByTagName("img"))[0].src = "./src/dot_aliceblue.png";
-            Array.from(workbenchItemDiv.getElementsByTagName("img"))[0].src = "./src/dot_aliceblue.png";
+            if(workbenchItemDiv!=null) Array.from(workbenchItemDiv.getElementsByTagName("img"))[0].src = "./src/dot_aliceblue.png";
     }
 }
 
