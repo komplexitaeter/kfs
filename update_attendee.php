@@ -51,7 +51,18 @@ if(isset($_GET['name'])){
 if(isset($_GET['role_code'])){
     $role_code = filter_input(INPUT_GET, 'role_code', FILTER_SANITIZE_STRING);
     if (strlen($role_code)>0 && in_array($role_code, array('OBSERVER','FACILITATOR'))) {
-        array_push($sql_set, "role_code = '".$role_code."'");
+        /* check if not the last facilitator */
+        if ($role_code=='OBSERVER') {
+            $sql = "select count(1) as cnt 
+                      from kfs_attendees_tbl
+                     where simulation_id=$simulation_id
+                       and role_code='FACILITATOR'";
+            $result = $link->query($sql);
+            $obj = $result->fetch_object();
+            if ($obj->cnt > 1 ) {
+                array_push($sql_set, "role_code = '".$role_code."'");
+            }
+        }
     }
 }
 
