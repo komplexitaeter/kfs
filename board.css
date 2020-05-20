@@ -49,6 +49,14 @@ body{
     background-color: darkgrey;
 }
 
+.set_role{
+    width:150px;
+}
+
+.context_menu_role:hover{
+    background-color: darkgrey;
+}
+
 .access_control{
     visibility: hidden;
 }
