@@ -47,17 +47,13 @@ body{
     cursor: default;
 }
 
-.green_item{
-    background-color:green;
-}
-
-.red_item{
-    background-color:red;
-}
-
-.blue_item{
-    background-color:blue;
-}
+.item_options{
+    float: left;
+    height:100%;
+    width: auto;
+    padding-bottom: 0.1rem;
+    padding-right: 0.2rem;
+    }
 
 .item_preview{
     position:absolute;
@@ -74,30 +70,29 @@ body{
 
 .context_menu{
     position:absolute;
-    width:150px;
+    width:25px;
     height:auto;
     z-index:4;
     cursor: default;
     opacity: 1;
+    background-color: lightgrey;
+    background-image: url("./src/container_grey_vertical.png");
+    background-size:100% 100%;
+    background-repeat: no-repeat;
 }
 
 .context_menu_option{
     width:100%;
     height:auto;
-    background-color: yellow;
 }
 
 .context_menu_option:hover{
-    width:100%;
-    height:auto;
-    background-color: yellowgreen;
+    background-color: darkgrey;
 }
 
 
 .station .item{
     font-size: x-small;
-    padding: 0.5em;
-    padding-left: 0.5em;
     width:75%;
     opacity: 0.8;
 }

@@ -218,6 +218,10 @@ function createItemsOnWorkbench(itemsToCreate, targetDivId) {
             div.id = "workbench_" + item.item_id;
             div.classList.add("item");
             div.innerText = "#" + item.order_number + " | " + item.price + "€";
+            let optionDiv = document.createElement("img");
+            optionDiv.classList.add("item_options");
+            optionDiv.src = './src/dot_aliceblue.png';
+            div.appendChild(optionDiv);
             document.getElementById(targetDivId).appendChild(div);
         });
     }
@@ -289,7 +293,6 @@ function createAreaOnWorkbench(area){
             workinprogress.appendChild(workinprogressLabel);
             workarea.appendChild(tools);
             tools.appendChild(toolsLabel);
-            //document.getElementById("drawing-mode-options").appendChild(form);
             break;
 
         case "workbench_canvas":
@@ -503,7 +506,7 @@ function displayStations(stations, simulation_id){
 
 function updateItemDiv(obj, currentItemDivId){
     let item = document.getElementById(currentItemDivId);
-    item.innerText = "#"+obj.order_number+" | "+sec2time(obj.cycle_time_s)+" | "+obj.price+"€";
+    //item.innerText = "#"+obj.order_number+" | "+sec2time(obj.cycle_time_s)+" | "+obj.price+"€";
     if (obj.wip == '0') {
         item.classList.remove('wip_item');
         item.classList.remove('done_item');
@@ -526,34 +529,20 @@ function updateItemDivOptions(itemDiv, options){
 
     switch(options){
         case "red":
-            itemDiv.classList.remove("green_item","blue_item");
-            itemDiv.classList.add("red_item");
-            if (workbenchItemDiv!=null) {
-                workbenchItemDiv.classList.remove("green_item", "blue_item");
-                workbenchItemDiv.classList.add("red_item");
-            }
+            Array.from(itemDiv.getElementsByTagName("img"))[0].src = "./src/dot_red.png";
+            Array.from(workbenchItemDiv.getElementsByTagName("img"))[0].src = "./src/dot_red.png";
             break;
         case "green":
-            itemDiv.classList.remove("red_item","blue_item");
-            itemDiv.classList.add("green_item");
-            if (workbenchItemDiv!=null) {
-                workbenchItemDiv.classList.remove("red_item", "blue_item");
-                workbenchItemDiv.classList.add("green_item");
-            }
+            Array.from(itemDiv.getElementsByTagName("img"))[0].src = "./src/dot_green.png";
+            Array.from(workbenchItemDiv.getElementsByTagName("img"))[0].src = "./src/dot_green.png";
             break;
-        case "blue":
-            itemDiv.classList.remove("red_item","green_item");
-            itemDiv.classList.add("blue_item");
-            if (workbenchItemDiv!=null) {
-                workbenchItemDiv.classList.remove("red_item", "green_item");
-                workbenchItemDiv.classList.add("blue_item");
-            }
+        case "yellow":
+            Array.from(itemDiv.getElementsByTagName("img"))[0].src = "./src/dot_yellow.png";
+            Array.from(workbenchItemDiv.getElementsByTagName("img"))[0].src = "./src/dot_yellow.png";
             break;
         default:
-            itemDiv.classList.remove("red_item","green_item","blue_item");
-            if (workbenchItemDiv!=null) {
-                workbenchItemDiv.classList.remove("red_item", "green_item", "blue_item");
-            }
+            Array.from(itemDiv.getElementsByTagName("img"))[0].src = "./src/dot_aliceblue.png";
+            Array.from(workbenchItemDiv.getElementsByTagName("img"))[0].src = "./src/dot_aliceblue.png";
     }
 }
 
@@ -566,6 +555,12 @@ function createItemDiv(obj, currentItemDivId){
     div.onmouseover=displayItemPreview;
     div.onmouseout=removeItemPreview;
     div.oncontextmenu=rightClickItem;
+
+    let optionDiv = document.createElement("img");
+    optionDiv.classList.add("item_options");
+    optionDiv.src = './src/dot_aliceblue.png';
+    optionDiv.style.pointerEvents = "none";
+    div.appendChild(optionDiv);
     document.getElementById(obj.current_station_id).appendChild(div);
 }
 
@@ -735,8 +730,8 @@ function defineContextMenu(item_id){
     let contextMenuArray = {
         "red":"set item to red",
         "green":"set item to green",
-        "blue":"set item to blue",
-        "":"remove color from item"
+        "yellow":"set item to yellow",
+        "":"remove color"
     };
 
     let contextMenu = document.createElement("div");
@@ -746,11 +741,17 @@ function defineContextMenu(item_id){
     for(var key in contextMenuArray)
     {
         var value = contextMenuArray[key];
-        let option = document.createElement("div");
+        let option = document.createElement("img");
         option.classList.add("context_menu_option");
         option.id = item_id+"_"+key;
         option.value = item_id;
-        option.innerText = value;
+        if(key != ""){
+            option.src = "./src/dot_"+key+".png";
+        }
+        else{
+            option.src = "./src/dot_aliceblue.png";
+        }
+
         option.onclick=updateItemOption;
         contextMenu.append(option);
     }
