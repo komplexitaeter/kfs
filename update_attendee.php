@@ -63,6 +63,9 @@ if(isset($_GET['role_code'])){
                 array_push($sql_set, "role_code = '".$role_code."'");
             }
         }
+        else {
+            array_push($sql_set, "role_code = '".$role_code."'");
+        }
     }
 }
 
