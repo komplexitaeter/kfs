@@ -28,6 +28,7 @@ function refreshBoard(simulation_id, session_key){
                     displayControls(myJson.current_round);
                     displayItems(myJson.items_list);
                     displayWorkbench(myJson.workbench, myJson.current_round, simulation_id);
+                    toggleAccessControl(myJson.role_code);
                     //autoPullItem(myJson.workbench);
                     break;
                 case "NO_SIMULATION":
@@ -669,6 +670,7 @@ function switchTimeoutAttendee(myDiv, bool){
 function createAttendeeDiv(obj, session_key){
     let myDiv = document.createElement("div");
     myDiv.classList.add("attendee");
+    myDiv.oncontextmenu=rightClickAttendee;
     if(obj.session_key == session_key){
         myDiv.classList.add("current_user");
     }
@@ -676,10 +678,10 @@ function createAttendeeDiv(obj, session_key){
         myDiv.classList.add("not_current_user");
     }
     myDiv.id = obj.session_key;
-    myDiv.innerHTML = '<div class="avatar">&nbsp;</div>';
+    myDiv.innerHTML = '<div class="avatar" style="pointer-events: none;">&nbsp;</div>';
     if(obj.avatar_code == null){obj.avatar_code = 1;}
     myDiv.querySelector(".avatar").style.backgroundImage = "url('./src/avatar_"+obj.avatar_code+".png')";
-    myDiv.innerHTML += '<div class="attendee_name_label">'+obj.name+'</div>';
+    myDiv.innerHTML += '<div class="attendee_name_label" style="pointer-events: none;">'+obj.name+'</div>';
     myDiv.draggable=true;
     myDiv.ondragstart=drag;
     return myDiv;
@@ -707,7 +709,23 @@ function autoPullItem(workbench) {
  }
 }
 
-/****functions for the moderator****/
+/****functions for the FACILITATOR****/
+
+function toggleAccessControl(role){
+    let accessControlDivs = Array.from(document.getElementsByClassName("access_control"));
+    if(role == "FACILITATOR"){
+        accessControlDivs.forEach( div => {
+            if(div.classList.contains("is_facilitator") == false){
+                div.classList.add("is_facilitator");
+            }
+        });
+    }
+    if(role == "OBSERVER"){
+        accessControlDivs.forEach( div => {
+                div.classList.remove("is_facilitator");
+        });
+    }
+}
 
 function clearOpenedMenu(){
     let openedMenu = Array.from(document.getElementsByClassName("context_menu"));
@@ -718,6 +736,15 @@ function clearOpenedMenu(){
     }
 }
 
+function updateAttendeeRole(e){
+    /*reminder: option.id = session_key+"_"+role; */
+    let url = './update_attendee.php?'
+        +"session_key="+e.target.id.split('_')[0]
+        +"&role_code="+e.target.id.split('_')[1]
+        +"&simulation_id="+getSimulationId();
+    fetch(url);
+}
+
 function updateItemOption(e){
     /*reminder: option.id = item_id+"_"+key; */
     let url = './update_items.php?'
@@ -726,39 +753,82 @@ function updateItemOption(e){
     fetch(url);
 }
 
-function defineContextMenu(item_id){
-    let contextMenuArray = {
-        "red":"set item to red",
-        "green":"set item to green",
-        "yellow":"set item to yellow",
-        "":"remove color"
-    };
+function defineContextMenu(target_id, context){
+    let contextMenuArray;
+    let contextMenu;
+    switch(context) {
+        case "item":
+            contextMenuArray = {
+                "red": "set item to red",
+                "green": "set item to green",
+                "yellow": "set item to yellow",
+                "": "remove color"
+            };
 
-    let contextMenu = document.createElement("div");
-    contextMenu.classList.add("context_menu");
-    contextMenu.style.visibility = "hidden";
+            contextMenu = document.createElement("div");
+            contextMenu.classList.add("context_menu", "access_control");
 
-    for(var key in contextMenuArray)
-    {
-        var value = contextMenuArray[key];
-        let option = document.createElement("img");
-        option.classList.add("context_menu_option");
-        option.id = item_id+"_"+key;
-        option.value = item_id;
-        if(key != ""){
-            option.src = "./src/dot_"+key+".png";
-        }
-        else{
-            option.src = "./src/dot_aliceblue.png";
-        }
+            for (var key in contextMenuArray) {
+                var value = contextMenuArray[key];
+                let option = document.createElement("img");
+                option.classList.add("context_menu_option");
+                option.id = target_id + "_" + key;
+                option.value = target_id;
+                if (key != "") {
+                    option.src = "./src/dot_" + key + ".png";
+                } else {
+                    option.src = "./src/dot_aliceblue.png";
+                }
 
-        option.onclick=updateItemOption;
-        contextMenu.append(option);
+                option.onclick = updateItemOption;
+                contextMenu.append(option);
+            }
+            document.body.appendChild(contextMenu);
+            return contextMenu;
+            break;
+
+        case "attendee":
+            contextMenuArray = {
+                "FACILITATOR": "give facilitator role",
+                "OBSERVER": "remove facilitator role"
+            };
+
+            contextMenu = document.createElement("div");
+            contextMenu.classList.add("context_menu", "set_role", "access_control");
+
+            for (var key in contextMenuArray) {
+                var value = contextMenuArray[key];
+                let option = document.createElement("div");
+                option.classList.add("context_menu_role");
+                option.id = target_id + "_" + key;
+                option.innerText = value;
+                option.onclick = updateAttendeeRole;
+                contextMenu.append(option);
+            }
+            document.body.appendChild(contextMenu);
+            return contextMenu;
+            break;
+    }
+}
+
+function rightClickAttendee(e){
+    let openedMenu = Array.from(document.getElementsByClassName("context_menu"));
+    if(openedMenu != null){
+        openedMenu.forEach( obj=> {
+            obj.remove();
+        });
     }
 
+    let contextMenu = defineContextMenu(e.target.id, "attendee");
 
-    document.body.appendChild(contextMenu);
-    return contextMenu;
+    /*position context menu to the left in case the cursor is on the far right*/
+    if(contextMenu.clientWidth + e.clientX > document.body.clientWidth){
+        contextMenu.style.left = (e.clientX - contextMenu.clientWidth) + "px";
+    }
+    else{
+        contextMenu.style.left = (e.clientX ) + "px";
+    }
+    contextMenu.style.top = e.clientY + "px";
 }
 
 function rightClickItem(e){
@@ -770,7 +840,7 @@ function rightClickItem(e){
         });
     }
 
-    let contextMenu = defineContextMenu(e.target.id.split('_')[1]);
+    let contextMenu = defineContextMenu(e.target.id.split('_')[1], "item");
 
     /*position context menu to the left in case the cursor is on the far right*/
     if(contextMenu.clientWidth + e.clientX > document.body.clientWidth){
@@ -780,7 +850,6 @@ function rightClickItem(e){
         contextMenu.style.left = (e.clientX ) + "px";
     }
     contextMenu.style.top = e.clientY + "px";
-    contextMenu.style.visibility = "visible";
 
 }
 

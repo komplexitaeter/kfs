@@ -21,13 +21,13 @@
 </div>
 
 <div id="controls">
-    <button id="play" class="control_button button_play" onclick="pressPlay()">&nbsp;</button>
-    <button id="pause" class="control_button button_pause" onclick="pressPause()">&nbsp;</button>
-    <button id="reset" class="control_button button_reset" onclick="pressReset()">&nbsp;</button>
-    <button id="stats" class="control_button button_stats" onclick="pressStats()">&nbsp;</button>
+    <button id="play" class="control_button button_play access_control" onclick="pressPlay()">&nbsp;</button>
+    <button id="pause" class="control_button button_pause access_control" onclick="pressPause()">&nbsp;</button>
+    <button id="reset" class="control_button button_reset access_control" onclick="pressReset()">&nbsp;</button>
+    <button id="stats" class="control_button button_stats access_control" onclick="pressStats()">&nbsp;</button>
     <div id="clock" class="clock_display">&nbsp;</div>
 
-    <div class="control_toggle_push_container">
+    <div class="control_toggle_push_container access_control">
         <div>
             <label for="auto_pull" class="toggle_left">Pull</label>
             <label for="auto_pull" class="toggle_right">Push</label>
