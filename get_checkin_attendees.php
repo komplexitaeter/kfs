@@ -1,14 +1,15 @@
 <?php
-$simulation_id = filter_input(INPUT_GET, 'simulation_id');
-$session_key = filter_input(INPUT_GET, 'session_key');
+require 'config.php';
+
+$simulation_id = filter_input(INPUT_GET, 'simulation_id', FILTER_SANITIZE_NUMBER_INT);
+$session_key = filter_input(INPUT_GET, 'session_key', FILTER_SANITIZE_STRING);
 
 header('Content-Type: application/json');
-header ("Pragma-directive: no-cache");
-header ("Cache-directive: no-cache");
-header ("Cache-control: no-cache");
-header ("Pragma: no-cache");
-header ("Expires: 0");
-require 'config.php';
+header('Pragma-directive: no-cache');
+header('Cache-directive: no-cache');
+header('Cache-control: no-cache');
+header('Pragma: no-cache');
+header('Expires: 0');
 
 $link = mysqli_init();
 $success = mysqli_real_connect(
@@ -21,6 +22,8 @@ $success = mysqli_real_connect(
 );
 
 $sql = "SELECT status_code, configuration_name FROM kfs_simulation_tbl WHERE simulation_id=".$simulation_id;
+$configuration_name = null;
+$status_code = null;
 
 if ($result = $link->query($sql)) {
     if($obj = $result->fetch_object()) {
@@ -111,9 +114,13 @@ else{
 /* query all simulations attendees whit a callback up-to-date */
 $sql = "SELECT * FROM kfs_attendees_tbl WHERE TIMESTAMPDIFF( SECOND, last_callback_date, CURRENT_TIMESTAMP) < 30 AND simulation_id=".$simulation_id;
 $objs= array();
+$role_code = null;
 
 if ($result = $link->query($sql)) {
     while(  $obj = $result->fetch_object()) {
+        if ($obj->session_key == $session_key) {
+            $role_code = $obj->role_code;
+        }
         array_push($objs, $obj);
     }
 }
@@ -141,6 +148,7 @@ else{
 }
 
 $myJSON_array = array("status_code"=>$status_code
+                    , "role_code"=>$role_code
                     , "attendees"=>$objs
                     , "configuration_name"=>$configuration_name
                     , "configurations"=>$conf);

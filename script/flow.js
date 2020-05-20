@@ -200,7 +200,7 @@ function create_simulation() {
     }, 1000);
 
     setTimeout(function(){
-    const url ='./create_simulation.php';
+    const url ='./create_simulation.php?session_key='+getSessionKey();
     fetch(url)
         .then((response) => {
             return response.json();

@@ -1,14 +1,15 @@
 <?php
-$simulation_id = filter_input(INPUT_GET, 'simulation_id');
-$session_key = filter_input(INPUT_GET, 'session_key');
+require 'config.php';
+
+$simulation_id = filter_input(INPUT_GET, 'simulation_id', FILTER_SANITIZE_NUMBER_INT);
+$session_key = filter_input(INPUT_GET, 'session_key', FILTER_SANITIZE_STRING);
 
 header('Content-Type: application/json');
-header ("Pragma-directive: no-cache");
-header ("Cache-directive: no-cache");
-header ("Cache-control: no-cache");
-header ("Pragma: no-cache");
-header ("Expires: 0");
-require 'config.php';
+header('Pragma-directive: no-cache');
+header('Cache-directive: no-cache');
+header('Cache-control: no-cache');
+header('Pragma: no-cache');
+header('Expires: 0');
 
 $link = mysqli_init();
 $success = mysqli_real_connect(

@@ -29,14 +29,22 @@ $sql = "SELECT s.status_code
                       and r.last_stop_time is null
                       and r.auto_pull
                then 1 end as auto_pull
+              ,a.role_code
          FROM kfs_simulation_tbl  as s
     LEFT OUTER JOIN kfs_rounds_tbl as r 
        ON r.round_id = s.current_round_id
+    LEFT OUTER JOIN kfs_attendees_tbl as a
+       ON a.simulation_id = s.simulation_id
+      and a.session_key = '$session_key'
         WHERE s.simulation_id=$simulation_id";
+
+$status_code=null;
+$role_code=null;
 
 if ($result = $link->query($sql)) {
     if($obj = $result->fetch_object()) {
         $status_code = $obj->status_code;
+        $role_code = $obj->role_code;
         if ($obj->auto_pull === '1') {
             $do_auto_pull = '1';
         }
@@ -313,6 +321,7 @@ $workbench = array("meta_data"=>$meta_data
                   ,"do_auto_pull"=>$do_auto_pull);
 
 $myJSON_array = array("status_code"=>$status_code
+                    , "role_code"=>$role_code
                     , "attendees"=>$objs
                     , "stations"=>$stations
                     , "current_round"=>$current_round
