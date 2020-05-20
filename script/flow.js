@@ -94,7 +94,7 @@ function refreshAttendeesList(simulation_id, session_key){
                                 removeAttendeeField(inp[i].id);
                             }
                     }
-                    if (readiness_level == myJson.attendees.length) {
+                    if ((readiness_level == myJson.attendees.length)&&(myJson.role_code == "FACILITATOR")) {
                         document.getElementById('start_simulation_button').disabled = false;
                     } else {
                         document.getElementById('start_simulation_button').disabled = true;
