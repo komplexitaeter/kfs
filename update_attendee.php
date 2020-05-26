@@ -39,12 +39,62 @@ else {
 }
 
 if(isset($_GET['name'])){
-    $new_name = filter_input(INPUT_GET, 'name');
+    $new_name = filter_input(INPUT_GET, 'name', FILTER_SANITIZE_STRING);
     if (strlen($new_name)>0) {
         array_push($sql_set, "name = '".$new_name."'");
     }
     else {
         array_push($sql_set, "name = NULL");
+    }
+}
+
+if(isset($_GET['language_code'])){
+    $language_code = filter_input(INPUT_GET, 'language_code', FILTER_SANITIZE_STRING);
+    if (strlen($language_code)==2) {
+        array_push($sql_set, "language_code = '".$language_code."'");
+    }
+    else if (strlen($language_code)==0) {
+        array_push($sql_set, "language_code = NULL");
+    }
+}
+
+if(isset($_GET['mood_code'])){
+    $mood_code = filter_input(INPUT_GET, 'mood_code', FILTER_SANITIZE_STRING);
+    if (strlen($mood_code)>0) {
+        array_push($sql_set, "mood_code = '".$mood_code."'");
+    }
+    else {
+        array_push($sql_set, "mood_code = NULL");
+    }
+}
+
+if(isset($_GET['cursor_x'])&&isset($_GET['cursor_y'])){
+    $cursor_x = filter_input(INPUT_GET, 'cursor_x', FILTER_SANITIZE_NUMBER_FLOAT);
+    $cursor_y = filter_input(INPUT_GET, 'cursor_y', FILTER_SANITIZE_NUMBER_FLOAT);
+
+    if (   $cursor_x != null
+        && $cursor_y != null
+        && $cursor_x >= 0
+        && $cursor_y >= 0
+        && $cursor_x <= 1
+        && $cursor_y <= 1
+    ) {
+        array_push($sql_set, "cursor_x = ".$cursor_x);
+        array_push($sql_set, "cursor_y = ".$cursor_y);
+    }
+    else {
+        array_push($sql_set, "cursor_x = NULL");
+        array_push($sql_set, "cursor_y = NULL");
+    }
+}
+
+if(isset($_GET['statement_code'])){
+    $statement_code = filter_input(INPUT_GET, 'statement_code', FILTER_SANITIZE_STRING);
+    if (strlen($statement_code)>0) {
+        array_push($sql_set, "statement_code = '".$statement_code."'");
+    }
+    else {
+        array_push($sql_set, "statement_code = NULL");
     }
 }
 

@@ -66,22 +66,45 @@ function getDebriefingObj($simulation_id, $session_key) {
              , tbl.name
              , tbl.avatar_code
              , tbl.role_code
-             , TIMESTAMPDIFF( SECOND, tbl.last_callback_date, CURRENT_TIMESTAMP) as timeout 
+             , TIMESTAMPDIFF( SECOND, tbl.last_callback_date, CURRENT_TIMESTAMP) as timeout
+             , tbl.language_code
+             , tbl.mood_code
+             , tbl.cursor_x
+             , tbl.cursor_y
+             , tbl.statement_code
           FROM kfs_attendees_tbl as tbl WHERE simulation_id=".$simulation_id;
 
     $attendees = array();
     $role_code = null;
+    $mood_code = null;
+    $language_code = null;
 
     if ($result = $link->query($sql)) {
         while(  $obj = $result->fetch_object()) {
             if ($obj->session_key == $session_key) {
                 $role_code = $obj->role_code;
+                $mood_code = $obj->mood_code;
+                $language_code = $obj->language_code;
             }
-            array_push($attendees, $obj);
+
+            $attendee = (object) array(
+                "session_key" => $obj->session_key,
+                "name" => $obj->name,
+                "avatar_code" => $obj->avatar_code,
+                "role_code" => $obj->role_code,
+                "timeout" => $obj->timeout,
+                "mood_code" => $obj->mood_code,
+                "cursor_x" => $obj->cursor_x,
+                "cursor_y" => $obj->cursor_y,
+                "statement_code" => $obj->statement_code
+            );
+            array_push($attendees, $attendee);
         }
     }
 
     return array("status_code" => $status_code
                 ,"role_code" => $role_code
+                ,"mood_code" => $mood_code
+                ,"language_code" => $language_code
                 ,"attendees" => $attendees);
 }
