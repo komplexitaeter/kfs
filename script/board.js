@@ -33,13 +33,13 @@ function refreshBoard(simulation_id, session_key){
                     break;
                 case "NO_SIMULATION":
                     // alert("The required simulation ID does not exit. You will be taken to the home page.");
-                    location.href = './index.php';
+                    location.href = '../index.html';
                     break;
                 case "CHECKIN":
-                    location.href = './checkin.php?simulation_id='+simulation_id;
+                    location.href = './checkin.html?simulation_id='+simulation_id;
                     break;
-                case "STATS":
-                    location.href = './stats.php?simulation_id='+simulation_id;
+                case "DEBRIEFING":
+                    location.href = './debriefing.html?simulation_id='+simulation_id;
                     break;
                 default:
                 //alert("Undefined status_code - this is an error. Sorry.");
@@ -428,21 +428,21 @@ function displayControls(round){
     let playButton = document.getElementById("play");
     let stopButton = document.getElementById("pause");
     let resetButton = document.getElementById("reset");
-    let statsButton = document.getElementById("stats");
+    let debriefingButton = document.getElementById("debriefing");
 
 
     if((round.last_start_time == null)&&(round.last_stop_time == null)){
         playButton.disabled=false;
         stopButton.disabled=true;
         resetButton.disabled=true
-        statsButton.disabled=false;
+        debriefingButton.disabled=false;
     }
 
     if((round.last_start_time == null)&&(round.last_stop_time != null)){
         playButton.disabled = true;
         stopButton.disabled = true;
         resetButton.disabled = true;
-        statsButton.disabled = true;
+        debriefingButton.disabled = true;
         console.log("Unfortunately there is an error");
     }
 
@@ -450,14 +450,14 @@ function displayControls(round){
         playButton.disabled = true;
         stopButton.disabled = false;
         resetButton.disabled = true;
-        statsButton.disabled = true;
+        debriefingButton.disabled = true;
     }
 
     if((round.last_start_time != null)&&(round.last_stop_time != null)){
         playButton.disabled = false;
         stopButton.disabled = true;
         resetButton.disabled = false;
-        statsButton.disabled = false;
+        debriefingButton.disabled = false;
     }
     /*
     totalDuration = sec2time(parseInt(round.total_time_s));
@@ -896,8 +896,8 @@ function pressReset(){
     fetch(url);
 }
 
-function pressStats(){
-    const url = './update_simulation.php?simulation_id='+getSimulationId()+'&status_code=STATS';
+function pressDebriefing(){
+    const url = './update_simulation.php?simulation_id='+getSimulationId()+'&status_code=DEBRIEFING';
     fetch(url);
 }
 

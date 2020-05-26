@@ -102,10 +102,13 @@ function refreshAttendeesList(simulation_id, session_key){
                     break;
                 case "NO_SIMULATION":
                    // alert("The required simulation ID does not exit. You will be taken to the home page.");
-                    location.href = './index.php';
+                    location.href = '../index.html';
                     break;
                 case "RUNNING":
-                    location.href = './board.php?simulation_id='+simulation_id;
+                    location.href = './board.html?simulation_id='+simulation_id;
+                    break;
+                case "DEBRIEFING":
+                    location.href = './debriefing.html?simulation_id='+simulation_id;
                     break;
                 default:
                     //alert("Undefined status_code - this is an error. Sorry.");
@@ -207,7 +210,7 @@ function create_simulation() {
         })
 
         .then((myJson) => {
-            location.href = './checkin.php?simulation_id='+myJson.simulation_id;
+            location.href = './checkin.html?simulation_id='+myJson.simulation_id;
         });
     }, 1);
 

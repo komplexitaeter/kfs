@@ -14,14 +14,14 @@ function refreshStats(simulation_id, session_key){
         .then((myJson) => {
             switch(myJson.status_code) {
                 case "RUNNING":
-                    location.href = './board.php?simulation_id='+simulation_id;
+                    location.href = './board.html?simulation_id='+simulation_id;
                     break;
                 case "NO_SIMULATION":
                     // alert("The required simulation ID does not exit. You will be taken to the home page.");
-                    location.href = './index.php';
+                    location.href = '../index.html';
                     break;
                 case "CHECKIN":
-                    location.href = './checkin.php?simulation_id='+simulation_id;
+                    location.href = './checkin.html?simulation_id='+simulation_id;
                     break;
                 case "STATS":
                     displayRoundSwitch(myJson);

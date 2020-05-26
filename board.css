@@ -273,8 +273,8 @@ body{
     background-image: url("./src/reset_button.png");
 }
 
-.button_stats{
-    background-image: url("./src/stats_button.png");
+.button_debriefing{
+    background-image: url("src/debriefing_button.png");
 }
 
 #observers{
