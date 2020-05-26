@@ -60,6 +60,12 @@ function getDebriefingObj($simulation_id, $session_key) {
         }
     } else return null;
 
+    /* set call_back for current attendee */
+    $sql = "UPDATE kfs_attendees_tbl
+               SET last_callback_date = current_timestamp
+             WHERE simulation_id=$simulation_id
+               AND session_key='$session_key'";
+    $link->query($sql);
 
     /* query all simulations attendees */
     $sql = "SELECT tbl.session_key
