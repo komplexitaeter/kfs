@@ -17,7 +17,7 @@ $count = 0;
 /* force client reconnect after a couple of minutes*/
 while ($count<2500) {
 
-    echo "event: dao\n";
+    echo "event: update\n";
     echo "data: ".json_encode(getDebriefingObj($simulation_id, $session_key));
     echo "\n\n";
 

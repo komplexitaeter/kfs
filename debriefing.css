@@ -67,13 +67,14 @@ body{
 /*** attendee classes ***/
 .attendee{
     background-color: transparent;
-    width: auto;
-    height: 2.4em;
+    width: 2.9em;
+    height: 2.9em;
     border-radius: 1.5em;
     padding-top: 0em;
     padding-left: 0.3em;
     margin-bottom: 0.2em;
-    text-align: left;
+    margin-top: 0.5em;
+    margin-left: 0.5em;
     font-family: Komplexitater;
     font-size: large;
     border: none;
@@ -99,8 +100,8 @@ body{
 }
 
 .avatar{
-    height: 2.4em;
-    width: 2.4em;
+    height: 2.9em;
+    width: 2.9em;
     margin-top: -0.00em;
     margin-left: -0.3em;
     outline: none;
