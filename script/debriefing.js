@@ -44,6 +44,7 @@ function updateDom(myJson){
             break;
         case "DEBRIEFING":
             displayAttendees(myJson.attendees, getSessionKey());
+            displayControls(myJson.language_code, myJson.mood_code);
             break;
         default:
     }
@@ -52,6 +53,19 @@ function updateDom(myJson){
 }
 
 /**** display functions based on delivered Json on stream udpdate ***/
+
+function displayControls(language_code, mood_code){
+    let moods = Array.from(document.getElementsByClassName("tool"));
+    let language = Array.from(document.getElementsByClassName("language"));
+    language.forEach( lang => {
+        if(lang.id != language_code) {
+            lang.classList.remove("active");
+        }
+        else{
+            lang.classList.add("active");
+        }
+    });
+}
 
 function displayAttendees(attendees, session_key){
     let count = 0;
@@ -68,18 +82,44 @@ function displayAttendees(attendees, session_key){
                     document.getElementById("right").appendChild(myDiv);
                 }
             }
+            setAttendeeMood(myDiv, obj);
             /*identify time out attendees and mark them*/
+        /* TODO probably doesn't work because body is set to visible after page load*/
             if(obj.timeout > 30){
-                myDiv.visibility = "hidden";
-                console.log(myDiv.visibility);
+                //myDiv.style.visibility = "hidden";
             }
             else{
-                myDiv.visibility = "visible";
+                //myDiv.style.visibility = "visible";
             }
         count++;
         }
     );
 }
+
+
+function setAttendeeMood(attendeeDiv, attendee){
+    let moodDiv = Array.from(attendeeDiv.getElementsByClassName("mood"));
+    switch(attendee.mood_code){
+        case "light_bulb":
+            moodDiv[0].style.animation = "light_bulb 2.5s 2 ease-out";
+            break;
+        case "waiving_hand":
+            moodDiv[0].style.animation = "waiving_hand  1.5s infinite linear";
+            break;
+        case "gear":
+            moodDiv[0].style.animation = "gear 3.5s infinite ease-in-out";
+            break;
+        case "explosion":
+            moodDiv[0].style.animation = "explosion 3.5s 1 linear";
+            break;
+        case "wondering":
+            moodDiv[0].style.animation = "wondering 3.5s infinite ease-in-out";
+            break;
+        default:
+            moodDiv[0].style.animation = "";
+    }
+}
+
 
 function createAttendeeDiv(attendee, session_key){
     let myDiv = document.createElement("div");
@@ -92,7 +132,8 @@ function createAttendeeDiv(attendee, session_key){
         myDiv.classList.add("not_current_user");
     }
     myDiv.id = attendee.session_key;
-    myDiv.innerHTML = '<div class="avatar" style="pointer-events: none;">&nbsp;</div>';
+    myDiv.innerHTML = '<div class="mood" style="pointer-events: none;">&nbsp;</div>';
+    myDiv.innerHTML += '<div class="avatar" style="pointer-events: none;">&nbsp;</div>';
     if(attendee.avatar_code == null){attendee.avatar_code = 1;}
     myDiv.querySelector(".avatar").style.backgroundImage = "url('./src/avatar_"+attendee.avatar_code+".png')";
     myDiv.innerHTML += '<div class="attendee_name_label" style="pointer-events: none;">'+attendee.name+'</div>';
@@ -100,8 +141,25 @@ function createAttendeeDiv(attendee, session_key){
 }
 
 
-/**** context menus and facilitation functions *****/
+/**** tools, context menus and facilitation functions *****/
 
 function rightClickAttendee(e){
     return 0;
+}
+
+function setMood(e){
+    let url = "./update_attendee.php?"
+        +"simulation_id="+getSimulationId()
+        +"&session_key="+getSessionKey()
+        +"&mood_code="+e.target.id;
+    fetch(url);
+}
+
+function setLanguage(e){
+    let url = "./update_attendee.php?"
+        +"simulation_id="+getSimulationId()
+        +"&session_key="+getSessionKey()
+        +"&language_code="+e.target.id;
+    fetch(url);
+    console.log(url);
 }
