@@ -8,7 +8,8 @@ function loadDebriefing(){
         + '&simulation_id=' + getSimulationId();
     evtSource = new EventSource(stream_url);
     evtSource.addEventListener("update", handleUpdate);
-    document.addEventListener("visibilitychange", onVisibilityChange);
+
+    initializeCursor(getSimulationId(), getSessionKey());
 }
 
 function handleUpdate(event) {
@@ -100,6 +101,10 @@ function displayAttendees(attendees, session_key){
             else{
                 //myDiv.style.visibility = "visible";
             }
+
+            /* show cursor of attendee if active */
+            displayCursor(session_key, obj.cursor_x, obj.cursor_y, obj.name);
+
         count++;
         }
     );

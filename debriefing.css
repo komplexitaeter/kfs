@@ -311,3 +311,13 @@ body{
 }
 
 /*** ***************** ***/
+
+
+
+.cursor {
+    position: absolute;
+    z-index: 9999;
+    width: 10px;
+    height: 10px;
+    border: 1px solid red;
+}
