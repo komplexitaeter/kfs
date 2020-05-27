@@ -1,7 +1,6 @@
 /**** streaming functions for dom update ***/
-
-var evtSource;
-var stream_url;
+let evtSource;
+let stream_url;
 
 function loadDebriefing(){
     stream_url = './get_debriefing_stream.php?'
@@ -18,7 +17,7 @@ function handleUpdate(event) {
 }
 
 function onVisibilityChange() {
-    if (document.visibilityState == 'hidden') {
+    if (document.visibilityState === 'hidden') {
         evtSource.close();
     }
     else {
@@ -29,7 +28,7 @@ function onVisibilityChange() {
 
 function updateDom(myJson){
     let firstload = false;
-    if (document.body.style.visibility != 'visible') firstload = true;
+    if (document.body.style.visibility !== 'visible') firstload = true;
 
     switch(myJson.status_code) {
         case "RUNNING":
@@ -44,7 +43,7 @@ function updateDom(myJson){
             break;
         case "DEBRIEFING":
             displayAttendees(myJson.attendees, getSessionKey());
-            displayControls(myJson.language_code, myJson.mood_code);
+            displayControls(myJson.language_code, myJson.mood_code, myJson.role_code);
             break;
         default:
     }
@@ -54,17 +53,27 @@ function updateDom(myJson){
 
 /**** display functions based on delivered Json on stream udpdate ***/
 
-function displayControls(language_code, mood_code){
-    let moods = Array.from(document.getElementsByClassName("tool"));
+function displayControls(language_code, mood_code, role_code){
+    let faciliator_tool = Array.from(document.getElementsByClassName("faciliator_tool"));
     let language = Array.from(document.getElementsByClassName("language"));
     language.forEach( lang => {
-        if(lang.id != language_code) {
+        if(lang.id !== language_code) {
             lang.classList.remove("active");
         }
         else{
             lang.classList.add("active");
         }
     });
+    if(role_code === "FACILITATOR") {
+        faciliator_tool.forEach(tool => {
+            tool.style.visibility = "visible";
+        });
+    }
+        else{
+        faciliator_tool.forEach(tool => {
+            tool.style.visibility = "hidden";
+        });
+    }
 }
 
 function displayAttendees(attendees, session_key){
@@ -75,7 +84,7 @@ function displayAttendees(attendees, session_key){
             myDiv = document.getElementById(obj.session_key);
             if(myDiv ==  null){
                 myDiv = createAttendeeDiv(obj, session_key);
-                if(count%2 == 0){
+                if(count%2 === 0){
                     document.getElementById("left").appendChild(myDiv);
                 }
                 else{
@@ -99,24 +108,41 @@ function displayAttendees(attendees, session_key){
 
 function setAttendeeMood(attendeeDiv, attendee){
     let moodDiv = Array.from(attendeeDiv.getElementsByClassName("mood"));
+    moodDiv[0].className = "";
+    moodDiv[0].classList.add("mood");
+    let toolDiv = Array.from(document.getElementById("tools").getElementsByClassName("tool"));
     switch(attendee.mood_code){
         case "light_bulb":
+            moodDiv[0].classList.add("light_bulb");
             moodDiv[0].style.animation = "light_bulb 2.5s 2 ease-out";
             break;
         case "waiving_hand":
+            moodDiv[0].classList.add("waiving_hand");
             moodDiv[0].style.animation = "waiving_hand  1.5s infinite linear";
             break;
         case "gear":
+            moodDiv[0].classList.add("gear");
             moodDiv[0].style.animation = "gear 3.5s infinite ease-in-out";
             break;
         case "explosion":
+            moodDiv[0].classList.add("explosion");
             moodDiv[0].style.animation = "explosion 3.5s 1 linear";
             break;
         case "wondering":
+            moodDiv[0].classList.add("wondering");
             moodDiv[0].style.animation = "wondering 3.5s infinite ease-in-out";
             break;
         default:
             moodDiv[0].style.animation = "";
+    }
+    if(attendee.session_key === getSessionKey()) {
+        toolDiv.forEach(tool => {
+            if (tool.id === attendee.mood_code) {
+                tool.classList.add("active_tool");
+            } else {
+                tool.classList.remove("active_tool");
+            }
+        });
     }
 }
 
@@ -125,7 +151,7 @@ function createAttendeeDiv(attendee, session_key){
     let myDiv = document.createElement("div");
     myDiv.classList.add("attendee");
     myDiv.oncontextmenu=rightClickAttendee;
-    if(attendee.session_key == session_key){
+    if(attendee.session_key === session_key){
         myDiv.classList.add("current_user");
     }
     else{
@@ -152,7 +178,31 @@ function setMood(e){
         +"simulation_id="+getSimulationId()
         +"&session_key="+getSessionKey()
         +"&mood_code="+e.target.id;
-    fetch(url);
+    fetch(url).then();
+}
+
+function setMoodAll(e){
+    let mood;
+    switch (e.target.id) {
+        case "gear_all":
+            mood = "gear";
+            break;
+        case "unset_mood_all":
+            mood = "";
+            break;
+        default:
+            mood = "";
+            break;
+    }
+    let url = "./update_debriefing.php?"
+        +"simulation_id="+getSimulationId()
+        +"&mood_code="+mood;
+    fetch(url).then();
+}
+
+function pressBackToSimulation(){
+    const url = './update_simulation.php?simulation_id='+getSimulationId()+'&status_code=RERUNNING';
+    fetch(url).then();
 }
 
 function setLanguage(e){
@@ -160,6 +210,5 @@ function setLanguage(e){
         +"simulation_id="+getSimulationId()
         +"&session_key="+getSessionKey()
         +"&language_code="+e.target.id;
-    fetch(url);
-    console.log(url);
+    fetch(url).then();
 }

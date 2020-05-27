@@ -19,15 +19,20 @@
 <div id="bottom">
     <div class="language" id="de" onclick="setLanguage(event)">DE</div>
     <div class="language" id="en" onclick="setLanguage(event)">EN</div>
-    <div class="tools" id="observer_tools">
-        <img class="tool" id="light_bulb" onclick="setMood(event)" src="./src/light_bulb_3.png">
-        <img class="tool" id="waiving_hand" onclick="setMood(event)" src="./src/waiving_hand_6.png">
-        <img class="tool" id="gear" onclick="setMood(event)" src="./src/gear_4.png">
-        <img class="tool" id="explosion" onclick="setMood(event)" src="./src/explosion_5.png">
-        <img class="tool" id="wondering" onclick="setMood(event)" src="./src/wondering_4.png">
-        <img class="tool" id="" onclick="setMood(event)" src="" alt="unsetmood">
+    <div class="tools" id="tools">
+        <div class="tool light_bulb" id="light_bulb" onclick="setMood(event)">&nbsp;</div>
+        <div class="tool waiving_hand" id="waiving_hand" onclick="setMood(event)">&nbsp;</div>
+        <div class="tool gear" id="gear" onclick="setMood(event)">&nbsp;</div>
+        <div class="tool explosion" id="explosion" onclick="setMood(event)">&nbsp;</div>
+        <div class="tool wondering" id="wondering" onclick="setMood(event)">&nbsp;</div>
+        <div class="tool unset_mood" id="" onclick="setMood(event)">&nbsp;</div>
+        <div class="tool faciliator_tool tool_limit" id="">&nbsp;</div>
+        <div class="tool faciliator_tool statement" id="" onclick="">&nbsp;</div>
+        <div class="tool faciliator_tool gear_all" id="gear_all" onclick="setMoodAll(event)">&nbsp;</div>
+        <div class="tool faciliator_tool unset_mood_all" id="unset_mood_all" onclick="setMoodAll(event)">&nbsp;</div>
+        <div class="tool faciliator_tool back_to_simulation" id="back_to_simulation" onclick="pressBackToSimulation()">&nbsp;</div>
     </div>
-    <div class="tools" id="facilitator_tools"></div>
+
 </div>
 
 </body>

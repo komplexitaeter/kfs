@@ -18,7 +18,7 @@ html{
 body{
     display: grid;
     grid-template-columns: 10% 80% 10%;
-    grid-template-rows: 90% 10%;
+    grid-template-rows: 88% 12%;
     height: 100vh;
     width: 100vw;
     min-height: 100%;
@@ -55,12 +55,14 @@ body{
     grid-area: 1 / 2 / 2 / 3;
     overflow: visible;
     position: relative;
+    background-color: rgba(240,248,255,0.5);
 }
 
 #bottom{
     grid-area: 2 / 2 / 3 / 3;
     overflow: visible;
     position: relative;
+    background-color: rgba(240,248,255,0.5);
 }
 
 
@@ -121,9 +123,12 @@ body{
     height: 2rem;
     text-align: center;
     color: grey;
-    display:inline-block;
     font-family: Komplexitater;
     font-size: x-large;
+    display: inline-block;
+    top: 15%;
+    left: 1rem;
+    cursor: pointer;
 }
 
 .active{
@@ -131,19 +136,98 @@ body{
 }
 
 .tools{
-    display: inline-block;
     height: 90%;
-    margin-left: 30%;
+    margin-left:20%;
+    margin-top: 0.5rem;
     width: auto;
-
+    padding: 0.3rem;
+    position: relative;
+    display: inline-block;
 }
 
 .tool{
-    width: 6%;
-    height: auto;
+    width: 3rem;
+    height: 3rem;
     margin-left: 1rem;
     vertical-align: middle;
     display:inline-block;
+    background-repeat: no-repeat;
+    background-position: center;
+    -webkit-filter: grayscale(100%);
+    cursor: pointer;
+}
+
+.tool:hover{
+    transform: rotate(20deg);
+}
+
+.tool_limit:hover{
+    transform: rotate(0);
+}
+
+.active_tool{
+    -webkit-filter: grayscale(0%);
+}
+
+.light_bulb{
+    background-image: url("./src/light_bulb_3.png");
+    background-size: 90%;
+}
+
+.waiving_hand{
+    background-image: url("./src/waiving_hand_6.png");
+    background-size: 100%;
+}
+
+.gear{
+    background-image: url("./src/gear_0.png");
+    background-size: 90%;
+}
+
+.explosion{
+    background-image: url("./src/explosion_5.png");
+    background-size: 100%;
+}
+
+.wondering{
+    background-image: url("./src/wondering_4.png");
+    background-size: 75%;
+}
+
+.unset_mood{
+    background-image: url("./src/cross_grey.png");
+    background-size: 75%;
+}
+
+.faciliator_tool{
+    -webkit-filter: grayscale(0%);
+}
+
+.tool_limit{
+    border-right: 5px solid transparent;
+    border-left-width: 0px;
+    border-image: url("./src/border_grey.png") 55 repeat;
+    width:0;
+}
+
+.statement{
+    background-image: url("./src/statement.png");
+    background-size: 100%;
+}
+
+.gear_all{
+    background-image: url("./src/gear_all.png");
+    background-size: 100%;
+}
+
+.unset_mood_all{
+    background-image: url("./src/cross_all_grey.png");
+    background-size: 100%;
+}
+
+.back_to_simulation {
+    background-image: url("./src/back_to_simulation.png");
+    background-size: 100%;
 }
 
 @keyframes light_bulb {
@@ -191,10 +275,9 @@ body{
 
 .mood{
     position:absolute;
-    width: 2.5em;
-    height: 2.5em;
+    width: 2.0em;
+    height: 2.0em;
     background-repeat: no-repeat;
-    background-size: 80%;
     background-position: center;
 }
 
