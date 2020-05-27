@@ -103,7 +103,7 @@ function displayAttendees(attendees, session_key){
             }
 
             /* show cursor of attendee if active */
-            displayCursor(session_key, obj.cursor_x, obj.cursor_y, obj.name);
+            displayCursor(obj.session_key, obj.cursor_x, obj.cursor_y, obj.name);
 
         count++;
         }
