@@ -82,7 +82,15 @@ function getDebriefingObj($simulation_id, $session_key) {
              , tbl.cursor_x
              , tbl.cursor_y
              , tbl.statement_code
-          FROM kfs_attendees_tbl as tbl WHERE simulation_id=".$simulation_id;
+             , st.statement_text
+          FROM kfs_attendees_tbl as tbl 
+          LEFT OUTER JOIN kfs_statements_tbl as st
+            ON st.language_code = (select ca.language_code 
+                                    from kfs_attendees_tbl as ca
+                                    where ca.session_key = $session_key
+                                     and ca.simulation_id = $simulation_id)
+           AND st.statement_code = tbl.statement_code
+         WHERE simulation_id=".$simulation_id;
 
     $attendees = array();
     $role_code = null;
@@ -106,7 +114,8 @@ function getDebriefingObj($simulation_id, $session_key) {
                 "mood_code" => $obj->mood_code,
                 "cursor_x" => $obj->cursor_x,
                 "cursor_y" => $obj->cursor_y,
-                "statement_code" => $obj->statement_code
+                "statement_code" => $obj->statement_code,
+                "statement_text" => $obj->statement_text
             );
             array_push($attendees, $attendee);
         }
