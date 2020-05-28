@@ -9,6 +9,8 @@ function loadDebriefing(){
     evtSource = new EventSource(stream_url);
     evtSource.addEventListener("update", handleUpdate);
 
+    document.addEventListener("visibilitychange", onVisibilityChange);
+
     initializeCursor(getSimulationId(), getSessionKey());
 }
 

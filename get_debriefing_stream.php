@@ -17,17 +17,21 @@ $count = 0;
 /* force client reconnect after a couple of minutes*/
 while ($count<2500) {
 
-    echo "event: update\n";
-    echo "data: ".json_encode(getDebriefingObj($simulation_id, $session_key));
-    echo "\n\n";
+    $str  = "event: update\n";
+    $str .= "data: ".json_encode(getDebriefingObj($simulation_id, $session_key));
+    $str .= "\n\n";
 
     $trash = '';
-    for ($i=1;$i<4096;$i++) {
-        $trash.="X";
+    if (strlen($str)<4096-21) {
+        for ($i = 1; $i < 4096-strlen($str)-21; $i++) {
+            $trash .= "X";
+        }
+        $str .= "event: trash\n";
+        $str .= "data: " . json_encode($trash);
+        $str .= "\n\n";
     }
-    echo "event: trash\n";
-    echo "data: ".json_encode($trash);
-    echo "\n\n";
+
+    echo $str;
 
     if(ob_get_length() > 0) ob_end_flush();
     flush();

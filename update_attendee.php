@@ -71,7 +71,7 @@ if(isset($_GET['mood_code'])){
 if(isset($_GET['cursor_x'])&&isset($_GET['cursor_y'])){
     $cursor_x = filter_input(INPUT_GET, 'cursor_x', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
     $cursor_y = filter_input(INPUT_GET, 'cursor_y', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
-    error_log($cursor_x);
+
     if (   $cursor_x != null
         && $cursor_y != null
         && $cursor_x >= 0
