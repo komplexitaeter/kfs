@@ -10,9 +10,10 @@ function initializeCursor(simulationId, sessionKey) {
     cursorSimulationId = simulationId;
     cursorSessionKey = sessionKey;
 
-    document.onmousemove = cursorMoved;
-    window.onkeydown = keyDown;
-    window.onkeyup = keyUp;
+    document.addEventListener("mousemove", cursorMoved);
+
+    document.addEventListener("keydown", onKeyDown);
+    document.addEventListener("keyup", onKeyUp);
 }
 
 function cursorMoved(e) {
@@ -20,13 +21,13 @@ function cursorMoved(e) {
     cursorClientY=e.clientY-1;
 }
 
-function keyDown(e) {
+function onKeyDown(e) {
     if (e.key === "Alt") {
         setCursorPostOn(cursorSimulationId, cursorSessionKey);
     }
 }
 
-function keyUp(e) {
+function onKeyUp(e) {
     if (e.key === "Alt") {
         setCursorPostOff(cursorSimulationId, cursorSessionKey);
     }
