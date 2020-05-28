@@ -1,6 +1,7 @@
 /**** streaming functions for dom update ***/
 let evtSource;
 let stream_url;
+let language_code = 'en';
 
 function loadDebriefing(){
     stream_url = './get_debriefing_stream.php?'
@@ -48,6 +49,7 @@ function updateDom(myJson){
             displayAttendees(myJson.attendees, getSessionKey());
             displayControls(myJson.language_code, myJson.mood_code, myJson.role_code);
             displayStatements(myJson.attendees);
+            language_code = myJson.language_code;
             break;
         default:
     }
@@ -72,15 +74,15 @@ function displayStatements(attendees){
                     statementDiv.id = "statement_" + attendee.session_key;
                     statementDiv.classList.add("active_statement");
                     statementDiv.innerHTML = "<b>"+ attendee.name + "</b> : " +attendee.statement_text;
-                    statementDiv.name = attendee.statement_code;
+                    statementDiv.name = attendee.statement_code+"_"+language_code;
                     statementDiv.appendChild(closeDiv);
                     document.body.appendChild(statementDiv);
 
                 }
                 else{
                     statementDiv = document.getElementById("statement_" + attendee.session_key);
-                    if(statementDiv.name !== attendee.statement_code){
-                        statementDiv.name = attendee.statement_code;
+                    if(statementDiv.name !== attendee.statement_code+"_"+language_code){
+                        statementDiv.name = attendee.statement_code+"_"+language_code;
                         statementDiv.innerHTML = "<b>"+ attendee.name + "</b> : " +attendee.statement_text;
                         statementDiv.appendChild(closeDiv);
                     }
@@ -269,7 +271,7 @@ function setStatement(e){
     fetch(url).then();
 }
 
-function openStatementsWindow(language_code){
+function openStatementsWindow(){
     let cursors = Array.from(document.getElementsByClassName("cursor"));
     cursors.forEach( cur => {
        cur.style.visibility = "hidden";
