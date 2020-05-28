@@ -85,6 +85,10 @@ function refreshAttendeesList(simulation_id, session_key){
                                 avt.style.backgroundImage = "url('./src/avatar_"+obj.avatar_code+".png')";
                                 updateReadyStatus("current_user", obj.ready_to_start, obj.name);
                             }
+
+                            /* show cursor of attendee if active */
+                            displayCursor(obj.session_key, obj.cursor_x, obj.cursor_y, obj.avatar_code);
+
                         }
                     );
                     var inp = document.getElementById("attendees_list").children;
@@ -176,6 +180,7 @@ function addAttendeeField(session_key, name,avatar_code){
 }
 
 function loadCheckIn() {
+    initializeCursor(getSimulationId(), getSessionKey());
     document.getElementById('link').value = window.location.href;
     setInterval(function(){
         refreshAttendeesList(getSimulationId(),getSessionKey());

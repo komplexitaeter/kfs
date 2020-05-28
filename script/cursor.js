@@ -37,14 +37,14 @@ function setCursorPostOn(simulationId, sessionKey) {
     clearInterval(postIntervalHandle);
     postCursorPosInterval(simulationId, sessionKey);
     postIntervalHandle = setInterval(postCursorPosInterval, 500, simulationId, sessionKey );
-    document.body.classList.add('cursor_cross');
+    document.body.parentElement.classList.add('cursor_cross');
 }
 
 function setCursorPostOff(simulationId, sessionKey) {
     clearInterval(postIntervalHandle);
     /* set cursor position to null */
     postCursorPos(simulationId, sessionKey);
-    document.body.classList.remove('cursor_cross');
+    document.body.parentElement.classList.remove('cursor_cross');
 }
 
 function postCursorPosInterval(simulationId, sessionKey) {
