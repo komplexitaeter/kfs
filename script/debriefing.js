@@ -47,6 +47,7 @@ function updateDom(myJson){
         case "DEBRIEFING":
             displayAttendees(myJson.attendees, getSessionKey());
             displayControls(myJson.language_code, myJson.mood_code, myJson.role_code);
+            displayStatements(myJson.attendees);
             break;
         default:
     }
@@ -56,8 +57,45 @@ function updateDom(myJson){
 
 /**** display functions based on delivered Json on stream udpdate ***/
 
+function displayStatements(attendees){
+        attendees.forEach( attendee => {
+            if(attendee.statement_code !== null){
+                let statementDiv;
+                let closeDiv = document.createElement("div");
+                closeDiv.id = "";
+                closeDiv.classList.add("close_statement","facilitator_tool");
+                closeDiv.onclick = setStatement;
+
+                if(document.getElementById("statement_" + attendee.session_key) == null) {
+
+                    statementDiv = document.createElement("div");
+                    statementDiv.id = "statement_" + attendee.session_key;
+                    statementDiv.classList.add("active_statement");
+                    statementDiv.innerHTML = "<b>"+ attendee.name + "</b> : " +attendee.statement_text;
+                    statementDiv.name = attendee.statement_code;
+                    statementDiv.appendChild(closeDiv);
+                    document.body.appendChild(statementDiv);
+
+                }
+                else{
+                    statementDiv = document.getElementById("statement_" + attendee.session_key);
+                    if(statementDiv.name !== attendee.statement_code){
+                        statementDiv.name = attendee.statement_code;
+                        statementDiv.innerHTML = "<b>"+ attendee.name + "</b> : " +attendee.statement_text;
+                        statementDiv.appendChild(closeDiv);
+                    }
+                }
+            }
+            else{
+                if(document.getElementById("statement_" + attendee.session_key) !== null){
+                    document.getElementById("statement_" + attendee.session_key).remove();
+                }
+            }
+        });
+}
+
 function displayControls(language_code, mood_code, role_code){
-    let faciliator_tool = Array.from(document.getElementsByClassName("faciliator_tool"));
+    let facilitator_tool = Array.from(document.getElementsByClassName("facilitator_tool"));
     let language = Array.from(document.getElementsByClassName("language"));
     language.forEach( lang => {
         if(lang.id !== language_code) {
@@ -68,12 +106,12 @@ function displayControls(language_code, mood_code, role_code){
         }
     });
     if(role_code === "FACILITATOR") {
-        faciliator_tool.forEach(tool => {
+        facilitator_tool.forEach(tool => {
             tool.style.visibility = "visible";
         });
     }
         else{
-        faciliator_tool.forEach(tool => {
+        facilitator_tool.forEach(tool => {
             tool.style.visibility = "hidden";
         });
     }
@@ -218,4 +256,63 @@ function setLanguage(e){
         +"&session_key="+getSessionKey()
         +"&language_code="+e.target.id;
     fetch(url).then();
+}
+
+function setStatement(e){
+    let url;
+
+    url = "./update_attendee.php"+
+            "?simulation_id="+getSimulationId()+
+            "&session_key="+getSessionKey()+
+            "&statement_code="+e.target.id;
+    if(e.target.id !== ""){closeStatementsWindow(null);}
+    fetch(url).then();
+}
+
+function openStatementsWindow(language_code){
+    let cursors = Array.from(document.getElementsByClassName("cursor"));
+    cursors.forEach( cur => {
+       cur.style.visibility = "hidden";
+    });
+
+    let overlay = document.createElement("div");
+    overlay.classList.add("overlay");
+    overlay.onclick = closeStatementsWindow;
+    overlay.id = "overlay";
+    let modalWindow = document.createElement("div");
+    modalWindow.classList.add("modal_window");
+    modalWindow.id = "modal_window";
+
+
+
+    let url ='./get_statements.php?language_code='+language_code;
+
+
+    fetch(url)
+        .then((response) => {
+            return response.json();
+        })
+        .then((myJson) => {
+            myJson.forEach( statement => {
+                let statementDiv = document.createElement("div");
+                statementDiv.classList.add("statement_pick");
+                statementDiv.name = "statement";
+                statementDiv.id = statement.statement_code;
+                statementDiv.innerText = statement.statement_text;
+                statementDiv.onclick = setStatement;
+                modalWindow.appendChild(statementDiv);
+            });
+        });
+    overlay.appendChild(modalWindow);
+    document.body.appendChild(overlay);
+}
+
+function closeStatementsWindow(e){
+    if((e === null)||(e.target.id != "modal_window")&&(e.target.name != "statement")){
+        document.getElementById("overlay").remove();
+        let cursors = Array.from(document.getElementsByClassName("cursor"));
+        cursors.forEach( cur => {
+            cur.style.visibility = "visible";
+        });
+    }
 }
