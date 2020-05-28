@@ -118,6 +118,38 @@ body{
     right:0;
 }
 
+.attendee_name_label{
+    position: absolute;
+    text-align: center;
+    width: 3.4rem;
+    height: 25%;
+    bottom: -0.2rem;
+    font-size: small;
+    background-color: cyan;
+    border-radius:100px;
+    overflow:hidden;
+}
+
+.current_user .attendee_name_label{
+    background-color: #ff97e3;
+}
+
+.avatar{
+    position:absolute;
+    height: 3.4rem;
+    width: 3.4rem;
+    outline: none;
+    border: none;
+    border-radius: 50%;
+    background-image: url('./src/avatar_6.png');
+    background-color: transparent;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+
+/*********************************************/
+/*********controls and tools elements*********/
+
 .language{
     width: 2rem;
     height: 2rem;
@@ -199,8 +231,9 @@ body{
     background-size: 75%;
 }
 
-.faciliator_tool{
+.facilitator_tool{
     -webkit-filter: grayscale(0%);
+    visibility: hidden;
 }
 
 .tool_limit{
@@ -208,6 +241,7 @@ body{
     border-left-width: 0px;
     border-image: url("./src/border_grey.png") 55 repeat;
     width:0;
+    cursor: default;
 }
 
 .statement{
@@ -281,33 +315,81 @@ body{
     background-position: center;
 }
 
-.attendee_name_label{
+.overlay{
     position: absolute;
-    text-align: center;
-    width: 3.4rem;
-    height: 25%;
-    bottom: -0.2rem;
-    font-size: small;
-    background-color: cyan;
-    border-radius:100px;
-    overflow:hidden;
+    top:0;
+    left:0;
+    width:100%;
+    height: 100%;
+    background-color: rgba(123,123,123,0.5);
+    cursor: default;
+    z-index: 5;
+    padding: 5%;
 }
 
-.current_user .attendee_name_label{
-    background-color: #ff97e3;
+.modal_window{
+    padding: 1rem;
+    position: relative;
+    width: 60%;
+    height: auto;
+    max-height: 80%;
+    margin: auto;
+    z-index: 6;
+    background-color: rgba(123,123,123,1);
+    overflow-x: hidden;
+    overflow-y: scroll;
+    /* Hide scrollbar for IE and Edge */
+    -ms-overflow-style: none;
 }
 
-.avatar{
-    position:absolute;
-    height: 3.4rem;
-    width: 3.4rem;
-    outline: none;
-    border: none;
-    border-radius: 50%;
-    background-image: url('./src/avatar_6.png');
-    background-color: transparent;
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
+.modal_window::-webkit-scrollbar {
+    display: none;
 }
+
+
+.statement_pick{
+    width: 90%;
+    height: auto;
+    padding: 1rem;
+    background-color: aliceblue;
+    cursor: pointer;
+    margin: auto;
+    position: relative;
+}
+
+.statement_pick:hover{
+    background-color: #cfe0f6;
+}
+
+.active_statement{
+    font-family: Komplexitater;
+    font-size: x-large;
+    padding: 1rem;
+    position: absolute;
+    top: 1rem;
+    left:0;
+    right:0;
+    margin-left: auto;
+    margin-right: auto;
+    width: auto;
+    min-width: 30%;
+    max-width: 60%;
+    background-color: #2fff00;
+    min-height: 3.5rem;
+    height: auto;
+    z-index: 5;
+}
+
+.close_statement{
+    position: absolute;
+    top:-0.5rem;
+    right:-0.5rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 100%;
+    background-color:red;
+}
+
+
 
 /*** ***************** ***/
