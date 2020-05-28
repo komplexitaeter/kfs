@@ -311,23 +311,3 @@ body{
 }
 
 /*** ***************** ***/
-
-
-
-.cursor {
-    position: absolute;
-    z-index: 9999;
-    width: 30px;
-    height: 39px;
-    pointer-events: none;
-    border: none;
-    background-image: url('src/cursor_1.png');
-    background-color: transparent;
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-    opacity: 60%;
-}
-
-.cursor_cross {
-    cursor: crosshair;
-}

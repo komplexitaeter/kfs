@@ -81,7 +81,10 @@ $sql = "SELECT tbl.attendee_id
              , tbl.name
              , tbl.station_id
              , tbl.avatar_code
-             , TIMESTAMPDIFF( SECOND, tbl.last_callback_date, CURRENT_TIMESTAMP) as timeout FROM kfs_attendees_tbl as tbl WHERE simulation_id=".$simulation_id;
+             , TIMESTAMPDIFF( SECOND, tbl.last_callback_date, CURRENT_TIMESTAMP) as timeout 
+             , tbl.cursor_x
+             , tbl.cursor_y
+          FROM kfs_attendees_tbl as tbl WHERE simulation_id=".$simulation_id;
 $objs= array();
 
 if ($result = $link->query($sql)) {
