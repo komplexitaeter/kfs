@@ -87,7 +87,7 @@ function getDebriefingObj($simulation_id, $session_key) {
           LEFT OUTER JOIN kfs_statements_tbl as st
             ON st.language_code = (select ca.language_code 
                                     from kfs_attendees_tbl as ca
-                                    where ca.session_key = $session_key
+                                    where ca.session_key = '$session_key'
                                      and ca.simulation_id = $simulation_id)
            AND st.statement_code = tbl.statement_code
          WHERE simulation_id=".$simulation_id;
