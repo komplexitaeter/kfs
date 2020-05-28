@@ -17,8 +17,8 @@ function initializeCursor(simulationId, sessionKey) {
 }
 
 function cursorMoved(e) {
-    cursorClientX=e.clientX;
-    cursorClientY=e.clientY+2;
+    cursorClientX=e.clientX-1;
+    cursorClientY=e.clientY;
 }
 
 function onKeyDown(e) {
