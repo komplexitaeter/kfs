@@ -97,8 +97,22 @@ if(isset($_GET['statement_code'])){
         array_push($sql_set, "statement_code = NULL");
     }
 }
+else if(isset($_GET['statement_text'])) {
+    $statement_text = filter_input(INPUT_GET, 'statement_text', FILTER_SANITIZE_STRING);
+    if (strlen($statement_text)>0) {
+        $sql = "select language_code 
+                  from kfs_attendees_tbl 
+                 where simulation_id = $simulation_id
+                   and session_key = '$session_key'";
+        $result = $link->query($sql);
+        $obj = $result->fetch_object();
 
-if(isset($_GET['role_code'])){
+        //$sql = 'insert into kfs_statements_tbl(statement_code, language_code, type_code, statement_text, sort_order)  '
+        //array_push($sql_set, "statement_code = '".$statement_code."'");
+    }
+}
+
+    if(isset($_GET['role_code'])){
     $role_code = filter_input(INPUT_GET, 'role_code', FILTER_SANITIZE_STRING);
     if (strlen($role_code)>0 && in_array($role_code, array('OBSERVER','FACILITATOR'))) {
         /* check if not the last facilitator */

@@ -180,7 +180,7 @@ function addAttendeeField(session_key, name,avatar_code){
 }
 
 function loadCheckIn() {
-    initializeCursor(getSimulationId(), getSessionKey());
+    //initializeCursor(getSimulationId(), getSessionKey());
     document.getElementById('link').value = window.location.href;
     setInterval(function(){
         refreshAttendeesList(getSimulationId(),getSessionKey());
