@@ -2,6 +2,8 @@ var fCanvas;
 
 
 function loadBoard(){
+    initializeCursor(getSimulationId(), getSessionKey());
+
     setInterval(function(){
         refreshBoard(getSimulationId(),getSessionKey());
     }, 500);
@@ -645,7 +647,11 @@ function displayAttendees(attendees, session_key){
         else{
             switchTimeoutAttendee(myDiv, false);
         }
-    }
+
+        /* show cursor of attendee if active */
+        displayCursor(obj.session_key, obj.cursor_x, obj.cursor_y, obj.avatar_code);
+
+        }
     );
 }
 

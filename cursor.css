@@ -1,0 +1,52 @@
+.cursor {
+    position: absolute;
+    z-index: 9999;
+    width: 30px;
+    height: 39px;
+    pointer-events: none;
+    border: none;
+    background-color: transparent;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    opacity: 75%;
+}
+
+.cursor_1 {
+    background-image: url('src/cursor_1.png');
+}
+
+.cursor_2 {
+    background-image: url('src/cursor_2.png');
+}
+
+.cursor_3 {
+    background-image: url('src/cursor_3.png');
+}
+
+.cursor_4 {
+    background-image: url('src/cursor_4.png');
+}
+
+.cursor_5 {
+    background-image: url('src/cursor_5.png');
+}
+
+.cursor_6 {
+    background-image: url('src/cursor_6.png');
+}
+
+.cursor_7 {
+    background-image: url('src/cursor_7.png');
+}
+
+.cursor_8 {
+    background-image: url('src/cursor_8.png');
+}
+
+.cursor_9 {
+    background-image: url('src/cursor_9.png');
+}
+
+.cursor_cross {
+    cursor: crosshair;
+}

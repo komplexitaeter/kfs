@@ -22,13 +22,13 @@ function cursorMoved(e) {
 }
 
 function onKeyDown(e) {
-    if (e.key === "Alt") {
+    if (e.key === "Shift" && e.ctrlKey) {
         setCursorPostOn(cursorSimulationId, cursorSessionKey);
     }
 }
 
 function onKeyUp(e) {
-    if (e.key === "Alt") {
+    if (e.key === "Shift") {
         setCursorPostOff(cursorSimulationId, cursorSessionKey);
     }
 }
@@ -37,14 +37,14 @@ function setCursorPostOn(simulationId, sessionKey) {
     clearInterval(postIntervalHandle);
     postCursorPosInterval(simulationId, sessionKey);
     postIntervalHandle = setInterval(postCursorPosInterval, 500, simulationId, sessionKey );
-    document.body.classList.add('cursor_cross');
+    document.body.parentElement.classList.add('cursor_cross');
 }
 
 function setCursorPostOff(simulationId, sessionKey) {
     clearInterval(postIntervalHandle);
     /* set cursor position to null */
     postCursorPos(simulationId, sessionKey);
-    document.body.classList.remove('cursor_cross');
+    document.body.parentElement.classList.remove('cursor_cross');
 }
 
 function postCursorPosInterval(simulationId, sessionKey) {
@@ -72,7 +72,7 @@ function postCursorPos(simulationId, sessionKey, cursorX, cursorY) {
     fetch(url).then();
 }
 
-function displayCursor(sessionKey, cursorX, cursorY, label) {
+function displayCursor(sessionKey, cursorX, cursorY, avatar_code) {
     let cursorDiv=document.getElementById('cursor_'+sessionKey);
 
     if (animationIntervalHandles[sessionKey]!=null) {
@@ -91,7 +91,7 @@ function displayCursor(sessionKey, cursorX, cursorY, label) {
             cursorDiv.id = 'cursor_'+sessionKey;
             cursorDiv.style.left = Math.round(window.innerWidth * cursorX).toString() +'px';
             cursorDiv.style.top = Math.round(window.innerHeight * cursorY).toString() +'px';
-            cursorDiv.classList.add('cursor');
+            cursorDiv.classList.add('cursor', 'cursor_'+avatar_code);
             document.body.appendChild(cursorDiv);
         }
         animationIntervalHandles[sessionKey] = setInterval(animateCursor, 5, sessionKey, cursorX, cursorY, cursorDiv);
