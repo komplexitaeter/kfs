@@ -327,3 +327,7 @@ body{
     background-repeat: no-repeat;
     opacity: 60%;
 }
+
+.cursor_cross {
+    cursor: crosshair;
+}

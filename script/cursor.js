@@ -17,8 +17,8 @@ function initializeCursor(simulationId, sessionKey) {
 }
 
 function cursorMoved(e) {
-    cursorClientX=e.clientX-3;
-    cursorClientY=e.clientY-1;
+    cursorClientX=e.clientX;
+    cursorClientY=e.clientY+2;
 }
 
 function onKeyDown(e) {
@@ -37,12 +37,14 @@ function setCursorPostOn(simulationId, sessionKey) {
     clearInterval(postIntervalHandle);
     postCursorPosInterval(simulationId, sessionKey);
     postIntervalHandle = setInterval(postCursorPosInterval, 500, simulationId, sessionKey );
+    document.body.classList.add('cursor_cross');
 }
 
 function setCursorPostOff(simulationId, sessionKey) {
     clearInterval(postIntervalHandle);
     /* set cursor position to null */
     postCursorPos(simulationId, sessionKey);
+    document.body.classList.remove('cursor_cross');
 }
 
 function postCursorPosInterval(simulationId, sessionKey) {
