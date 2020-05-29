@@ -1,0 +1,116 @@
+/*
+grid-area: start row / start column / end row / end column;
+ */
+
+.presentation{
+    display: grid;
+    grid-template-columns:  0.1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 0.1fr;
+    grid-template-rows: 0.1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 0fr;
+    column-gap: 0.5rem;
+    row-gap: 0.5rem;
+    height: 100%;
+    width: 100%;
+    min-height: 100%;
+    margin: 0px;
+    overflow: hidden;
+}
+
+.facilitator_tool{
+    visibility: hidden;
+}
+
+.is_facilitator{
+    visibility: visible;
+}
+
+.is_facilitator.dom_hidden{
+    opacity: 0.5;
+}
+
+.dom_visible{
+    visibility: visible;
+}
+
+.dom_hidden{
+    visibility: hidden;
+}
+
+.visibility_toggle{
+    width: 2rem;
+    height: 2rem;
+    background-color: red;
+    border-radius: 100%;
+    right:0rem;
+    top:0rem;
+    position: absolute;
+    z-index: 5;
+}
+
+.definition .visibility_toggle{
+    right:-1rem;
+    background-color: #888888;
+}
+
+.round_picker .visibility_toggle{
+    right:-1rem;
+    background-color: #888888;
+
+}
+
+.vt_on{
+
+}
+
+.vt_off{
+
+}
+
+.round_picker{
+    background-color: #0022ff;
+    border: none;
+    position: relative;
+}
+
+.rp_left{
+    grid-area: 2 / 2 / 3 / 5;
+}
+
+.rp_right{
+    grid-area: 2 / 9 / 3 / 12;
+}
+
+.round_stats{
+    background-color: #0022ff;
+    border: none;
+    position: relative;
+}
+
+.rs_left{
+    grid-area: 3 / 2 / 20 / 9;
+}
+
+.rs_right{
+    grid-area: 3 / 9 / 20 / 16;
+}
+
+.definition{
+    background-color: #11ff00;
+    border: none;
+    position: relative;
+}
+
+.def_1{
+    grid-area: 10 / 16 / 12 / 20;
+}
+
+.def_2{
+    grid-area: 4 / 16 / 6 / 20;
+}
+
+.def_3{
+    grid-area: 6 / 16 / 8 / 20;
+}
+
+.def_4{
+    grid-area: 8 / 16 / 10 / 20;
+}

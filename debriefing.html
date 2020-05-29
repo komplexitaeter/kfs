@@ -9,8 +9,10 @@
     <script src="./script/cursor.js"></script>
     <script src="./script/context_menu.js"></script>
     <script src="./script/debriefing.js"></script>
+    <script src="./script/presentation.js"></script>
 
     <link rel="stylesheet" type="text/css" href="./debriefing.css">
+    <link rel="stylesheet" type="text/css" href="./presentation.css">
     <link rel="stylesheet" type="text/css" href="./cursor.css">
     <link rel="stylesheet" type="text/css" href="./context_menu.css">
 
@@ -18,7 +20,36 @@
 <body onload="loadDebriefing()" oncontextmenu="return false;" onclick="clearOpenedMenu()">
 
 <div id="left" class="column"></div>
-<div id="center"></div>
+<div id="center">
+    <div class="presentation" id="presentation">
+        <div class="round_picker rp_left dom_hidden" id="round_picker_left">
+            <div class="visibility_toggle facilitator_tool"></div>
+        </div>
+        <div class="round_picker rp_right dom_hidden" id="round_picker_right">
+            <div class="visibility_toggle facilitator_tool"></div>
+        </div>
+
+        <div class="round_stats rs_left dom_hidden" id="round_stats_left">
+            <div class="visibility_toggle facilitator_tool"></div>
+        </div>
+        <div class="round_stats rs_right dom_hidden" id="round_stats_right">
+            <div class="visibility_toggle facilitator_tool"></div>
+        </div>
+
+        <div class="definition def_1 dom_hidden" id="definition_wip">
+            <div class="visibility_toggle facilitator_tool"></div>
+        </div>
+        <div class="definition def_2 dom_hidden" id="definition_throughput">
+            <div class="visibility_toggle facilitator_tool"></div>
+        </div>
+        <div class="definition def_3 dom_hidden" id="definition_bottleneck">
+            <div class="visibility_toggle facilitator_tool"></div>
+        </div>
+        <div class="definition def_4 dom_hidden" id="definition_littles_law">
+            <div class="visibility_toggle facilitator_tool"></div>
+        </div>
+    </div>
+</div>
 <div id="right" class="column"></div>
 <div id="bottom">
     <div class="language" id="de" onclick="setLanguage(event)">DE</div>

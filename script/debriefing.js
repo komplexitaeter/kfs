@@ -13,6 +13,7 @@ function loadDebriefing(){
     document.addEventListener("visibilitychange", onVisibilityChange);
 
     initializeCursor(getSimulationId(), getSessionKey());
+    initializePresentation(getSimulationId(), getSessionKey());
 }
 
 function handleUpdate(event) {
@@ -50,6 +51,7 @@ function updateDom(myJson){
             displayControls(myJson.language_code, myJson.mood_code, myJson.role_code);
             displayStatements(myJson.attendees);
             toggleAccessControl(myJson.role_code);
+            displayPresentation(myJson.dom, myJson.role_code);
             language_code = myJson.language_code;
             break;
         default:
