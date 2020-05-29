@@ -35,7 +35,7 @@ while ($count<2500) {
 
     if(ob_get_length() > 0) ob_end_flush();
     flush();
-    usleep(500000);
+    usleep(300000);
 
     $count++;
 

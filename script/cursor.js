@@ -4,16 +4,15 @@ let postIntervalHandle;
 let cursorSimulationId;
 let cursorSessionKey;
 let animationIntervalHandles = new Object();
+let cursorAvatarCode;
 
 
 function initializeCursor(simulationId, sessionKey) {
     cursorSimulationId = simulationId;
     cursorSessionKey = sessionKey;
-
+    postCursorPos(simulationId, sessionKey); /* set to off on server */
     document.addEventListener("mousemove", cursorMoved);
-
     document.addEventListener("keydown", onKeyDown);
-    document.addEventListener("keyup", onKeyUp);
 }
 
 function cursorMoved(e) {
@@ -22,29 +21,31 @@ function cursorMoved(e) {
 }
 
 function onKeyDown(e) {
-    if (e.key === "Shift" && e.ctrlKey) {
-        setCursorPostOn(cursorSimulationId, cursorSessionKey);
-    }
-}
-
-function onKeyUp(e) {
-    if (e.key === "Shift") {
-        setCursorPostOff(cursorSimulationId, cursorSessionKey);
+    if (e.key === "Control") {
+        if (postIntervalHandle==null) {
+            setCursorPostOn(cursorSimulationId, cursorSessionKey);
+        }
+        else {
+            setCursorPostOff(cursorSimulationId, cursorSessionKey);
+        }
     }
 }
 
 function setCursorPostOn(simulationId, sessionKey) {
-    clearInterval(postIntervalHandle);
+    if (postIntervalHandle!=null) {
+        clearInterval(postIntervalHandle);
+        postIntervalHandle=null;
+    }
     postCursorPosInterval(simulationId, sessionKey);
-    postIntervalHandle = setInterval(postCursorPosInterval, 500, simulationId, sessionKey );
-    document.body.parentElement.classList.add('cursor_cross');
+    postIntervalHandle = setInterval(postCursorPosInterval, 300, simulationId, sessionKey );
+    document.body.parentElement.classList.add('reset-all-cursors', 'cursor_cur_'+cursorAvatarCode);
 }
 
 function setCursorPostOff(simulationId, sessionKey) {
     clearInterval(postIntervalHandle);
-    /* set cursor position to null */
-    postCursorPos(simulationId, sessionKey);
-    document.body.parentElement.classList.remove('cursor_cross');
+    postIntervalHandle=null;
+    postCursorPos(simulationId, sessionKey); /* set to off on server */
+    document.body.parentElement.classList.remove('reset-all-cursors','cursor_cur_'+cursorAvatarCode);
 }
 
 function postCursorPosInterval(simulationId, sessionKey) {
@@ -80,21 +81,26 @@ function displayCursor(sessionKey, cursorX, cursorY, avatar_code) {
         animationIntervalHandles[sessionKey]=null;
     }
 
-    if (cursorX==null || cursorY==null) {
-        if (cursorDiv!=null) {
-            cursorDiv.remove();
+    if (cursorSessionKey!=sessionKey) {
+
+        if (cursorX == null || cursorY == null) {
+            if (cursorDiv != null) {
+                cursorDiv.remove();
+            }
+        } else {
+            if (cursorDiv == null) {
+                cursorDiv = document.createElement('div');
+                cursorDiv.id = 'cursor_' + sessionKey;
+                cursorDiv.style.left = Math.round(window.innerWidth * cursorX).toString() + 'px';
+                cursorDiv.style.top = Math.round(window.innerHeight * cursorY).toString() + 'px';
+                cursorDiv.classList.add('cursor', 'cursor_' + avatar_code);
+                document.body.appendChild(cursorDiv);
+            }
+            animationIntervalHandles[sessionKey] = setInterval(animateCursor, 5, sessionKey, cursorX, cursorY, cursorDiv);
         }
     }
     else {
-        if (cursorDiv==null) {
-            cursorDiv = document.createElement('div');
-            cursorDiv.id = 'cursor_'+sessionKey;
-            cursorDiv.style.left = Math.round(window.innerWidth * cursorX).toString() +'px';
-            cursorDiv.style.top = Math.round(window.innerHeight * cursorY).toString() +'px';
-            cursorDiv.classList.add('cursor', 'cursor_'+avatar_code);
-            document.body.appendChild(cursorDiv);
-        }
-        animationIntervalHandles[sessionKey] = setInterval(animateCursor, 5, sessionKey, cursorX, cursorY, cursorDiv);
+        cursorAvatarCode = avatar_code;
     }
 }
 
@@ -106,11 +112,11 @@ function animateCursor(sessionKey, cursorX, cursorY, cursorDiv) {
     const toY = Math.round(window.innerHeight * cursorY);
 
     let newX;
-    if (Math.abs(toX - curX) >= 30 ) newX = Math.round(curX + (toX - curX)/30);
+    if (Math.abs(toX - curX) >= 40 ) newX = Math.round(curX + (toX - curX)/40);
     else newX = curX + Math.sign(toX - curX);
 
     let newY;
-    if (Math.abs(toY - curY) >= 30 ) newY = Math.round(curY + (toY - curY)/30);
+    if (Math.abs(toY - curY) >= 40 ) newY = Math.round(curY + (toY - curY)/40);
     else newY = curY + Math.sign(toY - curY);
 
     cursorDiv.style.left = newX.toString() +'px';
