@@ -8,7 +8,7 @@
     background-color: transparent;
     background-size: 100% 100%;
     background-repeat: no-repeat;
-    opacity: 75%;
+    opacity: 85%;
 }
 
 .cursor_1 {
@@ -48,31 +48,31 @@
 }
 
 .cursor_cur_1 {
-    cursor: url("src/cursor_1.png"), none;
+    cursor: url("src/cursor_cur_1.png"), none;
 }
 .cursor_cur_2 {
-    cursor: url("src/cursor_2.png"), none;
+    cursor: url("src/cursor_cur_2.png"), none;
 }
 .cursor_cur_3 {
-    cursor: url("src/cursor_3.png"), none;
+    cursor: url("src/cursor_cur_3.png"), none;
 }
 .cursor_cur_4 {
-    cursor: url("src/cursor_4.png"), none;
+    cursor: url("src/cursor_cur_4.png"), none;
 }
 .cursor_cur_5 {
-    cursor: url("src/cursor_5.png"), none;
+    cursor: url("src/cursor_cur_5.png"), none;
 }
 .cursor_cur_6 {
-    cursor: url("src/cursor_6.png"), none;
+    cursor: url("src/cursor_cur_6.png"), none;
 }
 .cursor_cur_7 {
-    cursor: url("src/cursor_7.png"), none;
+    cursor: url("src/cursor_cur_7.png"), none;
 }
 .cursor_cur_8 {
-    cursor: url("src/cursor_8.png"), none;
+    cursor: url("src/cursor_cur_8.png"), none;
 }
 .cursor_cur_9 {
-    cursor: url("src/cursor_9.png"), none;
+    cursor: url("src/cursor_cur_9.png"), none;
 }
 
 html.reset-all-cursors *
