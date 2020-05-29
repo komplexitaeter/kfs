@@ -14,6 +14,21 @@ function loadDebriefing(){
 
     initializeCursor(getSimulationId(), getSessionKey());
     initializePresentation(getSimulationId(), getSessionKey());
+
+    let rounds_url = "./get_rounds.php?simulation_id="+getSimulationId();
+    fetch(rounds_url)
+        .then((response) => {
+            return response.json();
+        })
+        .then((myJson) => {
+            myJson.rounds.forEach(item => {
+                let round = document.createElement('option');
+                round.value = item.round_id;
+                round.text = item.description;
+                document.getElementById('0_round_switch').appendChild(round);
+                document.getElementById('1_round_switch').appendChild(round.cloneNode(true));
+            });
+        })
 }
 
 function handleUpdate(event) {
@@ -52,6 +67,11 @@ function updateDom(myJson){
             displayStatements(myJson.attendees);
             toggleAccessControl(myJson.role_code);
             displayPresentation(myJson.dom, myJson.role_code);
+/*    TODO        checkifroundiscorrect(
+                if roundId.change()?
+                    updateroundstats(round_id,left/right) (presentation.js)
+            )
+*/
             language_code = myJson.language_code;
             break;
         default:

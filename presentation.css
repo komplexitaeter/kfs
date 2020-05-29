@@ -52,7 +52,7 @@ grid-area: start row / start column / end row / end column;
 }
 
 .round_picker .visibility_toggle{
-    right:-1rem;
+    right:0rem;
     background-color: #888888;
 
 }
@@ -72,11 +72,25 @@ grid-area: start row / start column / end row / end column;
 }
 
 .rp_left{
-    grid-area: 2 / 2 / 3 / 5;
+    grid-area: 2 / 2 / 3 / 6;
 }
 
 .rp_right{
-    grid-area: 2 / 9 / 3 / 12;
+    grid-area: 2 / 9 / 3 / 13;
+}
+
+.round_display{
+    background-color: #ffdd00;
+    border: none;
+    position: relative;
+}
+
+.rd_left{
+    grid-area: 2 / 6 / 3 / 9;
+}
+
+.rd_right{
+    grid-area: 2 / 13 / 3 / 16;
 }
 
 .round_stats{
