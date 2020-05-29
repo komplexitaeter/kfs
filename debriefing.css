@@ -328,6 +328,8 @@ body{
 }
 
 .modal_window{
+    font-family: Komplexitater;
+    font-size: x-large;
     padding: 1rem;
     position: relative;
     width: 60%;
@@ -335,7 +337,7 @@ body{
     max-height: 80%;
     margin: auto;
     z-index: 6;
-    background-color: rgba(123,123,123,1);
+    background-color: rgb(213, 237, 252);
     overflow-x: hidden;
     overflow-y: scroll;
     /* Hide scrollbar for IE and Edge */
@@ -351,14 +353,18 @@ body{
     width: 90%;
     height: auto;
     padding: 1rem;
-    background-color: aliceblue;
+    background-color: #f0f8ff;
     cursor: pointer;
     margin: auto;
     position: relative;
+    border-left: 2px rgb(213, 237, 252) dotted;
+    border-right: 2px rgb(213, 237, 252) dotted;
 }
 
 .statement_pick:hover{
     background-color: #cfe0f6;
+    width: 95%;
+    border:none;
 }
 
 .active_statement{
@@ -374,7 +380,9 @@ body{
     width: auto;
     min-width: 30%;
     max-width: 60%;
-    background-color: #2fff00;
+    background-image: url("./src/container_cyan_large.png");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
     min-height: 3.5rem;
     height: auto;
     z-index: 5;
@@ -382,12 +390,25 @@ body{
 
 .close_statement{
     position: absolute;
-    top:-0.5rem;
-    right:-0.5rem;
+    top:0.2rem;
+    right: 0.5rem;
     width: 1.5rem;
     height: 1.5rem;
     border-radius: 100%;
-    background-color:red;
+
+    background-image:url("./src/cross_red.png");
+    background-size: contain;
+}
+
+.close_statement:hover{
+    transform: rotate(20deg);
+}
+
+.modal_window .close_statement{
+    position: sticky;
+    float:right;
+    top:0rem;
+    right: 0rem;
 }
 
 

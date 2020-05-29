@@ -73,7 +73,7 @@ function displayStatements(attendees){
                     statementDiv = document.createElement("div");
                     statementDiv.id = "statement_" + attendee.session_key;
                     statementDiv.classList.add("active_statement");
-                    statementDiv.innerHTML = "<b>"+ attendee.name + "</b> : " +attendee.statement_text;
+                    statementDiv.innerHTML = attendee.statement_text;
                     statementDiv.name = attendee.statement_code+"_"+language_code;
                     statementDiv.appendChild(closeDiv);
                     document.body.appendChild(statementDiv);
@@ -83,7 +83,7 @@ function displayStatements(attendees){
                     statementDiv = document.getElementById("statement_" + attendee.session_key);
                     if(statementDiv.name !== attendee.statement_code+"_"+language_code){
                         statementDiv.name = attendee.statement_code+"_"+language_code;
-                        statementDiv.innerHTML = "<b>"+ attendee.name + "</b> : " +attendee.statement_text;
+                        statementDiv.innerHTML = attendee.statement_text;
                         statementDiv.appendChild(closeDiv);
                     }
                 }
@@ -272,10 +272,6 @@ function setStatement(e){
 }
 
 function openStatementsWindow(){
-    let cursors = Array.from(document.getElementsByClassName("cursor"));
-    cursors.forEach( cur => {
-       cur.style.visibility = "hidden";
-    });
 
     let overlay = document.createElement("div");
     overlay.classList.add("overlay");
@@ -284,6 +280,10 @@ function openStatementsWindow(){
     let modalWindow = document.createElement("div");
     modalWindow.classList.add("modal_window");
     modalWindow.id = "modal_window";
+    let closeWindowDiv = document.createElement("div");
+    closeWindowDiv.classList.add("close_statement");
+    closeWindowDiv.onclick = closeStatementsWindow;
+    modalWindow.appendChild(closeWindowDiv);
 
 
 
