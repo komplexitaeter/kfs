@@ -121,9 +121,25 @@ function getDebriefingObj($simulation_id, $session_key) {
         }
     }
 
+    /* query dom visibility */
+    $sql = "SELECT dom_id
+                  ,visibility
+              FROM kfs_dom_tbl
+             WHERE simulation_id = $simulation_id";
+    $dom = array();
+
+    if ($result = $link->query($sql)) {
+        while ($obj = $result->fetch_object()) {
+            $node = (object) array("dom_id"=>$obj->dom_id,
+                                   "visibility"=> $obj->visibility);
+            array_push($dom, $node);
+        }
+    }
+
     return array("status_code" => $status_code
                 ,"role_code" => $role_code
                 ,"mood_code" => $mood_code
                 ,"language_code" => $language_code
-                ,"attendees" => $attendees);
+                ,"attendees" => $attendees
+                ,"dom" => $dom);
 }
