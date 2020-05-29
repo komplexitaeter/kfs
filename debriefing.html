@@ -7,13 +7,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/3.6.3/fabric.min.js"></script>
     <script src="./script/flow.js"></script>
     <script src="./script/cursor.js"></script>
+    <script src="./script/context_menu.js"></script>
     <script src="./script/debriefing.js"></script>
 
     <link rel="stylesheet" type="text/css" href="./debriefing.css">
     <link rel="stylesheet" type="text/css" href="./cursor.css">
+    <link rel="stylesheet" type="text/css" href="./context_menu.css">
 
 </head>
-<body onload="loadDebriefing()">
+<body onload="loadDebriefing()" oncontextmenu="return false;" onclick="clearOpenedMenu()">
 
 <div id="left" class="column"></div>
 <div id="center"></div>

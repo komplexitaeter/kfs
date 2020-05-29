@@ -26,44 +26,7 @@ body{
     overflow: hidden;
     visibility: hidden;
 }
-/** classes to handle role management**/
-.context_menu{
-    position:absolute;
-    width:25px;
-    height:auto;
-    z-index:4;
-    cursor: default;
-    opacity: 1;
-    background-color: lightgrey;
-    background-image: url("./src/container_grey_vertical.png");
-    background-size:100% 100%;
-    background-repeat: no-repeat;
-}
 
-.context_menu_option{
-    width:100%;
-    height:auto;
-}
-
-.context_menu_option:hover{
-    background-color: darkgrey;
-}
-
-.set_role{
-    width:150px;
-}
-
-.context_menu_role:hover{
-    background-color: darkgrey;
-}
-
-.access_control{
-    visibility: hidden;
-}
-
-.is_facilitator{
-    visibility: visible;
-}
 
 /**************************************/
 

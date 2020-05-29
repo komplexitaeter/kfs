@@ -49,6 +49,7 @@ function updateDom(myJson){
             displayAttendees(myJson.attendees, getSessionKey());
             displayControls(myJson.language_code, myJson.mood_code, myJson.role_code);
             displayStatements(myJson.attendees);
+            toggleAccessControl(myJson.role_code);
             language_code = myJson.language_code;
             break;
         default:
@@ -214,11 +215,23 @@ function createAttendeeDiv(attendee, session_key){
 }
 
 
-/**** tools, context menus and facilitation functions *****/
-
-function rightClickAttendee(e){
-    return 0;
+function toggleAccessControl(role){
+    let accessControlDivs = Array.from(document.getElementsByClassName("access_control"));
+    if(role == "FACILITATOR"){
+        accessControlDivs.forEach( div => {
+            if(div.classList.contains("is_facilitator") == false){
+                div.classList.add("is_facilitator");
+            }
+        });
+    }
+    if(role == "OBSERVER"){
+        accessControlDivs.forEach( div => {
+            div.classList.remove("is_facilitator");
+        });
+    }
 }
+
+/**** tools, context menus and facilitation functions *****/
 
 function setMood(e){
     let url = "./update_attendee.php?"
@@ -262,10 +275,18 @@ function setLanguage(e){
 
 function setStatement(e){
     let url;
+    let sessionKey;
+    /*target id is empty when clicking on close active statement*/
+    if(e.target.id === ""){
+        sessionKey = e.target.parentElement.id.split('_')[1];
+    }
+    else{
+        sessionKey = getSessionKey()
+    }
 
     url = "./update_attendee.php"+
             "?simulation_id="+getSimulationId()+
-            "&session_key="+getSessionKey()+
+            "&session_key="+sessionKey+
             "&statement_code="+e.target.id;
     if(e.target.id !== ""){closeStatementsWindow(null);}
     fetch(url).then();
@@ -317,4 +338,21 @@ function closeStatementsWindow(e){
             cur.style.visibility = "visible";
         });
     }
+}
+
+function updateAttendeeRole(e){
+    /*reminder: option.id = session_key+"_"+role; */
+    let url = './update_attendee.php?'
+        +"session_key="+e.target.id.split('_')[0]
+        +"&role_code="+e.target.id.split('_')[1]
+        +"&simulation_id="+getSimulationId();
+    fetch(url);
+}
+
+function updateItemOption(e){
+    /*reminder: option.id = item_id+"_"+key; */
+    let url = './update_items.php?'
+        +"item_id="+e.target.id.split('_')[0]
+        +"&options="+e.target.id.split('_')[1];
+    fetch(url);
 }
