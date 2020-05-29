@@ -52,12 +52,20 @@ function getDebriefingObj($simulation_id, $session_key) {
         _MYSQL_PORT
     )) return null;
 
-    $sql = "SELECT status_code FROM kfs_simulation_tbl WHERE simulation_id=".$simulation_id;
+    $sql = "SELECT status_code 
+                 ,coalesce(stats_round_id_0, current_round_id) stats_round_id_0
+                 ,coalesce(stats_round_id_1, current_round_id) stats_round_id_1
+              FROM kfs_simulation_tbl
+             WHERE simulation_id=".$simulation_id;
+
     $status_code = null;
+    $stats_round_id = array();
 
     if ($result = $link->query($sql)) {
         if($obj = $result->fetch_object()) {
             $status_code = $obj->status_code;
+            $stats_round_id[0] = $obj->stats_round_id_0;
+            $stats_round_id[1] = $obj->stats_round_id_1;
         }
         else{
             $status_code = "NO_SIMULATION";
@@ -141,5 +149,7 @@ function getDebriefingObj($simulation_id, $session_key) {
                 ,"mood_code" => $mood_code
                 ,"language_code" => $language_code
                 ,"attendees" => $attendees
+                ,"round_id_0" => $stats_round_id[0]
+                ,"round_id_1" => $stats_round_id[1]
                 ,"dom" => $dom);
 }
