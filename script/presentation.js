@@ -12,7 +12,7 @@ function toggleParentDomVisibility(e){
        "&dom_id="+e.target.parentElement.id+
        "&action=toggle_visibility";
     fetch(url).then();
-    console.log(url);
+
 }
 
 function displayPresentation(domList, role_code){
@@ -68,34 +68,93 @@ function updateRoundStats(round_id, side){
             return response.json();
         })
         .then((myJson) => {
+            /**update round display on the corresponding side**/
             let display = document.getElementById("round_display_"+side);
-            display.name = round_id;
-            display.value = myJson.title;
-            drawVisualization();
+            display.setAttribute("data-value", round_id);
+            display.innerHTML = myJson.title+'<div class="visibility_toggle facilitator_tool"></div>';
+
+            /**generate and update graphs on the corresponding side**/
+            drawShipsPerMinute(myJson.per_minute, 'round_stats_'+side+'_top_graph');
+            drawShipsCycleTime(myJson.per_ship, 'round_stats_'+side+'_middle_graph');
         });
 }
 
-function drawVisualization() {
-    console.log("draw");
-    let rand = Math.floor(Math.random()*10);
-    // Some raw data (not necessarily accurate)
-    let data = google.visualization.arrayToDataTable([
-        ['Min', 'ships', 'wip', 'tp'],
-        ['0',  2,      6,         2],
-        ['1',  4,      rand,        3],
-        ['2',  6,      16,        4],
-        ['3',  5,      21,        4.25],
-        ['4',  4,      25,         4.2]
-    ]);
+function drawShipsCycleTime(data, targetDiv) {
+
+    let gData = google.visualization.arrayToDataTable(data);
 
     let options = {
         title : '',
-        vAxis: {title: '#'},
-        hAxis: {title: 'Min'},
-        seriesType: 'bars',
-        series: {2: {type: 'line'}}
+        vAxes: {
+            0: {
+                title:'cycle time',
+                titleTextStyle: {color: 'blue', fontName: 'Komplexitater', fontSize: 16, minValue: 0}
+            }
+        },
+        hAxis: {
+            title: 'delivery time',
+            titleTextStyle: {color: 'black', fontName: 'Komplexitater', fontSize: 16, minValue: 0},
+            textPosition: 'out'
+        },
+        series: {
+            0: {
+                pointSize: 3
+            }
+        },
+        legend: 'none',
+        chartArea:{width:'80%',height:'70%'}
     };
 
-    let chart = new google.visualization.ComboChart(document.getElementById('round_stats_left_top'));
-    chart.draw(data, options);
+    let chart = new google.visualization.ScatterChart(document.getElementById(targetDiv));
+    chart.draw(gData, options);
+}
+
+function drawShipsPerMinute(data, targetDiv) {
+
+    let gData = google.visualization.arrayToDataTable(data);
+
+    let options = {
+        title : '',
+        vAxes: {
+            0: {
+                title:'ships',
+                titleTextStyle: {color: 'blue', fontName: 'Komplexitater', fontSize: 16}
+            },
+            1: {
+                title:'wip',
+                titleTextStyle: {color: 'red', fontName: 'Komplexitater', fontSize: 16}
+            }
+        },
+        hAxis: {
+            title: 'Minutes',
+            titleTextStyle: {color: 'black', fontName: 'Komplexitater', fontSize: 16},
+            textPosition: 'out'
+        },
+        seriesType: 'bars',
+        bar: {
+            groupWidth: "30%"
+        },
+
+    series: {
+            0: {
+                type: 'bars',
+                targetAxisIndex: 0,
+            },
+            1: {
+                type: 'bars',
+                targetAxisIndex: 1
+            },
+            2: {
+                type: 'line',
+                targetAxisIndex: 0,
+                curveType: 'function',
+                lineDashStyle: [4,4]
+            }
+            },
+        legend: {position: 'top', textStyle: {color: 'blue', fontName: 'Komplexitater', fontSize: 16}},
+        chartArea:{width:'80%',height:'70%'}
+    };
+
+    let chart = new google.visualization.ComboChart(document.getElementById(targetDiv));
+    chart.draw(gData, options);
 }

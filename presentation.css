@@ -103,9 +103,12 @@ grid-area: start row / start column / end row / end column;
 }
 
 .round_display{
+    text-align: center;
     background-color: #ffdd00;
     border: none;
     position: relative;
+    font-family: Komplexitater, Georgia;
+    font-size: large;
 }
 
 .rd_left{
@@ -117,7 +120,7 @@ grid-area: start row / start column / end row / end column;
 }
 
 .round_stats{
-    background-color: #0022ff;
+    background-color: transparent;
     border: none;
     position: relative;
 }
@@ -134,8 +137,22 @@ grid-area: start row / start column / end row / end column;
     grid-area: 19 / 2 / 20 / 9;
 }
 
-.rs_right{
-    grid-area: 3 / 9 / 20 / 16;
+.rs_right_top{
+    grid-area: 3 / 9 / 11 / 16;
+}
+
+.rs_right_middle{
+    grid-area: 11 / 9 / 19 / 16;
+}
+
+.rs_right_bottom{
+    grid-area: 19 / 9 / 20 / 16;
+}
+
+.graph{
+    position: absolute;
+    height: 100%;
+    width: 100%;
 }
 
 .definition{

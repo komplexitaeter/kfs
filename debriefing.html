@@ -30,31 +30,44 @@
             <select id="left_round_switch" onchange="updateDisplayedRound(event)" ></select>
             <div class="visibility_toggle facilitator_tool"></div>
         </div>
-        <input type="text" class="round_display rd_left dom_hidden" id="round_display_left" value="" readonly>
+        <div class="round_display rd_left dom_hidden" id="round_display_left" data-value="">
             <div class="visibility_toggle facilitator_tool"></div>
-        </input>
+        </div>
 
         <div class="round_picker rp_right dom_hidden" id="round_picker_right">
             <select id="right_round_switch" onchange="updateDisplayedRound(event)" ></select>
             <div class="visibility_toggle facilitator_tool"></div>
         </div>
-        <input type="text" class="round_display rd_right dom_hidden" id="round_display_right" value="" readonly>
+        <div class="round_display rd_right dom_hidden" id="round_display_right" data-value="">
             <div class="visibility_toggle facilitator_tool"></div>
-        </input>
+        </div>
 
         <div class="round_stats rs_left_top dom_hidden" id="round_stats_left_top">
+            <div class="graph" id="round_stats_left_top_graph"></div>
             <div class="visibility_toggle facilitator_tool"></div>
         </div>
         <div class="round_stats rs_left_middle dom_hidden" id="round_stats_left_middle">
+            <div class="graph" id="round_stats_left_middle_graph"></div>
             <div class="visibility_toggle facilitator_tool"></div>
         </div>
         <div class="round_stats rs_left_bottom dom_hidden" id="round_stats_left_bottom">
+            <div class="graph" id="round_stats_left_bottom_graph"></div>
             <div class="visibility_toggle facilitator_tool"></div>
         </div>
 
-        <div class="round_stats rs_right dom_hidden" id="round_stats_right">
+        <div class="round_stats rs_right_top dom_hidden" id="round_stats_right_top">
+            <div class="graph" id="round_stats_right_top_graph"></div>
             <div class="visibility_toggle facilitator_tool"></div>
         </div>
+        <div class="round_stats rs_right_middle dom_hidden" id="round_stats_right_middle">
+            <div class="graph" id="round_stats_right_middle_graph"></div>
+            <div class="visibility_toggle facilitator_tool"></div>
+        </div>
+        <div class="round_stats rs_right_bottom dom_hidden" id="round_stats_right_bottom">
+            <div class="graph" id="round_stats_right_bottom_graph"></div>
+            <div class="visibility_toggle facilitator_tool"></div>
+        </div>
+
 
         <div class="definition def_1 dom_hidden" id="definition_wip">
             <div class="def-inner">
