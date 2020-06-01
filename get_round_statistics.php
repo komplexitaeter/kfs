@@ -29,8 +29,6 @@ $sql = "select COALESCE(rnd.cumulative_time_s, 0) + TIMESTAMPDIFF(SECOND, rnd.la
        ,count(i.item_id) as total_items_cnt
        ,sum(i.price) as total_money_earned
        ,round(avg(i.end_time_s-i.start_time_s), 0) as avg_cycle_time
-       ,(select ii.end_time_s-ii.start_time_s from kfs_items_tbl ii where ii.round_id = i.round_id and ii.prio = min(i.prio)) as first_item_cycle_time
-       ,(select ii.end_time_s-ii.start_time_s from kfs_items_tbl ii where ii.round_id = i.round_id and ii.prio = max(i.prio)) as last_item_cycle_time
        ,null as avg_throughput
        ,rnd.simulation_id
   from kfs_rounds_tbl as rnd
