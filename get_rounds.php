@@ -1,5 +1,6 @@
 <?php
 require 'config.php';
+require 'sql_lib.php';
 
 /* GET Parameters */
 $simulation_id = filter_input(INPUT_GET, 'simulation_id', FILTER_SANITIZE_NUMBER_INT);
@@ -21,29 +22,7 @@ $success = mysqli_real_connect(
     _MYSQL_PORT
 );
 
-
-/* query all finished rounds of simulation */
-$rounds = array();
-$sql = "select round_id, last_stop_time
-          from kfs_rounds_tbl
-         where simulation_id = $simulation_id
-         order
-            by last_stop_time";
-$i=0;
-if ($result = $link->query($sql)) {
-    while(  $obj = $result->fetch_object()) {
-        $i++;
-        $round = (Object) Array("round_id"=>$obj->round_id
-                               ,"description"=>"Nr. $i - $obj->last_stop_time");
-        array_push($rounds, $round);
-    }
-}
-else{
-    if ($link->connect_errno) {
-        printf("\n Fail: %s\n", $link->connect_error);
-        exit();
-    }
-}
+$rounds = get_rounds($link, $simulation_id);
 
 $myJSON_array = array("rounds"=> $rounds);
 echo json_encode($myJSON_array);

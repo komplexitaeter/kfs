@@ -112,3 +112,24 @@ where s.simulation_id = $simulation_id
  return $sql;
 
 }
+
+function get_rounds($link, $simulation_id) {
+    /* query all finished rounds of simulation */
+    $rounds = array();
+    $sql = "select round_id, last_stop_time
+          from kfs_rounds_tbl
+         where simulation_id = $simulation_id
+         order
+            by last_stop_time";
+    $i=0;
+    if ($result = $link->query($sql)) {
+        while(  $obj = $result->fetch_object()) {
+            $i++;
+            $round = (Object) Array("round_id"=>$obj->round_id
+            ,"description"=>"Nr. $i - $obj->last_stop_time"
+            ,"title"=>"Nr. $i");
+            array_push($rounds, $round);
+        }
+    }
+    return $rounds;
+}
