@@ -134,10 +134,11 @@ if ($round_kpi->last_minute != null) {
 
 
 $per_ship = array();
-array_push($per_ship, array("delivery time", "cycle time"));
+array_push($per_ship, array("delivery time", "cycle time", "{role: 'style', type: 'string'}"));
 
 $sql = "select end_time_s delivery_time
               ,end_time_s - start_time_s cycle_time
+              ,coalesce(options, '') as options
           from kfs_items_tbl i
          where i.round_id = $round_id
            and i.end_time_s is not null
@@ -146,7 +147,10 @@ $sql = "select end_time_s delivery_time
 
 if ($result = $link->query($sql)) {
     while ($obj = $result->fetch_object()) {
-        array_push($per_ship, array((int)$obj->delivery_time, (int)$obj->cycle_time));
+        array_push($per_ship
+            , array((int)$obj->delivery_time
+            , (int)$obj->cycle_time
+            , $obj->options));
     }
 }
 
