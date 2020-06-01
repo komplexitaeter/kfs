@@ -36,38 +36,61 @@ grid-area: start row / start column / end row / end column;
 }
 
 .visibility_toggle{
-    width: 2rem;
-    height: 2rem;
-    background-color: red;
+    width: 1.5rem;
+    height: 1.5rem;
     border-radius: 100%;
     right:0rem;
     top:0rem;
     position: absolute;
     z-index: 5;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+
+.dom_hidden .visibility_toggle{
+    background-image: url("./src/eye_off.png");
+}
+
+.dom_visible .visibility_toggle{
+    background-image: url("./src/eye_on.png");
 }
 
 .definition .visibility_toggle{
-    right:-1rem;
-    background-color: #888888;
+    right:-0.5rem;
 }
 
 .round_picker .visibility_toggle{
+    left:0rem;
+}
+
+.round_picker select{
+    border:none;
+    outline: none;
+    padding: 0.3rem;
+    width:88%;
     right:0rem;
-    background-color: #888888;
-
+    position: absolute;
+    background-color: transparent;
+    background-image: url("./src/border_round_cyan_large.png");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    font-family: Georgia;
+    font-size: small;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;       /* Remove default arrow */
 }
 
-.vt_on{
-
-}
-
-.vt_off{
-
+.round_picker option{
+    background-color: rgba(200,200,200,0.5);
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: 0px;
+    outline:0px;
 }
 
 .round_picker{
-    background-color: #0022ff;
-    border: none;
     position: relative;
 }
 
@@ -99,8 +122,16 @@ grid-area: start row / start column / end row / end column;
     position: relative;
 }
 
-.rs_left{
-    grid-area: 3 / 2 / 20 / 9;
+.rs_left_top{
+    grid-area: 3 / 2 / 11 / 9;
+}
+
+.rs_left_middle{
+    grid-area: 11 / 2 / 19 / 9;
+}
+
+.rs_left_bottom{
+    grid-area: 19 / 2 / 20 / 9;
 }
 
 .rs_right{
@@ -108,9 +139,56 @@ grid-area: start row / start column / end row / end column;
 }
 
 .definition{
-    background-color: #11ff00;
     border: none;
+    perspective: 1000px;
+    cursor: help;
+    font-family: Komplexitater;
+    font-size: large;
+}
+
+.def-inner{
     position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+}
+
+.definition:hover .def-inner{
+    transform: rotateY(180deg);
+}
+
+.def-front, .def-back{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top:0;
+    left:0;
+    background-image: url("./src/container_green_large.png");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+
+.def-front{
+    color: black;
+    opacity: 1;
+}
+
+.definition:hover .def-front{
+    opacity: 0;
+    transition: opacity 0.8s;
+}
+
+.def-back{
+    color: mediumvioletred;
+    transform: rotateY(180deg);
+    opacity: 0;
+}
+
+.definition:hover .def-back{
+    opacity: 1;
+    transition: opacity 0.8s;
 }
 
 .def_1{

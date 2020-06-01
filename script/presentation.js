@@ -48,3 +48,7 @@ function displayPresentation(domList, role_code){
     });
 
 }
+
+function updateRoundStats(round_id, side){
+
+}
