@@ -54,11 +54,11 @@ if(isset($_GET['status_code'])){
 }
 
 if(isset($_GET['stats_round_id'])){
-    $i = filter_input(INPUT_GET, 'i', FILTER_SANITIZE_NUMBER_INT);
+    $side = filter_input(INPUT_GET, 'side', FILTER_SANITIZE_NUMBER_INT);
 
-    if ($i!=null && $i>=0 && $i<2) {
+    if ($side!=null && $side>=0 && $side<2) {
         $stats_round_id = filter_input(INPUT_GET, 'stats_round_id', FILTER_SANITIZE_NUMBER_INT);
-        if ($stats_round_id != null) array_push($sql_set, "stats_round_id_$i = $stats_round_id");
+        if ($stats_round_id != null) array_push($sql_set, "stats_round_id_$side = $stats_round_id");
 
     }
 }

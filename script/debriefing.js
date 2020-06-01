@@ -25,8 +25,8 @@ function loadDebriefing(){
                 let round = document.createElement('option');
                 round.value = item.round_id;
                 round.text = item.description;
-                document.getElementById('0_round_switch').appendChild(round);
-                document.getElementById('1_round_switch').appendChild(round.cloneNode(true));
+                document.getElementById('left_round_switch').appendChild(round);
+                document.getElementById('right_round_switch').appendChild(round.cloneNode(true));
             });
         })
 }
@@ -67,11 +67,12 @@ function updateDom(myJson){
             displayStatements(myJson.attendees);
             toggleAccessControl(myJson.role_code);
             displayPresentation(myJson.dom, myJson.role_code);
-/*    TODO        checkifroundiscorrect(
-                if roundId.change()?
-                    updateroundstats(round_id,left/right) (presentation.js)
-            )
-*/
+            if(checkedDisplayedRound(myJson.round_id_0,"left")){
+                updateRoundStats(myJson.round_id_0, "left");
+            }
+            if(checkedDisplayedRound(myJson.round_id_1,"right")){
+                updateRoundStats(myJson.round_id_1, "right");
+            }
             language_code = myJson.language_code;
             break;
         default:
@@ -81,6 +82,13 @@ function updateDom(myJson){
 }
 
 /**** display functions based on delivered Json on stream udpdate ***/
+
+function checkedDisplayedRound(round_id, side){
+
+    let currentRound = document.getElementById("round_display_"+side);
+    return (currentRound.name !== round_id);
+
+}
 
 function displayStatements(attendees){
         attendees.forEach( attendee => {

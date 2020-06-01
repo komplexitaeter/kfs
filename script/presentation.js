@@ -49,6 +49,53 @@ function displayPresentation(domList, role_code){
 
 }
 
-function updateRoundStats(round_id, side){
+function updateDisplayedRound(e){
+    let sides = ["left","right"];
+    let side = sides.indexOf(e.target.id.split('_')[0]);
 
+    const url = './update_simulation.php?' +
+        'simulation_id='+presentationSimulation_id +
+        '&stats_round_id='+e.target.value +
+        '&side='+side;
+    fetch(url);
+}
+
+function updateRoundStats(round_id, side){
+    const url = "./get_round_statistics.php"+
+        "?round_id="+round_id;
+    fetch(url)
+        .then((response) => {
+            return response.json();
+        })
+        .then((myJson) => {
+            let display = document.getElementById("round_display_"+side);
+            display.name = round_id;
+            display.value = myJson.title;
+            drawVisualization();
+        });
+}
+
+function drawVisualization() {
+    console.log("draw");
+    let rand = Math.floor(Math.random()*10);
+    // Some raw data (not necessarily accurate)
+    let data = google.visualization.arrayToDataTable([
+        ['Min', 'ships', 'wip', 'tp'],
+        ['0',  2,      6,         2],
+        ['1',  4,      rand,        3],
+        ['2',  6,      16,        4],
+        ['3',  5,      21,        4.25],
+        ['4',  4,      25,         4.2]
+    ]);
+
+    let options = {
+        title : '',
+        vAxis: {title: '#'},
+        hAxis: {title: 'Min'},
+        seriesType: 'bars',
+        series: {2: {type: 'line'}}
+    };
+
+    let chart = new google.visualization.ComboChart(document.getElementById('round_stats_left_top'));
+    chart.draw(data, options);
 }
