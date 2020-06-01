@@ -3,7 +3,6 @@ require 'config.php';
 require 'sql_lib.php';
 
 /* GET Parameters */
-$simulation_id = filter_input(INPUT_GET, 'simulation_id', FILTER_SANITIZE_NUMBER_INT);
 $round_id = filter_input(INPUT_GET, 'round_id', FILTER_SANITIZE_NUMBER_INT);
 
 header('Content-Type: application/json');
@@ -31,6 +30,11 @@ $sql = "select COALESCE(rnd.cumulative_time_s, 0) + TIMESTAMPDIFF(SECOND, rnd.la
        ,round(avg(i.end_time_s-i.start_time_s), 0) as avg_cycle_time
        ,null as avg_throughput
        ,rnd.simulation_id
+       ,(   select max(floor((i.end_time_s)/60)) 
+              from kfs_items_tbl i
+             where i.round_id = rnd.round_id
+               and i.end_time_s is not null
+               and i.current_station_id is null) as last_minute
   from kfs_rounds_tbl as rnd
     left outer join  kfs_items_tbl i
       on i.round_id = rnd.round_id
@@ -83,10 +87,54 @@ for ($i=0; $i<count($rounds); $i++) {
     }
 }
 
+/* query round stat per minute */
 
+$per_minute = array();
+array_push($per_minute, array("Min", "ships", "wip", "tp"));
+
+if ($round_kpi->last_minute != null) {
+    for ($min=0; $min<=$round_kpi->last_minute; $min++ ) {
+
+        $ships = '';
+        $wip = '';
+
+        $sql = "select count(1) as ships
+             from kfs_items_tbl i
+            where i.round_id = $round_id
+              and i.end_time_s is not null
+              and i.current_station_id is null
+              and i.end_time_s > $min*60
+              and i.end_time_s < ($min+1)*60";
+        if ($result = $link->query($sql)) {
+            if ($obj = $result->fetch_object()) {
+                $ships = $obj->ships;
+            }
+        }
+
+        $sql = "select count(1) as wip
+             from kfs_items_tbl i
+            where i.round_id = $round_id
+              and i.end_time_s is not null
+              and i.current_station_id is null
+              and i.start_time_s < ($min+1)*60
+              and ifnull(i.end_time_s, ($min+2)*60) > (($min+1)*60)-1";
+        if ($result = $link->query($sql)) {
+            if ($obj = $result->fetch_object()) {
+                $wip = $obj->wip;
+            }
+        }
+
+        array_push($per_minute, array(
+            (int)$min,
+            (int)$ships,
+            (int)$wip,
+            (float)$round_kpi->avg_throughput));
+    }
+}
 
 $myJSON_array = array("title"=> $title
-                     ,"kpi"=> $round_kpi);
+                     ,"kpi"=> $round_kpi
+                     ,"per_minute"=> $per_minute);
 
 echo json_encode($myJSON_array);
 

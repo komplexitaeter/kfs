@@ -143,7 +143,6 @@ if ($action=='start') {
         $offset = $obj->cnt;
 
         $sql_items = get_create_items_sql($meta_data->current_round_id, $offset, 1);
-        error_log('sql_items='.$sql_items);
         $link->query($sql_items);
 
     }
@@ -232,5 +231,5 @@ if ($action=='thumbnail_update') {
     if(!$result = $link->query($sql)) exit('INTERNAL_ERROR_005');
 }
 
-    /* looks like we made it up this far, unexpectedly  */
+/* looks like we made it up this far, unexpectedly  */
 exit_with_status('SUCCESS');
