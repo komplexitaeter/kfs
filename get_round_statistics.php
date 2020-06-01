@@ -132,9 +132,29 @@ if ($round_kpi->last_minute != null) {
     }
 }
 
+
+$per_ship = array();
+array_push($per_ship, array("delivery time", "cycle time"));
+
+$sql = "select end_time_s delivery_time
+              ,end_time_s - start_time_s cycle_time
+          from kfs_items_tbl i
+         where i.round_id = $round_id
+           and i.end_time_s is not null
+           and i.current_station_id is null
+           order by end_time_s";
+
+if ($result = $link->query($sql)) {
+    while ($obj = $result->fetch_object()) {
+        array_push($per_ship, array((int)$obj->delivery_time, (int)$obj->cycle_time));
+    }
+}
+
+
 $myJSON_array = array("title"=> $title
                      ,"kpi"=> $round_kpi
-                     ,"per_minute"=> $per_minute);
+                     ,"per_minute"=> $per_minute
+                     ,"per_ship"=> $per_ship);
 
 echo json_encode($myJSON_array);
 
