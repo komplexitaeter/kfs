@@ -38,3 +38,12 @@ $json = json_encode($statements);
 echo  "printing json\n";
 echo json_encode($statements );
 $link->close();
+
+echo  "\n\nprinting test 1\n";
+echo json_encode("ÖÄÜ" );
+
+echo  "\n\nprinting test 2\n";
+echo json_encode("oho" );
+
+echo  "\n\nprinting test 3\n";
+echo json_encode("ÖÄÜ", JSON_INVALID_UTF8_IGNORE );
