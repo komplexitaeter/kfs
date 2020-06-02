@@ -51,7 +51,6 @@ body{
 }
 
 #center{
-    background-color: yellow;
     grid-area: 1 / 2 / 2 / 3;
     overflow: visible;
     position: relative;
