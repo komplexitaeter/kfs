@@ -4,6 +4,7 @@ require 'sql_lib.php';
 
 $simulation_id = filter_input(INPUT_GET, 'simulation_id');
 
+
 header('Content-Type: application/json');
 header('Pragma-directive: no-cache');
 header('Cache-directive: no-cache');
@@ -67,6 +68,21 @@ if(isset($_GET['configuration_name'])){
     $configuration_name = filter_input(INPUT_GET, 'configuration_name', FILTER_SANITIZE_STRING);
     if ($configuration_name != null) {
         array_push($sql_set, "configuration_name = '$configuration_name'");
+    }
+}
+
+if(isset($_GET['action'])){
+    $action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_STRING);
+    $side = filter_input(INPUT_GET, 'side', FILTER_SANITIZE_STRING);
+
+    if ($action == 'toggle_wip_visibility') {
+        if ($side==0) {
+            $sql="debriefing_wip_toggle = concat(not substr(debriefing_wip_toggle,1,1) , substr(debriefing_wip_toggle,2,1))";
+        }
+        else if ($side==1) {
+            $sql="debriefing_wip_toggle = concat( substr(debriefing_wip_toggle,1,1) , not substr(debriefing_wip_toggle,2,1))";
+        }
+        array_push($sql_set, $sql);
     }
 }
 

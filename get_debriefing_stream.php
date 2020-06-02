@@ -55,17 +55,23 @@ function getDebriefingObj($simulation_id, $session_key) {
     $sql = "SELECT status_code 
                  ,coalesce(stats_round_id_0, current_round_id) stats_round_id_0
                  ,coalesce(stats_round_id_1, current_round_id) stats_round_id_1
+                 ,substr(debriefing_wip_toggle,1,1) wip_toggle_0
+                 ,substr(debriefing_wip_toggle,2,1) wip_toggle_1
               FROM kfs_simulation_tbl
              WHERE simulation_id=".$simulation_id;
 
     $status_code = null;
     $stats_round_id = array();
+    $wip_toggle_0 = '0';
+    $wip_toggle_1 = '0';
 
     if ($result = $link->query($sql)) {
         if($obj = $result->fetch_object()) {
             $status_code = $obj->status_code;
             $stats_round_id[0] = $obj->stats_round_id_0;
             $stats_round_id[1] = $obj->stats_round_id_1;
+            $wip_toggle_0 = $obj->wip_toggle_0;
+            $wip_toggle_1 = $obj->wip_toggle_1;
         }
         else{
             $status_code = "NO_SIMULATION";
@@ -144,6 +150,8 @@ function getDebriefingObj($simulation_id, $session_key) {
         }
     }
 
+
+
     return array("status_code" => $status_code
                 ,"role_code" => $role_code
                 ,"mood_code" => $mood_code
@@ -151,5 +159,6 @@ function getDebriefingObj($simulation_id, $session_key) {
                 ,"attendees" => $attendees
                 ,"round_id_0" => $stats_round_id[0]
                 ,"round_id_1" => $stats_round_id[1]
+                ,"wip_visibility" => array((int)$wip_toggle_0, (int)$wip_toggle_1)
                 ,"dom" => $dom);
 }
