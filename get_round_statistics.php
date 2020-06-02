@@ -4,6 +4,8 @@ require 'sql_lib.php';
 
 /* GET Parameters */
 $round_id = filter_input(INPUT_GET, 'round_id', FILTER_SANITIZE_NUMBER_INT);
+$side = filter_input(INPUT_GET, 'round_id', FILTER_SANITIZE_NUMBER_INT);
+
 
 header('Content-Type: application/json');
 header('Pragma-directive: no-cache');
@@ -21,6 +23,20 @@ $success = mysqli_real_connect(
     _MYSQL_DB,
     _MYSQL_PORT
 );
+
+$wip_toggle = '0';
+if ($side == 0 || $side == 1) {
+    $sql = "SELECT substr(s.debriefing_wip_toggle,$side+1,1) wip_toggle
+              FROM kfs_rounds_tbl r, kfs_simulation_tbl s
+             WHERE s.simulation_id = r.simulation_id
+               AND r.round_id = $round_id";
+    if ($result = $link->query($sql)) {
+        if ($obj = $result->fetch_object()) {
+            $wip_toggle = $obj->wip_toggle;
+        }
+    }
+}
+
 
 
 $sql = "select COALESCE(rnd.cumulative_time_s, 0) + TIMESTAMPDIFF(SECOND, rnd.last_start_time,
@@ -89,8 +105,9 @@ for ($i=0; $i<count($rounds); $i++) {
 
 /* query round stat per minute */
 
+$style = array("role"=> "style","type"=> "string");
 $per_minute = array();
-array_push($per_minute, array("Min", "ships", "wip", "tp"));
+array_push($per_minute, array("Min", "ships", "wip", $style));
 
 if ($round_kpi->last_minute != null) {
     for ($min=0; $min<=$round_kpi->last_minute; $min++ ) {
@@ -128,7 +145,8 @@ if ($round_kpi->last_minute != null) {
             (int)$min,
             (int)$ships,
             (int)$wip,
-            (float)$round_kpi->avg_throughput));
+            "opacity:".$wip_toggle
+        ));
     }
 }
 

@@ -88,7 +88,7 @@ function updateRoundStats(round_id, side){
     let sides = ["left","right"];
     const url = "./get_round_statistics.php"+
         "?round_id="+round_id+
-        "?side="+sides.indexOf(side);
+        "&side="+sides.indexOf(side);
 
     fetch(url)
         .then((response) => {
