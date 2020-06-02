@@ -51,13 +51,13 @@ grid-area: start row / start column / end row / end column;
 }
 
 .wip_active{
-    outline: none;
-    outline-offset: 0;
+    text-decoration: none;
 }
 
 .wip_inactive{
-    outline: 1px navy solid;  /* inner stroke */
-    outline-offset: -2px;  /* negative border width + outline width */
+    text-decoration: line-through;
+    text-decoration-style: double;
+    text-decoration-color: darkgrey;
 }
 
 .dom_hidden .wip_visibility_toggle{

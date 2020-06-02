@@ -64,10 +64,14 @@ function displayPresentation(domList, role_code, wip_visibility){
         if((wip_visibility[i] === 1)&&wip_toggle.classList.contains("wip_inactive")){
             wip_toggle.classList.remove("wip_inactive");
             wip_toggle.classList.add("wip_active");
+            let currentRound = document.getElementById("round_display_"+sides[i]);
+            currentRound.setAttribute("data-value", "");
         }
         if((wip_visibility[i] === 0)&&wip_toggle.classList.contains("wip_active")){
             wip_toggle.classList.remove("wip_active");
             wip_toggle.classList.add("wip_inactive");
+            let currentRound = document.getElementById("round_display_"+sides[i]);
+            currentRound.setAttribute("data-value", "");
         }
     }
 
@@ -101,7 +105,7 @@ function updateRoundStats(round_id, side){
             display.innerHTML = myJson.title+'<div class="visibility_toggle facilitator_tool"></div>';
 
             /**generate and update graphs on the corresponding side**/
-            drawShipsPerMinute(myJson.per_minute, 'round_stats_'+side+'_top_graph');
+            drawShipsPerMinute(myJson.per_minute,myJson.ship_per_minute_max, 'round_stats_'+side+'_top_graph');
             drawShipsCycleTime(myJson.per_ship, 'round_stats_'+side+'_middle_graph');
         });
 }
@@ -110,18 +114,25 @@ function drawShipsCycleTime(data, targetDiv) {
 
     let gData = google.visualization.arrayToDataTable(data);
 
+
     let options = {
         title : '',
         vAxes: {
             0: {
                 title:'cycle time',
-                titleTextStyle: {color: 'blue', fontName: 'Komplexitater', fontSize: 16, minValue: 0}
-            }
+                titleTextStyle: {color: 'blue', fontName: 'Komplexitater', fontSize: 16}
+            },
+        viewWindow: {
+            min: 0
+        }
         },
         hAxis: {
             title: 'delivery time',
-            titleTextStyle: {color: 'black', fontName: 'Komplexitater', fontSize: 16, minValue: 0},
-            textPosition: 'out'
+            titleTextStyle: {color: 'black', fontName: 'Komplexitater', fontSize: 16},
+            textPosition: 'out',
+            viewWindow: {
+                min: 0
+            }
         },
         series: {
             0: {
@@ -136,26 +147,38 @@ function drawShipsCycleTime(data, targetDiv) {
     chart.draw(gData, options);
 }
 
-function drawShipsPerMinute(data, targetDiv) {
+function drawShipsPerMinute(data, ship_per_minute_max, targetDiv) {
 
     let gData = google.visualization.arrayToDataTable(data);
+    let maxShip = Math.ceil(ship_per_minute_max*1.1);
+    console.log(maxShip);
 
     let options = {
         title : '',
         vAxes: {
             0: {
                 title:'ships',
-                titleTextStyle: {color: 'blue', fontName: 'Komplexitater', fontSize: 16}
+                titleTextStyle: {color: 'blue', fontName: 'Komplexitater', fontSize: 16},
+                viewWindow: {
+                    max: maxShip,
+                    min: 0
+                }
             },
             1: {
                 title:'wip',
-                titleTextStyle: {color: 'red', fontName: 'Komplexitater', fontSize: 16}
+                titleTextStyle: {color: 'red', fontName: 'Komplexitater', fontSize: 16},
+                viewWindow: {
+
+                }
             }
         },
         hAxis: {
             title: 'Minutes',
             titleTextStyle: {color: 'black', fontName: 'Komplexitater', fontSize: 16},
-            textPosition: 'out'
+            textPosition: 'out',
+            viewWindow: {
+                min: 0
+            }
         },
         seriesType: 'bars',
         bar: {
