@@ -1,5 +1,6 @@
 <?php
 require 'config.php';
+require 'sql_lib.php';
 
 $language_code = substr(filter_input(INPUT_GET, 'language_code', FILTER_SANITIZE_STRING), 0, 2);
 
@@ -10,20 +11,7 @@ header("Cache-control: no-cache");
 header("Pragma: no-cache");
 header("Expires: 0");
 
-$link = mysqli_init();
-$success = mysqli_real_connect(
-    $link,
-    _MYSQL_HOST,
-    _MYSQL_USER,
-    _MYSQL_PWD,
-    _MYSQL_DB,
-    _MYSQL_PORT
-);
-
-print_r($link->get_charset());
-$link->set_charset("utf8");
-print_r($link->get_charset());
-
+$link = db_init();
 
 $statements = array();
 $sql = "SELECT statement_code

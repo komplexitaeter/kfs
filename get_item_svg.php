@@ -1,5 +1,6 @@
 <?php
 require 'config.php';
+require 'sql_lib.php';
 
 header('Content-type: image/svg+xml');
 header("Pragma-directive: no-cache");
@@ -19,16 +20,7 @@ function exit_with_status($status_code) {
 
 if ($item_id==null) exit_with_status('NO_ITEM_ID_SET');
 
-
-$link = mysqli_init();
-$success = mysqli_real_connect(
-    $link,
-    _MYSQL_HOST,
-    _MYSQL_USER,
-    _MYSQL_PWD,
-    _MYSQL_DB,
-    _MYSQL_PORT
-);
+$link = db_init();
 
 $sql = "SELECT item_svg
           from kfs_items_tbl 

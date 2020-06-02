@@ -1,5 +1,6 @@
 <?php
 require 'config.php';
+require 'sql_lib.php';
 
 $item_id = filter_input(INPUT_GET, 'item_id', FILTER_SANITIZE_NUMBER_INT);
 
@@ -12,15 +13,8 @@ header('Expires: 0');
 
 if ($item_id == null) exit('NO_ITEM_ID_SET');
 
-$link = mysqli_init();
-$success = mysqli_real_connect(
-    $link,
-    _MYSQL_HOST,
-    _MYSQL_USER,
-    _MYSQL_PWD,
-    _MYSQL_DB,
-    _MYSQL_PORT
-);
+$link = db_init();
+
 $sql_set = array();
 
 if(isset($_GET['options'])){

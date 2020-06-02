@@ -26,15 +26,7 @@ function exit_with_status($status_code) {
     exit(0);
 }
 
-$link = mysqli_init();
-$success = mysqli_real_connect(
-    $link,
-    _MYSQL_HOST,
-    _MYSQL_USER,
-    _MYSQL_PWD,
-    _MYSQL_DB,
-    _MYSQL_PORT
-);
+$link = db_init();
 
 /* do some checks on the input params */
 if ($simulation_id == null) exit_with_status('NO_SIMULATION_ID_SET');

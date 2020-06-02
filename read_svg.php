@@ -1,23 +1,19 @@
 <?php
-header('Content-type: image/svg+xml');
-header ("Pragma-directive: no-cache");
-header ("Cache-directive: no-cache");
-header ("Cache-control: no-cache");
-header ("Pragma: no-cache");
-header ("Expires: 0");
 require 'config.php';
+require 'sql_lib.php';
+
+header('Content-type: image/svg+xml');
+header("Pragma-directive: no-cache");
+header("Cache-directive: no-cache");
+header("Cache-control: no-cache");
+header("Pragma: no-cache");
+header("Expires: 0");
+
 $id = filter_input(INPUT_GET, 'id');
 
 if ($id != NULL) {
-    $link = mysqli_init();
-    $success = mysqli_real_connect(
-        $link,
-        _MYSQL_HOST,
-        _MYSQL_USER,
-        _MYSQL_PWD,
-        _MYSQL_DB,
-        _MYSQL_PORT
-    );
+    $$link = db_init();
+
     $sql = "SELECT svg_code FROM kfs_test_tbl WHERE id =".$link->real_escape_string($id);
 
     if($result = $link->query($sql)){

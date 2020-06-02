@@ -1,4 +1,18 @@
 <?php
+function db_init() {
+    $link = mysqli_init();
+    $success = mysqli_real_connect(
+        $link,
+        _MYSQL_HOST,
+        _MYSQL_USER,
+        _MYSQL_PWD,
+        _MYSQL_DB,
+        _MYSQL_PORT
+    );
+    $link->set_charset("utf8");
+    return $link;
+}
+
 function get_create_items_sql($round_id, $offset, $count ) {
     //$sids = array('null','null','null','123321','124421','125521','126621','127721','128821','129921','131131');
     $sids = array('null');

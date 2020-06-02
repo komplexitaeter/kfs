@@ -1,5 +1,6 @@
 <?php
 require 'config.php';
+require 'sql_lib.php';
 
 header('Content-type: application/json');
 header("Pragma-directive: no-cache");
@@ -11,15 +12,7 @@ header("Expires: 0");
 $simulation_id = filter_input(INPUT_GET, 'simulation_id', FILTER_SANITIZE_NUMBER_INT);
 $session_key = filter_input(INPUT_GET, 'session_key', FILTER_SANITIZE_STRING);
 
-$link = mysqli_init();
-$success = mysqli_real_connect(
-    $link,
-    _MYSQL_HOST,
-    _MYSQL_USER,
-    _MYSQL_PWD,
-    _MYSQL_DB,
-    _MYSQL_PORT
-);
+$link = db_init();
 
 /*verify status of the current simulation*/
 $sql = "SELECT sim.status_code

@@ -14,15 +14,7 @@ header('Cache-control: no-cache"');
 header('Pragma: no-cache');
 header('Expires: 0');
 
-$link = mysqli_init();
-$success = mysqli_real_connect(
-    $link,
-    _MYSQL_HOST,
-    _MYSQL_USER,
-    _MYSQL_PWD,
-    _MYSQL_DB,
-    _MYSQL_PORT
-);
+$link = db_init();
 
 $wip_toggle = '0';
 if ($side == 0 || $side == 1) {

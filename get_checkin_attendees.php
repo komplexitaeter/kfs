@@ -1,5 +1,6 @@
 <?php
 require 'config.php';
+require 'sql_lib.php';
 
 $simulation_id = filter_input(INPUT_GET, 'simulation_id', FILTER_SANITIZE_NUMBER_INT);
 $session_key = filter_input(INPUT_GET, 'session_key', FILTER_SANITIZE_STRING);
@@ -11,15 +12,7 @@ header('Cache-control: no-cache');
 header('Pragma: no-cache');
 header('Expires: 0');
 
-$link = mysqli_init();
-$success = mysqli_real_connect(
-    $link,
-    _MYSQL_HOST,
-    _MYSQL_USER,
-    _MYSQL_PWD,
-    _MYSQL_DB,
-    _MYSQL_PORT
-);
+$link = db_init();
 
 $sql = "SELECT status_code, configuration_name FROM kfs_simulation_tbl WHERE simulation_id=".$simulation_id;
 $configuration_name = null;

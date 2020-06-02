@@ -1,5 +1,6 @@
 <?php
 require 'config.php';
+require 'sql_lib.php';
 
 header('Content-type: image/svg+xml');
 header("Pragma-directive: no-cache");
@@ -24,16 +25,8 @@ if ($station_id==null) exit_with_status('NO_STATION_ID_SET');
 if ($svg_hash==null) exit_with_status('NO_SVG_HASH_SET');
 
 
+$link = db_init();
 
-$link = mysqli_init();
-$success = mysqli_real_connect(
-    $link,
-    _MYSQL_HOST,
-    _MYSQL_USER,
-    _MYSQL_PWD,
-    _MYSQL_DB,
-    _MYSQL_PORT
-);
 
 $sql = "SELECT w.workbench_svg 
           FROM kfs_workbench_tbl w

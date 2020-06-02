@@ -1,5 +1,6 @@
 <?php
 require 'config.php';
+require 'sql_lib.php';
 
 ob_implicit_flush(1);
 header("Cache-Control: no-cache");
@@ -42,15 +43,7 @@ while ($count<2500) {
 }
 
 function getDebriefingObj($simulation_id, $session_key) {
-    $link = mysqli_init();
-    if (!mysqli_real_connect(
-        $link,
-        _MYSQL_HOST,
-        _MYSQL_USER,
-        _MYSQL_PWD,
-        _MYSQL_DB,
-        _MYSQL_PORT
-    )) return null;
+    $link = db_init();
 
     $sql = "SELECT status_code 
                  ,coalesce(stats_round_id_0, current_round_id) stats_round_id_0

@@ -15,15 +15,7 @@ header('Expires: 0');
 if ($simulation_id == null) exit('NO_SIMULATION_ID_SET');
 if (!in_array($action, array('start', 'stop' ,'reset', 'toggle_auto_pull'))) exit('NO_VALID_ACTION_SET');
 
-$link = mysqli_init();
-$success = mysqli_real_connect(
-    $link,
-    _MYSQL_HOST,
-    _MYSQL_USER,
-    _MYSQL_PWD,
-    _MYSQL_DB,
-    _MYSQL_PORT
-);
+$link = db_init();
 
 /*
  * query current_round data, if round is set

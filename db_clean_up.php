@@ -1,15 +1,9 @@
 <?php
 require 'config.php';
+require 'sql_lib.php';
 
-$link = mysqli_init();
-$success = mysqli_real_connect(
-    $link,
-    _MYSQL_HOST,
-    _MYSQL_USER,
-    _MYSQL_PWD,
-    _MYSQL_DB,
-    _MYSQL_PORT
-);
+$link = db_init();
+
 
 /*
  * loop through all 24h outdated simulation

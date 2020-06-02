@@ -1,5 +1,6 @@
 <?php
 require 'config.php';
+require 'sql_lib.php';
 
 /* GET Parameters */
 $simulation_id = filter_input(INPUT_GET, 'simulation_id', FILTER_SANITIZE_NUMBER_INT);
@@ -18,15 +19,7 @@ function exit_with_status($status_code) {
     exit(0);
 }
 
-$link = mysqli_init();
-if (!mysqli_real_connect(
-    $link,
-    _MYSQL_HOST,
-    _MYSQL_USER,
-    _MYSQL_PWD,
-    _MYSQL_DB,
-    _MYSQL_PORT
-)) exit_with_status('ERROR_DB_CONNECT');
+$link = db_init();
 
 /* do some checks on the input params */
 if ($simulation_id == null) exit_with_status('NO_SIMULATION_ID_SET');
