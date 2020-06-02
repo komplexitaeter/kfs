@@ -136,10 +136,10 @@ grid-area: start row / start column / end row / end column;
 }
 
 .test{
-    grid-area: 1 / 2 / 19 / 9;
+    grid-area: 1 / 9 / 20 / 16;
+    border-left: 5px solid transparent;
     border-right: 5px solid transparent;
-    border-left-width: 0px;
-    border-image: url("./src/border_grey.png") 55 repeat;
+    border-image: url("./src/border_aliceblue.png") 55 repeat;
     background-color: transparent;
 }
 
@@ -190,6 +190,13 @@ grid-area: start row / start column / end row / end column;
     grid-area: 19 / 9 / 20 / 16;
 }
 
+#round_stats_left_bottom, #round_stats_right_bottom{
+    font-family: Komplexitater, Georgia;
+    font-size: x-large;
+    text-align: center;
+    color: #535353;
+}
+
 .graph{
     position: absolute;
     height: 100%;
@@ -223,6 +230,9 @@ grid-area: start row / start column / end row / end column;
     height: 100%;
     top:0;
     left:0;
+    padding-top: 0.5rem;
+    padding-left: 0.2rem;
+    padding-right: 0.2rem;
     background-image: url("./src/container_green_large.png");
     background-size: 100% 100%;
     background-repeat: no-repeat;
@@ -263,4 +273,12 @@ grid-area: start row / start column / end row / end column;
 
 .def_4{
     grid-area: 8 / 16 / 10 / 20;
+}
+
+.def_5{
+    grid-area: 12 / 16 / 14 / 20;
+}
+
+.def_6{
+    grid-area: 14 / 16 / 16 / 20;
 }

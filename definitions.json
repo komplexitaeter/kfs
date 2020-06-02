@@ -1,0 +1,61 @@
+[{
+  "id": "definition_wip",
+  "en": {
+    "title": "work in progress (wip)",
+    "text": "all the work (items) currently in the system"
+  },
+  "de": {
+    "title": "Work in Progress (wip)",
+    "text": "Menge aller Arbeit aktuell im System"
+  }
+}, {
+  "id": "definition_throughput",
+  "en": {
+    "title": "throughput",
+    "text": "quantity of work finished per time unit (ships/minute)"
+  },
+  "de": {
+    "title": "Durchsatz",
+    "text": "Menge fertiggstellter Arbeit pro Zeiteinheit (Shiffe/Minute)"
+  }
+}, {
+  "id": "definition_cycle_time",
+  "en": {
+    "title": "cycle time",
+    "text": "time between starting work on an item and its completion"
+  },
+  "de": {
+    "title": "Durchlaufzeit",
+    "text": "Zeit zwischen Start der Arbeit und deren Fertigstellung"
+  }
+}, {
+  "id": "definition_bottleneck",
+  "en": {
+    "title": "bottleneck",
+    "text": "the step that requires the most time to accomplish"
+  },
+  "de": {
+    "title": "Engpass",
+    "text": "der Arbeitsschritt, der am meisten Zeit benötigt"
+  }
+}, {
+  "id": "definition_littles_law",
+  "en": {
+    "title": "Little's law",
+    "text": "Cycle time = work in progress / Throughput"
+  },
+  "de": {
+    "title": "Littles Gesetz",
+    "text": "Durchlaufzeit = Work in Progress / Durchsatz"
+  }
+}, {
+  "id": "definition_backlog",
+  "en": {
+    "title": "backlog",
+    "text": "list of work items not started yet"
+  },
+  "de": {
+    "title": "Backlog",
+    "text": "Menge der noch nicht gestarteten Arbeit"
+  }
+}]

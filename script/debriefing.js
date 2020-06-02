@@ -14,6 +14,7 @@ function loadDebriefing(){
 
     initializeCursor(getSimulationId(), getSessionKey());
     initializePresentation(getSimulationId(), getSessionKey());
+    displayDefinitions(language_code);
 
     let rounds_url = "./get_rounds.php?simulation_id="+getSimulationId();
     fetch(rounds_url)
@@ -67,11 +68,12 @@ function updateDom(myJson){
             displayStatements(myJson.attendees);
             toggleAccessControl(myJson.role_code);
             displayPresentation(myJson.dom, myJson.role_code, myJson.wip_visibility);
-            if(checkedDisplayedRound(myJson.round_id_0,"left")){
+            if(checkedDisplayedRound(myJson.round_id_0,"left")||checkedDisplayedRound(myJson.round_id_1,"right")){
                 updateRoundStats(myJson.round_id_0, "left");
-            }
-            if(checkedDisplayedRound(myJson.round_id_1,"right")){
                 updateRoundStats(myJson.round_id_1, "right");
+            }
+            if(language_code !== myJson.language_code){
+                displayDefinitions(myJson.language_code);
             }
             language_code = myJson.language_code;
             break;
