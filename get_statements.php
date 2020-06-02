@@ -19,6 +19,7 @@ $success = mysqli_real_connect(
     _MYSQL_DB,
     _MYSQL_PORT
 );
+$link->set_charset("utf8");
 
 $statements = array();
 $sql = "SELECT statement_code
