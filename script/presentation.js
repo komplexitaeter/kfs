@@ -15,7 +15,18 @@ function toggleParentDomVisibility(e){
 
 }
 
-function displayPresentation(domList, role_code){
+function toggleWIPVisibility(e){
+    let sides = ["left","right"];
+    let side = sides.indexOf(e.target.id.split('_')[0]);
+
+    const url = './update_simulation.php' +
+        '?simulation_id='+presentationSimulation_id +
+        '&side='+side+
+        '&action=toggle_wip_visibility';
+    fetch(url);
+}
+
+function displayPresentation(domList, role_code, wip_visibility){
 
     let toggles = Array.from(document.getElementsByClassName("visibility_toggle"));
     toggles.forEach( dom => {
@@ -47,6 +58,19 @@ function displayPresentation(domList, role_code){
         }
     });
 
+    let sides = ["left","right"];
+    for(i=0;i<=1;i++){
+        let wip_toggle = document.getElementById(sides[i]+"_wip_visibility_toggle");
+        if((wip_visibility[i] === 1)&&wip_toggle.classList.contains("wip_inactive")){
+            wip_toggle.classList.remove("wip_inactive");
+            wip_toggle.classList.add("wip_active");
+        }
+        if((wip_visibility[i] === 0)&&wip_toggle.classList.contains("wip_active")){
+            wip_toggle.classList.remove("wip_active");
+            wip_toggle.classList.add("wip_inactive");
+        }
+    }
+
 }
 
 function updateDisplayedRound(e){
@@ -61,8 +85,11 @@ function updateDisplayedRound(e){
 }
 
 function updateRoundStats(round_id, side){
+    let sides = ["left","right"];
     const url = "./get_round_statistics.php"+
-        "?round_id="+round_id;
+        "?round_id="+round_id+
+        "?side="+sides.indexOf(side);
+
     fetch(url)
         .then((response) => {
             return response.json();
@@ -138,7 +165,7 @@ function drawShipsPerMinute(data, targetDiv) {
     series: {
             0: {
                 type: 'bars',
-                targetAxisIndex: 0,
+                targetAxisIndex: 0
             },
             1: {
                 type: 'bars',

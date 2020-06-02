@@ -26,6 +26,7 @@
 <div id="left" class="column"></div>
 <div id="center">
     <div class="presentation" id="presentation">
+        <div class="test"></div>
         <div class="round_picker rp_left dom_hidden" id="round_picker_left">
             <select id="left_round_switch" onchange="updateDisplayedRound(event)" ></select>
             <div class="visibility_toggle facilitator_tool"></div>
@@ -44,6 +45,7 @@
 
         <div class="round_stats rs_left_top dom_hidden" id="round_stats_left_top">
             <div class="graph" id="round_stats_left_top_graph"></div>
+            <div class="wip_visibility_toggle facilitator_tool wip_inactive" id="left_wip_visibility_toggle" onclick="toggleWIPVisibility(event)">WIP</div>
             <div class="visibility_toggle facilitator_tool"></div>
         </div>
         <div class="round_stats rs_left_middle dom_hidden" id="round_stats_left_middle">
@@ -57,6 +59,7 @@
 
         <div class="round_stats rs_right_top dom_hidden" id="round_stats_right_top">
             <div class="graph" id="round_stats_right_top_graph"></div>
+            <div class="wip_visibility_toggle facilitator_tool wip_inactive" id="right_wip_visibility_toggle" onclick="toggleWIPVisibility(event)">WIP</div>
             <div class="visibility_toggle facilitator_tool"></div>
         </div>
         <div class="round_stats rs_right_middle dom_hidden" id="round_stats_right_middle">

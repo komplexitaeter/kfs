@@ -66,7 +66,7 @@ function updateDom(myJson){
             displayControls(myJson.language_code, myJson.mood_code, myJson.role_code);
             displayStatements(myJson.attendees);
             toggleAccessControl(myJson.role_code);
-            displayPresentation(myJson.dom, myJson.role_code);
+            displayPresentation(myJson.dom, myJson.role_code, myJson.wip_visibility);
             if(checkedDisplayedRound(myJson.round_id_0,"left")){
                 updateRoundStats(myJson.round_id_0, "left");
             }

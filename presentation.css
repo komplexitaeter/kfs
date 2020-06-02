@@ -35,6 +35,39 @@ grid-area: start row / start column / end row / end column;
     visibility: hidden;
 }
 
+.wip_visibility_toggle{
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 100%;
+    right:2rem;
+    top:0.3rem;
+    position: absolute;
+    z-index: 5;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    font-family: Komplexitater;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.wip_active{
+    outline: none;
+    outline-offset: 0;
+}
+
+.wip_inactive{
+    outline: 1px navy solid;  /* inner stroke */
+    outline-offset: -2px;  /* negative border width + outline width */
+}
+
+.dom_hidden .wip_visibility_toggle{
+    opacity: 0.5;
+}
+
+.dom_visible .wip_visibility_toggle{
+    opacity: 1;
+}
+
 .visibility_toggle{
     width: 1.5rem;
     height: 1.5rem;
@@ -102,9 +135,17 @@ grid-area: start row / start column / end row / end column;
     grid-area: 2 / 9 / 3 / 13;
 }
 
+.test{
+    grid-area: 1 / 2 / 19 / 9;
+    border-right: 5px solid transparent;
+    border-left-width: 0px;
+    border-image: url("./src/border_grey.png") 55 repeat;
+    background-color: transparent;
+}
+
 .round_display{
     text-align: center;
-    background-color: #ffdd00;
+    background-color: transparent;
     border: none;
     position: relative;
     font-family: Komplexitater, Georgia;
