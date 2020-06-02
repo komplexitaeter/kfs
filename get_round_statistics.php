@@ -51,6 +51,15 @@ $sql = "select COALESCE(rnd.cumulative_time_s, 0) + TIMESTAMPDIFF(SECOND, rnd.la
              where i.round_id = rnd.round_id
                and i.end_time_s is not null
                and i.current_station_id is null) as last_minute
+       ,(     select max(i.end_time_s-i.start_time_s)
+                from kfs_simulation_tbl kst
+                    ,kfs_items_tbl i
+                where kst.simulation_id = rnd.simulation_id
+                  and (i.round_id = coalesce(kst.stats_round_id_0, kst.current_round_id)
+                      or i.round_id = coalesce(kst.stats_round_id_1, kst.current_round_id)
+                    )
+                  and i.end_time_s is not null
+                  and i.current_station_id is null) as last_minute_total
   from kfs_rounds_tbl as rnd
     left outer join  kfs_items_tbl i
       on i.round_id = rnd.round_id
@@ -103,7 +112,7 @@ $sql="select max(i.cnt) ship_per_minute_max from (
     where krt.round_id = $round_id
       and kst.simulation_id = krt.simulation_id
       and (i.round_id = coalesce(kst.stats_round_id_0, kst.current_round_id)
-          or i.round_id = coalesce(kst.stats_round_id_0, kst.current_round_id)
+          or i.round_id = coalesce(kst.stats_round_id_1, kst.current_round_id)
         )
       and i.end_time_s is not null
       and i.current_station_id is null
@@ -123,7 +132,7 @@ $sql="  select max(end_time_s-start_time_s) as cycle_time_per_ship_max
     where krt.round_id = $round_id
       and kst.simulation_id = krt.simulation_id
       and (i.round_id = coalesce(kst.stats_round_id_0, kst.current_round_id)
-          or i.round_id = coalesce(kst.stats_round_id_0, kst.current_round_id)
+          or i.round_id = coalesce(kst.stats_round_id_1, kst.current_round_id)
         )
       and i.end_time_s is not null
       and i.current_station_id is null";
@@ -190,6 +199,37 @@ if ($round_kpi->last_minute != null) {
     }
 }
 
+$wip_per_minute_max = 0;
+if ($round_kpi->last_minute_total != null) {
+    for ($min = 0; $min <= $round_kpi->last_minute_total; $min++) {
+        $sql = "select max(i.wip_per_minute_max) as wip_per_minute_max
+                from (
+                         select count(1) as wip_per_minute_max
+                         from kfs_rounds_tbl krt
+                            , kfs_simulation_tbl kst
+                            , kfs_items_tbl i
+                         where krt.round_id = $round_id
+                           and kst.simulation_id = krt.simulation_id
+                           and (i.round_id = coalesce(kst.stats_round_id_0, kst.current_round_id)
+                             or i.round_id = coalesce(kst.stats_round_id_1, kst.current_round_id)
+                             )
+                           and i.end_time_s is not null
+                           and i.current_station_id is null
+                           and i.start_time_s < ($min + 1) * 60
+                           and ifnull(i.end_time_s, ($min + 2) * 60) > (($min + 1) * 60) - 1
+                         group by i.round_id
+                     ) as i";
+        if ($result = $link->query($sql)) {
+            if ($obj = $result->fetch_object()) {
+                if ($obj->wip_per_minute_max != null
+                 && $obj->wip_per_minute_max > $wip_per_minute_max) {
+                    $wip_per_minute_max = $obj->wip_per_minute_max;
+                }
+            }
+        }
+    }
+}
+
 
 $per_ship = array();
 $style = array("role"=> "style"
@@ -217,9 +257,10 @@ if ($result = $link->query($sql)) {
 
 $myJSON_array = array("title" => $title
                      ,"kpi" => $round_kpi
-                     ,"ship_per_minute_max" => $ship_per_minute_max
+                     ,"ship_per_minute_max" => (int)$ship_per_minute_max
+                     ,"wip_per_minute_max" => (int)$wip_per_minute_max
                      ,"per_minute" => $per_minute
-                     ,"cycle_time_per_ship_max" => $cycle_time_per_ship_max
+                     ,"cycle_time_per_ship_max" => (int)$cycle_time_per_ship_max
                      ,"per_ship" => $per_ship);
 
 echo json_encode($myJSON_array);
