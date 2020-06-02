@@ -86,7 +86,7 @@ function updateDom(myJson){
 function checkedDisplayedRound(round_id, side){
 
     let currentRound = document.getElementById("round_display_"+side);
-    return (currentRound.name !== round_id);
+    return (currentRound.getAttribute("data-value") !== round_id);
 
 }
 
