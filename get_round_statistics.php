@@ -4,7 +4,7 @@ require 'sql_lib.php';
 
 /* GET Parameters */
 $round_id = filter_input(INPUT_GET, 'round_id', FILTER_SANITIZE_NUMBER_INT);
-$side = filter_input(INPUT_GET, 'round_id', FILTER_SANITIZE_NUMBER_INT);
+$side = filter_input(INPUT_GET, 'side', FILTER_SANITIZE_NUMBER_INT);
 
 
 header('Content-Type: application/json');
