@@ -20,9 +20,9 @@ $success = mysqli_real_connect(
     _MYSQL_PORT
 );
 
-error_log('1: mysql_charset='.$link->get_charset());
+print_r($link->get_charset());
 $link->set_charset("utf8");
-error_log('2: mysql_charset='.$link->get_charset());
+print_r($link->get_charset());
 
 
 $statements = array();
