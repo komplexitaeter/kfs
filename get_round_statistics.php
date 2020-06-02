@@ -94,6 +94,46 @@ if ($result = $link->query($sql)) {
     }
 }
 
+$ship_per_minute_max=0;
+$sql="select max(i.cnt) ship_per_minute_max from (
+  select count(1) as cnt
+    from kfs_rounds_tbl krt 
+        ,kfs_simulation_tbl kst
+        ,kfs_items_tbl i
+    where krt.round_id = $round_id
+      and kst.simulation_id = krt.simulation_id
+      and (i.round_id = coalesce(kst.stats_round_id_0, kst.current_round_id)
+          or i.round_id = coalesce(kst.stats_round_id_0, kst.current_round_id)
+        )
+      and i.end_time_s is not null
+      and i.current_station_id is null
+group by floor((i.end_time_s)/60)) as i";
+if ($result = $link->query($sql)) {
+    if ($obj = $result->fetch_object()) {
+        $ship_per_minute_max = $obj->ship_per_minute_max;
+    }
+}
+
+
+$cycle_time_per_ship_max=0;
+$sql="  select max(end_time_s-start_time_s) as cycle_time_per_ship_max
+    from kfs_rounds_tbl krt
+        ,kfs_simulation_tbl kst
+        ,kfs_items_tbl i
+    where krt.round_id = $round_id
+      and kst.simulation_id = krt.simulation_id
+      and (i.round_id = coalesce(kst.stats_round_id_0, kst.current_round_id)
+          or i.round_id = coalesce(kst.stats_round_id_0, kst.current_round_id)
+        )
+      and i.end_time_s is not null
+      and i.current_station_id is null";
+if ($result = $link->query($sql)) {
+    if ($obj = $result->fetch_object()) {
+        $cycle_time_per_ship_max = $obj->cycle_time_per_ship_max;
+    }
+}
+
+
 $rounds = get_rounds($link, $round_kpi->simulation_id);
 $title = null;
 
@@ -175,10 +215,12 @@ if ($result = $link->query($sql)) {
 }
 
 
-$myJSON_array = array("title"=> $title
-                     ,"kpi"=> $round_kpi
-                     ,"per_minute"=> $per_minute
-                     ,"per_ship"=> $per_ship);
+$myJSON_array = array("title" => $title
+                     ,"kpi" => $round_kpi
+                     ,"ship_per_minute_max" => $ship_per_minute_max
+                     ,"per_minute" => $per_minute
+                     ,"cycle_time_per_ship_max" => $cycle_time_per_ship_max
+                     ,"per_ship" => $per_ship);
 
 echo json_encode($myJSON_array);
 
