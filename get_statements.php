@@ -34,5 +34,7 @@ if ($result = $link->query($sql)) {
     }
 }
 
-echo json_encode($statements, JSON_UNESCAPED_UNICODE);
+$json = json_encode($statements);
+echo  "printing json\n";
+echo json_encode($statements );
 $link->close();
