@@ -243,9 +243,18 @@ body{
 #observers{
     padding:0.1em;
     padding-top: 0.5em;
+    padding-bottom: 2rem;
     grid-area: 4 / 1 / 5 / 2;
     background-color: aliceblue;
     position:relative;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    /* Hide scrollbar for IE and Edge */
+    -ms-overflow-style: none;
+}
+
+#observers::-webkit-scrollbar {
+    display: none;
 }
 
 .attendee{
@@ -364,7 +373,6 @@ body{
     max-width:100%;
     float: right;
     position:relative;
-    overflow:visible;
 }
 
 .drop_target{
@@ -567,6 +575,7 @@ body{
 
 .done{
     right:0;
+    background-color: transparent;
 }
 
 .done .p_button{
@@ -799,9 +808,9 @@ body{
 }
 
 #brand {
-    position: absolute;
+    position: sticky;
     left: 0;
-    bottom: 0;
+    bottom:0;
     z-index: 99;
     width: 100%;
     padding-left: 10%;

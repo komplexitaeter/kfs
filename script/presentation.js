@@ -142,7 +142,7 @@ function drawShipsCycleTime(data, cycle_time_per_ship_max, targetDiv) {
         title : '',
         vAxes: {
             0: {
-                title:'cycle time',
+                title:'cycle time (s)',
                 titleTextStyle: {color: '#535353', fontName: 'Komplexitater', fontSize: 16},
                 viewWindow: {
                     max: maxCycleTime,
@@ -151,7 +151,7 @@ function drawShipsCycleTime(data, cycle_time_per_ship_max, targetDiv) {
             }
         },
         hAxis: {
-            title: 'delivery time',
+            title: 'delivery time (s)',
             titleTextStyle: {color: '#535353', fontName: 'Komplexitater', fontSize: 16},
             textPosition: 'out',
             viewWindow: {
@@ -193,6 +193,9 @@ function drawShipsPerMinute(data, ship_per_minute_max, wip_per_minute_max, targe
                 viewWindow: {
                     max: maxShip,
                     min: 0
+                },
+                gridlines: {
+                    color: 'transparent'
                 }
             },
             1: {
@@ -201,6 +204,9 @@ function drawShipsPerMinute(data, ship_per_minute_max, wip_per_minute_max, targe
                 viewWindow: {
                     max: maxWip,
                     min: 0
+                },
+                gridlines: {
+                    color: 'transparent'
                 }
             }
         },
@@ -209,7 +215,7 @@ function drawShipsPerMinute(data, ship_per_minute_max, wip_per_minute_max, targe
             titleTextStyle: {color: '#535353', fontName: 'Komplexitater', fontSize: 16},
             textPosition: 'out',
             viewWindow: {
-                min: 0
+
             },
             gridlines: {
                 color: 'transparent'

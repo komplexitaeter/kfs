@@ -188,33 +188,40 @@ function displayAttendees(attendees, session_key){
 
 function setAttendeeMood(attendeeDiv, attendee){
     let moodDiv = Array.from(attendeeDiv.getElementsByClassName("mood"));
-    moodDiv[0].className = "";
-    moodDiv[0].classList.add("mood");
+
     let toolDiv = Array.from(document.getElementById("tools").getElementsByClassName("tool"));
-    switch(attendee.mood_code){
-        case "light_bulb":
-            moodDiv[0].classList.add("light_bulb");
-            moodDiv[0].style.animation = "light_bulb 2.5s 2 ease-out";
-            break;
-        case "waiving_hand":
-            moodDiv[0].classList.add("waiving_hand");
-            moodDiv[0].style.animation = "waiving_hand  1.5s infinite linear";
-            break;
-        case "gear":
-            moodDiv[0].classList.add("gear");
-            moodDiv[0].style.animation = "gear 3.5s infinite ease-in-out";
-            break;
-        case "explosion":
-            moodDiv[0].classList.add("explosion");
-            moodDiv[0].style.animation = "explosion 3.5s 1 linear";
-            break;
-        case "wondering":
-            moodDiv[0].classList.add("wondering");
-            moodDiv[0].style.animation = "wondering 3.5s infinite ease-in-out";
-            break;
-        default:
-            moodDiv[0].style.animation = "";
+    if(moodDiv[0].classList.contains(attendee.mood_code) == false){
+        moodDiv[0].className = "mood";
+        switch(attendee.mood_code){
+            case "light_bulb":
+                moodDiv[0].classList.add("light_bulb");
+                moodDiv[0].style.animation = "light_bulb 2.5s 2 ease-out";
+                playSound("light_bulb");
+                break;
+            case "waiving_hand":
+                moodDiv[0].classList.add("waiving_hand");
+                moodDiv[0].style.animation = "waiving_hand  1.5s infinite linear";
+                playSound("waiving_hand");
+                break;
+            case "gear":
+                moodDiv[0].classList.add("gear");
+                moodDiv[0].style.animation = "gear 3.5s infinite ease-in-out";
+                break;
+            case "explosion":
+                moodDiv[0].classList.add("explosion");
+                moodDiv[0].style.animation = "explosion 3.5s 1 linear";
+                playSound("explosion");
+                break;
+            case "wondering":
+                moodDiv[0].classList.add("wondering");
+                moodDiv[0].style.animation = "wondering 3.5s infinite ease-in-out";
+                playSound("wondering");
+                break;
+            default:
+                moodDiv[0].style.animation = "";
+        }
     }
+
     if(attendee.session_key === getSessionKey()) {
         toolDiv.forEach(tool => {
             if (tool.id === attendee.mood_code) {
@@ -387,4 +394,10 @@ function updateItemOption(e){
         +"item_id="+e.target.id.split('_')[0]
         +"&options="+e.target.id.split('_')[1];
     fetch(url);
+}
+
+function playSound(file){
+    var audio = new Audio('./src/sounds/'+file+'.mp3');
+    audio.volume = 0.2;
+    audio.play();
 }

@@ -815,12 +815,7 @@ function allowDrop(ev) {
 /***switch pointer-events on the drop_targets while dragging to allow item_preview on mouseover for lower z-index children***/
 function drag(ev) {
     ev.dataTransfer.setData("text", ev.target.id);
-    var crt = ev.target.cloneNode(true);
-    crt.id="image_"+ev.target.id;
-    crt.style.backgroundColor = "transparent";
-    crt.style.width = "3.1em";
-    document.body.appendChild(crt);
-    ev.dataTransfer.setDragImage(crt, 25,25, 0);
+    ev.dataTransfer.setDragImage(ev.target, 25,25, 0);
     Array.from(document.getElementsByClassName("drop_target")).forEach(o => {
        o.style.pointerEvents = "auto";
     });
@@ -829,7 +824,6 @@ function drag(ev) {
 function drop(ev) {
     ev.preventDefault();
     var data = ev.dataTransfer.getData("text");
-    document.getElementById("image_"+data).remove();
     updateAttendeeStation(data, ev.target.parentElement.id, getSimulationId());
     Array.from(document.getElementsByClassName("drop_target")).forEach(o => {
         o.style.pointerEvents = "none";
