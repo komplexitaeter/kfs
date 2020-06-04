@@ -808,14 +808,14 @@ body{
 }
 
 #brand {
-    position: sticky;
+    position: absolute;
     left: 0;
     bottom:0;
     z-index: 99;
-    width: 100%;
-    padding-left: 10%;
+    padding-left: 10px;
+    width: 10%;
     background-color: aliceblue;
 }
 #brand img {
-    width: 80%;
+    width: 100%;
 }
