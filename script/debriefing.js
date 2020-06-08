@@ -78,6 +78,8 @@ function updateDom(myJson){
             if(language_code !== myJson.language_code){
                 displayDefinitions(myJson.language_code);
                 translateElements(myJson.language_code);
+                updateRoundStats(myJson.round_id_0, "left");
+                updateRoundStats(myJson.round_id_1, "right");
             }
             language_code = myJson.language_code;
             break;
