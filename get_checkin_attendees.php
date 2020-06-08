@@ -108,11 +108,13 @@ else{
 $sql = "SELECT * FROM kfs_attendees_tbl WHERE TIMESTAMPDIFF( SECOND, last_callback_date, CURRENT_TIMESTAMP) < 30 AND simulation_id=".$simulation_id;
 $objs= array();
 $role_code = null;
+$language_code = null;
 
 if ($result = $link->query($sql)) {
     while(  $obj = $result->fetch_object()) {
         if ($obj->session_key == $session_key) {
             $role_code = $obj->role_code;
+            $language_code = $obj->language_code;
         }
         array_push($objs, $obj);
     }
@@ -142,6 +144,7 @@ else{
 
 $myJSON_array = array("status_code"=>$status_code
                     , "role_code"=>$role_code
+                    , "language_code" => $language_code
                     , "attendees"=>$objs
                     , "configuration_name"=>$configuration_name
                     , "configurations"=>$conf);

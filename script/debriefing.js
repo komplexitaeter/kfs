@@ -2,6 +2,7 @@
 let evtSource;
 let stream_url;
 let language_code = 'en';
+let audioFiles;
 
 function loadDebriefing(){
     stream_url = './get_debriefing_stream.php?'
@@ -11,6 +12,7 @@ function loadDebriefing(){
     evtSource.addEventListener("update", handleUpdate);
 
     document.addEventListener("visibilitychange", onVisibilityChange);
+    document.addEventListener('click', initSounds);
 
     initializeCursor(getSimulationId(), getSessionKey());
     initializePresentation(getSimulationId(), getSessionKey());
@@ -397,7 +399,22 @@ function updateItemOption(e){
 }
 
 function playSound(file){
-    var audio = new Audio('./src/sounds/'+file+'.mp3');
-    audio.volume = 0.2;
-    audio.play();
+    if (audioFiles!=null) {
+        audioFiles[file].play();
+    }
+}
+
+function initSounds() {
+    if (audioFiles == null) {
+        audioFiles = new Array();
+        let moods =  ["explosion", "light_bulb", "waiving_hand", "wondering"];
+        moods.forEach( mood=> {
+            audioFiles[mood] = new Audio('./src/sounds/'+mood+'.mp3');
+            audioFiles[mood].volume = 0.2;
+            audioFiles[mood].load();
+            //audioFiles[mood].play();
+            //audioFiles[mood].pause();
+        });
+        document.removeEventListener('click', initSounds);
+    }
 }

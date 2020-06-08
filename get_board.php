@@ -22,6 +22,7 @@ $sql = "SELECT s.status_code
                       and r.auto_pull
                then 1 end as auto_pull
               ,a.role_code
+              ,a.language_code
          FROM kfs_simulation_tbl  as s
     LEFT OUTER JOIN kfs_rounds_tbl as r 
        ON r.round_id = s.current_round_id
@@ -32,11 +33,13 @@ $sql = "SELECT s.status_code
 
 $status_code=null;
 $role_code=null;
+$language_code = null;
 
 if ($result = $link->query($sql)) {
     if($obj = $result->fetch_object()) {
         $status_code = $obj->status_code;
         $role_code = $obj->role_code;
+        $language_code = $obj->language_code;
         if ($obj->auto_pull === '1') {
             $do_auto_pull = '1';
         }
@@ -317,6 +320,7 @@ $workbench = array("meta_data"=>$meta_data
 
 $myJSON_array = array("status_code"=>$status_code
                     , "role_code"=>$role_code
+                    ,"language_code" => $language_code
                     , "attendees"=>$objs
                     , "stations"=>$stations
                     , "current_round"=>$current_round
