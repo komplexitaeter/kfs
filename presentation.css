@@ -171,11 +171,11 @@ grid-area: start row / start column / end row / end column;
 }
 
 .rs_left_middle{
-    grid-area: 11 / 2 / 19 / 9;
+    grid-area: 11 / 2 / 12 / 9;
 }
 
 .rs_left_bottom{
-    grid-area: 19 / 2 / 20 / 9;
+    grid-area: 12 / 2 / 20 / 9;
 }
 
 .rs_right_top{
@@ -183,11 +183,11 @@ grid-area: start row / start column / end row / end column;
 }
 
 .rs_right_middle{
-    grid-area: 11 / 9 / 19 / 16;
+    grid-area: 11 / 9 / 12 / 16;
 }
 
 .rs_right_bottom{
-    grid-area: 19 / 9 / 20 / 16;
+    grid-area: 12 / 9 / 20 / 16;
 }
 
 #round_stats_left_bottom, #round_stats_right_bottom{

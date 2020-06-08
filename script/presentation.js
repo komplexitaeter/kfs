@@ -25,14 +25,6 @@ function toggleWIPVisibility(e){
     fetch(url);
 }
 
-function updateStatsBothSides(){
-    let sides = ["left","right"];
-    for(i=0;i<1;i++){
-        let currentRound = document.getElementById("round_display_"+sides[i]);
-        currentRound.setAttribute("data-value", "")
-    }
-}
-
 function displayDefinitions(language){
     let url = "./definitions.json";
     fetch(url)
@@ -111,12 +103,12 @@ function displayPresentation(domList, role_code, wip_visibility){
         if((wip_visibility[i] === 1)&&wip_toggle.classList.contains("wip_inactive")){
             wip_toggle.classList.remove("wip_inactive");
             wip_toggle.classList.add("wip_active");
-            updateStatsBothSides();
+            document.getElementById("round_display_left").setAttribute("data-value", "");
         }
         if((wip_visibility[i] === 0)&&wip_toggle.classList.contains("wip_active")){
             wip_toggle.classList.remove("wip_active");
             wip_toggle.classList.add("wip_inactive");
-            updateStatsBothSides();
+            document.getElementById("round_display_right").setAttribute("data-value", "");
         }
     }
 
@@ -146,7 +138,6 @@ function updateRoundStats(round_id, side){
         .then((myJson) => {
             /**update round display on the corresponding side**/
             let display = document.getElementById("round_display_"+side);
-            display.setAttribute("data-value", round_id);
             display.innerHTML = myJson.title+'<div class="visibility_toggle facilitator_tool"></div>';
 
             /**generate and update graphs on the corresponding side**/
@@ -267,7 +258,7 @@ function drawShipsPerMinute(data, ship_per_minute_max, wip_per_minute_max, targe
                 lineDashStyle: [4,4]
             }
             },
-        legend: {position: 'top', textStyle: {color: '#535353', fontName: 'Komplexitater', fontSize: 16}},
+        legend: 'none',
         chartArea:{
             width:'80%',
             height:'70%'
