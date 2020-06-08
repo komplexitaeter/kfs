@@ -1,0 +1,56 @@
+[{
+  "id": "chart_average_throughput",
+  "en": {
+    "text": "Average throughput = "
+  },
+  "de": {
+    "text": "Durchschnittlicher Durchsatz = "
+  }
+},
+  {
+    "id": "chart_ships",
+    "en": {
+      "text": "ships"
+    },
+    "de": {
+      "text": "Schiffe"
+    }
+  },
+  {
+    "id": "chart_minutes",
+    "en": {
+      "text": "minutes"
+    },
+    "de": {
+      "text": "Minuten"
+    }
+  },
+  {
+    "id": "chart_WIP",
+    "en": {
+      "text": "WIP"
+    },
+    "de": {
+      "text": "WIP"
+    }
+  },
+  {
+    "id": "chart_cycle_time",
+    "en": {
+      "text": "cycle time (s)"
+    },
+    "de": {
+      "text": "Durchlaufzeit (s)"
+    }
+  },
+  {
+    "id": "chart_delivery_time",
+    "en": {
+      "text": "delivery time (s)"
+    },
+    "de": {
+      "text": "Lieferungszeitpunkt (s)"
+    }
+  }]
+
+

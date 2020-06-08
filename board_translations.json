@@ -1,0 +1,47 @@
+[{
+  "id": "todo_column_label",
+  "en": {
+    "text": "To Do"
+  },
+  "de": {
+    "text": "Zu erledigen"
+  }
+},
+  {
+    "id": "done_column_label",
+    "en": {
+      "text": "Done"
+    },
+    "de": {
+      "text": "Erledigt"
+    }
+  },
+  {
+    "id": "work_in_progress_label",
+    "en": {
+      "text": "Work in progress"
+    },
+    "de": {
+      "text": "In Arbeit"
+    }
+  },
+  {
+    "id": "tools_label",
+    "en": {
+      "text": "Toolbox"
+    },
+    "de": {
+      "text": "Werkzeugskiste"
+    }
+  },
+  {
+    "id": "done_station_label",
+    "en": {
+      "text": "Done"
+    },
+    "de": {
+      "text": "Fertig"
+    }
+  }]
+
+

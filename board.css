@@ -240,6 +240,24 @@ body{
     background-image: url("src/debriefing_button.png");
 }
 
+.language{
+    width: 2rem;
+    height: 2rem;
+    text-align: center;
+    color: grey;
+    font-family: Komplexitater;
+    font-size: x-large;
+    display: inline-block;
+    top: 15%;
+    left: 1rem;
+    cursor: pointer;
+    margin-top: 10%;
+}
+
+.active{
+    color: black;
+}
+
 #observers{
     padding:0.1em;
     padding-top: 0.5em;

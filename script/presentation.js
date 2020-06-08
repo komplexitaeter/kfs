@@ -50,6 +50,31 @@ function displayDefinitions(language){
         });
 }
 
+function translateElements(language_code){
+    let url = "./debriefing_translations.json";
+    fetch(url)
+        .then((response) => {
+            return response.json();
+        })
+        .then((myJson) => {
+            myJson.forEach( def => {
+                let element = document.getElementById(def.id);
+                if(element !== null) {
+                    element.value = def[language_code].text;
+                    console.log(element);
+                }
+                else{
+                    element = document.createElement("input");
+                    element.type="hidden";
+                    element.id = def.id;
+                    element.value = def[language_code].text;
+                    document.body.appendChild(element);
+                    console.log(element);
+                }
+            });
+        });
+}
+
 function displayPresentation(domList, role_code, wip_visibility){
 
     let toggles = Array.from(document.getElementsByClassName("visibility_toggle"));
@@ -137,12 +162,13 @@ function drawShipsCycleTime(data, cycle_time_per_ship_max, targetDiv) {
 
     let gData = google.visualization.arrayToDataTable(data);
     let maxCycleTime = Math.ceil(cycle_time_per_ship_max*1.1);
+    let vAxesTitle0 = document.getElementById("chart_cycle_time").value;
 
     let options = {
         title : '',
         vAxes: {
             0: {
-                title:'cycle time (s)',
+                title:vAxesTitle0,
                 titleTextStyle: {color: '#535353', fontName: 'Komplexitater', fontSize: 16},
                 viewWindow: {
                     max: maxCycleTime,

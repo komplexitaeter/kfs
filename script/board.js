@@ -1,5 +1,5 @@
 var fCanvas;
-
+let language_code = 'en';
 
 function loadBoard(){
     initializeCursor(getSimulationId(), getSessionKey());
@@ -31,7 +31,10 @@ function refreshBoard(simulation_id, session_key){
                     displayItems(myJson.items_list);
                     displayWorkbench(myJson.workbench, myJson.current_round, simulation_id);
                     toggleAccessControl(myJson.role_code);
-                    //autoPullItem(myJson.workbench);
+                    if(language_code !== myJson.language_code){
+                        translateElements(myJson.language_code);
+                    }
+                    language_code = myJson.language_code;
                     break;
                 case "NO_SIMULATION":
                     // alert("The required simulation ID does not exit. You will be taken to the home page.");
@@ -46,7 +49,10 @@ function refreshBoard(simulation_id, session_key){
                 default:
                 //alert("Undefined status_code - this is an error. Sorry.");
             }
-            if (firstload) document.body.style.visibility = 'visible';
+            if (firstload){
+                document.body.style.visibility = 'visible';
+                translateElements(myJson.language_code);
+            }
         });
 }
 
@@ -82,20 +88,36 @@ function complexClock(time){
 
 }
 
+function translateElements(language_code){
+    let url = "./board_translations.json";
+    fetch(url)
+        .then((response) => {
+            return response.json();
+        })
+        .then((myJson) => {
+            myJson.forEach( def => {
+                let element = document.getElementById(def.id);
+                if(element !== null) {
+                    element.textContent = def[language_code].text;
+                }
+                else{
+                    console.log(def.id);
+                }
+            });
+        });
+}
+
 function displayWorkbench(workbench, current_round, simulation_id){
 /********Check if the different areas on the workbench are already here, if not create them*********/
     if(document.getElementById("todo_column") == null){
         createAreaOnWorkbench("todo");
     }
-/****TODO: WIP1, Arbeit fertig aber noch nicht weggepullt -> Text in Done Spalte (parameter mitgeben)***/
     if(document.getElementById("done_column") == null){
         createAreaOnWorkbench("done");
     }
-
     if(document.getElementById("workarea") == null){
         createAreaOnWorkbench("workarea");
     }
-
     if(document.getElementById("workbench_canvas") == null){
         createAreaOnWorkbench("workbench_canvas");
     }
@@ -241,6 +263,7 @@ function createAreaOnWorkbench(area){
             todoColumn.classList.add("column", "todo");
             todoColumn.id="todo_column";
             todoColumnLabel.classList.add("column_label");
+            todoColumnLabel.id="todo_column_label";
             todoColumnLabel.innerText = "To Do";
             pullButton.id="pull_button";
             pullButton.name="start";
@@ -260,6 +283,7 @@ function createAreaOnWorkbench(area){
             doneColumn.classList.add("column",  "done");
             doneColumn.id="done_column";
             doneColumnLabel.classList.add("column_label");
+            doneColumnLabel.id="done_column_label";
             doneColumnLabel.innerText = "Done";
             pushButton.id="push_button";
             pushButton.name="finish";
@@ -284,11 +308,13 @@ function createAreaOnWorkbench(area){
             workinprogress.classList.add("work_in_progress");
             workinprogress.id = "work_in_progress";
             workinprogressLabel.classList.add("station_label");
+            workinprogressLabel.id = "work_in_progress_label";
             workinprogressLabel.innerText = "Work in Progress";
 
             tools.classList.add("tools");
             tools.id = "tools";
             toolsLabel.classList.add("station_label");
+            toolsLabel.id = "tools_label";
             toolsLabel.innerText = "Toolbox";
 
             workbench.appendChild(workarea);
@@ -432,6 +458,16 @@ function displayControls(round){
     let resetButton = document.getElementById("reset");
     let debriefingButton = document.getElementById("debriefing");
 
+    let language = Array.from(document.getElementsByClassName("language"));
+    language.forEach( lang => {
+        if(lang.id !== language_code) {
+            lang.classList.remove("active");
+        }
+        else{
+            lang.classList.add("active");
+        }
+    });
+
 
     if((round.last_start_time == null)&&(round.last_stop_time == null)){
         playButton.disabled=false;
@@ -501,7 +537,7 @@ function displayStations(stations, simulation_id){
         doneDiv.classList.add("station");
         let doneLabel = document.createElement("div");
         doneLabel.classList.add("station_label");
-        doneLabel.innerText="Done";
+        doneLabel.id = "done_station_label";
         doneDiv.appendChild(doneLabel);
         document.getElementById("stations").appendChild(doneDiv);
     }
@@ -810,6 +846,14 @@ function pressAutoPull() {
 
 function allowDrop(ev) {
     ev.preventDefault();
+}
+
+function setLanguage(e){
+    let url = "./update_attendee.php?"
+        +"simulation_id="+getSimulationId()
+        +"&session_key="+getSessionKey()
+        +"&language_code="+e.target.id;
+    fetch(url).then();
 }
 
 /***switch pointer-events on the drop_targets while dragging to allow item_preview on mouseover for lower z-index children***/
