@@ -42,28 +42,6 @@ function displayDefinitions(language){
         });
 }
 
-function translateElements(language_code){
-    let url = "./debriefing_translations.json";
-    fetch(url)
-        .then((response) => {
-            return response.json();
-        })
-        .then((myJson) => {
-            myJson.forEach( def => {
-                let element = document.getElementById(def.id);
-                if(element !== null) {
-                    element.value = def[language_code].text;
-                }
-                else{
-                    element = document.createElement("input");
-                    element.type="hidden";
-                    element.id = def.id;
-                    element.value = def[language_code].text;
-                    document.body.appendChild(element);
-                }
-            });
-        });
-}
 
 function displayPresentation(domList, role_code, wip_visibility){
 

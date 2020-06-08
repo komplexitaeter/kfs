@@ -32,8 +32,9 @@ function refreshBoard(simulation_id, session_key){
                     displayWorkbench(myJson.workbench, myJson.current_round, simulation_id);
                     toggleAccessControl(myJson.role_code);
                     if(language_code !== myJson.language_code){
-                        translateElements(myJson.language_code);
+                        translateElements("board", myJson.language_code);
                         displayStations(myJson.stations, simulation_id, true);
+                        workbenchGlobal = null;
                     }
                     language_code = myJson.language_code;
                     break;
@@ -52,7 +53,7 @@ function refreshBoard(simulation_id, session_key){
             }
             if (firstload){
                 document.body.style.visibility = 'visible';
-                translateElements(myJson.language_code);
+                translateElements("board", myJson.language_code);
             }
         });
 }
@@ -87,25 +88,6 @@ function complexClock(time){
     }
     return clockDisplay;
 
-}
-
-function translateElements(language_code){
-    let url = "./board_translations.json";
-    fetch(url)
-        .then((response) => {
-            return response.json();
-        })
-        .then((myJson) => {
-            myJson.forEach( def => {
-                let element = document.getElementById(def.id);
-                if(element !== null) {
-                    element.textContent = def[language_code].text;
-                }
-                else{
-                    console.log(def.id);
-                }
-            });
-        });
 }
 
 function displayWorkbench(workbench, current_round, simulation_id){
@@ -347,7 +329,7 @@ function moveItemOnWorkbench(e){
             let item_status = workbenchGlobal.finish();
 
             if (item_status[0]=='FAIL') {
-                alert(item_status[1]);
+                alert(document.getElementById("alert_fail_workbench").value);
             }
             else {
                 let item_svg = item_status[1];

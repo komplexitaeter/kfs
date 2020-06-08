@@ -42,6 +42,17 @@
     "de": {
       "text": "Fertig"
     }
+  },
+  {
+    "id": "alert_fail_workbench",
+    "en": {
+      "hidden": "No work has been done!"
+    },
+    "de": {
+      "hidden": "Es wurde nichts gemacht!"
+    }
   }]
+
+
 
 

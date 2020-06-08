@@ -46,6 +46,22 @@ function updateReadyStatus(session_key, ready_to_start, name){
     }
 }
 
+function toggleAccessControl(role){
+    let accessControlDivs = Array.from(document.getElementsByClassName("access_control"));
+    if(role == "FACILITATOR"){
+        accessControlDivs.forEach( div => {
+            if(div.classList.contains("is_facilitator") == false){
+                div.classList.add("is_facilitator");
+            }
+        });
+    }
+    if(role == "OBSERVER"){
+        accessControlDivs.forEach( div => {
+            div.classList.remove("is_facilitator");
+        });
+    }
+}
+
 function refreshAttendeesList(simulation_id, session_key){
 
     const url ='./get_checkin_attendees.php?simulation_id='+simulation_id+'&session_key='+session_key;
@@ -98,11 +114,19 @@ function refreshAttendeesList(simulation_id, session_key){
                                 removeAttendeeField(inp[i].id);
                             }
                     }
+                    toggleAccessControl(myJson.role_code);
+                    if (myJson.role_code == "FACILITATOR"){
+                        let facilitatorDivs = Array.from(document.getElementsByClassName("facilitator_tool"));
+                        facilitatorDivs.forEach( div => {
+                           div.style.visibility = "visible";
+                        });
+                    }
                     if ((readiness_level == myJson.attendees.length)&&(myJson.role_code == "FACILITATOR")) {
                         document.getElementById('start_simulation_button').disabled = false;
                     } else {
                         document.getElementById('start_simulation_button').disabled = true;
                     }
+                    translateElements("checkin", myJson.language_code);
                     break;
                 case "NO_SIMULATION":
                    // alert("The required simulation ID does not exit. You will be taken to the home page.");
@@ -119,6 +143,8 @@ function refreshAttendeesList(simulation_id, session_key){
             }
             });
 }
+
+
 
 function editNameCurrentUser(){
     var new_name=document.getElementById("current_user").querySelector(".attendee_name").value;
@@ -160,8 +186,8 @@ function addAttendeeField(session_key, name,avatar_code){
     var avatar = document.createElement("button");
         avatar.readOnly=true;
         avatar.className="avatar";
-        avatar.disabled=true;
         avatar.innerHTML="&nbsp";
+        avatar.oncontextmenu=rightClickAttendeeAvatar;
         avatar.style.backgroundImage= "url('./src/avatar_"+avatar_code+".png')";
     var ready = document.createElement("button");
         ready.readOnly=true;
@@ -198,7 +224,7 @@ function copyContent(content){
     document.execCommand("copy");
 }
 
-function create_simulation() {
+function createSimulation() {
 
     setInterval(function(){
     document.getElementById("create_simulation").style.backgroundColor='red';
@@ -208,7 +234,9 @@ function create_simulation() {
     }, 1000);
 
     setTimeout(function(){
-    const url ='./create_simulation.php?session_key='+getSessionKey();
+    let defaultLanguage = document.querySelector('input[name="language_code"]:checked').value;
+    const url ='./create_simulation.php?session_key='+getSessionKey()+'&default_language_code='+defaultLanguage;
+
     fetch(url)
         .then((response) => {
             return response.json();
@@ -245,5 +273,14 @@ function switchConfiguration(){
     let url = "./update_simulation.php?"
                 +"simulation_id="+getSimulationId()
                 +"&configuration_name="+list.value;
+    fetch(url);
+}
+
+function updateAttendeeRole(e){
+    /*reminder: option.id = session_key+"_"+role; */
+    let url = './update_attendee.php?'
+        +"session_key="+e.target.id.split('_')[0]
+        +"&role_code="+e.target.id.split('_')[1]
+        +"&simulation_id="+getSimulationId();
     fetch(url);
 }

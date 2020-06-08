@@ -4,27 +4,30 @@
     <meta charset="UTF-8">
     <title>Check-In Kanban Ship Building Flow Simulation Online</title>
     <script src="./script/cursor.js"></script>
+    <script src="./script/context_menu.js"></script>
+    <script src="./script/translate.js"></script>
     <script src="./script/flow.js"></script>
     <link rel="stylesheet" type="text/css" href="./style.css">
     <link rel="stylesheet" type="text/css" href="./cursor.css">
+    <link rel="stylesheet" type="text/css" href="./context_menu.css">
 </head>
-<body onload="loadCheckIn()">
+<body onload="loadCheckIn()" oncontextmenu="return false;" onclick="clearOpenedMenu()">
 
 <div id="vertical_container">
-    <div id="share" class="display_block">
+    <div id="share" class="display_block access_control">
         <input type="text" id="link" type="text" class="link_checkin" readonly />
-        <button onclick="copyContent('link')" class="button_checkin">Link kopieren</button>
+        <button id="copy_link" onclick="copyContent('link')" class="button_checkin">Link kopieren</button>
     </div>
 
-    <div id="configurations" class="display_block configuration_pick">
-            <label for="pick_configuration">Current configuration is</label>
+    <div id="configurations" class="display_block configuration_pick access_control">
+            <label for="pick_configuration" id="configuration">Configuration: </label>
             <select id="pick_configuration" onchange="switchConfiguration()">
 
             </select>
     </div>
 
     <div id="attendees_list" class="display_block">
-       <div class="attendee" id="current_user"><button class="avatar">&nbsp;</button><input class="attendee_name" type="text" placeholder="Type in your name!"  maxlength="15" onchange="editNameCurrentUser()" onsubmit="editNameCurrentUser()" autocomplete="off" spellcheck="false" /><button id="flag_button" class="ready_button_active" onclick="switchCurrentUserReadyStatus()">&nbsp;</button></div>
+       <div class="attendee" id="current_user"><button class="avatar" oncontextmenu="">&nbsp;</button><input class="attendee_name" type="text" id="current_attendee_name" placeholder="Type in your name!"  maxlength="15" onchange="editNameCurrentUser()" onsubmit="editNameCurrentUser()" autocomplete="off" spellcheck="false" /><button id="flag_button" class="ready_button_active" onclick="switchCurrentUserReadyStatus()">&nbsp;</button></div>
     </div>
 
 

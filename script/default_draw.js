@@ -2,6 +2,9 @@ class DefaultDrawWorkbench extends Workbench {
     setContext(implParam, stationId) {
         super.setContext(implParam, stationId);
 
+        let p_instruction = document.getElementById("instruction");
+        if(p_instruction !== null) p_instruction.remove();
+
         this.colorArray = [
             {colorName: "green", colorCode: "#2ecc71"},
             {colorName: "blue", colorCode: "#3498db"},
@@ -126,13 +129,13 @@ class DefaultDrawWorkbench extends Workbench {
          * Randomize items work instruction
          */
         let p = document.getElementById("instruction");
-        if(p == null) {
+        if(p == null) {;
             p = document.createElement("p");
             p.id = "instruction";
             if (this.instructionItemId == null || this.instructionItemId != this.itemId) {
                 this.instructionItemId = this.itemId;
                 let color = this.colorArray[Math.floor(Math.random()*7)]; //ignore index "8" because it's white and hence invisible
-                this.instructionText = this.implParam.instruction.replace("[COLOR]","<b style='color:"+color.colorCode+";'>"+color.colorName+"</b>");
+                this.instructionText = this.implParam.instruction.replace("[COLOR]","<b style='color:"+color.colorCode+"; background-color:"+color.colorCode+";'>XXXX</b>");
             }
             p.innerHTML = this.instructionText;
             document.getElementById("workbench_" + this.itemId).appendChild(p);

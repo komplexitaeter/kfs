@@ -1,0 +1,20 @@
+.display_block{
+    margin-top: 0.4em;
+    width: 100%;
+    text-align: center;
+}
+
+.display_block button{
+    display:inline-block;
+    width:30%;
+    height: 3rem;
+}
+
+.display_block input{
+    display:inline-block;
+    width:auto;
+}
+
+.display_block label {
+    display: inline-block;
+}

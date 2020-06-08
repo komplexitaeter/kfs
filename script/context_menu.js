@@ -76,6 +76,26 @@ function rightClickAttendee(e){
     contextMenu.style.top = e.clientY + "px";
 }
 
+function rightClickAttendeeAvatar(e){
+    let openedMenu = Array.from(document.getElementsByClassName("context_menu"));
+    if(openedMenu != null){
+        openedMenu.forEach( obj=> {
+            obj.remove();
+        });
+    }
+
+    let contextMenu = defineContextMenu(e.target.parentElement.id, "attendee");
+
+    /*position context menu to the left in case the cursor is on the far right*/
+    if(contextMenu.clientWidth + e.clientX > document.body.clientWidth){
+        contextMenu.style.left = (e.clientX - contextMenu.clientWidth) + "px";
+    }
+    else{
+        contextMenu.style.left = (e.clientX ) + "px";
+    }
+    contextMenu.style.top = e.clientY + "px";
+}
+
 function rightClickItem(e){
 
     let openedMenu = Array.from(document.getElementsByClassName("context_menu"));

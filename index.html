@@ -4,12 +4,19 @@
     <meta charset="UTF-8">
     <title>Kanban Ship Building Flow Simulation Online</title>
     <script src="./script/flow.js"></script>
-    <link rel="stylesheet" type="text/css" href="./style.css">
+    <link rel="stylesheet" type="text/css" href="./index.css">
 </head>
 <body>
 
 <div id="create_simulation" class="display_block">
-<input type="submit" value="Simulation organisieren" onclick="create_simulation()"/>
+    <button type="button" value="" onclick="createSimulation()">Simulation organisieren</button>
+</div>
+
+<div class="display_block">
+<label for="en">EN</label>
+    <input type="radio" id="en" name="language_code" value="en" checked>
+<input type="radio" id="de" name="language_code" value="de">
+    <label for="de">DE</label>
 </div>
 
 </body>

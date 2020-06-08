@@ -17,7 +17,7 @@ function loadDebriefing(){
     initializeCursor(getSimulationId(), getSessionKey());
     initializePresentation(getSimulationId(), getSessionKey());
     displayDefinitions(language_code);
-    translateElements(language_code);
+    translateElements("debriefing", language_code);
 
     let rounds_url = "./get_rounds.php?simulation_id="+getSimulationId();
     fetch(rounds_url)
@@ -77,7 +77,7 @@ function updateDom(myJson){
             }
             if(language_code !== myJson.language_code){
                 displayDefinitions(myJson.language_code);
-                translateElements(myJson.language_code);
+                translateElements("debriefing", myJson.language_code);
                 updateRoundStats(myJson.round_id_0, "left");
                 updateRoundStats(myJson.round_id_1, "right");
             }

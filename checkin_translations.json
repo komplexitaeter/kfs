@@ -1,0 +1,38 @@
+[{
+  "id": "current_attendee_name",
+  "en": {
+    "placeholder": "Type in your name! "
+  },
+  "de": {
+    "placeholder": "Gib deinen Namen ein! "
+  }
+},
+  {
+    "id": "start_simulation_button",
+    "en": {
+      "value": "Start simulation"
+    },
+    "de": {
+      "value": "Simulation starten"
+    }
+  },
+  {
+    "id": "copy_link",
+    "en": {
+      "text": "Copy link"
+    },
+    "de": {
+      "text": "Link kopieren"
+    }
+  },
+  {
+    "id": "configuration",
+    "en": {
+      "text": "Configuration"
+    },
+    "de": {
+      "text": "Konfiguration"
+    }
+  }]
+
+
