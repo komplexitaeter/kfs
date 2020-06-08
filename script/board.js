@@ -25,7 +25,7 @@ function refreshBoard(simulation_id, session_key){
             switch(myJson.status_code) {
                 case "RUNNING":
                     window.addEventListener('resize', resizeCanvas);
-                    displayStations(myJson.stations, simulation_id);
+                    displayStations(myJson.stations, simulation_id, false);
                     displayAttendees(myJson.attendees, session_key);
                     displayControls(myJson.current_round);
                     displayItems(myJson.items_list);
@@ -33,6 +33,7 @@ function refreshBoard(simulation_id, session_key){
                     toggleAccessControl(myJson.role_code);
                     if(language_code !== myJson.language_code){
                         translateElements(myJson.language_code);
+                        displayStations(myJson.stations, simulation_id, true);
                     }
                     language_code = myJson.language_code;
                     break;
@@ -505,8 +506,9 @@ function displayControls(round){
     document.getElementById("clock").innerHTML = totalDuration;
 }
 
-function displayStations(stations, simulation_id){
+function displayStations(stations, simulation_id, override){
     let recreateStations = false;
+    if(override === true){ recreateStations = true;}
     stations.forEach(obj => {
         let myDiv;
         /*check if at least one station hasn't a div, then delete all station divs and create them all again*/

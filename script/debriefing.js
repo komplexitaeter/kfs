@@ -71,7 +71,7 @@ function updateDom(myJson){
             displayStatements(myJson.attendees);
             toggleAccessControl(myJson.role_code);
             displayPresentation(myJson.dom, myJson.role_code, myJson.wip_visibility);
-            if(checkedDisplayedRound(myJson.round_id_0,"left")||checkedDisplayedRound(myJson.round_id_1,"right")){
+            if(checkedDisplayedRounds(myJson.round_id_0, myJson.round_id_1)){
                 updateRoundStats(myJson.round_id_0, "left");
                 updateRoundStats(myJson.round_id_1, "right");
             }
@@ -91,10 +91,19 @@ function updateDom(myJson){
 
 /**** display functions based on delivered Json on stream udpdate ***/
 
-function checkedDisplayedRound(round_id, side){
+function checkedDisplayedRounds(round_id_left, round_id_right){
 
-    let currentRound = document.getElementById("round_display_"+side);
-    return (currentRound.getAttribute("data-value") !== round_id);
+    let currentRoundLeft = document.getElementById("round_display_left");
+    let currentRoundRight = document.getElementById("round_display_right");
+
+    if((currentRoundLeft.getAttribute("data-value") !== round_id_left)||(currentRoundRight.getAttribute("data-value") !== round_id_right)){
+        currentRoundLeft.setAttribute("data-value", round_id_left);
+        currentRoundRight.setAttribute("data-value", round_id_right);
+        return true;
+    }
+    else{
+        return false;
+    }
 
 }
 
