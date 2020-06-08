@@ -14,7 +14,7 @@ function db_init() {
 }
 
 function translate_tl($language_code, $tl) {
-    return trim(json_encode(json_decode($tl, true)[$language_code]), '"');
+    return trim(json_encode(json_decode($tl, true)[$language_code], JSON_UNESCAPED_UNICODE), '"');
 }
 
 function get_create_items_sql($round_id, $offset, $count ) {

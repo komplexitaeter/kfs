@@ -138,12 +138,19 @@ else{
 }
 
 /* query all simulations attendees whit a callback up-to-date */
-$sql = "SELECT * FROM kfs_configurations_tbl ORDER BY min_player_recom";
-$conf = array();
+$sql = "SELECT *
+         FROM kfs_configurations_tbl ORDER BY min_player_recom";
+$configurations = array();
 
 if ($result = $link->query($sql)) {
     while(  $obj = $result->fetch_object()) {
-        array_push($conf, $obj);
+        $conf = (object) array(
+            "configuration_name"=>$obj->configuration_name,
+            "description"=>translate_tl($language_code, $obj->description_tl),
+            "min_player_recom"=>$obj->min_player_recom,
+            "max_player_recom"=>$obj->max_player_recom
+        );
+        array_push($configurations, $conf);
     }
 }
 else{
@@ -158,7 +165,7 @@ $myJSON_array = array("status_code"=>$status_code
                     , "language_code" => $language_code
                     , "attendees"=>$objs
                     , "configuration_name"=>$configuration_name
-                    , "configurations"=>$conf);
+                    , "configurations"=>$configurations);
 
 $myJSON = json_encode($myJSON_array);
 echo $myJSON;
