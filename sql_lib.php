@@ -13,6 +13,10 @@ function db_init() {
     return $link;
 }
 
+function translate_tl($language_code, $tl) {
+    return trim(json_encode(json_decode($tl, true)[$language_code]), '"');
+}
+
 function get_create_items_sql($round_id, $offset, $count ) {
     //$sids = array('null','null','null','123321','124421','125521','126621','127721','128821','129921','131131');
     $sids = array('null');
@@ -69,10 +73,10 @@ function get_stations_status_sql($simulation_id) {
              end as push
   from (
 select sc.station_id
-      ,sc.station_name
+      ,sc.station_name_tl
       ,sc.station_pos
       ,sc.implementation_class
-      ,sc.params_json
+      ,sc.params_json_tl
       ,(select count(1)
           from kfs_station_conf_tbl sco
          where sco.configuration_name = s.configuration_name) as station_count

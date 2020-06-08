@@ -117,7 +117,7 @@ if ($result = $link->query($sql)) {
 
         $station = (object) array(
             "station_id"=>$obj->station_id,
-            "station_name"=>$obj->station_name,
+            "station_name"=>translate_tl($language_code, $obj->station_name_tl),
             "station_pos"=>$obj->station_pos,
             "locked_div"=>$obj->locked_div,
             "svg_hash"=>$obj->svg_hash
@@ -132,7 +132,7 @@ if ($result = $link->query($sql)) {
                 "station_count"=>$obj->station_count,
                 "current_round_id"=>$obj->current_round_id,
                 "implementation_class"=>$obj->implementation_class,
-                "params_json"=>$obj->params_json,
+                "params_json"=>translate_tl($language_code, $obj->params_json_tl),
                 "pull"=>$obj->pull,
                 "push"=>$obj->push,
                 "locked_div"=>$obj->locked_div,
