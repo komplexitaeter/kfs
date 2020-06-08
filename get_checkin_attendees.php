@@ -14,14 +14,24 @@ header('Expires: 0');
 
 $link = db_init();
 
-$sql = "SELECT status_code, configuration_name FROM kfs_simulation_tbl WHERE simulation_id=".$simulation_id;
+$sql = "SELECT status_code
+             , configuration_name
+             , default_language_code
+          FROM kfs_simulation_tbl
+        WHERE simulation_id=".$simulation_id;
+
 $configuration_name = null;
 $status_code = null;
+$default_language_code = 'en';
 
 if ($result = $link->query($sql)) {
     if($obj = $result->fetch_object()) {
         $status_code = $obj->status_code;
         $configuration_name = $obj->configuration_name;
+        $default_language_code = $obj->default_language_code;
+        if (strlen($default_language_code)!=2) {
+            $default_language_code = 'en';
+        }
     }
     else{
         $status_code = "NO_SIMULATION";
@@ -83,7 +93,8 @@ if($attendee_not_found){
         $avatar_code = mt_rand(1,9);
     }
 
-    $sql="INSERT INTO kfs_attendees_tbl(simulation_id, session_key, avatar_code) VALUES ($simulation_id,'$session_key','$avatar_code')";
+    $sql="INSERT INTO kfs_attendees_tbl(simulation_id, session_key, avatar_code, language_code) 
+               VALUES ($simulation_id,'$session_key','$avatar_code','$default_language_code')";
     if(!$result = $link->query($sql))
     {
         if ($link->connect_errno) {
