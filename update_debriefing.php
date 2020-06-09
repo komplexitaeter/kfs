@@ -27,7 +27,8 @@ if(isset($_GET['mood_code'])) {
     if (strlen($mood_code)>0) {
         $sql = "UPDATE kfs_attendees_tbl
                    SET mood_code = '$mood_code'
-                 WHERE simulation_id = $simulation_id";
+                 WHERE simulation_id = $simulation_id
+                   AND role_code != 'FACILITATOR'";
     }
     else {
         $sql = "UPDATE kfs_attendees_tbl
