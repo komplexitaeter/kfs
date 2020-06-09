@@ -137,6 +137,7 @@ function get_rounds($link, $simulation_id) {
     $sql = "select round_id, last_stop_time
           from kfs_rounds_tbl
          where simulation_id = $simulation_id
+            and trial_run = false
          order
             by last_stop_time";
     $i=0;
