@@ -22,7 +22,7 @@ $sql = "SELECT s.status_code
                       and r.auto_pull
                then 1 end as auto_pull
               ,a.role_code
-              ,a.language_code
+              ,coalesce(a.language_code, s.default_language_code, 'en') as language_code
          FROM kfs_simulation_tbl  as s
     LEFT OUTER JOIN kfs_rounds_tbl as r 
        ON r.round_id = s.current_round_id
@@ -40,6 +40,7 @@ if ($result = $link->query($sql)) {
         $status_code = $obj->status_code;
         $role_code = $obj->role_code;
         $language_code = $obj->language_code;
+
         if ($obj->auto_pull === '1') {
             $do_auto_pull = '1';
         }
@@ -59,16 +60,13 @@ else {
     }
 }
 
+/* set call_back for current attendee */
+$sql = "UPDATE kfs_attendees_tbl
+               SET last_callback_date = current_timestamp
+             WHERE simulation_id=$simulation_id
+               AND session_key='$session_key'";
+$link->query($sql);
 
-/*identify attendees that may have a tech issue and not be able to participate anymore*/
-$sql="UPDATE kfs_attendees_tbl SET last_callback_date = CURRENT_TIMESTAMP WHERE simulation_id=".$simulation_id." AND session_key ='".$session_key."'";
-if(!$result = $link->query($sql))
-{
-    if ($link->connect_errno) {
-        printf("\n Fail: %s\n", $link->connect_error);
-        exit();
-    }
-}
 
 /* query all simulations attendees */
 $sql = "SELECT tbl.attendee_id

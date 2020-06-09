@@ -50,6 +50,7 @@ function getDebriefingObj($simulation_id, $session_key) {
                  ,coalesce(stats_round_id_1, current_round_id) stats_round_id_1
                  ,substr(debriefing_wip_toggle,1,1) wip_toggle_0
                  ,substr(debriefing_wip_toggle,2,1) wip_toggle_1
+                 ,default_language_code
               FROM kfs_simulation_tbl
              WHERE simulation_id=".$simulation_id;
 
@@ -57,6 +58,7 @@ function getDebriefingObj($simulation_id, $session_key) {
     $stats_round_id = array();
     $wip_toggle_0 = '0';
     $wip_toggle_1 = '0';
+    $default_language_code = 'en';
 
     if ($result = $link->query($sql)) {
         if($obj = $result->fetch_object()) {
@@ -65,6 +67,7 @@ function getDebriefingObj($simulation_id, $session_key) {
             $stats_round_id[1] = $obj->stats_round_id_1;
             $wip_toggle_0 = $obj->wip_toggle_0;
             $wip_toggle_1 = $obj->wip_toggle_1;
+            $default_language_code = $obj->default_language_code;
         }
         else{
             $status_code = "NO_SIMULATION";
@@ -102,7 +105,7 @@ function getDebriefingObj($simulation_id, $session_key) {
     $attendees = array();
     $role_code = null;
     $mood_code = null;
-    $language_code = null;
+    $language_code = $default_language_code;
 
     if ($result = $link->query($sql)) {
         while(  $obj = $result->fetch_object()) {
