@@ -451,6 +451,16 @@ function displayControls(round){
         }
     });
 
+    let trialRunToggle = document.getElementById("trial_run_toggle");
+    if (trialRunToggle.checked  != (round.trial_run==1)) {
+        trialRunToggle.checked =  (round.trial_run==1);
+    }
+    if (round.trial_run==1) {
+        document.getElementById('clock').classList.add("clock_hidden");
+    }
+    else {
+        document.getElementById('clock').classList.remove("clock_hidden");
+    }
 
     if((round.last_start_time == null)&&(round.last_stop_time == null)){
         playButton.disabled=false;
@@ -824,6 +834,11 @@ function pressDebriefing(){
 
 function pressAutoPull() {
     const url = './update_current_round.php?simulation_id=' + getSimulationId() + '&action=toggle_auto_pull';
+    fetch(url);
+}
+
+function toggleTrialRund() {
+    const url = './update_current_round.php?simulation_id=' + getSimulationId() + '&action=toggle_trial_run';
     fetch(url);
 }
 

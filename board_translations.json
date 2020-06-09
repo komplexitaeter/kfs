@@ -51,7 +51,17 @@
     "de": {
       "hidden": "Es wurde nichts gemacht!"
     }
-  }]
+  },
+  {
+    "id": "trial_run_label",
+    "en": {
+      "text": "Trial Run"
+    },
+    "de": {
+      "text": "Probelauf"
+    }
+  }
+]
 
 
 

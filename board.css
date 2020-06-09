@@ -135,6 +135,10 @@ body{
     background-size: 100%;
 }
 
+.clock_hidden{
+    visibility: hidden;
+}
+
 .control_toggle_push_container{
     position:absolute;
     font-family: Komplexitater;
@@ -240,18 +244,41 @@ body{
     background-image: url("src/debriefing_button.png");
 }
 
-.language{
-    width: 2rem;
-    height: 2rem;
+.language_div {
+    position: absolute;
+    top: 33%;
+    left: 8%;
+    height: 1.5rem;
     text-align: center;
     color: grey;
     font-family: Komplexitater;
-    font-size: x-large;
-    display: inline-block;
-    top: 15%;
-    left: 1rem;
+    font-size: large;
     cursor: pointer;
-    margin-top: 10%;
+}
+.language_div p {
+    display: inline;
+    vertical-align: top;
+}
+
+.trial_run {
+    position: absolute;
+    top: 33%;
+    right: 8%;
+    width: auto;
+    height: 1.5rem;
+        font-family: Komplexitater;
+    font-size: large;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.trial_run input {
+    display: inline-block;
+    vertical-align: top;
+}
+.trial_run label {
+    display: inline-block;
+    vertical-align: top;
 }
 
 .active{

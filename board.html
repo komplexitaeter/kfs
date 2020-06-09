@@ -30,10 +30,19 @@
     <button id="pause" class="control_button button_pause access_control" onclick="pressPause()">&nbsp;</button>
     <button id="reset" class="control_button button_reset access_control" onclick="pressReset()">&nbsp;</button>
     <button id="debriefing" class="control_button button_debriefing access_control" onclick="pressDebriefing()">&nbsp;</button>
-    <div class="language" id="de" onclick="setLanguage(event)">DE</div>
-    <div class="language" id="en" onclick="setLanguage(event)">EN</div>
+
+    <div class="language_div">
+        <span class="language" id="de" onclick="setLanguage(event)">DE</span>
+        <span class="language" id="en" onclick="setLanguage(event)">EN</span>
+    </div>
 
     <div id="clock" class="clock_display">&nbsp;</div>
+
+    <div class="trial_run">
+        <input class="tr" type="checkbox"  id="trial_run_toggle" name="trial_run" onchange="toggleTrialRund()" />
+        <label id="trial_run_label" for="trial_run_toggle">Trial Run</label>
+    </div>
+
 
     <div class="control_toggle_push_container access_control">
         <div>

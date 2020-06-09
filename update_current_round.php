@@ -13,7 +13,7 @@ header('Pragma: no-cache');
 header('Expires: 0');
 
 if ($simulation_id == null) exit('NO_SIMULATION_ID_SET');
-if (!in_array($action, array('start', 'stop' ,'reset', 'toggle_auto_pull'))) exit('NO_VALID_ACTION_SET');
+if (!in_array($action, array('start', 'stop' ,'reset', 'toggle_auto_pull', 'toggle_trial_run'))) exit('NO_VALID_ACTION_SET');
 
 $link = db_init();
 
@@ -115,6 +115,15 @@ if ($action == 'toggle_auto_pull') {
     /* there is a started current round */
     if ($current_round->current_round_id != null) {
         $sql ="UPDATE kfs_rounds_tbl SET auto_pull=not auto_pull WHERE round_id=$current_round->current_round_id";
+        array_push($sql_dml, $sql);
+    }
+    else exit ('INVALID_STATE_TO_UPDATE_ROUND');
+}
+
+if ($action == 'toggle_trial_run') {
+    /* there is a started current round */
+    if ($current_round->current_round_id != null) {
+        $sql ="UPDATE kfs_rounds_tbl SET trial_run=not trial_run WHERE round_id=$current_round->current_round_id";
         array_push($sql_dml, $sql);
     }
     else exit ('INVALID_STATE_TO_UPDATE_ROUND');
