@@ -4,6 +4,80 @@ let stream_url;
 let language_code = 'en';
 let audioFiles;
 
+function loadDebriefingWithoutStream(){
+    initializeCursor(getSimulationId(), getSessionKey());
+    initializePresentation(getSimulationId(), getSessionKey());
+    displayDefinitions(language_code);
+    translateElements("debriefing", language_code);
+
+    let rounds_url = "./get_rounds.php?simulation_id="+getSimulationId();
+    fetch(rounds_url)
+        .then((response) => {
+            return response.json();
+        })
+        .then((myJson) => {
+            myJson.rounds.forEach(item => {
+                let round = document.createElement('option');
+                round.value = item.round_id;
+                round.text = item.description;
+                document.getElementById('left_round_switch').appendChild(round);
+                document.getElementById('right_round_switch').appendChild(round.cloneNode(true));
+            });
+        })
+
+    setInterval(function(){
+        updateDomWithoutStream(getSimulationId(),getSessionKey());
+    }, 500);
+}
+
+function updateDomWithoutStream(simulation_id, session_key){
+    let firstload = false;
+    if (document.body.style.visibility !== 'visible') firstload = true;
+
+    let url ='./get_debriefing.php?simulation_id='+simulation_id+'&session_key='+session_key;
+
+    fetch(url)
+        .then((response) => {
+            return response.json();
+        })
+        .then((myJson) => {
+
+            switch (myJson.status_code) {
+                case "RUNNING":
+                    location.href = './board.html?simulation_id=' + getSimulationId();
+                    break;
+                case "NO_SIMULATION":
+                    // alert("The required simulation ID does not exit. You will be taken to the home page.");
+                    location.href = './index.html';
+                    break;
+                case "CHECKIN":
+                    location.href = './checkin.html?simulation_id=' + getSimulationId();
+                    break;
+                case "DEBRIEFING":
+                    displayAttendees(myJson.attendees, getSessionKey());
+                    displayControls(myJson.language_code, myJson.mood_code, myJson.role_code);
+                    displayStatements(myJson.attendees);
+                    toggleAccessControl(myJson.role_code);
+                    displayPresentation(myJson.dom, myJson.role_code, myJson.wip_visibility);
+                    if (checkedDisplayedRounds(myJson.round_id_0, myJson.round_id_1)) {
+                        updateRoundStats(myJson.round_id_0, "left");
+                        updateRoundStats(myJson.round_id_1, "right");
+                    }
+                    if (language_code !== myJson.language_code) {
+                        displayDefinitions(myJson.language_code);
+                        translateElements("debriefing", myJson.language_code);
+                        updateRoundStats(myJson.round_id_0, "left");
+                        updateRoundStats(myJson.round_id_1, "right");
+                    }
+                    language_code = myJson.language_code;
+                    break;
+                default:
+            }
+
+        });
+    if (firstload) document.body.style.visibility = 'visible';
+}
+
 function loadDebriefing(){
     stream_url = './get_debriefing_stream.php?'
         + 'session_key=' + getSessionKey()
