@@ -5,6 +5,8 @@ let language_code = 'en';
 let audioFiles;
 
 function loadDebriefingWithoutStream(){
+
+    document.addEventListener('click', initSounds);
     initializeCursor(getSimulationId(), getSessionKey());
     initializePresentation(getSimulationId(), getSessionKey());
     displayDefinitions(language_code);
