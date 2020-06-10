@@ -2,7 +2,6 @@
 require 'config.php';
 require 'sql_lib.php';
 
-ob_implicit_flush(1);
 header("Cache-Control: no-cache");
 header("Pragma-directive: no-cache");
 header("Cache-directive: no-cache");
