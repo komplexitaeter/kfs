@@ -129,7 +129,9 @@ function getDebriefingObj($simulation_id, $session_key) {
     ,"round_id_1" => $stats_round_id[1]
     ,"wip_visibility" => array((int)$wip_toggle_0, (int)$wip_toggle_1)
     ,"dom" => $dom);
+
+    $link->close();
 }
 
 echo json_encode(getDebriefingObj($simulation_id, $session_key));
-$link->close();
+
