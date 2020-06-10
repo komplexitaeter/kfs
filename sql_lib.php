@@ -134,7 +134,7 @@ where s.simulation_id = $simulation_id
 function get_rounds($link, $simulation_id) {
     /* query all finished rounds of simulation */
     $rounds = array();
-    $sql = "select round_id, last_stop_time
+    $sql = "select round_id, last_stop_time, auto_pull
           from kfs_rounds_tbl
          where simulation_id = $simulation_id
             and trial_run = false
@@ -146,7 +146,8 @@ function get_rounds($link, $simulation_id) {
             $i++;
             $round = (Object) Array("round_id"=>$obj->round_id
             ,"description"=>"Nr. $i - $obj->last_stop_time"
-            ,"title"=>"Nr. $i");
+            ,"title"=>"$i"
+            ,"push_mode"=>$obj->auto_pull);
             array_push($rounds, $round);
         }
     }

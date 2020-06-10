@@ -51,6 +51,34 @@
     "de": {
       "hidden": "Fertigstellung (s)"
     }
-  }]
+  },
+  {
+    "id": "title_round",
+    "en": {
+      "hidden": "Round"
+    },
+    "de": {
+      "hidden": "Runde"
+    }
+  },
+  {
+    "id": "title_push",
+    "en": {
+      "hidden": "push|unlimited"
+    },
+    "de": {
+      "hidden": "Push|Unlimitiert"
+    }
+  },
+  {
+    "id": "title_pull",
+    "en": {
+      "hidden": "pull|limit 1"
+    },
+    "de": {
+      "hidden": "Pull|Limit 1"
+    }
+  }
+]
 
 

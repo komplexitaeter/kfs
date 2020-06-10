@@ -116,7 +116,18 @@ function updateRoundStats(round_id, side){
         .then((myJson) => {
             /**update round display on the corresponding side**/
             let display = document.getElementById("round_display_"+side);
-            display.innerHTML = myJson.title+'<div class="visibility_toggle facilitator_tool"></div>';
+            let modeTitle;
+            if (myJson.push_mode == '1') {
+                modeTitle = document.getElementById("title_push").value
+            }
+            else {
+                modeTitle = document.getElementById("title_pull").value
+            }
+
+            display.innerHTML = document.getElementById("title_round").value
+                              + " " + myJson.title
+                              + ": " + modeTitle
+                              +'<div class="visibility_toggle facilitator_tool"></div>';
 
             /**generate and update graphs on the corresponding side**/
             drawShipsPerMinute(myJson.per_minute,myJson.ship_per_minute_max, myJson.wip_per_minute_max, 'round_stats_'+side+'_top_graph');

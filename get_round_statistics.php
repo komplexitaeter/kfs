@@ -137,10 +137,12 @@ if ($result = $link->query($sql)) {
 
 $rounds = get_rounds($link, $round_kpi->simulation_id);
 $title = null;
+$push_mode = null;
 
 for ($i=0; $i<count($rounds); $i++) {
     if ($rounds[$i]->round_id==$round_id) {
         $title = $rounds[$i]->title;
+        $push_mode = $rounds[$i]->push_mode;
     }
 }
 
@@ -248,6 +250,7 @@ if ($result = $link->query($sql)) {
 
 
 $myJSON_array = array("title" => $title
+                     ,"push_mode" => $push_mode
                      ,"kpi" => $round_kpi
                      ,"ship_per_minute_max" => (int)$ship_per_minute_max
                      ,"wip_per_minute_max" => (int)$wip_per_minute_max
