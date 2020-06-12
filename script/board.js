@@ -1,5 +1,6 @@
 var fCanvas;
 let language_code = 'en';
+let last_execution_time = '';
 
 function loadBoard(){
     initializeCursor(getSimulationId(), getSessionKey());
@@ -14,11 +15,15 @@ function refreshBoard(simulation_id, session_key){
     let firstload = false;
     if (document.body.style.visibility != 'visible') firstload = true;
 
+    let url ='./get_board.php?simulation_id='+simulation_id
+                            +'&session_key='+session_key
+                            +'&execution_time='+last_execution_time;
 
-    let url ='./get_board.php?simulation_id='+simulation_id+'&session_key='+session_key;
+    let start_time = new Date().getMilliseconds()
 
     fetch(url)
         .then((response) => {
+            last_execution_time = new Date().getMilliseconds() - start_time;
             return response.json();
         })
         .then((myJson) => {

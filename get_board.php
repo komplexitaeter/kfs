@@ -5,6 +5,7 @@ require 'sql_lib.php';
 $simulation_id = filter_input(INPUT_GET, 'simulation_id', FILTER_SANITIZE_NUMBER_INT);
 $session_key = filter_input(INPUT_GET, 'session_key', FILTER_SANITIZE_STRING);
 
+
 header('Content-Type: application/json');
 header ("Pragma-directive: no-cache");
 header ("Cache-directive: no-cache");
@@ -13,6 +14,18 @@ header ("Pragma: no-cache");
 header ("Expires: 0");
 
 $link = db_init();
+
+/* save performance stats */
+if(isset($_GET['execution_time'])) {
+    $execution_time = filter_input(INPUT_GET, 'execution_time', FILTER_SANITIZE_NUMBER_INT);
+    if ($execution_time>0) {
+        $sql = $link->prepare("INSERT INTO kfs_execution_times_tbl(simulation_id, session_key, resource_name, milliseconds) 
+                                            VALUES (?,?,'get_board.php',?)");
+        $sql->bind_param('isi', $simulation_id, $session_key, $execution_time);
+        $sql->execute();
+    }
+}
+
 
 /*verify status of the current simulation*/
 $sql = "SELECT s.status_code 
@@ -325,7 +338,7 @@ $myJSON_array = array("status_code"=>$status_code
                     , "items_list"=>$items
                     , "workbench"=>$workbench);
 
-$myJSON = json_encode($myJSON_array);
+$myJSON = json_encode($myJSON_array, JSON_UNESCAPED_UNICODE);
 echo $myJSON;
 
 $link->close();
