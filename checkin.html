@@ -13,7 +13,7 @@
 </head>
 <body onload="loadCheckIn()" oncontextmenu="return false;" onclick="clearOpenedMenu()">
 
-<div id="vertical_container">
+<div id="vertical_container" class="display_none">
     <div id="share" class="display_block access_control">
         <input type="text" id="link" type="text" class="link_checkin" readonly />
         <button id="copy_link" onclick="copyContent('link')" class="button_checkin">Link kopieren</button>
@@ -35,6 +35,10 @@
     <div id="start_simulation" class="display_block">
         <input id="start_simulation_button" type="submit" value="Simulation starten" onclick="startSimulation()" disabled/>
     </div>
+</div>
+
+<div id="invalid_browser">
+    This Application does not support your current Browser or you disabled Java Script!
 </div>
 
 </body>

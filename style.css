@@ -12,6 +12,10 @@ body{
     height: 100%;
 }
 
+.display_none {
+    display: none;
+}
+
 #vertical_container{
     margin:auto;
     width:50%;
@@ -20,6 +24,15 @@ body{
     border-right: 5px solid transparent;
     border-image: url("./src/border_grey.png") 55 repeat;
     position: relative;
+}
+
+#invalid_browser{
+    margin:auto;
+    padding-top: 20%;
+    width:100%;
+    text-align: center;
+    font-size: xx-large;
+    border:none;
 }
 
 .display_block{

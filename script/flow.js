@@ -206,11 +206,29 @@ function addAttendeeField(session_key, name,avatar_code){
 }
 
 function loadCheckIn() {
+    if (checkBrowser()) {
+        document.getElementById("vertical_container").classList.remove("display_none");
+        document.getElementById("invalid_browser").classList.add("display_none");
+    }
     initializeCursor(getSimulationId(), getSessionKey());
     document.getElementById('link').value = window.location.href;
     setInterval(function(){
         refreshAttendeesList(getSimulationId(),getSessionKey());
     }, 500);
+}
+
+function checkBrowser() {
+    let ua = window.navigator.userAgent;
+    let msie = ua.indexOf('MSIE ');
+    if (msie > 0) {
+        // IE 10 or older => return version number
+        return false;
+    }
+    let trident = ua.indexOf('Trident/');
+    if (trident > 0) {
+        return false;
+    }
+    return true;
 }
 
 function copyContent(content){
