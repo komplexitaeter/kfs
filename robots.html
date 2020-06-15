@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test KFS execution times</title>
+
+    <script src="./script/robots.js"></script>
+    <script src="./script/flow.js"></script>
+    <style>
+    .bots_list{
+    }
+    .column{
+        display: inline-block;
+    }
+    .c1{
+        width:5%;
+    }
+    .c2{
+        width:10%;
+    }
+    .c3{
+        width:15%;
+    }
+    .c4{
+        width:5%;
+    }
+    .c5{
+        width:20%;
+    }
+    </style>
+</head>
+<body>
+<div class="parameters">
+    <form name="define_bots">
+        <label for="simulation_id">Simulation id: </label><input name="simulation_id" id="simulation_id" type="text" maxlength="4" size="4" value="auto" onchange="getAttendees(event)">
+        <label for="bots_count"># of bots: </label><input name="bots_count" id="bots_count" type="number" maxlength="2" size="2" value="1">
+        <input type="button" value="Create bots!" onclick="createBots()">
+    </form>
+</div>
+
+<div class="bots_list" id="bots_list">
+    <div class="bots_list_header">
+        <div class="column c1"></div>
+        <div class="column c2">Name</div>
+        <div class="column c3">SID</div>
+        <div class="column c4">Station</div>
+        <div class="column c5">Execution Time</div>
+    </div>
+
+</div>
+
+</body>
+</html>
