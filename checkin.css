@@ -194,9 +194,6 @@ input{
     height: 3.5rem;
     border-radius: 1.75em;
     outline:none;
-    color: green;
-    background-color: rgba(53, 132, 60, 0.4);
-    background-image: url("./src/border_round_green_large.png");
     background-repeat: no-repeat;
     background-position: center;
     background-size: 100% 100%;
@@ -204,6 +201,18 @@ input{
     cursor: pointer;
 }
 
-#start_simulation_button:disabled{
-    display:none;
+.start_button_invisible{
+    visibility: hidden;
+}
+.start_button_ready {
+    visibility: visible;
+    color: green;
+    background-color: rgba(53, 132, 60, 0.4);
+    background-image: url("./src/border_round_green_large.png");
+}
+.start_button_pending {
+    visibility: visible;;
+    background-color: rgba(53, 132, 60, 0.15);
+    color: rgba(53, 132, 60, 0.5);
+    background-image: url("./src/border_round_green_large.png");
 }

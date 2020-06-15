@@ -22,8 +22,8 @@ function switchCurrentUserReadyStatus(){
 }
 
 function updateReadyStatus(session_key, ready_to_start, name){
-    var e = document.getElementById(session_key);
-    var current_object;
+    let e = document.getElementById(session_key);
+    let current_object;
 
     if(e.querySelector('.ready_button_active')==null) {
         current_object = e.querySelector('.ready_button');
@@ -121,10 +121,22 @@ function refreshAttendeesList(simulation_id, session_key){
                            div.style.visibility = "visible";
                         });
                     }
-                    if ((readiness_level == myJson.attendees.length)&&(myJson.role_code == "FACILITATOR")) {
-                        document.getElementById('start_simulation_button').disabled = false;
-                    } else {
-                        document.getElementById('start_simulation_button').disabled = true;
+
+                    if (myJson.role_code == "FACILITATOR") {
+                        if (readiness_level == myJson.attendees.length) {
+                            document.getElementById('start_simulation_button').classList.remove('start_button_invisible');
+                            document.getElementById('start_simulation_button').classList.add('start_button_ready');
+                            document.getElementById('start_simulation_button').classList.remove('start_button_pending');
+                        } else {
+                            document.getElementById('start_simulation_button').classList.remove('start_button_invisible');
+                            document.getElementById('start_simulation_button').classList.remove('start_button_ready');
+                            document.getElementById('start_simulation_button').classList.add('start_button_pending');
+                        }
+                    }
+                    else {
+                        document.getElementById('start_simulation_button').classList.add('start_button_invisible');
+                        document.getElementById('start_simulation_button').classList.remove('start_button_ready');
+                        document.getElementById('start_simulation_button').classList.remove('start_button_pending');
                     }
                     translateElements("checkin", myJson.language_code);
                     break;
