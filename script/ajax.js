@@ -1,0 +1,98 @@
+const gPreferStreaming = false;
+const gPullInterval = 500;
+
+let gLastExecutionTime="";
+let gFetchCount = 0;
+
+function initializeConnection(baseUrl, params, func) {
+    let useStreaming = gPreferStreaming
+
+    if (useStreaming) {
+        let url = getUrl(baseUrl, params, useStreaming);
+        initializeStreaming(url, func);
+    } else {
+        params["execution_time"] = gLastExecutionTime;
+        let url = getUrl(baseUrl, params, useStreaming);
+        initializePulling(url, func);
+    }
+}
+
+function getUrl(baseUrl, params, useStreaming) {
+    let separator = '?';
+    let url="./"+baseUrl;
+    if (useStreaming) url+='_stream';
+    url+=".php";
+    for (let param in params) {
+        url+=separator+param+"="+params[param];
+        separator = '&';
+    }
+    return url;
+}
+
+function initializePulling(url, func) {
+    let t1 = performance.now();
+
+    let request = new XMLHttpRequest();
+    request.open("GET", url, false);
+    request.send();
+
+    let t2 = performance.now();
+    gLastExecutionTime = Math.round(t2 - t1);
+    gFetchCount++;
+
+    let myJson;
+    if (request.status === 200) {
+        myJson = JSON.parse(request.responseText);
+        func(myJson, gFetchCount, gLastExecutionTime);
+    }
+    else {
+       console.error("error on XMLHttpRequest for "+url + "with status code: " + this.status);
+    }
+
+    let refreshInterval;
+    if (gLastExecutionTime>=gPullInterval) {
+        refreshInterval = 0;
+    }
+    else {
+        refreshInterval = gPullInterval - gLastExecutionTime;
+    }
+
+    if (myJson.status_code !== "TERMINATE") {
+        setTimeout(function () {
+            initializePulling(url, func);
+        }, refreshInterval);
+    }
+}
+
+function initializeStreaming(url, func) {
+    let eventSource = new EventSource(url);
+
+    eventSource.addEventListener("update"
+        ,function() {
+                    handleStreamEvent(eventSource, func);
+                });
+
+    document.addEventListener("visibilitychange"
+        , function () {
+                    onVisibilityChange(eventSource, func, url);
+                });
+}
+
+function handleStreamEvent(eventSource, func) {
+    let myJson = JSON.parse(eventSource.data);
+    gFetchCount++;
+    func(myJson, gFetchCount, gLastExecutionTime);
+}
+
+function onVisibilityChange(eventSource, func, url) {
+    if (document.visibilityState === 'hidden') {
+        eventSource.close();
+    }
+    else if (eventSource === null || eventSource.readyState === 2) {
+        eventSource = new EventSource(url);
+        eventSource.addEventListener("update"
+            , function () {
+                handleStreamEvent(eventSource, func);
+            });
+    }
+}

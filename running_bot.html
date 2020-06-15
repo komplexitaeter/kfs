@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Running Bot</title>
+    <script src="./script/ajax.js"></script>
 </head>
 <body>
 <div id="simulation_id"></div>
@@ -21,37 +22,19 @@
     }
 
     function refreshBoard(simulation_id, session_key) {
+        let baseUrl = 'get_board';
+        let params = {
+            "simulation_id" : simulation_id,
+            "session_key" : session_key
+        }
+        initializeConnection(baseUrl, params, updateDom);
+    }
 
-        let url = './get_board.php?simulation_id=' + simulation_id
-            + '&session_key=' + session_key
-            + '&execution_time=' + last_execution_time;
-
-        let start_time = performance.now();
-
-        let request = new XMLHttpRequest();
-        request.open("GET", url, false);
-        request.send();
-
-        let stop_time = performance.now();
-        last_execution_time = Math.round(stop_time - start_time);
-
-        document.getElementById("last_execution_time").textContent = "last_execution_time: "+last_execution_time;
+    function updateDom(myJson, fetchCount, lastExecutionTime) {
+        document.getElementById("last_execution_time").textContent = "last_execution_time: "+lastExecutionTime.toString();
         document.getElementById("console").textContent += ". ";
-        fetch_count++;
-        document.getElementById("fetch_count").textContent = "fetch_count:" + fetch_count.toString();
-
-        let serverInterval;
-        if (last_execution_time>=gServerInterval) {
-            serverInterval = 0;
-        }
-        else {
-            serverInterval = gServerInterval - last_execution_time;
-        }
-
-        setTimeout(function(){
-            refreshBoard(simulation_id, session_key);
-        }, serverInterval);
-
+        document.getElementById("fetch_count").textContent = "fetch_count:" + fetchCount.toString();
+        console.log(myJson.status_code);
     }
 
     document.getElementById("simulation_id").textContent = "simulation_id: "+getParam("simulation_id");
