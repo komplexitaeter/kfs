@@ -13,11 +13,11 @@
 <script>
     let last_execution_time = '';
     let fetch_count = 0;
+    const gServerInterval = 500;
 
     function getParam(param_name){
         let url = new URL(window.location.href);
-        let c = url.searchParams.get(param_name);
-        return c;
+        return url.searchParams.get(param_name);
     }
 
     function refreshBoard(simulation_id, session_key) {
@@ -26,24 +26,38 @@
             + '&session_key=' + session_key
             + '&execution_time=' + last_execution_time;
 
-        let start_time = new Date().getMilliseconds()
+        let start_time = performance.now();
 
-        fetch(url)
-            .then((response) => {
-                last_execution_time = new Date().getMilliseconds() - start_time;
-                document.getElementById("last_execution_time").textContent = "last_execution_time: "+last_execution_time;
-                document.getElementById("console").textContent += ". ";
-                fetch_count++;
-                document.getElementById("fetch_count").textContent = "fetch_count:" + fetch_count.toString();
-            });
+        let request = new XMLHttpRequest();
+        request.open("GET", url, false);
+        request.send();
+
+        let stop_time = performance.now();
+        last_execution_time = Math.round(stop_time - start_time);
+
+        document.getElementById("last_execution_time").textContent = "last_execution_time: "+last_execution_time;
+        document.getElementById("console").textContent += ". ";
+        fetch_count++;
+        document.getElementById("fetch_count").textContent = "fetch_count:" + fetch_count.toString();
+
+        let serverInterval;
+        if (last_execution_time>=gServerInterval) {
+            serverInterval = 0;
+        }
+        else {
+            serverInterval = gServerInterval - last_execution_time;
+        }
+
+        setTimeout(function(){
+            refreshBoard(simulation_id, session_key);
+        }, serverInterval);
+
     }
 
     document.getElementById("simulation_id").textContent = "simulation_id: "+getParam("simulation_id");
     document.getElementById("session_key").textContent = "session_key: "+getParam("session_key");
 
-    setInterval(function(){
-        refreshBoard(getParam("simulation_id"), getParam("session_key"));
-    }, 500);
+    refreshBoard(getParam("simulation_id"), getParam("session_key"));
 
 
 </script>

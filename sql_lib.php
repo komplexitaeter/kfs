@@ -153,3 +153,21 @@ function get_rounds($link, $simulation_id) {
     }
     return $rounds;
 }
+
+function add_attendee_stats($obj, $simulation_id, $add_stats, $link) {
+    if ($add_stats==1) {
+        $sql = "SELECT count(1) AS executions_cnt
+                              ,coalesce(round(avg(milliseconds),0), -1) execution_time
+                           FROM kfs_execution_times_tbl
+                          WHERE simulation_id = $simulation_id
+                            AND session_key = '$obj->session_key'
+                            and timestampdiff(SECOND, creation_date, current_timestamp)<=60";
+        if ($result = $link->query($sql)) {
+            if ($stats = $result->fetch_object()) {
+                $obj->executions_cnt = $stats->executions_cnt;
+                $obj->execution_time = $stats->execution_time;
+            }
+        }
+    }
+    return $obj;
+}

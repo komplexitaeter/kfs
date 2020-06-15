@@ -4,8 +4,9 @@ require 'sql_lib.php';
 
 $simulation_id = filter_input(INPUT_GET, 'simulation_id', FILTER_SANITIZE_NUMBER_INT);
 $session_key = filter_input(INPUT_GET, 'session_key', FILTER_SANITIZE_STRING);
+$add_stats = filter_input(INPUT_GET, 'add_stats', FILTER_SANITIZE_NUMBER_INT);
 
-header('Content-Type: application/json');
+header('Content-Type: application/json; charset=utf-8');
 header('Pragma-directive: no-cache');
 header('Cache-directive: no-cache');
 header('Cache-control: no-cache');
@@ -119,7 +120,7 @@ else{
 $sql = "SELECT * FROM kfs_attendees_tbl WHERE TIMESTAMPDIFF( SECOND, last_callback_date, CURRENT_TIMESTAMP) < 30 AND simulation_id=".$simulation_id;
 $objs= array();
 $role_code = null;
-$language_code = null;
+$language_code = 'en';
 
 if ($result = $link->query($sql)) {
     while(  $obj = $result->fetch_object()) {
@@ -127,6 +128,7 @@ if ($result = $link->query($sql)) {
             $role_code = $obj->role_code;
             $language_code = $obj->language_code;
         }
+        $obj = add_attendee_stats($obj, $simulation_id, $add_stats, $link);
         array_push($objs, $obj);
     }
 }
@@ -167,7 +169,7 @@ $myJSON_array = array("status_code"=>$status_code
                     , "configuration_name"=>$configuration_name
                     , "configurations"=>$configurations);
 
-$myJSON = json_encode($myJSON_array);
+$myJSON = json_encode($myJSON_array, JSON_UNESCAPED_UNICODE);
 echo $myJSON;
 
 $link->close();

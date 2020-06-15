@@ -4,7 +4,7 @@ require 'sql_lib.php';
 
 $simulation_id = filter_input(INPUT_GET, 'simulation_id', FILTER_SANITIZE_NUMBER_INT);
 $session_key = filter_input(INPUT_GET, 'session_key', FILTER_SANITIZE_STRING);
-
+$add_stats = filter_input(INPUT_GET, 'add_stats', FILTER_SANITIZE_NUMBER_INT);
 
 header('Content-Type: application/json');
 header ("Pragma-directive: no-cache");
@@ -47,6 +47,8 @@ $sql = "SELECT s.status_code
 $status_code=null;
 $role_code=null;
 $language_code = null;
+$do_auto_pull = null;
+
 
 if ($result = $link->query($sql)) {
     if($obj = $result->fetch_object()) {
@@ -95,6 +97,7 @@ $objs= array();
 
 if ($result = $link->query($sql)) {
     while(  $obj = $result->fetch_object()) {
+        $obj = add_attendee_stats($obj, $simulation_id, $add_stats, $link);
         array_push($objs, $obj);
     }
 }
