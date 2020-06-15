@@ -837,6 +837,11 @@ function pressDebriefing(){
     fetch(url);
 }
 
+function pressCheckIn(){
+    const url = './update_simulation.php?simulation_id='+getSimulationId()+'&status_code=CHECKIN';
+    fetch(url);
+}
+
 function pressAutoPull() {
     const url = './update_current_round.php?simulation_id=' + getSimulationId() + '&action=toggle_auto_pull';
     fetch(url);

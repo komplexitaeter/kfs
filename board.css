@@ -210,8 +210,8 @@ body{
 
 .control_button{
     outline:none;
-    width: 2.3em;
-    height: 2.3em;
+    width: 2.2em;
+    height: 2.2em;
     box-sizing: border-box;
     border:none;
     background-size: 100%;
@@ -242,6 +242,10 @@ body{
 
 .button_debriefing{
     background-image: url("src/debriefing_button.png");
+}
+
+.button_checkin{
+    background-image: url("src/checkin_button.png");
 }
 
 .language_div {

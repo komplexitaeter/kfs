@@ -32,16 +32,27 @@ if(isset($_GET['status_code'])){
             $sql = "DELETE FROM kfs_attendees_tbl WHERE TIMESTAMPDIFF( SECOND, last_callback_date, CURRENT_TIMESTAMP) >= 30 AND simulation_id=" . $simulation_id;
             if(!$result = $link->query($sql)) exit('INTERNAL_ERROR');
 
-            /* create un-started round */
-            $sql ='INSERT INTO kfs_rounds_tbl(simulation_id) VALUES ('.$simulation_id.')';
-            if(!$result = $link->query($sql)) exit('INTERNAL_ERROR');
-            $sql ='UPDATE kfs_simulation_tbl SET current_round_id = LAST_INSERT_ID() WHERE simulation_id='.$simulation_id;
-            if(!$result = $link->query($sql)) exit('INTERNAL_ERROR');
+            /* Check, if this is the first start of the simulation
+             * and there is the need to create a new round and
+             * add some items
+             */
+            $sql = $link->prepare("SELECT count(1) as cnt FROM kfs_rounds_tbl WHERE simulation_id = ?");
+            $sql->bind_param('i', $simulation_id);
+            $sql->execute();
+            $result = $sql->get_result();
+            $round_count = $result->fetch_object()->cnt;
 
-            /* create some items*/
-            $sql = get_create_items_sql(null, null, null); /* get round id from last insert */
-            if(!$result = $link->query($sql)) exit('INTERNAL_ERROR');
+            if ($round_count==0) {
+                /* create un-started round */
+                $sql = 'INSERT INTO kfs_rounds_tbl(simulation_id) VALUES (' . $simulation_id . ')';
+                if (!$result = $link->query($sql)) exit('INTERNAL_ERROR');
+                $sql = 'UPDATE kfs_simulation_tbl SET current_round_id = LAST_INSERT_ID() WHERE simulation_id=' . $simulation_id;
+                if (!$result = $link->query($sql)) exit('INTERNAL_ERROR');
 
+                /* create some items*/
+                $sql = get_create_items_sql(null, null, null); /* get round id from last insert */
+                if (!$result = $link->query($sql)) exit('INTERNAL_ERROR');
+            }
         }
     }
 }
