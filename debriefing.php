@@ -1,5 +1,5 @@
 <?php
-function get_debriefing_obj($simulation_id, $session_key, $execution_time) {
+function get_debriefing_obj($simulation_id, $session_key, $add_stats, $execution_time) {
     $link = db_init();
 
     /* save performance stats */
@@ -87,6 +87,9 @@ function get_debriefing_obj($simulation_id, $session_key, $execution_time) {
                 "statement_code" => $obj->statement_code,
                 "statement_text" => $obj->statement_text
             );
+
+            $attendee = add_attendee_stats($attendee, $simulation_id, $add_stats, $link);
+
             array_push($attendees, $attendee);
         }
     }
@@ -106,15 +109,15 @@ function get_debriefing_obj($simulation_id, $session_key, $execution_time) {
         }
     }
 
-
+    $link->close();
 
     return array("status_code" => $status_code
-    ,"role_code" => $role_code
-    ,"mood_code" => $mood_code
-    ,"language_code" => $language_code
-    ,"attendees" => $attendees
-    ,"round_id_0" => $stats_round_id[0]
-    ,"round_id_1" => $stats_round_id[1]
-    ,"wip_visibility" => array((int)$wip_toggle_0, (int)$wip_toggle_1)
-    ,"dom" => $dom);
+                ,"role_code" => $role_code
+                ,"mood_code" => $mood_code
+                ,"language_code" => $language_code
+                ,"attendees" => $attendees
+                ,"round_id_0" => $stats_round_id[0]
+                ,"round_id_1" => $stats_round_id[1]
+                ,"wip_visibility" => array((int)$wip_toggle_0, (int)$wip_toggle_1)
+                ,"dom" => $dom);
 }

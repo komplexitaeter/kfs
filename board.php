@@ -296,7 +296,7 @@ WHERE sims.simulation_id=$simulation_id ORDER BY item.prio";
         }
     }
 
-
+    $link->close();
 
     $workbench = array("meta_data"=>$meta_data
     ,"todo_items"=>$todo_items
@@ -304,7 +304,7 @@ WHERE sims.simulation_id=$simulation_id ORDER BY item.prio";
     ,"done_items"=>$done_items
     ,"do_auto_pull"=>$do_auto_pull);
 
-    $myJSON_array = array("status_code"=>$status_code
+    return array("status_code"=>$status_code
     , "role_code"=>$role_code
     ,"language_code" => $language_code
     , "attendees"=>$objs
@@ -312,7 +312,4 @@ WHERE sims.simulation_id=$simulation_id ORDER BY item.prio";
     , "current_round"=>$current_round
     , "items_list"=>$items
     , "workbench"=>$workbench);
-
-    $link->close();
-    return $myJSON_array;
 }

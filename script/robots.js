@@ -8,7 +8,7 @@ function createBots(){
             let str = "" + i;
             let pad = "0000";
             session_key= session_key+pad.substring(0, pad.length - str.length) + str;
-            let url ='./get_checkin_attendees.php?simulation_id='+simulation_id+'&session_key='+session_key;
+            let url ='./get_checkin.php?simulation_id='+simulation_id+'&session_key='+session_key;
             fetch(url)
                 .then((response) => {
                     let bot_name = "RobotNr."+session_key.substring(12,16);

@@ -64,7 +64,7 @@ function toggleAccessControl(role){
 
 function refreshAttendeesList(simulation_id, session_key){
 
-    const url ='./get_checkin_attendees.php?simulation_id='+simulation_id+'&session_key='+session_key;
+    const url ='./get_checkin.php?simulation_id='+simulation_id+'&session_key='+session_key;
     fetch(url)
         .then((response) => {
             return response.json();

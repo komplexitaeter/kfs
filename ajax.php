@@ -58,11 +58,14 @@ function initialize_pulling($resource_name) {
 function get_data_obj($resource_name, $simulation_id, $session_key, $add_stats, $execution_time) {
     $data_obj = null;
     switch($resource_name) {
+        case 'checkin':
+            $data_obj = get_checkin_obj($simulation_id, $session_key, $add_stats, $execution_time);
+            break;
         case 'board':
             $data_obj = get_board_obj($simulation_id, $session_key, $add_stats, $execution_time);
             break;
         case 'debriefing':
-            $data_obj = get_debriefing_obj($simulation_id, $session_key, $execution_time);
+            $data_obj = get_debriefing_obj($simulation_id, $session_key, $add_stats, $execution_time);
             break;
     }
     return $data_obj;
