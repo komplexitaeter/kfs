@@ -1,66 +1,56 @@
-var fCanvas;
+let fCanvas;
 let language_code = 'en';
-let last_execution_time = '';
 
 function loadBoard(){
-    initializeCursor(getSimulationId(), getSessionKey());
+    let baseUrl = 'get_board';
+    let params = {
+        "simulation_id" : getSimulationId(),
+        "session_key" : getSessionKey()
+    }
+    initializeConnection(baseUrl, params, updateDom);
 
-    setInterval(function(){
-        refreshBoard(getSimulationId(),getSessionKey());
-    }, 500);
+    initializeCursor(getSimulationId(), getSessionKey());
 }
 
-function refreshBoard(simulation_id, session_key){
+function updateDom(myJson){
+    let simulationId = getSimulationId();
+    let sessionKey = getSessionKey();
+    let firstLoad = false;
+    if (document.body.style.visibility != 'visible') firstLoad = true;
 
-    let firstload = false;
-    if (document.body.style.visibility != 'visible') firstload = true;
-
-    let url ='./get_board.php?simulation_id='+simulation_id
-                            +'&session_key='+session_key
-                            +'&execution_time='+last_execution_time;
-
-    let start_time = new Date().getMilliseconds()
-
-    fetch(url)
-        .then((response) => {
-            last_execution_time = new Date().getMilliseconds() - start_time;
-            return response.json();
-        })
-        .then((myJson) => {
-            switch(myJson.status_code) {
-                case "RUNNING":
-                    window.addEventListener('resize', resizeCanvas);
-                    displayStations(myJson.stations, simulation_id, false);
-                    displayAttendees(myJson.attendees, session_key);
-                    displayControls(myJson.current_round);
-                    displayItems(myJson.items_list);
-                    displayWorkbench(myJson.workbench, myJson.current_round, simulation_id);
-                    toggleAccessControl(myJson.role_code);
-                    if(language_code !== myJson.language_code){
-                        translateElements("board", myJson.language_code);
-                        displayStations(myJson.stations, simulation_id, true);
-                        workbenchGlobal = null;
-                    }
-                    language_code = myJson.language_code;
-                    break;
-                case "NO_SIMULATION":
-                    // alert("The required simulation ID does not exit. You will be taken to the home page.");
-                    location.href = './index.html';
-                    break;
-                case "CHECKIN":
-                    location.href = './checkin.html?simulation_id='+simulation_id;
-                    break;
-                case "DEBRIEFING":
-                    location.href = './debriefing.html?simulation_id='+simulation_id;
-                    break;
-                default:
-                //alert("Undefined status_code - this is an error. Sorry.");
-            }
-            if (firstload){
-                document.body.style.visibility = 'visible';
+    switch(myJson.status_code) {
+        case "RUNNING":
+            window.addEventListener('resize', resizeCanvas);
+            displayStations(myJson.stations, simulationId, false);
+            displayAttendees(myJson.attendees, sessionKey);
+            displayControls(myJson.current_round);
+            displayItems(myJson.items_list);
+            displayWorkbench(myJson.workbench, myJson.current_round, simulationId);
+            toggleAccessControl(myJson.role_code);
+            if(language_code !== myJson.language_code){
                 translateElements("board", myJson.language_code);
+                displayStations(myJson.stations, simulationId, true);
+                workbenchGlobal = null;
             }
-        });
+            language_code = myJson.language_code;
+            break;
+        case "NO_SIMULATION":
+            // alert("The required simulation ID does not exit. You will be taken to the home page.");
+            location.href = './index.html';
+            break;
+        case "CHECKIN":
+            location.href = './checkin.html?simulation_id='+simulationId;
+            break;
+        case "DEBRIEFING":
+            location.href = './debriefing.html?simulation_id='+simulationId;
+            break;
+        default:
+        //alert("Undefined status_code - this is an error. Sorry.");
+    }
+    if (firstLoad){
+        document.body.style.visibility = 'visible';
+        translateElements("board", myJson.language_code);
+    }
 }
 
 function sec2time(timeInSeconds, getHours) {

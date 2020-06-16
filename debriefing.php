@@ -1,6 +1,9 @@
 <?php
-function get_debriefing_obj($simulation_id, $session_key) {
+function get_debriefing_obj($simulation_id, $session_key, $execution_time) {
     $link = db_init();
+
+    /* save performance stats */
+    save_execution_time($link, $simulation_id, $session_key, $execution_time, 'debriefing');
 
     $sql = "SELECT status_code 
                  ,coalesce(stats_round_id_0, current_round_id) stats_round_id_0

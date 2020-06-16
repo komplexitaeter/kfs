@@ -1,7 +1,7 @@
 <?php
 function db_init() {
     $link = mysqli_init();
-    $success = mysqli_real_connect(
+    mysqli_real_connect(
         $link,
         _MYSQL_HOST,
         _MYSQL_USER,
@@ -187,4 +187,15 @@ function add_attendee_stats($obj, $simulation_id, $add_stats, $link) {
         }
     }
     return $obj;
+}
+
+function save_execution_time($link, $simulation_id, $session_key, $execution_time, $resource_name) {
+    if(isset($execution_time)) {
+        if ($execution_time>0) {
+            $sql = $link->prepare("INSERT INTO kfs_execution_times_tbl(simulation_id, session_key, resource_name, milliseconds) 
+                                            VALUES (?,?,?,?)");
+            $sql->bind_param('issi', $simulation_id, $session_key, $resource_name, $execution_time);
+            $sql->execute();
+        }
+    }
 }

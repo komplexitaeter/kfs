@@ -3,15 +3,7 @@ function get_board_obj($simulation_id, $session_key, $add_stats, $execution_time
     $link = db_init();
 
     /* save performance stats */
-    if(isset($execution_time)) {
-        if ($execution_time>0) {
-            $sql = $link->prepare("INSERT INTO kfs_execution_times_tbl(simulation_id, session_key, resource_name, milliseconds) 
-                                            VALUES (?,?,'get_board.php',?)");
-            $sql->bind_param('isi', $simulation_id, $session_key, $execution_time);
-            $sql->execute();
-        }
-    }
-
+    save_execution_time($link, $simulation_id, $session_key, $execution_time, 'board');
 
     /*verify status of the current simulation*/
     $sql = "SELECT s.status_code 

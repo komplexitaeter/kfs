@@ -1,4 +1,4 @@
-const gPreferStreaming = false;
+const gPreferStreaming = true;
 const gPullInterval = 500;
 const gPauseWhenInvisible = false;
 
