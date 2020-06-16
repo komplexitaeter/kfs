@@ -1,5 +1,5 @@
 <?php
-function getDebriefingObj($simulation_id, $session_key) {
+function get_debriefing_obj($simulation_id, $session_key) {
     $link = db_init();
 
     $sql = "SELECT status_code 
