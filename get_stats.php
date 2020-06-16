@@ -1,6 +1,6 @@
 <?php
 require 'config.php';
-require 'sql_lib.php';
+require 'helper_lib.php';
 
 header('Content-type: application/json');
 header("Pragma-directive: no-cache");

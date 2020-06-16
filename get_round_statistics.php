@@ -1,6 +1,6 @@
 <?php
 require 'config.php';
-require 'sql_lib.php';
+require 'helper_lib.php';
 
 /* GET Parameters */
 $round_id = filter_input(INPUT_GET, 'round_id', FILTER_SANITIZE_NUMBER_INT);

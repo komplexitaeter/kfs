@@ -1,6 +1,6 @@
 <?php
 require 'config.php';
-require 'sql_lib.php';
+require 'helper_lib.php';
 
 $link = db_init();
 

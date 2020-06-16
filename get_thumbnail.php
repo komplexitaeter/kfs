@@ -1,13 +1,8 @@
 <?php
 require 'config.php';
-require 'sql_lib.php';
+require 'helper_lib.php';
 
-header('Content-type: image/svg+xml');
-header("Pragma-directive: no-cache");
-header("Cache-directive: no-cache");
-header("Cache-control: no-cache");
-header("Pragma: no-cache");
-header("Expires: 0");
+set_header('svg');
 
 $simulation_id = filter_input(INPUT_GET, 'simulation_id', FILTER_SANITIZE_NUMBER_INT);
 $station_id = filter_input(INPUT_GET, 'station_id', FILTER_SANITIZE_NUMBER_INT);

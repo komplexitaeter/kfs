@@ -13,6 +13,23 @@ function db_init() {
     return $link;
 }
 
+function set_header($content_type) {
+    if ($content_type=='json') {
+        header('Content-Type: application/json; charset=utf-8');
+    }
+    else if ($content_type=='event-stream') {
+        header("Content-Type: text/event-stream; charset=utf-8");
+    }
+    else if ($content_type=='svg') {
+        header('Content-type: image/svg+xml');
+    }
+    header('Pragma-directive: no-cache');
+    header('Cache-directive: no-cache');
+    header('Cache-control: no-cache');
+    header('Pragma: no-cache');
+    header('Expires: 0');
+}
+
 function translate_tl($language_code, $tl) {
     return trim(json_encode(json_decode($tl, true)[$language_code], JSON_UNESCAPED_UNICODE), '"');
 }

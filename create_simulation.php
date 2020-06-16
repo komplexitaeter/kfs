@@ -1,6 +1,6 @@
 <?php
 require 'config.php';
-require 'sql_lib.php';
+require 'helper_lib.php';
 
 $session_key = filter_input(INPUT_GET, 'session_key', FILTER_SANITIZE_STRING);
 $default_language_code = filter_input(INPUT_GET, 'default_language_code', FILTER_SANITIZE_STRING);

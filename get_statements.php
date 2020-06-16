@@ -1,6 +1,6 @@
 <?php
 require 'config.php';
-require 'sql_lib.php';
+require 'helper_lib.php';
 
 $language_code = substr(filter_input(INPUT_GET, 'language_code', FILTER_SANITIZE_STRING), 0, 2);
 
