@@ -23,17 +23,6 @@ function createBots(){
 
 function getAttendees(e){
 
-    let d = Array.from(document.getElementsByClassName("attendee"));
-    d.forEach( d => {
-        d.remove();
-    });
-
-    if(e === "updating"){
-        simulation_id = document.getElementById("simulation_id").value;
-    }
-    else{
-        simulation_id = e.target.value;
-    }
 
     let url ='./get_board.php?add_stats=1&simulation_id='+simulation_id+'&session_key='+getSessionKey();
 
@@ -42,6 +31,21 @@ function getAttendees(e){
             return response.json();
         })
         .then((myJson) => {
+
+
+            let d = Array.from(document.getElementsByClassName("attendee"));
+            d.forEach( d => {
+                d.remove();
+            });
+
+            if(e === "updating"){
+                simulation_id = document.getElementById("simulation_id").value;
+            }
+            else{
+                simulation_id = e.target.value;
+            }
+
+
             if (['CHECKIN', 'RUNNING', 'DEBRIEFING'].indexOf(myJson.status_code) >= 0) {
                 document.getElementById("status_code").style.visibility='visible';
                 document.getElementById("open_simulation_button").style.visibility='visible';
@@ -99,5 +103,5 @@ function onLoadRobots() {
     document.getElementById("simulation_id").focus();
     setInterval(function(){
         getAttendees("updating");
-    }, 1500);
+    }, 2000);
 }
