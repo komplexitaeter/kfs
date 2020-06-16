@@ -16,9 +16,7 @@ function initializeConnection(baseUrl, params, func) {
         let url = getUrl(baseUrl, params, useStreaming);
         initializeStreaming(url, func);
     } else {
-        params["execution_time"] = gLastExecutionTime;
-        let url = getUrl(baseUrl, params, useStreaming);
-        initializePulling(url, func);
+        initializePulling(baseUrl, params, func);
     }
 }
 
@@ -36,7 +34,10 @@ function getUrl(baseUrl, params, useStreaming) {
     return url;
 }
 
-function initializePulling(url, func) {
+function initializePulling(baseUrl, params, func) {
+    params["execution_time"] = gLastExecutionTime;
+    let url = getUrl(baseUrl, params, false);
+
     let refreshInterval;
     let myJson = {status_code:'SUCCESS'};
 
@@ -65,7 +66,7 @@ function initializePulling(url, func) {
 
     if (myJson.status_code !== "TERMINATE") {
         setTimeout(function () {
-            initializePulling(url, func);
+            initializePulling(baseUrl, params, func);
         }, refreshInterval);
     }
 }
