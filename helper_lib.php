@@ -178,7 +178,7 @@ function add_attendee_stats($obj, $simulation_id, $add_stats, $link) {
                            FROM kfs_execution_times_tbl
                           WHERE simulation_id = $simulation_id
                             AND session_key = '$obj->session_key'
-                            and timestampdiff(SECOND, creation_date, current_timestamp)<=60";
+                            AND creation_date > timestampadd(MINUTE, -1, current_timestamp)";
         if ($result = $link->query($sql)) {
             if ($stats = $result->fetch_object()) {
                 $obj->executions_cnt = $stats->executions_cnt;
