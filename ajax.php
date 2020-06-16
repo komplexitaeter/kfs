@@ -15,7 +15,7 @@ function initialize_streaming($resource_name) {
         $data_obj = null;
 
         $t1 = microtime(true);
-        $data_obj = get_data_obj($resource_name, $simulation_id, $session_key, $add_stats, $execution_time);
+        $data_obj = get_data_obj($resource_name, $simulation_id, $session_key, $add_stats, $execution_time, true);
 
         $str  = "event: update\n";
         $str .= "data: ".json_encode($data_obj, JSON_UNESCAPED_UNICODE);
@@ -50,22 +50,22 @@ function initialize_pulling($resource_name) {
     $execution_time = filter_input(INPUT_GET, 'execution_time', FILTER_SANITIZE_NUMBER_INT);
     $add_stats = filter_input(INPUT_GET, 'add_stats', FILTER_SANITIZE_NUMBER_INT);
 
-    $data_obj = get_data_obj($resource_name, $simulation_id, $session_key, $add_stats, $execution_time);
+    $data_obj = get_data_obj($resource_name, $simulation_id, $session_key, $add_stats, $execution_time, false);
 
     echo json_encode($data_obj, JSON_UNESCAPED_UNICODE);
 }
 
-function get_data_obj($resource_name, $simulation_id, $session_key, $add_stats, $execution_time) {
+function get_data_obj($resource_name, $simulation_id, $session_key, $add_stats, $execution_time, $is_stream) {
     $data_obj = null;
     switch($resource_name) {
         case 'checkin':
-            $data_obj = get_checkin_obj($simulation_id, $session_key, $add_stats, $execution_time);
+            $data_obj = get_checkin_obj($simulation_id, $session_key, $add_stats, $execution_time, $is_stream);
             break;
         case 'board':
-            $data_obj = get_board_obj($simulation_id, $session_key, $add_stats, $execution_time);
+            $data_obj = get_board_obj($simulation_id, $session_key, $add_stats, $execution_time, $is_stream);
             break;
         case 'debriefing':
-            $data_obj = get_debriefing_obj($simulation_id, $session_key, $add_stats, $execution_time);
+            $data_obj = get_debriefing_obj($simulation_id, $session_key, $add_stats, $execution_time, $is_stream);
             break;
     }
     return $data_obj;

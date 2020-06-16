@@ -6,7 +6,6 @@ function getSessionKey(){
         localStorage.setItem('SESSION_KEY', uid);
         session_key=uid;
     }
-   // console.log("SESSION_KEY: "+session_key);
     return session_key;
 }
 
@@ -62,98 +61,97 @@ function toggleAccessControl(role){
     }
 }
 
-function refreshAttendeesList(simulation_id, session_key){
+function updateDom(myJson){
+    let simulation_id = getSimulationId();
+    let session_key = getSessionKey();
 
-    const url ='./get_checkin.php?simulation_id='+simulation_id+'&session_key='+session_key;
-    fetch(url)
-        .then((response) => {
-            return response.json();
-        })
+    switch(myJson.status_code) {
+        case "CHECKIN":
 
-        .then((myJson) => {
-            switch(myJson.status_code) {
-                case "CHECKIN":
+            displayConfigurationsList(myJson.configuration_name, myJson.configurations);
 
-                    displayConfigurationsList(myJson.configuration_name, myJson.configurations);
-
-                    var list_of_session_keys = new Array();
-                    var readiness_level = 0;
-                    myJson.attendees.forEach(obj => {
-                            readiness_level += parseInt(obj.ready_to_start);
-                            if (obj.session_key != session_key) {
-                                list_of_session_keys[obj.session_key] = true;
-                                if (!document.getElementById(obj.session_key)) {
-                                    addAttendeeField(obj.session_key, obj.name, obj.avatar_code);
-                                } else {
-                                    updateAttendeeName(obj.session_key, obj.name);
-                                }
-                                updateReadyStatus(obj.session_key, obj.ready_to_start, obj.name);
-                            } else {
-                                var crt = document.getElementById("current_user").querySelector(".attendee_name");
-                                var avt = document.getElementById("current_user").querySelector(".avatar");
-
-                                if (document.activeElement != crt) {
-                                    if (crt.value != obj.name) {
-                                        crt.value = obj.name;
-                                    }
-                                }
-                                if(obj.avatar_code == null){obj.avatar_code = 1;}
-                                avt.style.backgroundImage = "url('./src/avatar_"+obj.avatar_code+".png')";
-                                updateReadyStatus("current_user", obj.ready_to_start, obj.name);
-                            }
-
-                            /* show cursor of attendee if active */
-                            displayCursor(obj.session_key, obj.cursor_x, obj.cursor_y, obj.avatar_code);
-
-                        }
-                    );
-                    var inp = document.getElementById("attendees_list").children;
-                    for (var i = 0; i < inp.length; i++) {
-                        if (inp[i].id != 'current_user')
-                            if (!list_of_session_keys[inp[i].id]) {
-                                removeAttendeeField(inp[i].id);
-                            }
-                    }
-                    toggleAccessControl(myJson.role_code);
-                    if (myJson.role_code == "FACILITATOR"){
-                        let facilitatorDivs = Array.from(document.getElementsByClassName("facilitator_tool"));
-                        facilitatorDivs.forEach( div => {
-                           div.style.visibility = "visible";
-                        });
-                    }
-
-                    if (myJson.role_code == "FACILITATOR") {
-                        if (readiness_level == myJson.attendees.length) {
-                            document.getElementById('start_simulation_button').classList.remove('start_button_invisible');
-                            document.getElementById('start_simulation_button').classList.add('start_button_ready');
-                            document.getElementById('start_simulation_button').classList.remove('start_button_pending');
+            var list_of_session_keys = new Array();
+            var readiness_level = 0;
+            myJson.attendees.forEach(attendee => {
+                    readiness_level += parseInt(attendee.ready_to_start);
+                    if (attendee.session_key != session_key) {
+                        list_of_session_keys[attendee.session_key] = true;
+                        if (!document.getElementById(attendee.session_key)) {
+                            addAttendeeField(attendee.session_key, attendee.name, attendee.avatar_code);
                         } else {
-                            document.getElementById('start_simulation_button').classList.remove('start_button_invisible');
-                            document.getElementById('start_simulation_button').classList.remove('start_button_ready');
-                            document.getElementById('start_simulation_button').classList.add('start_button_pending');
+                            updateAttendeeName(attendee.session_key, attendee.name);
                         }
+                        updateReadyStatus(attendee.session_key, attendee.ready_to_start, attendee.name);
+                    } else {
+                        var crt = document.getElementById("current_user").querySelector(".attendee_name");
+                        var avt = document.getElementById("current_user").querySelector(".avatar");
+
+                        if (document.activeElement != crt) {
+                            if (crt.value != attendee.name) {
+                                crt.value = attendee.name;
+                            }
+                        }
+                        if(attendee.avatar_code == null){attendee.avatar_code = 1;}
+                        avt.style.backgroundImage = "url('./src/avatar_"+attendee.avatar_code+".png')";
+                        updateReadyStatus("current_user", attendee.ready_to_start, attendee.name);
                     }
-                    else {
-                        document.getElementById('start_simulation_button').classList.add('start_button_invisible');
-                        document.getElementById('start_simulation_button').classList.remove('start_button_ready');
-                        document.getElementById('start_simulation_button').classList.remove('start_button_pending');
+
+                    /* show cursor of attendee if active */
+                    displayCursor(attendee.session_key, attendee.cursor_x, attendee.cursor_y, attendee.avatar_code);
+
+                }
+            );
+            var inp = document.getElementById("attendees_list").children;
+            for (var i = 0; i < inp.length; i++) {
+                if (inp[i].id != 'current_user')
+                    if (!list_of_session_keys[inp[i].id]) {
+                        removeAttendeeField(inp[i].id);
                     }
-                    translateElements("checkin", myJson.language_code);
-                    break;
-                case "NO_SIMULATION":
-                   // alert("The required simulation ID does not exit. You will be taken to the home page.");
-                    location.href = './index.html';
-                    break;
-                case "RUNNING":
-                    location.href = './board.html?simulation_id='+simulation_id;
-                    break;
-                case "DEBRIEFING":
-                    location.href = './debriefing.html?simulation_id='+simulation_id;
-                    break;
-                default:
-                    //alert("Undefined status_code - this is an error. Sorry.");
             }
-            });
+            toggleAccessControl(myJson.role_code);
+            if (myJson.role_code == "FACILITATOR"){
+                let facilitatorDivs = Array.from(document.getElementsByClassName("facilitator_tool"));
+                facilitatorDivs.forEach( div => {
+                   div.style.visibility = "visible";
+                });
+            }
+
+            if (myJson.role_code == "FACILITATOR") {
+                if (readiness_level == myJson.attendees.length) {
+                    document.getElementById('start_simulation_button').classList.remove('start_button_invisible');
+                    document.getElementById('start_simulation_button').classList.add('start_button_ready');
+                    document.getElementById('start_simulation_button').classList.remove('start_button_pending');
+                } else {
+                    document.getElementById('start_simulation_button').classList.remove('start_button_invisible');
+                    document.getElementById('start_simulation_button').classList.remove('start_button_ready');
+                    document.getElementById('start_simulation_button').classList.add('start_button_pending');
+                }
+            }
+            else {
+                document.getElementById('start_simulation_button').classList.add('start_button_invisible');
+                document.getElementById('start_simulation_button').classList.remove('start_button_ready');
+                document.getElementById('start_simulation_button').classList.remove('start_button_pending');
+            }
+
+            if (document.body.getAttribute("data-value") !== myJson.language_code) {
+                translateElements("checkin", myJson.language_code);
+                document.body.setAttribute("data-value", myJson.language_code);
+            }
+            break;
+        case "NO_SIMULATION":
+           // alert("The required simulation ID does not exit. You will be taken to the home page.");
+            location.href = './index.html';
+            break;
+        case "RUNNING":
+            location.href = './board.html?simulation_id='+simulation_id;
+            break;
+        case "DEBRIEFING":
+            location.href = './debriefing.html?simulation_id='+simulation_id;
+            break;
+        default:
+            //alert("Undefined status_code - this is an error. Sorry.");
+    }
+
 }
 
 
@@ -222,11 +220,16 @@ function loadCheckIn() {
         document.getElementById("vertical_container").classList.remove("display_none");
         document.getElementById("invalid_browser").classList.add("display_none");
     }
+
+    let baseUrl = 'get_checkin';
+    let params = {
+        "simulation_id" : getSimulationId(),
+        "session_key" : getSessionKey()
+    }
+    initializeConnection(baseUrl, params, updateDom);
+
     initializeCursor(getSimulationId(), getSessionKey());
     document.getElementById('link').value = window.location.href;
-    setInterval(function(){
-        refreshAttendeesList(getSimulationId(),getSessionKey());
-    }, 500);
 }
 
 function checkBrowser() {

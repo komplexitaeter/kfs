@@ -1,9 +1,9 @@
 <?php
-function get_board_obj($simulation_id, $session_key, $add_stats, $execution_time) {
+function get_board_obj($simulation_id, $session_key, $add_stats, $execution_time, $is_stream) {
     $link = db_init();
 
     /* save performance stats */
-    save_execution_time($link, $simulation_id, $session_key, $execution_time, 'board');
+    save_execution_time($link, $simulation_id, $session_key, $execution_time, 'board', $is_stream);
 
     /*verify status of the current simulation*/
     $sql = "SELECT s.status_code 

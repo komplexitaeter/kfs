@@ -1,9 +1,9 @@
 <?php
-function get_checkin_obj($simulation_id, $session_key, $add_stats, $execution_time) {
+function get_checkin_obj($simulation_id, $session_key, $add_stats, $execution_time, $is_stream) {
     $link = db_init();
 
     /* save performance stats */
-    save_execution_time($link, $simulation_id, $session_key, $execution_time, 'checkin');
+    save_execution_time($link, $simulation_id, $session_key, $execution_time, 'checkin', $is_stream);
 
     $sql = "SELECT status_code
              , configuration_name

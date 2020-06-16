@@ -189,12 +189,14 @@ function add_attendee_stats($obj, $simulation_id, $add_stats, $link) {
     return $obj;
 }
 
-function save_execution_time($link, $simulation_id, $session_key, $execution_time, $resource_name) {
+function save_execution_time($link, $simulation_id, $session_key, $execution_time, $resource_name, $is_stream) {
     if(isset($execution_time)) {
         if ($execution_time>0) {
-            $sql = $link->prepare("INSERT INTO kfs_execution_times_tbl(simulation_id, session_key, resource_name, milliseconds) 
-                                            VALUES (?,?,?,?)");
-            $sql->bind_param('issi', $simulation_id, $session_key, $resource_name, $execution_time);
+            if ($is_stream)
+            $sql = null;
+            $sql = $link->prepare("INSERT INTO kfs_execution_times_tbl(simulation_id, session_key, resource_name, milliseconds, is_stream) 
+                                            VALUES (?,?,?,?,?)");
+            $sql->bind_param('issii', $simulation_id, $session_key, $resource_name, $execution_time, intval($is_stream));
             $sql->execute();
         }
     }
