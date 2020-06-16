@@ -4,7 +4,7 @@ require 'helper_lib.php';
 require 'debriefing.php';
 
 ob_implicit_flush(1);
-set_header('event_stream');
+set_header('event-stream');
 
 $simulation_id = filter_input(INPUT_GET, 'simulation_id', FILTER_SANITIZE_NUMBER_INT);
 $session_key = filter_input(INPUT_GET, 'session_key', FILTER_SANITIZE_STRING);

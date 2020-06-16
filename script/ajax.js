@@ -1,11 +1,16 @@
 const gPreferStreaming = false;
 const gPullInterval = 500;
+const gPauseWhenInvisible = false;
 
 let gLastExecutionTime="";
 let gFetchCount = 0;
 
 function initializeConnection(baseUrl, params, func) {
-    let useStreaming = gPreferStreaming
+    let useStreaming = false;
+
+    if (gPreferStreaming && typeof EventSource == 'function') {
+        useStreaming = true;
+    }
 
     if (useStreaming) {
         let url = getUrl(baseUrl, params, useStreaming);
@@ -23,13 +28,18 @@ function getUrl(baseUrl, params, useStreaming) {
     if (useStreaming) url+='_stream';
     url+=".php";
     for (let param in params) {
-        url+=separator+param+"="+params[param];
-        separator = '&';
+        if (params.hasOwnProperty(param)) {
+            url += separator + param + "=" + params[param];
+            separator = '&';
+        }
     }
     return url;
 }
 
 function initializePulling(url, func) {
+    let refreshInterval;
+    let myJson = {status_code:'SUCCESS'};
+
     let t1 = performance.now();
 
     let request = new XMLHttpRequest();
@@ -40,20 +50,16 @@ function initializePulling(url, func) {
     gLastExecutionTime = Math.round(t2 - t1);
     gFetchCount++;
 
-    let myJson;
     if (request.status === 200) {
         myJson = JSON.parse(request.responseText);
         func(myJson, gFetchCount, gLastExecutionTime);
-    }
-    else {
-       console.error("error on XMLHttpRequest for "+url + "with status code: " + this.status);
+    } else {
+        console.error("error on XMLHttpRequest for " + url + "with status code: " + this.status);
     }
 
-    let refreshInterval;
-    if (gLastExecutionTime>=gPullInterval) {
+    if (gLastExecutionTime >= gPullInterval) {
         refreshInterval = 0;
-    }
-    else {
+    } else {
         refreshInterval = gPullInterval - gLastExecutionTime;
     }
 
@@ -65,21 +71,23 @@ function initializePulling(url, func) {
 }
 
 function initializeStreaming(url, func) {
-    let eventSource = new EventSource(url);
+     let eventSource = new EventSource(url);
 
     eventSource.addEventListener("update"
-        ,function() {
-                    handleStreamEvent(eventSource, func);
+        ,function(event) {
+                    handleStreamEvent(event, func);
                 });
 
-    document.addEventListener("visibilitychange"
-        , function () {
-                    onVisibilityChange(eventSource, func, url);
-                });
+    if (gPauseWhenInvisible) {
+        document.addEventListener("visibilitychange"
+            , function () {
+                onVisibilityChange(eventSource, func, url);
+            });
+    }
 }
 
-function handleStreamEvent(eventSource, func) {
-    let myJson = JSON.parse(eventSource.data);
+function handleStreamEvent(event, func) {
+    let myJson = JSON.parse(event.data);
     gFetchCount++;
     func(myJson, gFetchCount, gLastExecutionTime);
 }
@@ -91,8 +99,8 @@ function onVisibilityChange(eventSource, func, url) {
     else if (eventSource === null || eventSource.readyState === 2) {
         eventSource = new EventSource(url);
         eventSource.addEventListener("update"
-            , function () {
-                handleStreamEvent(eventSource, func);
+            , function (event) {
+                handleStreamEvent(event, func);
             });
     }
 }

@@ -12,9 +12,6 @@
 <div id="last_execution_time"></div>
 <div id="console"></div>
 <script>
-    let last_execution_time = '';
-    let fetch_count = 0;
-    const gServerInterval = 500;
 
     function getParam(param_name){
         let url = new URL(window.location.href);
@@ -34,7 +31,6 @@
         document.getElementById("last_execution_time").textContent = "last_execution_time: "+lastExecutionTime.toString();
         document.getElementById("console").textContent += ". ";
         document.getElementById("fetch_count").textContent = "fetch_count:" + fetchCount.toString();
-        console.log(myJson.status_code);
     }
 
     document.getElementById("simulation_id").textContent = "simulation_id: "+getParam("simulation_id");

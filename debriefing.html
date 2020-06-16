@@ -5,6 +5,7 @@
     <title>Kanban Flow Online Simulation Debriefing</title>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/3.6.3/fabric.min.js"></script>
+    <script src="./script/ajax.js"></script>
     <script src="./script/flow.js"></script>
     <script src="./script/translate.js"></script>
     <script src="./script/cursor.js"></script>
@@ -22,9 +23,7 @@
     <link rel="stylesheet" type="text/css" href="./context_menu.css">
 
 </head>
-<body onload="loadDebriefingWithoutStream()" oncontextmenu="return false;" onclick="clearOpenedMenu()">
-
-
+<body onload="loadDebriefing()" oncontextmenu="return false;" onclick="clearOpenedMenu()">
 
 <div id="left" class="column">
 </div>
