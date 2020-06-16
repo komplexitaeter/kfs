@@ -11,10 +11,12 @@ function createBots(){
             let url ='./get_checkin_attendees.php?simulation_id='+simulation_id+'&session_key='+session_key;
             fetch(url)
                 .then((response) => {
-                    return response.json();
-                })
+                    let bot_name = "RobotNr."+session_key.substring(12,16);
+                    let name_url ='./update_attendee.php?simulation_id='+simulation_id+'&session_key='+session_key+'&name='+bot_name;
+                    fetch(name_url);
+                    console.log(name_url);
+            })
         }
-
     }
 
     getAttendees("updating");
@@ -57,12 +59,7 @@ function getAttendees(e){
             }
 
             myJson.attendees.forEach( attendee => {
-                if(attendee.name === null){
-                    let bot_name = "RobotNr."+attendee.session_key.substring(12,16);
-                    let name_url ='./update_attendee.php?simulation_id='+simulation_id+'&session_key='+attendee.session_key+'&name='+bot_name;
-                    fetch(name_url);
-                    console.log(name_url);
-                }
+
                 let div = document.createElement("div");
                 div.classList.add("attendee");
                 div.innerHTML = "<div class='column c1' onclick='removeAttendee(event)' id='"+attendee.session_key+"'>X</div>" +
