@@ -6,7 +6,7 @@ function get_board_obj($simulation_id, $session_key, $add_stats, $execution_time
     save_execution_time($link, $simulation_id, $session_key, $execution_time, 'board', $is_stream);
 
     /*verify status of the current simulation*/
-    $sql = "SELECT s.status_code 
+    $sql = "SELECT if(a.name is null, 'CHECKIN', s.status_code) as status_code
               ,case  when s.status_code = 'RUNNING'
                       and r.last_start_time is not null
                       and r.last_stop_time is null
@@ -70,7 +70,9 @@ function get_board_obj($simulation_id, $session_key, $add_stats, $execution_time
              , TIMESTAMPDIFF( SECOND, tbl.last_callback_date, CURRENT_TIMESTAMP) as timeout 
              , tbl.cursor_x
              , tbl.cursor_y
-          FROM kfs_attendees_tbl as tbl WHERE simulation_id=".$simulation_id;
+          FROM kfs_attendees_tbl as tbl 
+         WHERE name is not null
+          AND simulation_id=".$simulation_id;
     $objs= array();
 
     if ($result = $link->query($sql)) {
@@ -261,7 +263,6 @@ WHERE sims.simulation_id=$simulation_id ORDER BY item.prio";
                and i.round_id=$meta_data->current_round_id 
              ORDER BY i.prio DESC";
 
-        //error_log($sql);
         if ($result = $link->query($sql)) {
             if(  $obj = $result->fetch_object()) {
                 $current_item = $obj;

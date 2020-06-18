@@ -230,6 +230,7 @@ function loadCheckIn() {
 
     initializeCursor(getSimulationId(), getSessionKey());
     document.getElementById('link').value = window.location.href;
+    document.getElementById('current_attendee_name').focus();
 }
 
 function checkBrowser() {

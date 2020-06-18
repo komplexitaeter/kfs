@@ -5,11 +5,13 @@ function get_checkin_obj($simulation_id, $session_key, $add_stats, $execution_ti
     /* save performance stats */
     save_execution_time($link, $simulation_id, $session_key, $execution_time, 'checkin', $is_stream);
 
-    $sql = "SELECT status_code
-             , configuration_name
-             , default_language_code
-          FROM kfs_simulation_tbl
-        WHERE simulation_id=".$simulation_id;
+    $sql = "SELECT if(kat.name is null, 'CHECKIN', s.status_code) as status_code 
+             ,s.configuration_name
+             ,s.default_language_code
+          FROM kfs_simulation_tbl s
+            LEFT OUTER JOIN kfs_attendees_tbl kat on kat.simulation_id = s.simulation_id
+                AND kat.session_key = '$session_key'
+        WHERE s.simulation_id=".$simulation_id;
 
     $configuration_name = null;
     $status_code = null;

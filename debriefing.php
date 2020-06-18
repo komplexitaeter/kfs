@@ -5,14 +5,16 @@ function get_debriefing_obj($simulation_id, $session_key, $add_stats, $execution
     /* save performance stats */
     save_execution_time($link, $simulation_id, $session_key, $execution_time, 'debriefing', $is_stream);
 
-    $sql = "SELECT status_code 
-                 ,stats_round_id_0
-                 ,stats_round_id_1
-                 ,substr(debriefing_wip_toggle,1,1) wip_toggle_0
-                 ,substr(debriefing_wip_toggle,2,1) wip_toggle_1
-                 ,default_language_code
-              FROM kfs_simulation_tbl
-             WHERE simulation_id=".$simulation_id;
+    $sql = "SELECT if(kat.name is null, 'CHECKIN', s.status_code) as status_code 
+                 ,s.stats_round_id_0
+                 ,s.stats_round_id_1
+                 ,substr(s.debriefing_wip_toggle,1,1) wip_toggle_0
+                 ,substr(s.debriefing_wip_toggle,2,1) wip_toggle_1
+                 ,s.default_language_code
+              FROM kfs_simulation_tbl s
+            LEFT OUTER JOIN kfs_attendees_tbl kat on kat.simulation_id = s.simulation_id
+                AND kat.session_key = '$session_key'
+             WHERE s.simulation_id=".$simulation_id;
 
     $status_code = null;
     $stats_round_id = array();
@@ -60,7 +62,8 @@ function get_debriefing_obj($simulation_id, $session_key, $add_stats, $execution
                                     where ca.session_key = '$session_key'
                                      and ca.simulation_id = $simulation_id)
            AND st.statement_code = tbl.statement_code
-         WHERE simulation_id=".$simulation_id;
+         WHERE tbl.name is not null
+           AND tbl.simulation_id=".$simulation_id;
 
     $attendees = array();
     $role_code = null;

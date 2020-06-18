@@ -48,8 +48,8 @@ function updateDom(myJson){
         //alert("Undefined status_code - this is an error. Sorry.");
     }
     if (firstLoad){
-        document.body.style.visibility = 'visible';
         translateElements("board", myJson.language_code);
+        document.body.style.visibility = 'visible';
     }
 }
 

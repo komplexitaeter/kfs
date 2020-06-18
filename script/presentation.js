@@ -104,36 +104,37 @@ function updateDisplayedRound(e){
 }
 
 function updateRoundStats(round_id, side){
-    let sides = ["left","right"];
-    const url = "./get_round_statistics.php"+
-        "?round_id="+round_id+
-        "&side="+sides.indexOf(side);
+    if (round_id!== null) {
+        let sides = ["left", "right"];
+        const url = "./get_round_statistics.php" +
+            "?round_id=" + round_id +
+            "&side=" + sides.indexOf(side);
 
-    fetch(url)
-        .then((response) => {
-            return response.json();
-        })
-        .then((myJson) => {
-            /**update round display on the corresponding side**/
-            let display = document.getElementById("round_display_"+side);
-            let modeTitle;
-            if (myJson.push_mode == '1') {
-                modeTitle = document.getElementById("title_push").value
-            }
-            else {
-                modeTitle = document.getElementById("title_pull").value
-            }
+        fetch(url)
+            .then((response) => {
+                return response.json();
+            })
+            .then((myJson) => {
+                /**update round display on the corresponding side**/
+                let display = document.getElementById("round_display_" + side);
+                let modeTitle;
+                if (myJson.push_mode == '1') {
+                    modeTitle = document.getElementById("title_push").value
+                } else {
+                    modeTitle = document.getElementById("title_pull").value
+                }
 
-            display.innerHTML = document.getElementById("title_round").value
-                              + " " + myJson.title
-                              + ": " + modeTitle
-                              +'<div class="visibility_toggle facilitator_tool"></div>';
+                display.innerHTML = document.getElementById("title_round").value
+                    + " " + myJson.title
+                    + ": " + modeTitle
+                    + '<div class="visibility_toggle facilitator_tool"></div>';
 
-            /**generate and update graphs on the corresponding side**/
-            drawShipsPerMinute(myJson.per_minute,myJson.ship_per_minute_max, myJson.wip_per_minute_max, 'round_stats_'+side+'_top_graph');
-            drawShipsCycleTime(myJson.per_ship, myJson.cycle_time_per_ship_max, 'round_stats_'+side+'_middle_graph');
-            document.getElementById("round_stats_"+side+"_bottom_value").innerText = document.getElementById("chart_average_throughput").value + myJson.kpi.avg_throughput;
-        });
+                /**generate and update graphs on the corresponding side**/
+                drawShipsPerMinute(myJson.per_minute, myJson.ship_per_minute_max, myJson.wip_per_minute_max, 'round_stats_' + side + '_top_graph');
+                drawShipsCycleTime(myJson.per_ship, myJson.cycle_time_per_ship_max, 'round_stats_' + side + '_middle_graph');
+                document.getElementById("round_stats_" + side + "_bottom_value").innerText = document.getElementById("chart_average_throughput").value + myJson.kpi.avg_throughput;
+            });
+    }
 }
 
 function drawShipsCycleTime(data, cycle_time_per_ship_max, targetDiv) {
