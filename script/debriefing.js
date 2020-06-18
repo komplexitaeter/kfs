@@ -140,11 +140,17 @@ function displayControls(language_code, mood_code, role_code){
         }
     });
     if(role_code === "FACILITATOR") {
+        if (document.body.getAttribute("data-facilitator_flag")!=="1") {
+            document.body.setAttribute("data-facilitator_flag", "1");
+        }
         facilitator_tool.forEach(tool => {
             tool.style.visibility = "visible";
         });
     }
         else{
+        if (document.body.getAttribute("data-facilitator_flag")!=="0") {
+            document.body.setAttribute("data-facilitator_flag", "0");
+        }
         facilitator_tool.forEach(tool => {
             tool.style.visibility = "hidden";
         });
@@ -246,6 +252,7 @@ function createAttendeeDiv(attendee, session_key){
         myDiv.classList.add("not_current_user");
     }
     myDiv.id = attendee.session_key;
+    myDiv.onclick = resetAttendeeMood;
     myDiv.innerHTML = '<div class="mood" style="pointer-events: none;">&nbsp;</div>';
     myDiv.innerHTML += '<div class="avatar" style="pointer-events: none;">&nbsp;</div>';
     if(attendee.avatar_code == null){attendee.avatar_code = 1;}
@@ -279,6 +286,16 @@ function setMood(e){
         +"&session_key="+getSessionKey()
         +"&mood_code="+e.target.id;
     fetch(url).then();
+}
+
+function resetAttendeeMood(e) {
+    if (document.body.getAttribute("data-facilitator_flag")==="1") {
+        let url = "./update_attendee.php?"
+            + "simulation_id=" + getSimulationId()
+            + "&session_key=" + e.target.id
+            + "&mood_code=";
+        fetch(url).then();
+    }
 }
 
 function setMoodAll(e){
