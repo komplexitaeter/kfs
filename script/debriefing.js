@@ -59,6 +59,8 @@ function updateDom(myJson){
                 updateRoundStats(myJson.round_id_0, "left");
                 updateRoundStats(myJson.round_id_1, "right");
             }
+            updateRoundSwitch(myJson.round_id_0, myJson.round_id_1);
+
             if(language_code !== myJson.language_code){
                 displayDefinitions(myJson.language_code);
                 translateElements("debriefing", myJson.language_code);
@@ -75,14 +77,25 @@ function updateDom(myJson){
 
 /**** display functions based on delivered Json on stream udpdate ***/
 
-function checkedDisplayedRounds(round_id_left, round_id_right){
+function checkedDisplayedRounds(round_id_left, round_id_right) {
 
     let currentRoundLeft = document.getElementById("round_display_left");
     let currentRoundRight = document.getElementById("round_display_right");
 
     if((currentRoundLeft.getAttribute("data-value") !== round_id_left)||(currentRoundRight.getAttribute("data-value") !== round_id_right)){
-        currentRoundLeft.setAttribute("data-value", round_id_left);
-        currentRoundRight.setAttribute("data-value", round_id_right);
+        if (round_id_left == null) {
+            currentRoundLeft.removeAttribute("data-value");
+        }
+        else {
+            currentRoundLeft.setAttribute("data-value", round_id_left);
+        }
+
+        if (round_id_right == null) {
+            currentRoundRight.removeAttribute("data-value");
+        }
+        else {
+            currentRoundRight.setAttribute("data-value", round_id_right);
+        }
         return true;
     }
     else{
@@ -277,6 +290,32 @@ function toggleAccessControl(role){
         });
     }
 }
+
+function updateRoundSwitch(leftRoundId, rightRoundId) {
+    let leftId;
+    let rightId;
+
+    if (leftRoundId==null) {
+        leftId = "";
+    }
+    else {
+        leftId = leftRoundId.toString();
+    }
+    if (rightRoundId==null) {
+        rightId = "";
+    }
+    else {
+        rightId = rightRoundId.toString();
+    }
+
+    if (document.getElementById("left_round_switch").value !== leftId) {
+        document.getElementById("left_round_switch").value = leftId
+    }
+    if (document.getElementById("right_round_switch").value !== rightId) {
+        document.getElementById("right_round_switch").value = rightId
+    }
+}
+
 
 /**** tools, context menus and facilitation functions *****/
 

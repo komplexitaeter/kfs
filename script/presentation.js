@@ -81,12 +81,12 @@ function displayPresentation(domList, role_code, wip_visibility){
         if((wip_visibility[i] === 1)&&wip_toggle.classList.contains("wip_inactive")){
             wip_toggle.classList.remove("wip_inactive");
             wip_toggle.classList.add("wip_active");
-            document.getElementById("round_display_left").setAttribute("data-value", "");
+            document.getElementById("round_display_left").removeAttribute("data-value");
         }
         if((wip_visibility[i] === 0)&&wip_toggle.classList.contains("wip_active")){
             wip_toggle.classList.remove("wip_active");
             wip_toggle.classList.add("wip_inactive");
-            document.getElementById("round_display_right").setAttribute("data-value", "");
+            document.getElementById("round_display_right").removeAttribute("data-value");
         }
     }
 
@@ -95,7 +95,6 @@ function displayPresentation(domList, role_code, wip_visibility){
 function updateDisplayedRound(e){
     let sides = ["left","right"];
     let side = sides.indexOf(e.target.id.split('_')[0]);
-
     const url = './update_simulation.php?' +
         'simulation_id='+presentationSimulation_id +
         '&stats_round_id='+e.target.value +

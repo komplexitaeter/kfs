@@ -258,6 +258,6 @@ $myJSON_array = array("title" => $title
                      ,"cycle_time_per_ship_max" => (int)$cycle_time_per_ship_max
                      ,"per_ship" => $per_ship);
 
-echo json_encode($myJSON_array);
+echo json_encode($myJSON_array, JSON_UNESCAPED_UNICODE);
 
 $link->close();

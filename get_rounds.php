@@ -17,6 +17,6 @@ $link = db_init();
 $rounds = get_rounds($link, $simulation_id);
 
 $myJSON_array = array("rounds"=> $rounds);
-echo json_encode($myJSON_array);
+echo json_encode($myJSON_array, JSON_UNESCAPED_UNICODE);
 
 $link->close();

@@ -22,7 +22,7 @@ header('Pragma: no-cache');
 header('Expires: 0');
 
 function exit_with_status($status_code) {
-    echo(json_encode(array("status_code"=>$status_code)));
+    echo(json_encode(array("status_code"=>$status_code), JSON_UNESCAPED_UNICODE));
     exit(0);
 }
 
