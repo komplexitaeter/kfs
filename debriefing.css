@@ -40,7 +40,14 @@ body{
     border-right: 5px solid transparent;
     border-left-width: 0px;
     border-image: url("./src/border_grey.png") 55 repeat;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    /* Hide scrollbar for IE and Edge */
+    -ms-overflow-style: none;
+}
 
+#left::-webkit-scrollbar {
+    display: none;
 }
 
 #right{
@@ -48,6 +55,14 @@ body{
     border-left: 5px solid transparent;
     border-right-width: 0px;
     border-image: url("./src/border_grey.png") 55 repeat;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    /* Hide scrollbar for IE and Edge */
+    -ms-overflow-style: none;
+}
+
+#right::-webkit-scrollbar {
+    display: none;
 }
 
 #center{
