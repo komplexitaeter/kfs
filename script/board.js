@@ -22,7 +22,7 @@ function updateDom(myJson){
         case "RUNNING":
             window.addEventListener('resize', resizeCanvas);
             displayStations(myJson.stations, simulationId, false);
-            displayAttendees(myJson.attendees, sessionKey);
+            displayAttendees(myJson.attendees, sessionKey, myJson.role_code);
             displayControls(myJson.current_round);
             displayItems(myJson.items_list);
             displayWorkbench(myJson.workbench, myJson.current_round, simulationId);
@@ -655,7 +655,7 @@ function createStationDiv(station){
     document.getElementById("stations").appendChild(stationDiv);
 }
 
-function displayAttendees(attendees, session_key){
+function displayAttendees(attendees, session_key, role_code){
     attendees.forEach(obj => {
         let myDiv;
         /*check if attendee has a div, if not create it*/
@@ -666,7 +666,7 @@ function displayAttendees(attendees, session_key){
         /*check if attendee-myDiv is at the correct position, if not put it there*/
         putAttendeeDivAtTheRightPosition(myDiv, obj);
         /*identify time out attendees and mark them*/
-        if(obj.timeout > 30){
+        if(obj.timeout > 30 && role_code === 'FACILITATOR'){
             switchTimeoutAttendee(myDiv, true);
         }
         else{
