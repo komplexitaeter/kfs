@@ -196,7 +196,8 @@ function save_execution_time($link, $simulation_id, $session_key, $execution_tim
             $sql = null;
             $sql = $link->prepare("INSERT INTO kfs_execution_times_tbl(simulation_id, session_key, resource_name, milliseconds, is_stream) 
                                             VALUES (?,?,?,?,?)");
-            $sql->bind_param('issii', $simulation_id, $session_key, $resource_name, $execution_time, intval($is_stream));
+            $is_stream_int = intval($is_stream);
+            $sql->bind_param('issii', $simulation_id, $session_key, $resource_name, $execution_time, $is_stream_int);
             $sql->execute();
         }
     }

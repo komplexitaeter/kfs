@@ -78,7 +78,23 @@
     "de": {
       "hidden": "Pull|Limit 1"
     }
+  },
+  {
+    "id": "left_round_empty",
+    "en": {
+      "text": "Select round to display"
+    },
+    "de": {
+      "text": "Anzuzeigende Runde auswählen"
+    }
+  },
+  {
+    "id": "right_round_empty",
+    "en": {
+      "text": "Select round to display"
+    },
+    "de": {
+      "text": "Anzuzeigende Runde auswählen"
+    }
   }
 ]
-
-

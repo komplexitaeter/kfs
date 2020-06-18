@@ -47,8 +47,8 @@ $sql = "select COALESCE(rnd.cumulative_time_s, 0) + TIMESTAMPDIFF(SECOND, rnd.la
                 from kfs_simulation_tbl kst
                     ,kfs_items_tbl i
                 where kst.simulation_id = rnd.simulation_id
-                  and (i.round_id = coalesce(kst.stats_round_id_0, kst.current_round_id)
-                      or i.round_id = coalesce(kst.stats_round_id_1, kst.current_round_id)
+                  and (i.round_id = kst.stats_round_id_0
+                      or i.round_id = kst.stats_round_id_1
                     )
                   and i.end_time_s is not null
                   and i.current_station_id is null) as last_minute_total
@@ -103,8 +103,8 @@ $sql="select max(i.cnt) ship_per_minute_max from (
         ,kfs_items_tbl i
     where krt.round_id = $round_id
       and kst.simulation_id = krt.simulation_id
-      and (i.round_id = coalesce(kst.stats_round_id_0, kst.current_round_id)
-          or i.round_id = coalesce(kst.stats_round_id_1, kst.current_round_id)
+      and (i.round_id = kst.stats_round_id_0
+          or i.round_id = kst.stats_round_id_1
         )
       and i.end_time_s is not null
       and i.current_station_id is null
@@ -123,8 +123,8 @@ $sql="  select max(end_time_s-start_time_s) as cycle_time_per_ship_max
         ,kfs_items_tbl i
     where krt.round_id = $round_id
       and kst.simulation_id = krt.simulation_id
-      and (i.round_id = coalesce(kst.stats_round_id_0, kst.current_round_id)
-          or i.round_id = coalesce(kst.stats_round_id_1, kst.current_round_id)
+      and (i.round_id = kst.stats_round_id_0
+          or i.round_id = kst.stats_round_id_1
         )
       and i.end_time_s is not null
       and i.current_station_id is null";
@@ -204,8 +204,8 @@ if ($round_kpi->last_minute_total != null) {
                             , kfs_items_tbl i
                          where krt.round_id = $round_id
                            and kst.simulation_id = krt.simulation_id
-                           and (i.round_id = coalesce(kst.stats_round_id_0, kst.current_round_id)
-                             or i.round_id = coalesce(kst.stats_round_id_1, kst.current_round_id)
+                           and (i.round_id = kst.stats_round_id_0
+                             or i.round_id = kst.stats_round_id_1
                              )
                            and i.end_time_s is not null
                            and i.current_station_id is null

@@ -31,7 +31,9 @@
     <div class="presentation" id="presentation">
         <div class="test"></div>
         <div class="round_picker rp_left dom_hidden" id="round_picker_left">
-            <select id="left_round_switch" onchange="updateDisplayedRound(event)" ></select>
+            <select id="left_round_switch" onchange="updateDisplayedRound(event)" >
+                <option id="left_round_empty" selected>Please select round!</option>
+            </select>
             <div class="visibility_toggle facilitator_tool"></div>
         </div>
         <div class="round_display rd_left dom_hidden" id="round_display_left" data-value="">
@@ -39,7 +41,9 @@
         </div>
 
         <div class="round_picker rp_right dom_hidden" id="round_picker_right">
-            <select id="right_round_switch" onchange="updateDisplayedRound(event)" ></select>
+            <select id="right_round_switch" onchange="updateDisplayedRound(event)" >
+                <option id="right_round_empty" selected>Please select round!</option>
+            </select>
             <div class="visibility_toggle facilitator_tool"></div>
         </div>
         <div class="round_display rd_right dom_hidden" id="round_display_right" data-value="">

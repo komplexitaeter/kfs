@@ -6,8 +6,8 @@ function get_debriefing_obj($simulation_id, $session_key, $add_stats, $execution
     save_execution_time($link, $simulation_id, $session_key, $execution_time, 'debriefing', $is_stream);
 
     $sql = "SELECT status_code 
-                 ,coalesce(stats_round_id_0, current_round_id) stats_round_id_0
-                 ,coalesce(stats_round_id_1, current_round_id) stats_round_id_1
+                 ,stats_round_id_0
+                 ,stats_round_id_1
                  ,substr(debriefing_wip_toggle,1,1) wip_toggle_0
                  ,substr(debriefing_wip_toggle,2,1) wip_toggle_1
                  ,default_language_code
