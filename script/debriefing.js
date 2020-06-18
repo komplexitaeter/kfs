@@ -154,32 +154,34 @@ function displayControls(language_code, mood_code, role_code){
 function displayAttendees(attendees, session_key){
     let count = 0;
     attendees.forEach(obj => {
-            let myDiv;
-            /*check if attendee has a div, if not create it*/
-            myDiv = document.getElementById(obj.session_key);
-            if(myDiv ==  null){
-                myDiv = createAttendeeDiv(obj, session_key);
-                if(count%2 === 0){
-                    document.getElementById("left").appendChild(myDiv);
-                }
-                else{
-                    document.getElementById("right").appendChild(myDiv);
-                }
-            }
-            setAttendeeMood(myDiv, obj);
-            /*identify time out attendees and mark them*/
-        /* TODO probably doesn't work because body is set to visible after page load*/
-            if(obj.timeout > 30){
-                //myDiv.style.visibility = "hidden";
-            }
-            else{
-                //myDiv.style.visibility = "visible";
-            }
 
-            /* show cursor of attendee if active */
-            displayCursor(obj.session_key, obj.cursor_x, obj.cursor_y, obj.avatar_code);
+            let myDiv = document.getElementById(obj.session_key);
 
-        count++;
+            if (obj.timeout > 30) {
+                /* remove avatar when exists */
+                if (myDiv != null) {
+                    myDiv.remove();
+                }
+                /* hide cursor of timed out attendee */
+                displayCursor(obj.session_key, null, null, obj.avatar_code);
+            }
+            else {
+                /*check if attendee has a div, if not create it*/
+                if (myDiv == null) {
+                    myDiv = createAttendeeDiv(obj, session_key);
+                    if (count % 2 === 0) {
+                        document.getElementById("left").appendChild(myDiv);
+                    } else {
+                        document.getElementById("right").appendChild(myDiv);
+                    }
+                }
+                setAttendeeMood(myDiv, obj);
+                /*identify time out attendees and mark them*/
+
+                /* show cursor of attendee if active */
+                displayCursor(obj.session_key, obj.cursor_x, obj.cursor_y, obj.avatar_code);
+                count++;
+            }
         }
     );
 }

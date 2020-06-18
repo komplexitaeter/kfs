@@ -83,7 +83,7 @@ function get_debriefing_obj($simulation_id, $session_key, $add_stats, $execution
                 "name" => $obj->name,
                 "avatar_code" => $obj->avatar_code,
                 "role_code" => $obj->role_code,
-                "timeout" => $obj->timeout,
+                "timeout" => (int)$obj->timeout,
                 "mood_code" => $obj->mood_code,
                 "cursor_x" => $obj->cursor_x,
                 "cursor_y" => $obj->cursor_y,
