@@ -307,7 +307,7 @@ WHERE sims.simulation_id=$simulation_id ORDER BY item.prio";
 
     return array("status_code"=>$status_code
     , "role_code"=>$role_code
-    ,"language_code" => $language_code
+    , "language_code" => $language_code
     , "attendees"=>$objs
     , "stations"=>$stations
     , "current_round"=>$current_round
