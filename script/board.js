@@ -685,7 +685,11 @@ function putAttendeeDivAtTheRightPosition(myDiv, obj){
         obj.station_id = "observers";
     } /*todo*/
     if((myDiv.parentElement == null) || (obj.station_id != myDiv.parentElement.id)) {
-        document.getElementById(obj.station_id).appendChild(myDiv);
+        let targetDiv = document.getElementById(obj.station_id);
+        if (targetDiv === null) {
+            targetDiv = document.getElementById("observers");
+        }
+        targetDiv.appendChild(myDiv);
     }
 }
 
