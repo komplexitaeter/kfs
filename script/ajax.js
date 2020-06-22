@@ -4,6 +4,8 @@ const gPauseWhenInvisible = false;
 
 let gLastExecutionTime="";
 let gFetchCount = 0;
+let gT1;
+let gT2;
 
 function initializeConnection(baseUrl, params, func) {
     let useStreaming = false;
@@ -39,37 +41,34 @@ function initializePulling(baseUrl, params, func) {
         params["execution_time"] = gLastExecutionTime;
         let url = getUrl(baseUrl, params, false);
 
-        let refreshInterval;
-        let myJson = {status_code: 'SUCCESS'};
+        gT1 = performance.now();
 
-        let t1 = performance.now();
-
-        let request = new XMLHttpRequest();
-        request.open("GET", url, false);
-        request.send();
-
-        let t2 = performance.now();
-        gLastExecutionTime = Math.round(t2 - t1);
-        gFetchCount++;
-
-        if (request.status === 200) {
-            myJson = JSON.parse(request.responseText);
+        fetch(url)
+        .then(function(response) {
+            gT2 = performance.now();
+            gLastExecutionTime = Math.round(gT2 - gT1);
+            gFetchCount++;
+            return response.json();
+        })
+        .then((myJson) => {
+            let refreshInterval;
             func(myJson, gFetchCount, gLastExecutionTime);
-        } else {
-            console.error("error on XMLHttpRequest for " + url + "with status code: " + this.status);
-        }
+            if (gLastExecutionTime >= gPullInterval) {
+                refreshInterval = 0;
+            } else {
+                refreshInterval = gPullInterval - gLastExecutionTime;
+            }
+                setTimeout(function () {
+                    initializePulling(baseUrl, params, func);
+                }, refreshInterval);
 
-        if (gLastExecutionTime >= gPullInterval) {
-            refreshInterval = 0;
-        } else {
-            refreshInterval = gPullInterval - gLastExecutionTime;
-        }
-
-        if (myJson.status_code !== "TERMINATE") {
+        })
+        .catch(function(e) {
             setTimeout(function () {
                 initializePulling(baseUrl, params, func);
-            }, refreshInterval);
-        }
+            }, gPullInterval);
+            console.error(e);
+        });
     }
     catch(e) {
         setTimeout(function () {
