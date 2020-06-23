@@ -278,6 +278,12 @@ body{
     background-size: 100%;
 }
 
+.download_pdf {
+    background-image: url("./src/download_pdf.png");
+    background-size: 100%;
+    -webkit-filter: grayscale(0%);
+}
+
 @keyframes light_bulb {
     0% {background-image: url("./src/light_bulb_1.png")}
     50% {background-image: url("./src/light_bulb_2.png")}
