@@ -879,12 +879,15 @@ function drop(ev) {
 
 function resizeCanvas(){
 
-    let width = document.getElementById('workarea').clientWidth * 0.78;
-    let height = document.getElementById('workarea').clientHeight;
-    fCanvas.setHeight(height);
-    fCanvas.setWidth(width);
-    workbenchGlobal.unsetItem();
-    workbenchGlobal.initiate();
+    let workArea = document.getElementById('workarea');
+    if (workArea!==null) {
+        let width = document.getElementById('workarea').clientWidth * 0.78;
+        let height = document.getElementById('workarea').clientHeight;
+        fCanvas.setHeight(height);
+        fCanvas.setWidth(width);
+        workbenchGlobal.unsetItem();
+        workbenchGlobal.initiate();
+    }
 
 }
 
