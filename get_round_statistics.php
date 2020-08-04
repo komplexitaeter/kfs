@@ -163,7 +163,7 @@ if ($round_kpi->last_minute != null) {
             where i.round_id = $round_id
               and i.end_time_s is not null
               and i.current_station_id is null
-              and i.end_time_s > $min*60
+              and i.end_time_s >= $min*60
               and i.end_time_s < ($min+1)*60";
         if ($result = $link->query($sql)) {
             if ($obj = $result->fetch_object()) {
