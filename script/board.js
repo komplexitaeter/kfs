@@ -185,8 +185,18 @@ deleteOutdatedItemsOnWorkbench("work_in_progress",[workbench.current_item]);
         document.getElementById("push_button").classList.remove("glass_hour");
     }
 
+    /* set the status of the "Finish Item" button */
+    if (workbench.meta_data.push == 'active') {
+        document.getElementById("button_finish_item").classList.add('button_finish_item_on')
+        document.getElementById("button_finish_item").classList.remove('button_finish_item_off')
+    }
+    else {
+        document.getElementById("button_finish_item").classList.remove('button_finish_item_on')
+        document.getElementById("button_finish_item").classList.add('button_finish_item_off')
+    }
 
-    /* set the status of the Push-Pull toggle switch */
+
+        /* set the status of the Push-Pull toggle switch */
     let auto_pull = document.getElementById('auto_pull');
     if (current_round.auto_pull == 1 && auto_pull.checked != true) {
         auto_pull.checked = true;
@@ -319,40 +329,38 @@ function createAreaOnWorkbench(area){
 
 function moveItemOnWorkbench(e){
     let url;
-    switch (e.target.name) {
-        case "finish":
-            let item_status = workbenchGlobal.finish();
+    if (e.target.name==='finish' || e.target.name === 'finish_big_button') {
+        let item_status = workbenchGlobal.finish();
 
-            if (item_status[0]=='FAIL') {
-                alert(document.getElementById("alert_fail_workbench").value);
-            }
-            else {
-                let item_svg = item_status[1];
-                url = "./update_workbench.php"
-                    + "?action=" + e.target.name
-                    + "&simulation_id=" + getSimulationId()
-                    + "&session_key=" + getSessionKey();
-
-                let request = new XMLHttpRequest();
-                request.open("POST", url, true);
-                request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                request.addEventListener('load', function (event) {
-                    if (request.status >= 200 && request.status < 300) {
-                        //console.log(request.responseText);
-                    } else {
-                        console.warn(request.statusText, request.responseText);
-                    }
-                });
-                request.send('item_svg=' + item_svg);
-            }
-        break;
-        case "start":
+        if (item_status[0]=='FAIL') {
+            alert(document.getElementById("alert_fail_workbench").value);
+        }
+        else {
+            let item_svg = item_status[1];
             url = "./update_workbench.php"
-                + "?action=" + e.target.name
+                + "?action=finish"
                 + "&simulation_id=" + getSimulationId()
                 + "&session_key=" + getSessionKey();
-            fetch(url);
-        break;
+
+            let request = new XMLHttpRequest();
+            request.open("POST", url, true);
+            request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            request.addEventListener('load', function (event) {
+                if (request.status >= 200 && request.status < 300) {
+                    //console.log(request.responseText);
+                } else {
+                    console.warn(request.statusText, request.responseText);
+                }
+            });
+            request.send('item_svg=' + item_svg);
+        }
+    }
+    else if (e.target.name==='start') {
+        url = "./update_workbench.php"
+            + "?action=start"
+            + "&simulation_id=" + getSimulationId()
+            + "&session_key=" + getSessionKey();
+        fetch(url);
     }
 }
 

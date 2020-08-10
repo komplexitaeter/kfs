@@ -60,6 +60,15 @@
     "de": {
       "text": "Probelauf"
     }
+  },
+  {
+    "id": "button_finish_item",
+    "en": {
+      "text": "I'm done with this ship"
+    },
+    "de": {
+      "text": "Ich bin fertig mit diesem Schiff"
+    }
   }
 ]
 

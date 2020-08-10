@@ -868,3 +868,28 @@ body{
 #brand img {
     width: 100%;
 }
+
+#button_finish_item {
+    position: absolute;
+    bottom: 62%;
+    left: 40%;
+    width: 20%;
+    z-index: 2;
+    ouline:none;
+    box-shadow: 1px 3px 3px #888888;
+    font-family: Komplexitater;
+    font-size: large;
+    border:none;
+    background-color: transparent;
+    background-image: url("./src/border_blue.png");
+    background-size: 100% 100%;
+    cursor: pointer;
+}
+
+.button_finish_item_on {
+    visibility: visible;
+}
+
+.button_finish_item_off {
+    visibility: hidden;
+}

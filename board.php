@@ -60,6 +60,9 @@ function get_board_obj($simulation_id, $session_key, $add_stats, $execution_time
                AND session_key='$session_key'";
     $link->query($sql);
 
+    /* check if we have to start a new working item */
+    update_workbench($link, $simulation_id, $session_key, 'start');
+
 
     /* query all simulations attendees */
     $sql = "SELECT tbl.attendee_id

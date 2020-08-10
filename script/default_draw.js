@@ -83,7 +83,6 @@ class DefaultDrawWorkbench extends Workbench {
 
     start() {
         super.start();
-
         let that = this;
         fabric.loadSVGFromURL('./get_item_svg.php?item_id='+this.itemId, function (objects, options) {
 

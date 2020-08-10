@@ -28,7 +28,8 @@ class Workbench {
     }
 
     setCurrentItem(item_id){
-        if(this.itemId != item_id){
+        if(this.itemId !== item_id){
+            this.initiate();
             this.itemId = item_id;
             this.start();
         }
