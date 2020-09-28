@@ -4,6 +4,7 @@ class Workbench {
 
     constructor() {
     }
+
     setContext(implParam, stationId) {
 
         this.stationId = stationId;
@@ -16,7 +17,6 @@ class Workbench {
         }
 
         this.initiate();
-        fCanvas.clear();
 
     }
     getStationId() {

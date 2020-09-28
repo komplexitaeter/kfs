@@ -871,17 +871,16 @@ body{
 
 #button_finish_item {
     position: absolute;
-    bottom: 62%;
-    left: 40%;
-    width: 20%;
+    bottom: 61%;
+    left: 63%;
+    width: 10%;
     z-index: 2;
     ouline:none;
-    box-shadow: 1px 3px 3px #888888;
     font-family: Komplexitater;
     font-size: large;
     border:none;
     background-color: transparent;
-    background-image: url("./src/border_blue.png");
+    background-image: url("./src/border_round_green_large.png");
     background-size: 100% 100%;
     cursor: pointer;
 }

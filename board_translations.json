@@ -64,10 +64,10 @@
   {
     "id": "button_finish_item",
     "en": {
-      "text": "I'm done with this ship"
+      "text": "I'm done"
     },
     "de": {
-      "text": "Ich bin fertig mit diesem Schiff"
+      "text": "Bin fertig"
     }
   }
 ]

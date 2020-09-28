@@ -56,7 +56,7 @@ class DefaultDrawWorkbench extends Workbench {
             if (that.paths!=null) {
                 fCanvas.remove(that.paths);
                 that.paths=null;
-                fCanvas.clear();
+                fCanvas.renderAll();
             }
 
             that.paths = fabric.util.groupSVGElements(objects, options);

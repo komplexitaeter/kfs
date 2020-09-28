@@ -144,6 +144,7 @@ deleteOutdatedItemsOnWorkbench("work_in_progress",[workbench.current_item]);
             ,workbench.meta_data.params_json
             ,workbench.meta_data.station_id);
         sendSVGForThumbnail(simulation_id, workbench.meta_data.station_id);
+
         if(workbench.current_item != null){
             workbenchGlobal.setCurrentItem(workbench.current_item.item_id);
         }
@@ -733,6 +734,9 @@ function createAttendeeDiv(obj, session_key){
 function updateAttendeeStation(session_key, station_id, simulation_id){
     if(parseInt(station_id)||station_id == 'observers') {
         if(station_id == 'observers'){station_id="";}
+
+        workbenchGlobal = null;
+
         const url = './update_attendee.php?simulation_id=' + simulation_id + '&session_key=' + session_key + '&station_id=' + station_id;
         fetch(url);
         // .then((response) => {
