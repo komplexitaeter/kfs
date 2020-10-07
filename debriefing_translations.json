@@ -73,10 +73,10 @@
   {
     "id": "title_pull",
     "en": {
-      "hidden": "pull|limit 1"
+      "hidden": "Limit 1"
     },
     "de": {
-      "hidden": "Pull|Limit 1"
+      "hidden": "Limit 1"
     }
   },
   {
