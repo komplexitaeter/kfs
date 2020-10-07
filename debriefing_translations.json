@@ -64,10 +64,10 @@
   {
     "id": "title_push",
     "en": {
-      "hidden": "push|unlimited"
+      "hidden": "Unlimited"
     },
     "de": {
-      "hidden": "Push|Unlimitiert"
+      "hidden": "Unlimitiert"
     }
   },
   {
