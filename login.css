@@ -18,7 +18,7 @@ h1 {
 
 #logo {
     width: 20%;
-    margin-top: 5%;
+    margin-top: 3%;
 }
 
 input {
@@ -51,18 +51,34 @@ input {
 #submit_btn:hover {
     border-color: #eee;
     background-color: #eee;
-    width: 10%;
+    width: 18%;
+    cursor: pointer;
 }
 
+.ref {
+    margin-top: 1%;
+    margin-bottom: 5%;
+}
+
+.ref a{
+    text-decoration: none;
+    color: #2ea3f2;
+    cursor: pointer;
+}
+
+.ref a:hover{
+    text-decoration: underline;
+    color: #2ea3f2;
+}
 
 #footer {
-    position: absolute;
+    position: fixed;
     left: 0;
     right: 0;
     bottom: 0;
     background-color: #656565;
-    padding-top: 1%;
-    padding-bottom: 1%;
+    padding-top: 0.6%;
+    padding-bottom: 0.6%;
 }
 
 #footer a {
@@ -71,6 +87,13 @@ input {
     font-weight: 600;
     padding: 0;
     margin: 0.5em;
+    vertical-align: middle;
+}
+
+#footer img {
+    margin-left: 0.5em;
+    vertical-align: middle;
+    cursor: pointer;
 }
 
 .hidden {
