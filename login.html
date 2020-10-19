@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Komplexitäter - Login</title>
+    <link rel="stylesheet" type="text/css" href="./login.css">
+</head>
+<body>
+<a href="https://www.komplexitaeter.de/en/"><img id="logo" src="src/logo_big-7.png" alt="Komplexitäter" /></a>
+<h1 id="msg_login">Melde dich bei den Komplexitätern an</h1>
+<h1 id="msg_register" class="hidden">Kostenlos ein neues Konto bei den Komplexitätern erstellen</h1>
+<h1 id="msg_request_rest" class="hidden">Mein Passwort zurücksetzen</h1>
+
+
+
+<input id="user" type="email" autocomplete="username" placeholder="E-Mail" />
+
+<input id="password" type="password" autocomplete="current-password" placeholder="Passwort" />
+<input id="new-password" class="hidden" type="password" autocomplete="new-password" placeholder="Neues Passwort" />
+<input id="confirm-password" class="hidden" type="password" autocomplete="new-password" placeholder="Passwort wiederholen" />
+
+<input type="submit" id="submit_btn" name="Login" onclick="document.location='./test'" />
+
+
+<div id="footer">
+    <a href="">Impressum</a>
+    <a href="">Datenschutz</a>
+</div>
+</body>
+</html>
