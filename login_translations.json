@@ -1,0 +1,236 @@
+[
+  {
+    "id": "home_link",
+    "en": {
+      "href": "https://www.komplexitaeter.de/en/"
+    },
+    "de": {
+      "href": "https://www.komplexitaeter.de/"
+    }
+  },
+  {
+    "id": "msg_login",
+    "en": {
+      "text": "Open our remote toolbox:"
+    },
+    "de": {
+      "text": "Unsere Remote-Werkzeugkiste öffnen:"
+    }
+  },
+  {
+    "id": "msg_register",
+    "en": {
+      "text": "Create a new account for free:"
+    },
+    "de": {
+      "text": "Kostenlos ein neues Konto erstellen:"
+    }
+  },
+  {
+    "id": "msg_request_reset",
+    "en": {
+      "text": "Reset my password:"
+    },
+    "de": {
+      "text": "Mein Passwort zurücksetzen:"
+    }
+  },
+  {
+    "id": "msg_reset",
+    "en": {
+      "text": "Enter a new password:"
+    },
+    "de": {
+      "text": "Neues Passwort eingeben:"
+    }
+  },
+  {
+    "id": "user",
+    "en": {
+      "placeholder": "Email"
+    },
+    "de": {
+      "placeholder": "E-Mail"
+    }
+  },
+  {
+    "id": "password",
+    "en": {
+      "placeholder": "Password"
+    },
+    "de": {
+      "placeholder": "Passwort"
+    }
+  },
+  {
+    "id": "new_password",
+    "en": {
+      "placeholder": "New password"
+    },
+    "de": {
+      "placeholder": "Neues Passwort"
+    }
+  },
+  {
+    "id": "confirm_password",
+    "en": {
+      "placeholder": "Confirm password"
+    },
+    "de": {
+      "placeholder": "Passwort bestätigen"
+    }
+  },
+  {
+    "id": "submit_btn",
+    "en": {
+      "value": "Send"
+    },
+    "de": {
+      "value": "Senden"
+    }
+  },
+  {
+    "id": "lost_pwd_link",
+    "en": {
+      "text": "Forgot password?"
+    },
+    "de": {
+      "text": "Passwort vergessen?"
+    }
+  },
+  {
+    "id": "register_link",
+    "en": {
+      "text": "Sign up for free"
+    },
+    "de": {
+      "text": "Kostenlos registrieren"
+    }
+  },
+  {
+  "id": "sign_on_link",
+  "en": {
+    "text": "To user sign-on"
+  },
+  "de": {
+    "text": "Zur Benutzeranmeldung"
+  }
+},
+  {
+    "id": "imprint_link",
+    "en": {
+      "text": "Imprint"
+    },
+    "de": {
+      "text": "Impressum"
+    }
+  },
+  {
+    "id": "imprint_link",
+    "en": {
+      "href": "https://www.komplexitaeter.de/en/imprint/"
+    },
+    "de": {
+      "href": "https://www.komplexitaeter.de/impressum/"
+    }
+  },
+  {
+    "id": "privacy_policy_link",
+    "en": {
+      "text": "Privacy Policy"
+    },
+    "de": {
+      "text": "Datenschutz"
+    }
+  },
+  {
+    "id": "privacy_policy_link",
+    "en": {
+      "href": "https://www.komplexitaeter.de/en/privacy-policy/"
+    },
+    "de": {
+      "href": "https://www.komplexitaeter.de/datenschutz/"
+    }
+  },
+  {
+    "id": "privacy_policy_link",
+    "en": {
+      "href": "https://www.komplexitaeter.de/en/privacy-policy/"
+    },
+    "de": {
+      "href": "https://www.komplexitaeter.de/datenschutz/"
+    }
+  },
+  {
+    "id": "language_toggle",
+    "en": {
+      "src": "src/flag_de.png"
+    },
+    "de": {
+      "src": "src/flag_en.png"
+    }
+  },
+  {
+    "id": "hint_user_empty",
+    "en": {
+      "text": "Please provide your e-mail address in the field below"
+    },
+    "de": {
+      "text": "Bitte das Feld E-Mail-Adresse ausfüllen"
+    }
+  },
+  {
+    "id": "hint_user_invalid_mail",
+    "en": {
+      "text": "The username must be a valid e-mail address"
+    },
+    "de": {
+      "text": "Der Benutzername muss eine gültige E-Mail-Adresse sein"
+    }
+  },
+  {
+    "id": "hint_password_empty",
+    "en": {
+      "text": "Please provide a password in the field below"
+    },
+    "de": {
+      "text": "Bitte das Feld Passwort ausfüllen"
+    }
+  },
+  {
+    "id": "hint_password_policy",
+    "en": {
+      "text": "The password must be at least 8 characters long and should also contain special characters and capital letters"
+    },
+    "de": {
+      "text": "Das Passwort muss mindestens 8 Zeichen lang sein und sollte auch Sonderzeichen und Großbuchstaben enthalten"
+    }
+  },
+  {
+    "id": "hint_confirm_password_empty",
+    "en": {
+      "text": "To avoid mistyping please enter the password twice"
+    },
+    "de": {
+      "text": "Um Tippfehler zu vermeiden das Passwort bitte 2x eingeben"
+    }
+  },
+  {
+    "id": "hint_confirm_password_mismatch",
+    "en": {
+      "text": "The two password entries do not match"
+    },
+    "de": {
+      "text": "Die beiden Passworteingaben stimmen nicht überein"
+    }
+  },
+  {
+    "id": "hint_reset_init",
+    "en": {
+      "text": "A link for resetting your password has been sent to the provided e-mail address"
+    },
+    "de": {
+      "text": "Ein Link zum Zurücksetzen des Passwortes wurde an die angegebene E-Mail-Adresse gesendet"
+    }
+  }
+]

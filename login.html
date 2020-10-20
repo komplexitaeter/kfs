@@ -3,31 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <title>Komplexitäter - Login</title>
+    <script src="./script/login.js"></script>
+    <script src="./script/flow.js"></script>
+    <script src="./script/translate.js"></script>
     <link rel="stylesheet" type="text/css" href="./login.css">
 </head>
-<body>
-<a href="https://www.komplexitaeter.de/en/"><img id="logo" src="src/logo_big-7.png" alt="Komplexitäter" /></a>
-<h1 id="msg_login">Melde dich bei den Komplexitätern an</h1>
-<h1 id="msg_register" class="hidden">Kostenlos ein neues Konto bei den Komplexitätern erstellen</h1>
-<h1 id="msg_request_rest" class="hidden">Mein Passwort zurücksetzen</h1>
+<body onload="loadLogin()">
+<a id="home_link" href="https://www.komplexitaeter.de/en/"><img id="logo" src="src/logo_big-7.png" alt="Komplexitäter" /></a>
+<h1 id="msg_login" class="hidden">Unsere Remote-Werkzeugkiste öffnen:</h1>
+<h1 id="msg_register" class="hidden">Kostenlos ein neues Konto erstellen:</h1>
+<h1 id="msg_request_reset" class="hidden">Mein Passwort zurücksetzen:</h1>
+<h1 id="msg_reset" class="hidden">Neues Passwort eingeben:</h1>
 
 
+<form onsubmit="event.preventDefault(); sendClicked();">
+<input id="user" class="hidden" type="email" autocomplete="username" placeholder="E-Mail" />
 
-<input id="user" type="email" autocomplete="username" placeholder="E-Mail" />
+<input id="password" class="hidden" type="password" autocomplete="current-password" placeholder="Passwort" />
+<input id="new_password" class="hidden" type="password" autocomplete="new-password" placeholder="Neues Passwort" />
+<input id="confirm_password" class="hidden" type="password" autocomplete="new-password" placeholder="Passwort wiederholen" />
 
-<input id="password" type="password" autocomplete="current-password" placeholder="Passwort" />
-<input id="new-password" class="hidden" type="password" autocomplete="new-password" placeholder="Neues Passwort" />
-<input id="confirm-password" class="hidden" type="password" autocomplete="new-password" placeholder="Passwort wiederholen" />
+<input type="submit" id="submit_btn" class="submit_btn_active" />
+</form>
 
-<input type="submit" id="submit_btn" name="Login" onclick="document.location='./test'" />
+<div id="ref_login" class="ref hidden"><a id="lost_pwd_link" onclick="changeMode('LOST_PWD')">Passwort vergessen?</a> · <a id="register_link" onclick="changeMode('REGISTER')">Kostenlos registrieren</a></div>
+<div id="ref_back_sign_on" class="ref hidden"><a id="sign_on_link" onclick="changeMode('SIGN_ON')">Zur Benutzeranmeldung</a></div>
 
-<div id="ref_login" class="ref"><a onclick="">Passwort vergessen?</a> · <a onclick="">Kostenlos registrieren</a></div>
-
+<div class="hints">
+    <div id="hint_user_empty" class="hint warning hidden"></div>
+    <div id="hint_user_invalid_mail" class="hint warning hidden"></div>
+    <div id="hint_password_empty" class="hint warning hidden"></div>
+    <div id="hint_password_policy" class="hint warning hidden"></div>
+    <div id="hint_confirm_password_empty" class="hint warning hidden"></div>
+    <div id="hint_confirm_password_mismatch" class="hint warning hidden"></div>
+    <div id="hint_reset_init" class="hint hidden"></div>
+</div>
 
 <div id="footer">
-    <a href="">Impressum</a>
-    <a href="">Datenschutz</a>
-    <img src="src/flag_en.png" onclick="" />
+    <a id="imprint_link" href="">Impressum</a>
+    <a id="privacy_policy_link" href="">Datenschutz</a>
+    <img id="language_toggle" src="" onclick="toggleLanguage()" alt="toggle language" />
 </div>
 </body>
 </html>

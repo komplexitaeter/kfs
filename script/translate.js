@@ -31,6 +31,12 @@ function translateElements(file_prefix, language_code){
                     if(def[language_code].value) {
                         element.value = def[language_code].value;
                     }
+                    if(def[language_code].href) {
+                        element.href = def[language_code].href;
+                    }
+                    if(def[language_code].src) {
+                        element.src = def[language_code].src;
+                    }
                 }
                 else{
                     console.log(def.id);

@@ -39,25 +39,47 @@ input {
     font-weight: 500;
     padding: .3em 1em;
     line-height: 1.7em!important;
-    background-color: transparent;
     background-position: 50%;
-    border: 2px solid #2ea3f2;
     border-radius: 26px;
     color: #2ea3f2;
-    width: 32%;
     transition: width 0.8s;
 }
 
-#submit_btn:hover {
-    border-color: #eee;
+.submit_btn_active {
+    border: 2px solid #2ea3f2;
+    background-color: transparent;
+    width: 32%;
+    cursor: pointer;
+}
+
+.submit_btn_active:hover {
+    border: 2px solid #eee;
     background-color: #eee;
     width: 18%;
     cursor: pointer;
 }
 
+.submit_btn_waiting {
+    border: 2px solid #eee;
+    background-color: #eee;
+    width: 18%;
+    cursor: default;
+    animation-name: waiting;
+    animation-duration: 2s;
+    animation-delay: 0s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes waiting {
+    0%    {width: 18%;}
+    50%   {width: 10%;}
+    100%   {width: 18%;}
+}
+
+
 .ref {
     margin-top: 1%;
-    margin-bottom: 5%;
+    margin-bottom: 1%;
 }
 
 .ref a{
@@ -69,6 +91,15 @@ input {
 .ref a:hover{
     text-decoration: underline;
     color: #2ea3f2;
+}
+
+.hints {
+    margin-top: 1%;
+    margin-bottom: 4%;
+}
+
+.warning {
+    color: mediumvioletred;
 }
 
 #footer {
