@@ -5,9 +5,23 @@
     <script src="./script/base.js"></script>
     <script src="./script/flow.js"></script>
     <script src="./script/login.js"></script>
+    <link rel="stylesheet" type="text/css" href="./index.css">
     <title>Komplexitäter - Toolbox</title>
 </head>
 <body onload="loadBase()">
+
 <input type="submit" value="Logout" onclick="logoutBtnClick()" />
+
+<div id="create_simulation" class="display_block">
+    <button type="button" value="" onclick="createSimulation()">Simulation organisieren</button>
+</div>
+
+<div class="display_block">
+    <label for="en">EN</label>
+    <input type="radio" id="en" name="language_code" value="en" checked>
+    <input type="radio" id="de" name="language_code" value="de">
+    <label for="de">DE</label>
+</div>
+
 </body>
 </html>
