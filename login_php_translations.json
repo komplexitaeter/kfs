@@ -1,0 +1,20 @@
+[
+  {
+    "id": "pwd_reset_mail_subject",
+    "en": {
+      "text": "Reset password - komplexitaeter.de"
+    },
+    "de": {
+      "text": "Passwort zurücksetzen - komplexitaeter.de"
+    }
+  },
+  {
+    "id": "pwd_reset_mail_text",
+    "en": {
+      "text": "To reset the password, please use the following link: "
+    },
+    "de": {
+      "text": "Um das Passwort zurückzusetzen, bitte folgenden Link aufrufen: "
+    }
+  }
+]

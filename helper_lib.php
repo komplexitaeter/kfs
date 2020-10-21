@@ -34,6 +34,15 @@ function translate_tl($language_code, $tl) {
     return trim(json_encode(json_decode($tl, true)[$language_code], JSON_UNESCAPED_UNICODE), '"');
 }
 
+function get_translation($context, $id, $language_code) {
+    $json = json_decode(file_get_contents('./'.$context.'_translations.json'), true);
+    for ($i=0;$i<count($json);$i++) {
+        if ($json[$i]["id"]===$id) {
+            return $json[$i][$language_code]["text"];
+        }
+    }
+}
+
 function get_create_items_sql($round_id, $offset, $count ) {
     //$sids = array('null','null','null','123321','124421','125521','126621','127721','128821','129921','131131');
     $sids = array('null');

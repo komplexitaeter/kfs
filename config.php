@@ -8,3 +8,10 @@ define('_MYSQL_USER', 'root');
 define('_MYSQL_PWD', 'root');
 define('_MYSQL_DB', 'kfs_local');
 define('_MYSQL_PORT', 3306);
+
+define('_PEPPER', 'wE3vG6e4klHg6rE3245swW');
+define('_PWD_RESET_URL', 'http://localhost:8888/kfs_local/login.html?mode=RESET_PWD&token=');
+
+define('_MAIL_REPLY_TO', 'hallo@komplexitaeter.de');
+
+

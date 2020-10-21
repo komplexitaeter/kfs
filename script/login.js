@@ -1,10 +1,10 @@
-const gConsTargetURL = "./target.html"
+const gConsTargetURL = "./base.html"
 let gLanguageCode = "de";
 let gModeCode = "SIGN_ON";
 
 function loadLogin() {
     /* check if already logged on */
-    checkLogonStatus();
+    checkLogonStatus(gConsTargetURL, true);
 
     let languageCode = getURLParam("language");
     if (   languageCode === "en"
@@ -23,15 +23,15 @@ function loadLogin() {
     setMode();
 }
 
-function checkLogonStatus() {
+function checkLogonStatus(targetUrl, isLogon) {
     const url = "./login.php?session_key="+getSessionKey();
     fetch(url)
         .then(response => response.json())
         .then(myJson => {
             // noinspection JSUnresolvedVariable
-            if (myJson.signed_on === 1) {
+            if ((myJson.signed_on === 1) === isLogon ) {
                 /* logon for session_key found, so switch to target */
-                location.href = gConsTargetURL;
+                location.href = targetUrl;
             }
         } );
 }
@@ -107,8 +107,8 @@ function setMode() {
         document.getElementById("password").classList.add("hidden");
         document.getElementById("new_password").classList.remove("hidden");
         document.getElementById("confirm_password").classList.remove("hidden");
+        document.getElementById("ref_back_sign_on").classList.remove("hidden");
         document.getElementById("ref_login").classList.add("hidden");
-        document.getElementById("ref_back_sign_on").classList.add("hidden");
         document.getElementById("new_password").focus();
     }
 }
@@ -157,11 +157,12 @@ function submitFormData() {
     httpRequest.open("POST", url, true);
     httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     httpRequest.send(
-        "mode="+gModeCode
-        +"&user="+document.getElementById("user").value
-        +"&password="+ document.getElementById("password").value
-        +"&new_password="+ document.getElementById("new_password").value
-        +"&confirm_password="+ document.getElementById("confirm_password").value
+        "mode=" + gModeCode
+        +"&user=" + document.getElementById("user").value
+        +"&password=" + document.getElementById("password").value
+        +"&new_password=" + document.getElementById("new_password").value
+        +"&token=" + getURLParam("token")
+        +"&language_code=" + gLanguageCode
     );
 }
 
@@ -172,6 +173,12 @@ function handleHttpResponse(readyState, status, responseText) {
                 let responseJSON = JSON.parse(responseText);
 
                 if (responseJSON.signed_on === 1) {
+                    /* reset the button to active */
+                    let submitBtn = document.getElementById("submit_btn");
+                    submitBtn.classList.remove("submit_btn_waiting");
+                    submitBtn.classList.add("submit_btn_active");
+
+                    /* refer to target location */
                     location.href = gConsTargetURL;
                 } else if (!responseJSON.hasOwnProperty("error_code")
                         || responseJSON.error_code === null

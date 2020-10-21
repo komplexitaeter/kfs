@@ -234,6 +234,33 @@
     }
   },
   {
+    "id": "hint_user_exists",
+    "en": {
+      "text": "This account already exists"
+    },
+    "de": {
+      "text": "Dieses Benutzerkonto existiert bereits"
+    }
+  },
+  {
+    "id": "hint_invalid_logon",
+    "en": {
+      "text": "Invalid login data"
+    },
+    "de": {
+      "text": "Die Anmeldedaten sind nicht gültig"
+    }
+  },
+  {
+    "id": "hint_invalid_token",
+    "en": {
+      "text": "The link to reset the password is no longer valid"
+    },
+    "de": {
+      "text": "Der Link zum Zurücksetzen des Passwortes ist nicht mehr gültig"
+    }
+  },
+  {
     "id": "hint_reset_init",
     "en": {
       "text": "A link for resetting your password has been sent to the provided e-mail address"
