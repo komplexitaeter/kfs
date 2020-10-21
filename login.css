@@ -43,6 +43,7 @@ input {
     border-radius: 26px;
     color: #2ea3f2;
     transition: width 0.8s;
+    outline: none;
 }
 
 .submit_btn_active {
@@ -57,6 +58,7 @@ input {
     background-color: #eee;
     width: 18%;
     cursor: pointer;
+    outline: none;
 }
 
 .submit_btn_waiting {
