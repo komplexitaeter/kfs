@@ -7,5 +7,5 @@ function loadBase() {
 function logoutBtnClick() {
     let url = "./login.php?session_key="+getSessionKey()+"&logout";
     fetch(url).then();
-    loadBase();
+    location.href = gConsLoginUrl;
 }
