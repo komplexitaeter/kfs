@@ -28,6 +28,7 @@ function checkLogonStatus() {
     fetch(url)
         .then(response => response.json())
         .then(myJson => {
+            // noinspection JSUnresolvedVariable
             if (myJson.signed_on === 1) {
                 /* logon for session_key found, so switch to target */
                 location.href = gConsTargetURL;
@@ -120,6 +121,7 @@ function changeMode(modeCode) {
 
 function sendClicked() {
     let submitBtn = document.getElementById("submit_btn");
+    let resetSubmitBtn = true;
 
     /* reset all hints */
     resetHints();
@@ -129,48 +131,82 @@ function sendClicked() {
     submitBtn.classList.add("submit_btn_waiting");
 
     if (validateFormData()) {
-        if (submitFormData()) {
-            if (gModeCode !== "LOST_PWD" ) {
-                location.href = gConsTargetURL;
-            }
-            else {
-                document.getElementById("user").disabled = true;
-                document.getElementById("submit_btn").classList.add("hidden");
-                document.getElementById("ref_back_sign_on").classList.add("hidden");
-                document.getElementById("hint_reset_init").classList.remove("hidden");
-            }
-        }
+        /* asynchronous handling of http request has to care about */
+        resetSubmitBtn = false;
+        submitFormData();
     }
 
     /* set back to active */
-    submitBtn.classList.remove("submit_btn_waiting");
-    submitBtn.classList.add("submit_btn_active");
+    if (resetSubmitBtn) {
+        submitBtn.classList.remove("submit_btn_waiting");
+        submitBtn.classList.add("submit_btn_active");
+    }
 }
 
 function validateFormData() {
     if (!validateUser()) return false;
     if (!validatePassword()) return false;
-    if (!validateNewPassword()) return false;
-    return true;
+    return validateNewPassword();
 }
 
 function submitFormData() {
-    /*
+    const url = "./login.php?session_key="+getSessionKey();
+    let httpRequest = new XMLHttpRequest();
 
-     var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-      document.getElementById("demo").innerHTML =
-      this.responseText;
+    httpRequest.onreadystatechange = function() {handleHttpResponse(this.readyState, this.status, this.responseText)};
+    httpRequest.open("POST", url, true);
+    httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    httpRequest.send(
+        "mode="+gModeCode
+        +"&user="+document.getElementById("user").value
+        +"&password="+ document.getElementById("password").value
+        +"&new_password="+ document.getElementById("new_password").value
+        +"&confirm_password="+ document.getElementById("confirm_password").value
+    );
+}
+
+function handleHttpResponse(readyState, status, responseText) {
+    if (readyState === 4) {
+        if (status === 200) {
+            try {
+                let responseJSON = JSON.parse(responseText);
+
+                if (responseJSON.signed_on === 1) {
+                    location.href = gConsTargetURL;
+                } else if (!responseJSON.hasOwnProperty("error_code")
+                        || responseJSON.error_code === null
+                        || responseJSON.error_code.length === 0) {
+                    handleHttpError("hint_http_error", "Exception: responseJSON.error_code missing");
+                } else if (responseJSON.error_code === "reset_init") {
+                    document.getElementById("user").disabled = true;
+                    document.getElementById("submit_btn").classList.add("hidden");
+                    document.getElementById("ref_back_sign_on").classList.add("hidden");
+                    document.getElementById("hint_reset_init").classList.remove("hidden");
+                } else {
+                    handleHttpError(responseJSON.error_code, null)
+                }
+            }
+            catch (e) {
+                handleHttpError("hint_http_error", e);
+            }
+        } else {
+            handleHttpError("hint_http_error", "HTTP Error Status="+status);
+        }
     }
-  };
-xhttp.open("POST", "ajax_test.asp", true);
-xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-xhttp.send("fname=Henry&lname=Ford");
+}
 
+function handleHttpError(hint, error) {
+    if (error !== null) {
+        console.log('handleHttpError: ' + error);
+    }
 
-     */
-    return true;
+    /* reset the button to active */
+    let submitBtn = document.getElementById("submit_btn");
+    submitBtn.classList.remove("submit_btn_waiting");
+    submitBtn.classList.add("submit_btn_active");
+
+    /* show an error hint*/
+    document.getElementById(hint).classList.remove("hidden");
 }
 
 function resetHints() {

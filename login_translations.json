@@ -225,6 +225,15 @@
     }
   },
   {
+    "id": "hint_http_error",
+    "en": {
+      "text": "An error occurred during data transmission"
+    },
+    "de": {
+      "text": "Bei der Übertragung der Daten ist ein Fehler aufgetreten"
+    }
+  },
+  {
     "id": "hint_reset_init",
     "en": {
       "text": "A link for resetting your password has been sent to the provided e-mail address"
