@@ -83,7 +83,7 @@ function update_workbench($link,
                       from kfs_items_tbl
                      where round_id = $meta_data->current_round_id
                        and current_station_id = $meta_data->next_station_id
-                       and is_in_progress = 0";
+                       and is_in_progress = false";
             $result = $link->query($sql);
             $obj = $result->fetch_object();
             //error_log($sql);
