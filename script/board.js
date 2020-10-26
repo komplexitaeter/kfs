@@ -898,7 +898,6 @@ function resizeCanvas(){
         fCanvas.setHeight(height);
         fCanvas.setWidth(width);
         workbenchGlobal.unsetItem();
-        workbenchGlobal.initiate();
     }
 
 }

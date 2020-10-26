@@ -152,6 +152,7 @@ function update_workbench($link,
 
     /* want to stop the current work item */
     if ($action == 'finish') {
+
         /* check if attendee has a unfinished item in his station */
         if ($meta_data->current_work_item_id == null) return 'NO_WORK_IN_PROGRESS';
 

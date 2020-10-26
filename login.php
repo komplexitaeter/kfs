@@ -157,11 +157,8 @@ function get_set_token($link, $email_address) {
 function send_pwd_reset_mail($email_address, $token, $language_code) {
     $subject = get_translation("login_php", "pwd_reset_mail_subject", $language_code);
 
-    error_log($subject);
-
     $link = _PWD_RESET_URL.$token;
     $msg = get_translation("login_php", "pwd_reset_mail_text", $language_code).' '.$link;
-    error_log($msg);
 
     $header = array(
         'From' => _MAIL_REPLY_TO,

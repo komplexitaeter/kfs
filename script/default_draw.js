@@ -28,7 +28,8 @@ class DefaultDrawWorkbench extends Workbench {
     }
 
     initiate(){
-        super.initiate();
+        /* erase Canvas */
+        fCanvas.clear();
 
         var that = this;
         fCanvas.isDrawingMode = true;
@@ -56,7 +57,6 @@ class DefaultDrawWorkbench extends Workbench {
             if (that.paths!=null) {
                 fCanvas.remove(that.paths);
                 that.paths=null;
-                fCanvas.renderAll();
             }
 
             that.paths = fabric.util.groupSVGElements(objects, options);
@@ -82,7 +82,6 @@ class DefaultDrawWorkbench extends Workbench {
     }
 
     start() {
-        super.start();
         let that = this;
         fabric.loadSVGFromURL('./get_item_svg.php?item_id='+this.itemId, function (objects, options) {
 
@@ -146,13 +145,11 @@ class DefaultDrawWorkbench extends Workbench {
             return ['FAIL','No work has been done!'];
         }
         else {
-            super.finish();
-            fCanvas.getObjects().length;
             let svg_code;
             fCanvas.remove(this.paths);
             svg_code = fCanvas.toSVG();
-            fCanvas.clear();
             fCanvas.add(this.paths);
+            fCanvas.renderAll();
             return ['SUCCESS', svg_code];
         }
     }

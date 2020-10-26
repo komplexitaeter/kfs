@@ -23,10 +23,6 @@ class Workbench {
         return this.stationId;
     }
 
-    getItemId(){
-        return this.itemId;
-    }
-
     setCurrentItem(item_id){
         if(this.itemId !== item_id){
             this.initiate();
@@ -93,18 +89,15 @@ class Workbench {
 
     unsetItem(){
         if(this.itemId != null){
-            this.initiate();
             this.itemId = null;
+            this.initiate();
         }
     }
 
     initiate(){
-        /* erase Canvas */
-        fCanvas.clear();
     }
 
     finish(){
-        this.itemId = null;
     }
 
     start(){
