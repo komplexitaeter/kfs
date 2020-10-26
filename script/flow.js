@@ -1,3 +1,4 @@
+let firstLoad = true;
 
 function getSessionKey(){
     var session_key = localStorage.getItem('SESSION_KEY');
@@ -152,6 +153,11 @@ function updateDom(myJson){
             //alert("Undefined status_code - this is an error. Sorry.");
     }
 
+    if (firstLoad) {
+        firstLoad = false;
+        document.getElementById('current_attendee_name').focus();
+    }
+
 }
 
 
@@ -230,7 +236,6 @@ function loadCheckIn() {
 
     initializeCursor(getSimulationId(), getSessionKey());
     document.getElementById('link').value = window.location.href;
-    document.getElementById('current_attendee_name').focus();
 }
 
 function checkBrowser() {
