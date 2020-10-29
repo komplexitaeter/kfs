@@ -1,17 +1,19 @@
 <?php
 
+function do_exit($str) {
+    error_log($str);
+    exit($str);
+}
+
 function update_workbench($link,
                           $simulation_id,
                           $session_key,
                           $action,
-                          $item_svg = null,
-                          $svg_hash =  null,
-                          $thumbnail_svg = null)
+                          $item_svg = null)
 {
-
     /* do some checks on the input params */
     if ($simulation_id == null) return 'NO_SIMULATION_ID_SET';
-    if (!in_array($action, array('start', 'finish', 'thumbnail_update'))) return 'NO_VALID_ACTION_SET';
+    if (!in_array($action, array('start', 'finish'))) return 'NO_VALID_ACTION_SET';
     if ($session_key == null) return 'NO_SESSION_KEY_SET';
 
     /* based on the input params query some meta data */
@@ -43,7 +45,7 @@ function update_workbench($link,
         ,(select count(1) 
            from kfs_workbench_tbl kwb
           where kwb.simulation_id = sim.simulation_id
-            and kwb.station_id = kat.station_id) as thumbnail_cnt
+            and kwb.station_id = kat.station_id) as workbench_cnt
         ,krt.auto_pull
      from kfs_simulation_tbl sim
      join kfs_attendees_tbl kat on kat.simulation_id = sim.simulation_id
@@ -64,11 +66,9 @@ function update_workbench($link,
 
     /* do some more checks based on the meta data */
     if ($meta_data->station_id == null) return 'ATTENDEE_IS_OBSERVER';
-    if ($action != 'thumbnail_update') {
-        if ($meta_data->current_round_id == null) return 'NO_CURRENT_ROUND';
-        if (!($meta_data->last_start_time != null && $meta_data->last_stop_time == null))
-            return 'CURRENT_ROUND_NOT_STARTED';
-    }
+    if ($meta_data->current_round_id == null) return 'NO_CURRENT_ROUND';
+    if (!($meta_data->last_start_time != null && $meta_data->last_stop_time == null))
+        return 'CURRENT_ROUND_NOT_STARTED';
 
     /* want to start the next work item */
     if ($action == 'start') {
@@ -134,7 +134,7 @@ function update_workbench($link,
         }
 
         /* do the dml */
-        if (!$result = $link->query($sql)) exit('INTERNAL_ERROR_003');
+        if (!$result = $link->query($sql)) do_exit('INTERNAL_ERROR_003: '.$sql);
 
         /* measure the time for each station */
         $sql = "INSERT INTO kfs_work_results_tbl(station_id, item_id, start_time_s) 
@@ -145,7 +145,7 @@ function update_workbench($link,
                               where round.round_id=$meta_data->current_round_id
                          )
                     )";
-        if (!$result = $link->query($sql)) exit('INTERNAL_ERROR_003a');
+        if (!$result = $link->query($sql)) do_exit('INTERNAL_ERROR_003a: '.$sql);
 
     }
 
@@ -178,7 +178,7 @@ function update_workbench($link,
         }
 
         /* do the dml */
-        if (!$result = $link->query($sql)) exit('INTERNAL_ERROR_004');
+        if (!$result = $link->query($sql)) do_exit('INTERNAL_ERROR_004: '.$sql);
 
 
         $sql = "UPDATE kfs_work_results_tbl 
@@ -190,27 +190,24 @@ function update_workbench($link,
              WHERE station_id = $meta_data->station_id
                AND item_id = $meta_data->current_work_item_id";
 
-        if (!$result = $link->query($sql)) exit('INTERNAL_ERROR_004a');
+        if (!$result = $link->query($sql)) do_exit('INTERNAL_ERROR_004a: '.$sql);
 
-    }
-
-    /*  update the thumbnail of current workbench  */
-    if ($action == 'thumbnail_update') {
-
-        if ($svg_hash == null) $svg_hash = 0;
-
-        if ($meta_data->thumbnail_cnt == 0) {
-            $sql = "INSERT INTO kfs_workbench_tbl(simulation_id, station_id, workbench_svg, svg_hash) 
-                     VALUES (" . $simulation_id . "," . $meta_data->station_id . ",'" . $thumbnail_svg . "'," . $svg_hash . ")";
-        } else {
+        if ($meta_data->workbench_cnt > 0) {
             $sql = "UPDATE kfs_workbench_tbl 
-                   SET workbench_svg = '" . $thumbnail_svg . "'
-                     , svg_hash = " . $svg_hash . "
-                 WHERE simulation_id=" . $simulation_id . "
-                   AND station_id=" . $meta_data->station_id;
+                       SET last_item_id = $meta_data->current_work_item_id
+                          ,last_item_svg = '$item_svg'
+                     WHERE station_id = $meta_data->station_id
+                       AND simulation_id = $simulation_id";
         }
-        if (!$result = $link->query($sql)) exit('INTERNAL_ERROR_005');
+        else {
+            $sql = "INSERT INTO kfs_workbench_tbl(simulation_id, station_id, last_item_id, last_item_svg) 
+                   VALUE($simulation_id, $meta_data->station_id, $meta_data->current_work_item_id, '$item_svg')";
+        }
+
+        if (!$result = $link->query($sql)) do_exit('INTERNAL_ERROR_004b: '.$sql);
+
     }
+
 
     /* looks like we made it up this far, unexpectedly  */
     return 'SUCCESS';

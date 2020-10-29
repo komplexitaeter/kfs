@@ -2,6 +2,9 @@
 function get_board_obj($simulation_id, $session_key, $add_stats, $execution_time, $is_stream) {
     $link = db_init();
 
+    $link->autocommit(false);
+
+
     /* save performance stats */
     save_execution_time($link, $simulation_id, $session_key, $execution_time, 'board', $is_stream);
 
@@ -101,7 +104,6 @@ function get_board_obj($simulation_id, $session_key, $add_stats, $execution_time
         "station_pos"=>null,
         "station_count"=>null,
         "current_round_id"=>null,
-        "implementation_class"=>null,
         "params_json"=>null,
         "pull"=>null,
         "push"=>null,
@@ -117,7 +119,7 @@ function get_board_obj($simulation_id, $session_key, $add_stats, $execution_time
                 "station_name"=>translate_tl($language_code, $obj->station_name_tl),
                 "station_pos"=>$obj->station_pos,
                 "locked_div"=>$obj->locked_div,
-                "svg_hash"=>$obj->svg_hash
+                "last_item_id"=>$obj->last_item_id
             );
             array_push($stations, $station);
 
@@ -128,7 +130,6 @@ function get_board_obj($simulation_id, $session_key, $add_stats, $execution_time
                     "station_pos"=>$obj->station_pos,
                     "station_count"=>$obj->station_count,
                     "current_round_id"=>$obj->current_round_id,
-                    "implementation_class"=>$obj->implementation_class,
                     "params_json"=>translate_tl($language_code, $obj->params_json_tl),
                     "pull"=>$obj->pull,
                     "push"=>$obj->push,
@@ -300,6 +301,7 @@ WHERE sims.simulation_id=$simulation_id ORDER BY item.prio";
         }
     }
 
+    $link->commit();
     $link->close();
 
     $workbench = array("meta_data"=>$meta_data

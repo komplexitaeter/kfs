@@ -140,12 +140,10 @@ deleteOutdatedItemsOnWorkbench("work_in_progress",[workbench.current_item]);
 /********If the current user is part of the simulation, load the workbench and send SVG from the canvas to the DB******/
     if(workbench.meta_data) {
         loadWorkbench(
-             workbench.meta_data.implementation_class
-            ,workbench.meta_data.params_json
+             workbench.meta_data.params_json
             ,workbench.meta_data.station_id);
-        sendSVGForThumbnail(simulation_id, workbench.meta_data.station_id);
 
-        if(workbench.current_item != null){
+        if(workbench.current_item !== null){
             workbenchGlobal.setCurrentItem(workbench.current_item.item_id);
         }
         else{
@@ -164,12 +162,7 @@ deleteOutdatedItemsOnWorkbench("work_in_progress",[workbench.current_item]);
     }
 
     /* set the status of the workbenches work-area (aka locked_div) */
-    if (workbench.meta_data.locked_div == 'none') {
-        workbenchGlobal.enableWorkbench();
-    }
-    else {
-        workbenchGlobal.disableWorkbench(workbench.meta_data.locked_div);
-    }
+    workbenchGlobal.setStatus(workbench.meta_data.locked_div);
 
     /* set the status of the workbenches push button (finish current item) */
     if (workbench.meta_data.push == 'active') {
@@ -396,47 +389,6 @@ function displayItems(items_list){
     });
 }
 
-function hashCode(str) {
-    let hash = 0;
-    if (str.length == 0) return hash;
-    let char;
-    for (let i = 0; i < str.length; i++) {
-        char = str.charCodeAt(i);
-        hash = ((hash << 5) - hash) + char;
-        hash = hash & hash; // Convert to 32bit integer
-    }
-    return hash;
-}
-
-function sendSVGForThumbnail(simulation_id, station_id){
-    let svgCode = fCanvas.toSVG();
-    let svgHash = hashCode(svgCode);
-
-    if (workbenchGlobal.getHash() != svgHash) {
-
-        let url = "update_workbench.php?"
-            + 'simulation_id=' + simulation_id
-            + '&session_key=' + getSessionKey()
-            + '&svg_hash=' +svgHash
-            + '&action=thumbnail_update';
-
-        let request = new XMLHttpRequest();
-        request.open("POST", url, true);
-        request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        request.addEventListener('load', function (event) {
-            if (request.status >= 200 && request.status < 300) {
-                //console.log(request.responseText);
-            } else {
-                console.warn(request.statusText, request.responseText);
-            }
-        });
-        request.send('thumbnail_svg=' + svgCode);
-
-        workbenchGlobal.setHash(svgHash);
-    }
-}
-
-
 function displayControls(round){
 
     let totalDuration;
@@ -513,13 +465,7 @@ function displayStations(stations, simulation_id, override){
             recreateStations=true;
         }
         else{
-/***TODO: catch lockedDiv status and give it to updateThumbnail, create case no worker on thumbnail*/
-            if (obj.locked_div == 'unattended') {
-                updateThumbnail(obj.station_id, -1, '', obj.locked_div);
-            }
-            else {
-                updateThumbnail(obj.station_id, simulation_id, obj.svg_hash, obj.locked_div);
-            }
+            updateThumbnail(simulation_id, obj.station_id, obj.last_item_id, obj.locked_div);
         }
     });
     if(recreateStations){
@@ -903,18 +849,37 @@ function resizeCanvas(){
 }
 
 
-function updateThumbnail(station_id, simulation_id, svg_hash, locked_div) {
-
-    let url = "get_thumbnail.php?"
-        +"simulation_id="+simulation_id
-        +"&station_id="+station_id
-        +"&svg_hash="+svg_hash;
+function updateThumbnail(simulation_id, station_id, last_item_id, locked_div) {
+    const url = "./get_thumbnail.php";
+    const url_param = "?item_id="+last_item_id
+                    + "&simulation_id="+simulation_id
+                    + "&station_id="+station_id;
+    const url_miss = "?empty";
 
     let e = Array.from(document.getElementById(station_id).getElementsByClassName("station_thumbnail"));
     e.forEach( obj => {
-        if (!obj.src.includes(url)) {
-            obj.src=url;
+
+        if (!obj.src || !obj.src.length || obj.src.length === 0 || obj.src.includes(url_miss)) {
+            if (locked_div == 'none') {
+                if (last_item_id) {
+                    obj.src = url + url_param;
+                }
+            }
+        } else {
+            if (locked_div == 'none') {
+                if (last_item_id) {
+                    if (!obj.src.includes(url_param)) {
+                        obj.src = url + url_param;
+                    }
+                } else {
+                    obj.src =  url + url_miss;
+                }
+            } else {
+                obj.src = url + url_miss;
+            }
         }
+
+
         switch(locked_div){
             case "coffee_break":
                 obj.classList.remove("simulation_paused", "pull_ready", "unattended", "none");

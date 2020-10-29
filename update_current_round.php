@@ -102,10 +102,11 @@ if ($action == 'reset') {
         array_push($sql_dml, $sql);
         $sql ='UPDATE kfs_simulation_tbl SET current_round_id = LAST_INSERT_ID() WHERE simulation_id='.$simulation_id;
         array_push($sql_dml, $sql);
-        $sql ='UPDATE kfs_workbench_tbl SET workbench_svg = NULL WHERE simulation_id='.$simulation_id;
-        array_push($sql_dml, $sql);
         /* create some items*/
         $sql = get_create_items_sql(null, null, null); /* get round id from last insert */
+        array_push($sql_dml, $sql);
+        /* reset workstation thumbnails to empty */
+        $sql = "UPDATE kfs_workbench_tbl SET last_item_id=null, last_item_svg=null WHERE simulation_id=$simulation_id";
         array_push($sql_dml, $sql);
     }
     else exit ('INVALID_STATE_TO_RESET_ROUND');

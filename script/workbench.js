@@ -1,13 +1,12 @@
-var workbenchGlobal;
+let workbenchGlobal;
 
 class Workbench {
 
-    constructor() {
-    }
-
-    setContext(implParam, stationId) {
+    constructor(implParam, stationId) {
 
         this.stationId = stationId;
+        this.pending = true;
+        this.status = 'none';
 
         if (implParam != null) {
             this.implParam = JSON.parse(implParam);
@@ -18,21 +17,45 @@ class Workbench {
 
         this.initiate();
 
+        let p_instruction = document.getElementById("instruction");
+        if(p_instruction !== null) p_instruction.remove();
+
+        this.colorArray = [
+            {colorName: "green", colorCode: "#2ecc71"},
+            {colorName: "blue", colorCode: "#3498db"},
+            {colorName: "yellow", colorCode: "#f1c40f"},
+            {colorName: "red", colorCode: "#e74c3c"},
+            {colorName: "brown", colorCode: "#dea06e"},
+            {colorName: "pink", colorCode: "#ff97e3"},
+            {colorName: "black", colorCode: "#656565"},
+            {colorName: "white", colorCode: "#ffffff"},
+        ];
+        /*set the tools back to their default position on station change*/
+        document.getElementById('width-2').checked=true;
+        document.getElementById("color-1").checked=true;
+        let drawingLineWidthEl = document.getElementById('widthPicker');
+        let drawingColorEl = document.getElementById("colorPicker");
+
+        fCanvas.freeDrawingBrush.color = drawingColorEl.colorValue.value;
+        fCanvas.freeDrawingBrush.width = parseInt(drawingLineWidthEl.widthValue.value, 10) || 1;
+
+        this.disableWorkbench('pending');
     }
+
     getStationId() {
         return this.stationId;
     }
 
     setCurrentItem(item_id){
         if(this.itemId !== item_id){
-            this.initiate();
             this.itemId = item_id;
-            this.start();
+            this.initiate(true);
         }
     }
 
-    disableWorkbench(state){
-    let lockedDiv = document.getElementById("locked_div");
+    disableWorkbench(state) {
+
+        let lockedDiv = document.getElementById("locked_div");
         if(lockedDiv == null) {
             lockedDiv = document.createElement("div");
             lockedDiv.classList.add("locked_div");
@@ -40,14 +63,13 @@ class Workbench {
             document.getElementById('workbench').appendChild(lockedDiv);
         }
 
-/***Disable Workbench and show different image depending on state
- * Note: Removing a class that does not exist, does NOT throw an error****/
         switch(state) {
             case "coffee_break":
                 lockedDiv.classList.add("coffee_break");
                 lockedDiv.classList.remove("simulation_paused");
                 lockedDiv.classList.remove("pull_ready");
                 lockedDiv.classList.remove("unattended");
+                lockedDiv.classList.remove("pending");
                 lockedDiv.classList.remove("none");
                 break;
             case "simulation_paused":
@@ -55,6 +77,7 @@ class Workbench {
                 lockedDiv.classList.add("simulation_paused");
                 lockedDiv.classList.remove("pull_ready");
                 lockedDiv.classList.remove("unattended");
+                lockedDiv.classList.remove("pending");
                 lockedDiv.classList.remove("none");
                 break;
             case "pull_ready":
@@ -62,6 +85,7 @@ class Workbench {
                 lockedDiv.classList.remove("simulation_paused");
                 lockedDiv.classList.add("pull_ready");
                 lockedDiv.classList.remove("unattended");
+                lockedDiv.classList.remove("pending");
                 lockedDiv.classList.remove("none");
                 break;
             case "unattended":
@@ -69,6 +93,15 @@ class Workbench {
                 lockedDiv.classList.remove("simulation_paused");
                 lockedDiv.classList.remove("pull_ready");
                 lockedDiv.classList.add("unattended");
+                lockedDiv.classList.remove("pending");
+                lockedDiv.classList.remove("none");
+                break;
+            case "pending":
+                lockedDiv.classList.remove("coffee_break");
+                lockedDiv.classList.remove("simulation_paused");
+                lockedDiv.classList.remove("pull_ready");
+                lockedDiv.classList.remove("unattended");
+                lockedDiv.classList.add("pending");
                 lockedDiv.classList.remove("none");
                 break;
             default:
@@ -76,6 +109,7 @@ class Workbench {
                 lockedDiv.classList.remove("simulation_paused");
                 lockedDiv.classList.remove("pull_ready");
                 lockedDiv.classList.remove("unattended");
+                lockedDiv.classList.remove("pending");
                 lockedDiv.classList.add("none");
                 break;
         }
@@ -87,6 +121,17 @@ class Workbench {
         }
     }
 
+    setStatus(status) {
+        this.status = status;
+        if (!this.pending || status !== 'none') {
+            if (status === 'none') {
+                workbenchGlobal.enableWorkbench();
+            } else {
+                workbenchGlobal.disableWorkbench(status);
+            }
+        }
+    }
+
     unsetItem(){
         if(this.itemId != null){
             this.itemId = null;
@@ -94,37 +139,148 @@ class Workbench {
         }
     }
 
-    initiate(){
+    initiate(loadItem){
+        /* erase Canvas */
+        fCanvas.clear();
+
+        let that = this;
+        fCanvas.isDrawingMode = true;
+        fCanvas.freeDrawingCursor = "crosshair";
+        let drawingLineWidthEl = document.getElementById('widthPicker');
+        let drawingColorEl = document.getElementById("colorPicker");
+
+        fCanvas.freeDrawingBrush.color = drawingColorEl.colorValue.value;
+        fCanvas.freeDrawingBrush.width = parseInt(drawingLineWidthEl.widthValue.value, 10) || 1;
+
+        fabric.loadSVGFromURL('./src/ship_template/ship_template.svg', function (objects, options) {
+            objects.forEach(obj =>{
+                if (obj.id === that.implParam.path_id) {
+                    obj.strokeWidth = 3;
+                    obj.strokeDashArray = [7,4];
+                    obj.fill = 'rgba(0,0,255,0.4)';
+                }
+                else {
+                    obj.strokeWidth = 0;
+                    obj.strokeDashArray = [5,4];
+                }
+            });
+
+            /* remove old artifacts, just to be sure */
+            if (that.paths!=null) {
+                fCanvas.remove(that.paths);
+                that.paths=null;
+            }
+
+            that.paths = fabric.util.groupSVGElements(objects, options);
+
+            let scale = fCanvas.height / options.height;
+
+            that.paths.set({
+                top: (fCanvas.height- scale*options.height)/2,
+                left: (fCanvas.width- scale*options.width)/2,
+                scaleY: 1.15 * scale,
+                scaleX: 1.15 * scale,
+                opacity: 0.6
+            });
+
+            fCanvas.add(that.paths);
+            fCanvas.calcOffset();
+            fCanvas.renderAll.bind(fCanvas);
+
+            document.getElementById("tools").appendChild(document.getElementById("toolbox_default_draw"));
+            document.getElementById("toolbox_default_draw").className = "visible_div";
+
+            if (loadItem) {
+                that.start(that);
+            }
+
+        });
+
     }
 
-    finish(){
+    start(that) {
+
+        fabric.loadSVGFromURL('./get_item_svg.php?item_id='+this.itemId, function (objects, options) {
+
+            that.item = fabric.util.groupSVGElements(objects, options);
+
+            let scale = fCanvas.height / options.height;
+
+
+            that.item.set({
+                top: (fCanvas.height- scale*that.item.height)/2,
+                left: (fCanvas.width- scale*that.item.width)/2,
+                scaleY: scale,
+                scaleX: scale
+            });
+
+            fCanvas.add(that.item);
+
+            /*
+            * remember the number of objects on canvas for a later check if
+            * som work has been done
+            * */
+            that.objectsCountOrig = fCanvas.getObjects().length;
+
+            /*
+             * workaround: fixes a scaling issue, when only two path was
+             * drawn in the first station
+             * 1 = Background
+             * 2 = item_svg (even if it is empty)
+             * */
+
+            if (that.objectsCountOrig<=2) {
+                let pxl = new fabric.Circle(0,'white',1,1);
+                fCanvas.add(pxl);
+                that.objectsCountOrig = fCanvas.getObjects().length;
+            }
+
+            fCanvas.calcOffset();
+            fCanvas.renderAll.bind(fCanvas);
+
+
+            /*
+             * Randomize items work instruction
+             */
+            let p = document.getElementById("instruction");
+            if(p == null) {
+                p = document.createElement("p");
+                p.id = "instruction";
+                if (that.instructionItemId == null || that.instructionItemId !== that.itemId) {
+                    that.instructionItemId = that.itemId;
+                    let color = that.colorArray[Math.floor(Math.random()*7)]; //ignore index "8" because it's white and hence invisible
+                    that.instructionText = that.implParam.instruction.replace("[COLOR]","<b style='color:"+color.colorCode+"; background-color:"+color.colorCode+";'>XXXX</b>");
+                }
+                p.innerHTML = that.instructionText;
+                document.getElementById("workbench_" + that.itemId).appendChild(p);
+            }
+
+            that.pending = false;
+            that.setStatus(that.status);
+
+        });
+
     }
 
-    start(){
+    finish() {
+        if (this.objectsCountOrig === fCanvas.getObjects().length) {
+            return ['FAIL','No work has been done!'];
+        }
+        else {
+            let svg_code;
+            fCanvas.remove(this.paths);
+            svg_code = fCanvas.toSVG();
+            fCanvas.add(this.paths);
+            fCanvas.renderAll.bind(fCanvas);
+            this.pending = true;
+            this.disableWorkbench('pending');
+            return ['SUCCESS', svg_code];
+        }
     }
-
-    setHash(hash) {
-        this.hash = hash;
-    }
-
-    getHash() {
-        return this.hash;
-    }
-
 }
 
-function loadWorkbench(implName, implParam, stationId) {
-
-    if (workbenchGlobal == null || workbenchGlobal.getStationId() != stationId) {
-
-        switch (implName) {
-            case "DefaultDrawWorkbench":
-                workbenchGlobal = new DefaultDrawWorkbench();
-                break;
-            default:
-                workbenchGlobal = new Workbench();
-        }
-        workbenchGlobal.setContext(implParam, stationId);
-
+function loadWorkbench(implParam, stationId) {
+    if (workbenchGlobal == null || workbenchGlobal.getStationId() !== stationId) {
+        workbenchGlobal = new Workbench(implParam, stationId);
     }
 }

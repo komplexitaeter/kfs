@@ -1,5 +1,6 @@
 <?php
 function db_init() {
+    //sleep(5);
     $link = mysqli_init();
     mysqli_real_connect(
         $link,
@@ -41,6 +42,7 @@ function get_translation($context, $id, $language_code) {
             return $json[$i][$language_code]["text"];
         }
     }
+    return '';
 }
 
 function get_create_items_sql($round_id, $offset, $count ) {
@@ -101,7 +103,6 @@ function get_stations_status_sql($simulation_id) {
 select sc.station_id
       ,sc.station_name_tl
       ,sc.station_pos
-      ,sc.implementation_class
       ,sc.params_json_tl
       ,(select count(1)
           from kfs_station_conf_tbl sco
@@ -127,7 +128,7 @@ select sc.station_id
           and i.is_in_progress = false
         ) as wip_next_station_cnt
       ,krt.auto_pull
-      ,w.svg_hash
+      ,w.last_item_id
       ,kat.session_key
       ,krt.round_id as current_round_id
       ,pos_s.station_id as next_station_id
