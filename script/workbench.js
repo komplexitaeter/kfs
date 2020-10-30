@@ -1,6 +1,8 @@
 let workbenchGlobal;
+const gcLineWith = 8;
 
 class Workbench {
+
 
     constructor(implParam, stationId) {
 
@@ -28,16 +30,15 @@ class Workbench {
             {colorName: "brown", colorCode: "#dea06e"},
             {colorName: "pink", colorCode: "#ff97e3"},
             {colorName: "black", colorCode: "#656565"},
-            {colorName: "white", colorCode: "#ffffff"},
+            {colorName: "purple", colorCode: "#81048e"},
         ];
+
         /*set the tools back to their default position on station change*/
-        document.getElementById('width-2').checked=true;
         document.getElementById("color-1").checked=true;
-        let drawingLineWidthEl = document.getElementById('widthPicker');
         let drawingColorEl = document.getElementById("colorPicker");
 
         fCanvas.freeDrawingBrush.color = drawingColorEl.colorValue.value;
-        fCanvas.freeDrawingBrush.width = parseInt(drawingLineWidthEl.widthValue.value, 10) || 1;
+        fCanvas.freeDrawingBrush.width = gcLineWith;
 
         this.disableWorkbench('pending');
     }
@@ -146,11 +147,10 @@ class Workbench {
         let that = this;
         fCanvas.isDrawingMode = true;
         fCanvas.freeDrawingCursor = "crosshair";
-        let drawingLineWidthEl = document.getElementById('widthPicker');
         let drawingColorEl = document.getElementById("colorPicker");
 
         fCanvas.freeDrawingBrush.color = drawingColorEl.colorValue.value;
-        fCanvas.freeDrawingBrush.width = parseInt(drawingLineWidthEl.widthValue.value, 10) || 1;
+        fCanvas.freeDrawingBrush.width = gcLineWith;
 
         fabric.loadSVGFromURL('./src/ship_template/ship_template.svg', function (objects, options) {
             objects.forEach(obj =>{

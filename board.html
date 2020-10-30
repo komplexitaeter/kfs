@@ -77,59 +77,13 @@
         <div id="drawing-mode-options">
             <button id="clear-canvas" class="tools_button" onclick="clearDrawing(event);">CLEAR</button>
             <button id="cancel-action" class="tools_button" onclick="cancelLastAction(event);">UNDO</button>
-            <br/>
-            <form name="widthPicker" id="widthPicker" class="custom-radios" onchange="changeDrawingLineWidth(event);">
-                <div >
-                    <input type="radio" id="width-1" name="widthValue" value="1">
-                    <label for="width-1">
-      <span>
-        <img src="./src/checked.png" alt="Checked Icon" />
-      </span>
-                    </label>
-                </div>
 
-                <div >
-                    <input type="radio" id="width-2" name="widthValue" value="5" checked>
-                    <label for="width-2">
-      <span>
-        <img src="./src/checked.png" alt="Checked Icon" />
-      </span>
-                    </label>
-                </div>
-
-                <div >
-                    <input type="radio" id="width-3" name="widthValue" value="10">
-                    <label for="width-3">
-      <span>
-        <img src="./src/checked.png" alt="Checked Icon" />
-      </span>
-                    </label>
-                </div>
-
-                <div >
-                    <input type="radio" id="width-4" name="widthValue" value="15">
-                    <label for="width-4">
-      <span>
-        <img src="./src/checked.png" alt="Checked Icon" />
-      </span>
-                    </label>
-                </div>
-
-                <div >
-                    <input type="radio" id="width-5" name="widthValue" value="20">
-                    <label for="width-5">
-      <span>
-        <img src="./src/checked.png" alt="Checked Icon" />
-      </span>
-                    </label>
-                </div>
-            </form>
-            <br/>
 <!------------------------------------->
 <!-------- Colorpicker form------------>
 <!------------------------------------->
 
             <form name="colorPicker" id="colorPicker" class="custom-radios" onchange="changeDrawingColor(event);">
+             <div id="color_picker_div">
                 <div >
                     <input type="radio" id="color-1" name="colorValue" value="#2ecc71" checked>
                     <label for="color-1">
@@ -194,13 +148,15 @@
                 </div>
 
                 <div >
-                    <input type="radio" id="color-8" name="colorValue" value="#ffffff">
+                    <input type="radio" id="color-8" name="colorValue" value="#81048e">
                     <label for="color-8">
       <span>
         <img src="./src/checked.png" alt="Checked Icon" />
       </span>
                     </label>
                 </div>
+
+             </div>
             </form>
         </div>
     </div>
