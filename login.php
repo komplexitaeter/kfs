@@ -155,7 +155,7 @@ function get_set_token($link, $email_address) {
     $token = bin2hex($token);
 
     /* remember token */
-    $sql = $link->prepare("UPDATE kfs_login_tbl SET token=? WHERE email_address=?");
+    $sql = $link->prepare("UPDATE kfs_login_tbl SET token=?, session_key=null WHERE email_address=?");
     $sql->bind_param('ss', $token, $email_address);
     $sql->execute();
 
