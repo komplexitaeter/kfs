@@ -1,5 +1,5 @@
 let workbenchGlobal;
-const gcLineWith = 8;
+const gcLineWith = 6;
 
 class Workbench {
 

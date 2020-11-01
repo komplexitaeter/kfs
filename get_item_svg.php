@@ -13,7 +13,7 @@ function exit_with_status($status_code) {
     exit(0);
 }
 
-if ($item_id==null) exit_with_status('NO_ITEM_ID_SET');
+if ($item_id==null) exit_with_status('GET_ITEMS_SVG:NO_ITEM_ID_SET');
 
 $link = db_init();
 

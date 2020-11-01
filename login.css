@@ -31,7 +31,11 @@ input {
     padding: 16px;
     color: black;
     font-size: 14px;
-    border: none;
+    border: 1px solid #eee;
+}
+
+input:disabled {
+    background-color: white;
 }
 
 #submit_btn {

@@ -1,7 +1,7 @@
 let gConsLoginUrl = "./login.html";
 
 function loadBase() {
-    checkLogonStatus(gConsLoginUrl, false);
+    checkLogonStatus(gConsLoginUrl, false, null);
 }
 
 function logoutBtnClick() {

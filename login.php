@@ -4,16 +4,17 @@ require 'helper_lib.php';
 
 $signed_on = 0;
 $error_code = null;
+$token_user = null;
 
 $session_key = filter_input(INPUT_GET, 'session_key', FILTER_SANITIZE_STRING);
+$get_token = filter_input(INPUT_GET, 'get_token', FILTER_SANITIZE_STRING);
 
 $mode = filter_input(INPUT_POST, 'mode', FILTER_SANITIZE_STRING);
 $user = filter_input(INPUT_POST, 'user', FILTER_SANITIZE_STRING);
 $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
 $new_password = filter_input(INPUT_POST, 'new_password', FILTER_SANITIZE_STRING);
-$token = filter_input(INPUT_POST, 'token', FILTER_SANITIZE_STRING);
 $language_code = filter_input(INPUT_POST, 'language_code', FILTER_SANITIZE_STRING);
-
+$token = filter_input(INPUT_POST, 'token', FILTER_SANITIZE_STRING);
 
 $link = db_init();
 
@@ -80,9 +81,16 @@ if (isset($_GET['logout'])) {
             }
         }
     }
+
+    if ($signed_on == 0 && $get_token != null && strlen($get_token)>0) {
+        $token_user = get_token_user($link, $get_token);
+    }
+
 }
 
-echo json_encode( array("signed_on"=>$signed_on, "error_code"=>$error_code), JSON_UNESCAPED_UNICODE);
+echo json_encode( array( "signed_on"=>$signed_on
+                        ,"error_code"=>$error_code
+                        ,"user"=>$token_user), JSON_UNESCAPED_UNICODE);
 
 
 /*
@@ -178,4 +186,16 @@ function reset_password($link, $token, $credentials_hash, $session_key) {
                             WHERE token=?");
     $sql->bind_param('sss', $credentials_hash, $session_key, $token);
     $sql->execute();
+}
+
+function get_token_user($link, $token) {
+    $sql = $link->prepare("SELECT email_address FROM kfs_login_tbl WHERE token = ?");
+    $sql->bind_param('s', $token);
+    $sql->execute();
+    $result = $sql->get_result();
+    if ($obj = $result->fetch_object()) {
+        return $obj->email_address;
+    } else {
+        return null;
+    }
 }

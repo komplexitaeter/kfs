@@ -11,7 +11,7 @@ header('Cache-control: no-cache');
 header('Pragma: no-cache');
 header('Expires: 0');
 
-if ($item_id == null) exit('NO_ITEM_ID_SET');
+if ($item_id == null) exit('UPDATE_ITEMS:NO_ITEM_ID_SET');
 
 $link = db_init();
 

@@ -4,7 +4,7 @@ let gModeCode = "SIGN_ON";
 
 function loadLogin() {
     /* check if already logged on */
-    checkLogonStatus(gConsTargetURL, true);
+    checkLogonStatus(gConsTargetURL, true, getURLParam("token"));
 
     let languageCode = getURLParam("language");
     if (   languageCode === "en"
@@ -23,8 +23,8 @@ function loadLogin() {
     setMode();
 }
 
-function checkLogonStatus(targetUrl, isLogon) {
-    const url = "./login.php?session_key="+getSessionKey();
+function checkLogonStatus(targetUrl, isLogon, token) {
+    const url = "./login.php?session_key="+getSessionKey()+"&get_token="+token;
     fetch(url)
         .then(response => response.json())
         .then(myJson => {
@@ -32,6 +32,8 @@ function checkLogonStatus(targetUrl, isLogon) {
             if ((myJson.signed_on === 1) === isLogon ) {
                 /* logon for session_key found, so switch to target */
                 location.href = targetUrl;
+            } else if (myJson.user) {
+                document.getElementById("user").value = myJson.user;
             }
         } );
 }
@@ -56,6 +58,23 @@ function toggleLanguage() {
 }
 
 function setMode() {
+    if (gModeCode === "RESET_PWD") {
+        document.getElementById("msg_login").classList.add("hidden");
+        document.getElementById("msg_register").classList.add("hidden");
+        document.getElementById("msg_request_reset").classList.add("hidden");
+        document.getElementById("msg_reset").classList.remove("hidden");
+        document.getElementById("user").disabled = true;
+        document.getElementById("user").classList.remove("hidden");
+        document.getElementById("password").classList.add("hidden");
+        document.getElementById("new_password").classList.remove("hidden");
+        document.getElementById("confirm_password").classList.remove("hidden");
+        document.getElementById("ref_back_sign_on").classList.remove("hidden");
+        document.getElementById("ref_login").classList.add("hidden");
+        document.getElementById("new_password").focus();
+    } else {
+        document.getElementById("user").disabled = false;
+    }
+
     if (gModeCode === "SIGN_ON") {
         document.getElementById("msg_login").classList.remove("hidden");
         document.getElementById("msg_register").classList.add("hidden");
@@ -98,19 +117,6 @@ function setMode() {
         document.getElementById("user").focus();
     }
 
-    if (gModeCode === "RESET_PWD") {
-        document.getElementById("msg_login").classList.add("hidden");
-        document.getElementById("msg_register").classList.add("hidden");
-        document.getElementById("msg_request_reset").classList.add("hidden");
-        document.getElementById("msg_reset").classList.remove("hidden");
-        document.getElementById("user").classList.add("hidden");
-        document.getElementById("password").classList.add("hidden");
-        document.getElementById("new_password").classList.remove("hidden");
-        document.getElementById("confirm_password").classList.remove("hidden");
-        document.getElementById("ref_back_sign_on").classList.remove("hidden");
-        document.getElementById("ref_login").classList.add("hidden");
-        document.getElementById("new_password").focus();
-    }
 }
 
 function changeMode(modeCode) {
