@@ -809,35 +809,35 @@ body{
 
 
 #color-1 + label span {
-    background-color: #2ecc71;
+    background-color: #18d58b;
 }
 
 #color-2 + label span {
-    background-color: #3498db;
+    background-color: #0c9eff;
 }
 
 #color-3 + label span {
-    background-color: #f1c40f;
+    background-color: #ffe573;
 }
 
 #color-4 + label span {
-    background-color: #e74c3c;
+    background-color: #ef0000;
 }
 
 #color-5 + label span {
-    background-color: #dea06e;
+    background-color: #dfa372;
 }
 
 #color-6 + label span {
-    background-color: #ff97e3;
+    background-color: #ff78e7;
 }
 
 #color-7 + label span {
-    background-color: #656565;
+    background-color: #484848;
 }
 
 #color-8 + label span {
-    background-color: #81048e;
+    background-color: #a105b1;
 }
 
 .custom-radios :checked + label span img {

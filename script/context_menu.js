@@ -6,15 +6,16 @@ function defineContextMenu(target_id, context){
             contextMenuArray = {
                 "red": "set item to red",
                 "green": "set item to green",
-                "yellow": "set item to yellow",
+               // "yellow": "set item to yellow",
+               // "blue": "set item to yellow",
                 "": "remove color"
             };
 
             contextMenu = document.createElement("div");
             contextMenu.classList.add("context_menu", "access_control");
 
-            for (var key in contextMenuArray) {
-                var value = contextMenuArray[key];
+            for (let key in contextMenuArray) {
+                //var value = contextMenuArray[key];
                 let option = document.createElement("img");
                 option.classList.add("context_menu_option");
                 option.id = target_id + "_" + key;

@@ -23,14 +23,14 @@ class Workbench {
         if(p_instruction !== null) p_instruction.remove();
 
         this.colorArray = [
-            {colorName: "green", colorCode: "#2ecc71"},
-            {colorName: "blue", colorCode: "#3498db"},
-            {colorName: "yellow", colorCode: "#f1c40f"},
-            {colorName: "red", colorCode: "#e74c3c"},
-            {colorName: "brown", colorCode: "#dea06e"},
-            {colorName: "pink", colorCode: "#ff97e3"},
-            {colorName: "black", colorCode: "#656565"},
-            {colorName: "purple", colorCode: "#81048e"},
+            {colorName: "green", colorCode: "#18d58b"},
+            {colorName: "blue", colorCode: "#0c9eff"},
+            {colorName: "yellow", colorCode: "#ffe573"},
+            {colorName: "red", colorCode: "#ef0000"},
+            {colorName: "brown", colorCode: "#dfa372"},
+            {colorName: "pink", colorCode: "#ff78e7"},
+            {colorName: "black", colorCode: "#484848"},
+            {colorName: "purple", colorCode: "#a105b1"},
         ];
 
         /*set the tools back to their default position on station change*/
@@ -47,10 +47,19 @@ class Workbench {
         return this.stationId;
     }
 
-    setCurrentItem(item_id){
+    setCurrentItem(item_id, options){
         if(this.itemId !== item_id){
             this.itemId = item_id;
+            this.options = options;
             this.initiate(true);
+        }
+    }
+
+    unsetItem(){
+        if(this.itemId != null){
+            this.itemId = null;
+            this.options = null;
+            this.initiate();
         }
     }
 
@@ -130,13 +139,6 @@ class Workbench {
             } else {
                 workbenchGlobal.disableWorkbench(status);
             }
-        }
-    }
-
-    unsetItem(){
-        if(this.itemId != null){
-            this.itemId = null;
-            this.initiate();
         }
     }
 
@@ -248,7 +250,14 @@ class Workbench {
                 p.id = "instruction";
                 if (that.instructionItemId == null || that.instructionItemId !== that.itemId) {
                     that.instructionItemId = that.itemId;
-                    let color = that.colorArray[Math.floor(Math.random()*7)]; //ignore index "8" because it's white and hence invisible
+
+                    let color;
+                    if (that.options) {
+                        color = that.getColorByName(that.options);
+                    } else {
+                        color = that.colorArray[Math.floor(Math.random() * 8)]; //ignore index "8" because it's white and hence invisible
+                    }
+
                     that.instructionText = that.implParam.instruction.replace("[COLOR]","<b style='color:"+color.colorCode+"; background-color:"+color.colorCode+";'>XXXX</b>");
                 }
                 p.innerHTML = that.instructionText;
@@ -276,6 +285,15 @@ class Workbench {
             this.disableWorkbench('pending');
             return ['SUCCESS', svg_code];
         }
+    }
+
+    getColorByName(colorName) {
+        for (let i=0; i<=this.colorArray.length; i++) {
+            if (this.colorArray[i].colorName == colorName) {
+                return this.colorArray[i];
+            }
+        }
+        return this.colorArray[0];
     }
 }
 

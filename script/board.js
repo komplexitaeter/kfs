@@ -144,7 +144,7 @@ deleteOutdatedItemsOnWorkbench("work_in_progress",[workbench.current_item]);
             ,workbench.meta_data.station_id);
 
         if(workbench.current_item !== null){
-            workbenchGlobal.setCurrentItem(workbench.current_item.item_id);
+            workbenchGlobal.setCurrentItem(workbench.current_item.item_id, workbench.current_item.options);
         }
         else{
             workbenchGlobal.unsetItem();
@@ -522,6 +522,26 @@ function updateItemDivOptions(itemDiv, options){
         case "yellow":
             Array.from(itemDiv.getElementsByTagName("img"))[0].src = "./src/dot_yellow.png";
             if(workbenchItemDiv!=null) Array.from(workbenchItemDiv.getElementsByTagName("img"))[0].src = "./src/dot_yellow.png";
+            break;
+        case "blue":
+            Array.from(itemDiv.getElementsByTagName("img"))[0].src = "./src/dot_blue.png";
+            if(workbenchItemDiv!=null) Array.from(workbenchItemDiv.getElementsByTagName("img"))[0].src = "./src/dot_blue.png";
+            break;
+        case "brown":
+            Array.from(itemDiv.getElementsByTagName("img"))[0].src = "./src/dot_brown.png";
+            if(workbenchItemDiv!=null) Array.from(workbenchItemDiv.getElementsByTagName("img"))[0].src = "./src/dot_brown.png";
+            break;
+        case "pink":
+            Array.from(itemDiv.getElementsByTagName("img"))[0].src = "./src/dot_pink.png";
+            if(workbenchItemDiv!=null) Array.from(workbenchItemDiv.getElementsByTagName("img"))[0].src = "./src/dot_pink.png";
+            break;
+        case "purple":
+            Array.from(itemDiv.getElementsByTagName("img"))[0].src = "./src/dot_purple.png";
+            if(workbenchItemDiv!=null) Array.from(workbenchItemDiv.getElementsByTagName("img"))[0].src = "./src/dot_purple.png";
+            break;
+        case "black":
+            Array.from(itemDiv.getElementsByTagName("img"))[0].src = "./src/dot_black.png";
+            if(workbenchItemDiv!=null) Array.from(workbenchItemDiv.getElementsByTagName("img"))[0].src = "./src/dot_black.png";
             break;
         default:
             Array.from(itemDiv.getElementsByTagName("img"))[0].src = "./src/dot_aliceblue.png";

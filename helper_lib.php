@@ -46,11 +46,13 @@ function get_translation($context, $id, $language_code) {
 }
 
 function get_create_items_sql($round_id, $offset, $count ) {
+    $options = array('green','blue','yellow','brown','pink','black','purple');
+
     //$sids = array('null','null','null','123321','124421','125521','126621','127721','128821','129921','131131');
     $sids = array('null');
     $station_id = null;
 
-    $sql = 'INSERT'.' INTO kfs_items_tbl(order_number,round_id,prio,price,current_station_id)';
+    $sql = 'INSERT'.' INTO kfs_items_tbl(order_number,round_id,prio,price,current_station_id,options)';
     if ($round_id==null) $round_id = 'LAST_INSERT_ID()';
     if ($offset==null) $offset = 0;
     if ($count==null) $count = 10;
@@ -58,7 +60,7 @@ function get_create_items_sql($round_id, $offset, $count ) {
     for ($i=$offset;$i<$offset+$count;$i++) {
         $station_id = $sids[mt_rand(0, count($sids)-1)];
         if ($i==$offset) $sql.='VALUES'; else $sql.=',';
-        $sql.="('".str_pad($i+1, 2, "0", STR_PAD_LEFT)."',".$round_id.",".($i+1).",100,".$station_id.")";
+        $sql.="('".str_pad($i+1, 2, "0", STR_PAD_LEFT)."',".$round_id.",".($i+1).",100,".$station_id.",'".$options[rand(0,count($options)-1)]."')";
     }
 
     return $sql;
