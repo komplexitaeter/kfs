@@ -226,9 +226,6 @@ if ($round_kpi->last_minute_total != null) {
 
 
 $per_ship = array();
-$style = array("role"=> "style"
-                ,"type"=> "string");
-array_push($per_ship, array("delivery time", "cycle time", $style));
 
 $sql = "select end_time_s delivery_time
               ,end_time_s - start_time_s cycle_time

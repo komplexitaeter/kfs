@@ -138,27 +138,47 @@ function updateRoundStats(round_id, side){
 
 function drawShipsCycleTime(data, cycle_time_per_ship_max, targetDiv) {
 
-    let gData = google.visualization.arrayToDataTable(data);
-    let maxCycleTime = Math.ceil(cycle_time_per_ship_max*1.1);
+    let gData = new google.visualization.DataTable();
+    let maxCycleTime = (Math.ceil(cycle_time_per_ship_max/30)+1)*30;
 
-    let options = {
-        title : '',
-        vAxes: {
-            0: {
-                title: document.getElementById("chart_cycle_time").value,
-                titleTextStyle: {color: '#535353', fontName: 'Komplexitater', fontSize: 16},
-                viewWindow: {
-                    max: maxCycleTime,
-                    min: 0
-                    }
+    gData.addColumn('timeofday', '');
+    gData.addColumn('timeofday', '');
+    gData.addColumn( {'type': 'string', 'role': 'style'} );
+
+    let wb = new Workbench();
+    let colorCode;
+
+    data.forEach(obj => {
+        if (obj[2] && obj[2]==='red') {
+            colorCode = wb.getColorByName('red').colorCode;
+        } else {
+            colorCode = wb.getColorByName('green').colorCode;
+        }
+        gData.addRow([{v: sec2time(obj[0], false), f: sec2time(obj[0], true)}
+            , {v: sec2time(obj[1], false), f: sec2time(obj[1], true)}
+            ,colorCode]);
+    });
+
+
+
+    var options = {
+        title: '',
+        hAxis: {
+            title: document.getElementById("chart_cycle_time").value,
+            format: 'mm:ss',
+            titleTextStyle: {color: '#535353', fontName: 'Komplexitater', fontSize: 16},
+            viewWindow: {
+                min: [0,0,0]
             }
         },
-        hAxis: {
+        vAxis: {
             title: document.getElementById("chart_delivery_time").value,
+            format: 'mm:ss',
             titleTextStyle: {color: '#535353', fontName: 'Komplexitater', fontSize: 16},
             textPosition: 'out',
             viewWindow: {
-                min: 0
+                min: [0,0,0],
+                max: sec2time(maxCycleTime)
             }
         },
         series: {
@@ -168,7 +188,7 @@ function drawShipsCycleTime(data, cycle_time_per_ship_max, targetDiv) {
         },
         legend: 'none',
         chartArea:{
-            width:'80%',
+            width:'70%',
             height:'70%'
         },
         backgroundColor: {
@@ -176,6 +196,7 @@ function drawShipsCycleTime(data, cycle_time_per_ship_max, targetDiv) {
             fillOpacity: 0.4
         }
     };
+
 
     let chart = new google.visualization.ScatterChart(document.getElementById(targetDiv));
     chart.draw(gData, options);
@@ -260,4 +281,21 @@ function drawShipsPerMinute(data, ship_per_minute_max, wip_per_minute_max, targe
 
     let chart = new google.visualization.ComboChart(document.getElementById(targetDiv));
     chart.draw(gData, options);
+}
+
+function sec2time(timeInSeconds, format) {
+    if(isNaN(timeInSeconds)){
+        timeInSeconds=0;
+    }
+    let pad = function(num, size) { return ('000' + num).slice(size * -1); },
+        time = parseFloat(timeInSeconds).toFixed(3),
+        hours = Math.floor(time / 60 / 60),
+        minutes = Math.floor(time / 60) % 60,
+        seconds = Math.floor(time - minutes * 60);
+    if(format) {
+        return pad(minutes, 2) + ':' + pad(seconds, 2);
+    }
+    else{
+        return [hours, minutes, seconds];
+    }
 }

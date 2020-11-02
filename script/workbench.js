@@ -3,24 +3,7 @@ const gcLineWith = 6;
 
 class Workbench {
 
-
     constructor(implParam, stationId) {
-
-        this.stationId = stationId;
-        this.pending = true;
-        this.status = 'none';
-
-        if (implParam != null) {
-            this.implParam = JSON.parse(implParam);
-        }
-        else {
-            this.implParam = null;
-        }
-
-        this.initiate();
-
-        let p_instruction = document.getElementById("instruction");
-        if(p_instruction !== null) p_instruction.remove();
 
         this.colorArray = [
             {colorName: "green", colorCode: "#18d58b"},
@@ -33,14 +16,32 @@ class Workbench {
             {colorName: "purple", colorCode: "#a105b1"},
         ];
 
-        /*set the tools back to their default position on station change*/
-        document.getElementById("color-1").checked=true;
-        let drawingColorEl = document.getElementById("colorPicker");
+        if (implParam || stationId) {
 
-        fCanvas.freeDrawingBrush.color = drawingColorEl.colorValue.value;
-        fCanvas.freeDrawingBrush.width = gcLineWith;
+            this.stationId = stationId;
+            this.pending = true;
+            this.status = 'none';
 
-        this.disableWorkbench('pending');
+            if (implParam != null) {
+                this.implParam = JSON.parse(implParam);
+            } else {
+                this.implParam = null;
+            }
+
+            this.initiate();
+
+            let p_instruction = document.getElementById("instruction");
+            if (p_instruction !== null) p_instruction.remove();
+
+            /*set the tools back to their default position on station change*/
+            document.getElementById("color-1").checked = true;
+            let drawingColorEl = document.getElementById("colorPicker");
+
+            fCanvas.freeDrawingBrush.color = drawingColorEl.colorValue.value;
+            fCanvas.freeDrawingBrush.width = gcLineWith;
+
+            this.disableWorkbench('pending');
+        }
     }
 
     getStationId() {
@@ -289,7 +290,7 @@ class Workbench {
 
     getColorByName(colorName) {
         for (let i=0; i<=this.colorArray.length; i++) {
-            if (this.colorArray[i].colorName == colorName) {
+            if (colorName && this.colorArray[i].colorName === colorName) {
                 return this.colorArray[i];
             }
         }
