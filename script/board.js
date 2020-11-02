@@ -396,6 +396,7 @@ function displayControls(round){
     let stopButton = document.getElementById("pause");
     let resetButton = document.getElementById("reset");
     let debriefingButton = document.getElementById("debriefing");
+    let checkinButton = document.getElementById("checkin");
 
     let language = Array.from(document.getElementsByClassName("language"));
     language.forEach( lang => {
@@ -446,6 +447,14 @@ function displayControls(round){
         resetButton.disabled = false;
         debriefingButton.disabled = false;
     }
+
+    if (round.last_start_time != null) {
+        checkinButton.disabled = true;
+    } else {
+        checkinButton.disabled = false;
+    }
+
+
     /*
     totalDuration = sec2time(parseInt(round.total_time_s));
     document.getElementById("clock").innerText = totalDuration;

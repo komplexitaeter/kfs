@@ -5,15 +5,13 @@ require 'helper_lib.php';
 $simulation_id = filter_input(INPUT_GET, 'simulation_id');
 
 
-header('Content-Type: application/json');
-header('Pragma-directive: no-cache');
-header('Cache-directive: no-cache');
-header('Cache-control: no-cache"');
-header('Pragma: no-cache');
-header('Expires: 0');
+set_header('json');
 
 
 $link = db_init();
+
+$link->autocommit(false);
+
 
 $sql_set = array();
 
@@ -70,7 +68,33 @@ if(isset($_GET['stats_round_id'])){
 if(isset($_GET['configuration_name'])){
     $configuration_name = filter_input(INPUT_GET, 'configuration_name', FILTER_SANITIZE_STRING);
     if ($configuration_name != null) {
-        array_push($sql_set, "configuration_name = '$configuration_name'");
+
+        $sql = $link->prepare( "select count(1) as cnt
+                  from kfs_simulation_tbl kst
+                  join kfs_rounds_tbl krt on krt.round_id = kst.current_round_id
+                  join kfs_items_tbl kit on kit.round_id = krt.round_id
+                 where kst.simulation_id = ?
+                   and (not isnull(kit.start_time)
+                       or not isnull(kit.current_station_id)
+                     )");
+
+        $sql->bind_param('i', $simulation_id);
+        $sql->execute();
+        $result = $sql->get_result();
+        $items_cnt = $result->fetch_object()->cnt;
+
+        if ($items_cnt === 0) {
+
+            array_push($sql_set, "configuration_name = '$configuration_name'");
+
+            $sql = "UPDATE kfs_attendees_tbl SET station_id = null WHERE simulation_id=$simulation_id";
+
+            if (!$result = $link->query($sql)) {
+                $link->rollback();
+                exit('INTERNAL_ERROR');
+            }
+
+        }
     }
 }
 
@@ -111,4 +135,7 @@ if(!$result = $link->query($sql))
         exit();
     }
 }
+
+
+$link->commit();
 $link->close();
