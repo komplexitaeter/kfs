@@ -92,14 +92,16 @@ function update_workbench($link,
 
         /* query next to do item based on my stations position  */
         $item_id = null;
+        $item_options = null;
         if ($meta_data->station_pos == 1) {
-            $sql = 'SELECT * FROM kfs_items_tbl WHERE current_station_id is null and end_time is null and round_id=' . $meta_data->current_round_id . ' ORDER BY prio';
+            $sql = 'SELECT item_id, options FROM kfs_items_tbl WHERE current_station_id is null and end_time is null and round_id=' . $meta_data->current_round_id . ' ORDER BY prio';
         } else {
-            $sql = 'SELECT * FROM kfs_items_tbl WHERE current_station_id=' . $meta_data->station_id . ' and is_in_progress = false and round_id=' . $meta_data->current_round_id . ' ORDER BY prio';
+            $sql = 'SELECT item_id, options FROM kfs_items_tbl WHERE current_station_id=' . $meta_data->station_id . ' and is_in_progress = false and round_id=' . $meta_data->current_round_id . ' ORDER BY prio';
         }
         if ($result = $link->query($sql)) {
             if ($obj = $result->fetch_object()) {
                 $item_id = $obj->item_id;
+                $item_options = $obj->options;
             } else {
                 return 'NOTHING_MORE_TODO';
             }
@@ -126,8 +128,18 @@ function update_workbench($link,
             $obj = $result->fetch_object();
             $offset = $obj->cnt;
 
-            $sql_items = get_create_items_sql($meta_data->current_round_id, $offset, 1);
-            $link->query($sql_items);
+            if ($item_options != null && $item_options == 'red') {
+                update_current_round($link, $simulation_id, 'stop');
+            }
+
+            $item_options = null;
+            if ($offset <= 39) {
+                if ($offset == 39) {
+                    $item_options = 'red';
+                }
+                $sql_items = get_create_items_sql($meta_data->current_round_id, $offset, 1, $item_options);
+                $link->query($sql_items);
+            }
 
         } else {
             $sql = "UPDATE kfs_items_tbl SET is_in_progress=true WHERE item_id=" . $item_id;
