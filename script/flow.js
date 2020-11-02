@@ -16,6 +16,12 @@ function getSimulationId(){
     return c;
 }
 
+function getFacilitate(){
+    var url = new URL(window.location.href);
+    var c = url.searchParams.get('facilitate');
+    return c;
+}
+
 function switchCurrentUserReadyStatus(){
     const url ='./update_attendee.php?simulation_id='+getSimulationId()+'&session_key='+getSessionKey()+'&switch_status=1';
     fetch(url);
@@ -226,16 +232,30 @@ function loadCheckIn() {
         document.getElementById("vertical_container").classList.remove("display_none");
         document.getElementById("invalid_browser").classList.add("display_none");
     }
-
-    let baseUrl = 'get_checkin';
-    let params = {
-        "simulation_id" : getSimulationId(),
-        "session_key" : getSessionKey()
+    
+    let facilitate = getFacilitate();
+    if (facilitate && facilitate === '1') {
+        let url = './create_attendee.php?'
+            +"session_key="+getSessionKey()
+            +"&simulation_id="+getSimulationId()
+            +"&facilitate=1";
+        fetch(url).then(r => {
+            if (r) location.href = './checkin.html?simulation_id='+getSimulationId();
+        });
     }
-    initializeConnection(baseUrl, params, updateDom);
+    else {
 
-    initializeCursor(getSimulationId(), getSessionKey());
-    document.getElementById('link').value = window.location.href;
+        let baseUrl = 'get_checkin';
+        let params = {
+            "simulation_id": getSimulationId(),
+            "session_key": getSessionKey()
+        }
+        initializeConnection(baseUrl, params, updateDom);
+
+        initializeCursor(getSimulationId(), getSessionKey());
+        document.getElementById('link').value = window.location.href;
+
+    }
 }
 
 function checkBrowser() {

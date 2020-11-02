@@ -5,12 +5,7 @@ require 'helper_lib.php';
 $simulation_id = filter_input(INPUT_GET, 'simulation_id', FILTER_SANITIZE_NUMBER_INT);
 $session_key = filter_input(INPUT_GET, 'session_key', FILTER_SANITIZE_STRING);
 
-header('Content-Type: application/json');
-header('Pragma-directive: no-cache');
-header('Cache-directive: no-cache');
-header('Cache-control: no-cache');
-header('Pragma: no-cache');
-header('Expires: 0');
+set_header('json');
 
 $link = db_init();
 
@@ -145,8 +140,8 @@ if(count($sql_set)==0){
 
 if ($reset_thumbnail) {
     $sql_t =   "update kfs_workbench_tbl w
-                     set w.svg_hash = null
-                       ,w.workbench_svg = null
+                     set w.last_item_id = null
+                       ,w.last_item_svg = null
                     where w.simulation_id = 11
                         and w.station_id = (
                         select a.station_id
