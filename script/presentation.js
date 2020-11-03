@@ -117,7 +117,7 @@ function updateRoundStats(round_id, side){
                 /**update round display on the corresponding side**/
                 let display = document.getElementById("round_display_" + side);
                 let modeTitle;
-                if (myJson.push_mode == '1') {
+                if (myJson.push_mode === '1') {
                     modeTitle = document.getElementById("title_push").value
                 } else {
                     modeTitle = document.getElementById("title_pull").value
@@ -139,7 +139,13 @@ function updateRoundStats(round_id, side){
 function drawShipsCycleTime(data, cycle_time_per_ship_max, targetDiv) {
 
     let gData = new google.visualization.DataTable();
-    let maxCycleTime = (Math.ceil(cycle_time_per_ship_max/30)+1)*30;
+    let maxCycleTime;
+
+    if (cycle_time_per_ship_max) {
+        maxCycleTime = (Math.ceil(cycle_time_per_ship_max/30)+1)*30;
+    } else {
+        maxCycleTime = 60;
+    }
 
     gData.addColumn('timeofday', '');
     gData.addColumn('timeofday', '');
@@ -204,9 +210,24 @@ function drawShipsCycleTime(data, cycle_time_per_ship_max, targetDiv) {
 
 function drawShipsPerMinute(data, ship_per_minute_max, wip_per_minute_max, targetDiv) {
 
-    let gData = google.visualization.arrayToDataTable(data);
+    let gData = new google.visualization.DataTable();
     let maxShip = Math.ceil(ship_per_minute_max*1.1);
     let maxWip = Math.ceil(wip_per_minute_max*1.1);
+
+    if (!maxShip && !maxWip) {
+        maxShip = 4;
+        maxWip = 4;
+    }
+
+    gData.addColumn('number', 'min');
+    gData.addColumn('number', 'ships');
+    gData.addColumn('number', 'wip');
+    gData.addColumn( {'type': 'string', 'role': 'style'} );
+
+    data.forEach(obj => {
+        gData.addRow(obj[0], obj[1], obj[2], obj[3]);
+    });
+
 
     let options = {
         title : '',

@@ -152,9 +152,7 @@ for ($i=0; $i<count($rounds); $i++) {
 
 /* query round stat per minute */
 
-$style = array("role"=> "style","type"=> "string");
 $per_minute = array();
-array_push($per_minute, array("Min", "ships", "wip", $style));
 
 if ($round_kpi->last_minute != null) {
     for ($min=0; $min<=$round_kpi->last_minute; $min++ ) {
