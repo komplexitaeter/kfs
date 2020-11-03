@@ -214,10 +214,8 @@ function drawShipsPerMinute(data, ship_per_minute_max, wip_per_minute_max, targe
     let maxShip = Math.ceil(ship_per_minute_max*1.1);
     let maxWip = Math.ceil(wip_per_minute_max*1.1);
 
-    if (!maxShip && !maxWip) {
-        maxShip = 4;
-        maxWip = 4;
-    }
+    if (!maxShip) maxShip = 4;
+    if (!maxWip) maxWip = 4;
 
     gData.addColumn('string', 'min');
     gData.addColumn('number', 'ships');
