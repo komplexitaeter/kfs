@@ -91,7 +91,11 @@ $sql = "select round(avg(mins.items_cnt),1) as avg_throughput from (
 
 if ($result = $link->query($sql)) {
     if ($obj = $result->fetch_object()) {
-        $round_kpi->avg_throughput = $obj->avg_throughput;
+        if ($obj->avg_throughput != null) {
+            $round_kpi->avg_throughput = (String)$obj->avg_throughput;
+        } else {
+            $round_kpi->avg_throughput = 'N/A';
+        }
     }
 }
 
