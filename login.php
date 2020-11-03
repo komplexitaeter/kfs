@@ -128,6 +128,8 @@ function logout($link, $session_key) {
 }
 
 function login($link, $email_address, $session_key) {
+    logout($link, $session_key);
+
     $sql = $link->prepare("UPDATE kfs_login_tbl SET session_key=?, token=null WHERE email_address=?");
     $sql->bind_param('ss', $session_key, $email_address);
     $sql->execute();
