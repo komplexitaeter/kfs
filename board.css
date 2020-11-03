@@ -603,6 +603,8 @@ body{
 #color_picker_div {
     margin-left: 0.2em;
     margin-right: 0.8em;
+    z-index: 4;
+    position: relative;
 }
 
 .column{
