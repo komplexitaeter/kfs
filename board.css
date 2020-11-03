@@ -759,6 +759,7 @@ body{
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.33);
     background-repeat: no-repeat;
     background-position: center;
+    background-size: contain;
     text-align: center;
     line-height: 44px;
 }
@@ -772,77 +773,78 @@ body{
 }
 
 
-#width-1 + label span {
-    width: 22px;
-    height: 22px;
-    border: 10px solid #FFFFFF;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.33);
-}
-
-#width-2 + label span {
-    width: 22px;
-    height: 22px;
-    border: 8px solid #FFFFFF;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.33);
-}
-
-#width-3 + label span {
-    width: 22px;
-    height: 22px;
-    border: 6px solid #FFFFFF;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.33);
-}
-
-#width-4 + label span {
-    width: 22px;
-    height: 22px;
-    border: 4px solid #FFFFFF;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.33);
-}
-
-#width-5 + label span{
-    width: 22px;
-    height: 22px;
-    border: 2px solid #FFFFFF;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.33);
-}
 
 
 #color-1 + label span {
     background-color: #18d58b;
+    background-image: url("./src/unchecked_A.png");
+}
+#color-1:checked + label span {
+    background-image: none;
 }
 
 #color-2 + label span {
     background-color: #0c9eff;
+    background-image: url("./src/unchecked_B.png");
+}
+#color-2:checked + label span {
+    background-image: none;
 }
 
 #color-3 + label span {
     background-color: #ffe573;
+    background-image: url("./src/unchecked_C.png");
 }
+#color-3:checked + label span {
+    background-image: none;
+}
+
 
 #color-4 + label span {
     background-color: #ef0000;
+    background-image: url("./src/unchecked_D.png");
+}
+#color-4:checked + label span {
+    background-image: none;
 }
 
 #color-5 + label span {
     background-color: #dfa372;
+    background-image: url("./src/unchecked_E.png");
+}
+#color-5:checked + label span {
+    background-image: none;
 }
 
 #color-6 + label span {
     background-color: #ff78e7;
+    background-image: url("./src/unchecked_F.png");
+}
+#color-6:checked + label span {
+    background-image: none;
 }
 
 #color-7 + label span {
     background-color: #484848;
+    background-image: url("./src/unchecked_G.png");
+}
+#color-7:checked + label span {
+    background-image: none;
 }
 
 #color-8 + label span {
     background-color: #a105b1;
+    background-image: url("./src/unchecked_H.png");
 }
+#color-8:checked + label span {
+    background-image: none;
+}
+
 
 .custom-radios :checked + label span img {
     opacity: 1;
 }
+
 
 
 @keyframes incomingItem{

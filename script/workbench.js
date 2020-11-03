@@ -6,14 +6,14 @@ class Workbench {
     constructor(implParam, stationId) {
 
         this.colorArray = [
-            {colorName: "green", colorCode: "#18d58b"},
-            {colorName: "blue", colorCode: "#0c9eff"},
-            {colorName: "yellow", colorCode: "#ffe573"},
-            {colorName: "red", colorCode: "#ef0000"},
-            {colorName: "brown", colorCode: "#dfa372"},
-            {colorName: "pink", colorCode: "#ff78e7"},
-            {colorName: "black", colorCode: "#484848"},
-            {colorName: "purple", colorCode: "#a105b1"},
+            {colorName: "green", colorCode: "#18d58b", letter:"A"},
+            {colorName: "blue", colorCode: "#0c9eff", letter:"B"},
+            {colorName: "yellow", colorCode: "#ffe573", letter:"C"},
+            {colorName: "red", colorCode: "#ef0000", letter:"D"},
+            {colorName: "brown", colorCode: "#dfa372", letter:"E"},
+            {colorName: "pink", colorCode: "#ff78e7", letter:"F"},
+            {colorName: "black", colorCode: "#484848", letter:"G"},
+            {colorName: "purple", colorCode: "#a105b1", letter:"H"},
         ];
 
         if (implParam || stationId) {
@@ -259,7 +259,7 @@ class Workbench {
                         color = that.colorArray[Math.floor(Math.random() * 8)]; //ignore index "8" because it's white and hence invisible
                     }
 
-                    that.instructionText = that.implParam.instruction.replace("[COLOR]","<b style='color:"+color.colorCode+"; background-color:"+color.colorCode+";'>XXXX</b>");
+                    that.instructionText = that.implParam.instruction.replace("[COLOR]","<b style='padding-left: 0.8em; padding-right: 0.8em; color:white; background-color:"+color.colorCode+";'>"+color.letter+"</b>");
                 }
                 p.innerHTML = that.instructionText;
                 document.getElementById("workbench_" + that.itemId).appendChild(p);
