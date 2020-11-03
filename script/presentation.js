@@ -219,13 +219,13 @@ function drawShipsPerMinute(data, ship_per_minute_max, wip_per_minute_max, targe
         maxWip = 4;
     }
 
-    gData.addColumn('number', 'min');
+    gData.addColumn('string', 'min');
     gData.addColumn('number', 'ships');
     gData.addColumn('number', 'wip');
     gData.addColumn( {'type': 'string', 'role': 'style'} );
 
     data.forEach(obj => {
-        gData.addRow(obj[0], obj[1], obj[2], obj[3]);
+        gData.addRow([obj[0], obj[1], obj[2], obj[3]]);
     });
 
 
