@@ -132,6 +132,24 @@
     "de": {
       "text": "Limit: eins"
     }
+  },
+  {
+    "id": "or_1_txt",
+    "en": {
+      "text": "or"
+    },
+    "de": {
+      "text": "oder"
+    }
+  },
+  {
+    "id": "or_2_txt",
+    "en": {
+      "text": "or"
+    },
+    "de": {
+      "text": "oder"
+    }
   }
 ]
 
