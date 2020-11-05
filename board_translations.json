@@ -53,21 +53,84 @@
     }
   },
   {
-    "id": "trial_run_label",
-    "en": {
-      "text": "Trial Run"
-    },
-    "de": {
-      "text": "Probelauf"
-    }
-  },
-  {
     "id": "button_finish_item",
     "en": {
       "text": "I'm done!"
     },
     "de": {
       "text": "Bin fertig!"
+    }
+  },
+  {
+    "id": "new_round_btn",
+    "en": {
+      "text": "Let's go"
+    },
+    "de": {
+      "text": "Los geht's"
+    }
+  },
+  {
+    "id": "new_round_dialog_header",
+    "en": {
+      "text": "Create a new round"
+    },
+    "de": {
+      "text": "Eine neue Runde anlegen"
+    }
+  },
+  {
+    "id": "mode_hint_unlimited",
+    "en": {
+      "hidden": "Unlimited"
+    },
+    "de": {
+      "hidden": "Unlimitiert"
+    }
+  },
+  {
+    "id": "mode_hint_limit",
+    "en": {
+      "hidden": "Limit: one"
+    },
+    "de": {
+      "hidden": "Limit: eins"
+    }
+  },
+  {
+    "id": "btn_trial_true",
+    "en": {
+      "text": "Trial Round"
+    },
+    "de": {
+      "text": "Proberunde"
+    }
+  },
+  {
+    "id": "btn_trial_false",
+    "en": {
+      "text": "Play on time"
+    },
+    "de": {
+      "text": "Auf Zeit spielen"
+    }
+  },
+  {
+    "id": "btn_auto_pull_true",
+    "en": {
+      "text": "Unlimited"
+    },
+    "de": {
+      "text": "Unlimitiert"
+    }
+  },
+  {
+    "id": "btn_auto_pull_false",
+    "en": {
+      "text": "Limit: one"
+    },
+    "de": {
+      "text": "Limit: eins"
     }
   }
 ]

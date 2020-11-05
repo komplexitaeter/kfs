@@ -33,6 +33,7 @@ function updateDom(myJson){
                 workbenchGlobal = null;
             }
             language_code = myJson.language_code;
+            updateNewRoundBtnPresets(myJson.current_round.auto_pull, myJson.current_round.trial_run);
             break;
         case "NO_SIMULATION":
             // alert("The required simulation ID does not exit. You will be taken to the home page.");
@@ -188,17 +189,6 @@ deleteOutdatedItemsOnWorkbench("work_in_progress",[workbench.current_item]);
         document.getElementById("button_finish_item").classList.remove('button_finish_item_on')
         document.getElementById("button_finish_item").classList.add('button_finish_item_off')
     }
-
-
-        /* set the status of the Push-Pull toggle switch */
-    let auto_pull = document.getElementById('auto_pull');
-    if (current_round.auto_pull == 1 && auto_pull.checked != true) {
-        auto_pull.checked = true;
-    }
-    else if (current_round.auto_pull == 0 && auto_pull.checked != false) {
-        auto_pull.checked = false;
-    }
-
 
 }
 
@@ -408,10 +398,6 @@ function displayControls(round){
         }
     });
 
-    let trialRunToggle = document.getElementById("trial_run_toggle");
-    if (trialRunToggle.checked  != (round.trial_run==1)) {
-        trialRunToggle.checked =  (round.trial_run==1);
-    }
     if (round.trial_run==1) {
         document.getElementById('clock').classList.add("clock_hidden");
     }
@@ -422,7 +408,7 @@ function displayControls(round){
     if((round.last_start_time == null)&&(round.last_stop_time == null)){
         playButton.disabled=false;
         stopButton.disabled=true;
-        resetButton.disabled=true
+        resetButton.disabled=false;
         debriefingButton.disabled=false;
     }
 
@@ -452,6 +438,17 @@ function displayControls(round){
         checkinButton.disabled = true;
     } else {
         checkinButton.disabled = false;
+    }
+
+    let modeHint;
+    let modeHintDiv = document.getElementById('mode_hint_div');
+    if (round.auto_pull==='1') {
+        modeHint = document.getElementById('mode_hint_unlimited').value;
+    } else {
+        modeHint = document.getElementById('mode_hint_limit').value;
+    }
+    if (modeHintDiv.innerText !== modeHint) {
+        modeHintDiv.innerText = modeHint;
     }
 
 
@@ -809,8 +806,78 @@ function pressPause(){
 }
 
 function pressReset(){
-    const url = './update_current_round.php?simulation_id=' + getSimulationId() + '&action=reset';
-    fetch(url);
+    document.getElementById('new_round_dialog').hidden=false;
+}
+
+function close_new_round_dialog() {
+    document.getElementById('new_round_dialog').hidden=true;
+}
+
+function toggleTrialBtn(isTrial) {
+    if (isTrial) {
+        document.getElementById('btn_trial_true').classList.add('tb_active');
+        document.getElementById('btn_trial_true').classList.remove('tb_inactive');
+        document.getElementById('btn_trial_false').classList.add('tb_inactive');
+        document.getElementById('btn_trial_false').classList.remove('tb_active');
+    } else {
+        document.getElementById('btn_trial_true').classList.add('tb_inactive');
+        document.getElementById('btn_trial_true').classList.remove('tb_active');
+        document.getElementById('btn_trial_false').classList.add('tb_active');
+        document.getElementById('btn_trial_false').classList.remove('tb_inactive');
+    }
+}
+
+function toggleAutoPullBtn(isAutoPull) {
+    if (isAutoPull) {
+        document.getElementById('btn_auto_pull_true').classList.add('tb_active');
+        document.getElementById('btn_auto_pull_true').classList.remove('tb_inactive');
+        document.getElementById('btn_auto_pull_false').classList.add('tb_inactive');
+        document.getElementById('btn_auto_pull_false').classList.remove('tb_active');
+    } else {
+        document.getElementById('btn_auto_pull_true').classList.add('tb_inactive');
+        document.getElementById('btn_auto_pull_true').classList.remove('tb_active');
+        document.getElementById('btn_auto_pull_false').classList.add('tb_active');
+        document.getElementById('btn_auto_pull_false').classList.remove('tb_inactive');
+    }
+}
+
+function updateNewRoundBtnPresets(autoPull, trialRun) {
+    if (document.getElementById('new_round_dialog').hidden) {
+        if (autoPull == 1 && trialRun == 1) {
+            toggleAutoPullBtn(true);
+            toggleTrialBtn(false);
+        } else if (autoPull == 1 && trialRun == 0) {
+            toggleAutoPullBtn(false);
+            toggleTrialBtn(true);
+        } else if (autoPull == 0 && trialRun == 1) {
+            toggleAutoPullBtn(false);
+            toggleTrialBtn(false);
+        }
+    }
+}
+
+function pressNewRound() {
+    let autoPull=1;
+    let trialRun=1;
+
+    if (document.getElementById('btn_trial_true').classList.contains('tb_inactive')) {
+        trialRun=0;
+    }
+
+    if (document.getElementById('btn_auto_pull_true').classList.contains('tb_inactive')) {
+        autoPull=0;
+    }
+
+    const url = './update_current_round.php?simulation_id=' + getSimulationId()
+              + '&action=reset'
+              + '&auto_pull=' + autoPull
+              + '&trial_run=' + trialRun;
+    fetch(url).then(r=>{
+        if (r) {
+            close_new_round_dialog();
+
+        }
+    });
 }
 
 function pressDebriefing(){
@@ -822,17 +889,6 @@ function pressCheckIn(){
     const url = './update_simulation.php?simulation_id='+getSimulationId()+'&status_code=CHECKIN';
     fetch(url);
 }
-
-function pressAutoPull() {
-    const url = './update_current_round.php?simulation_id=' + getSimulationId() + '&action=toggle_auto_pull';
-    fetch(url);
-}
-
-function toggleTrialRund() {
-    const url = './update_current_round.php?simulation_id=' + getSimulationId() + '&action=toggle_trial_run';
-    fetch(url);
-}
-
 
 function allowDrop(ev) {
     ev.preventDefault();

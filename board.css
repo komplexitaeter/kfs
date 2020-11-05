@@ -18,7 +18,7 @@ html{
 body{
     display: grid;
     grid-template-columns: 12% 88%;
-    grid-template-rows: 30% 20% 0% 50%;
+    grid-template-rows: 30% 15% 0% 55%;
     height: 100vh;
     width: 100vw;
     min-height: 100%;
@@ -112,8 +112,7 @@ body{
 
 
 #controls{
-    padding: 0.7em;
-    padding-top: 10%;
+    padding: 10% 0.7em 0.7em;
     grid-area: 2 / 1 / 4 / 2;
     background-color: aliceblue;
     position:relative;
@@ -125,11 +124,10 @@ body{
 
 .clock_display{
     position:absolute;
-    bottom:25%;
+    bottom: 0;
     left: 10%;
     width:75%;
-    height: auto;
-    padding: 0.5em;
+    padding: 0.5em 0.5em 0.2em;
     background-image: url("./src/border_round_orange.png");
     background-repeat: no-repeat;
     background-size: 100%;
@@ -139,74 +137,11 @@ body{
     visibility: hidden;
 }
 
-.control_toggle_push_container{
-    position:absolute;
-    font-family: Komplexitater;
-    width: 85%;
-    height: 25%;
-    bottom:0%;
-
-
+.control_buttons{
+    position: absolute;
+    top: 37%;
 }
 
-.control_toggle_push_container div{
-    position: relative;
-    width:100%;
-    height:100%;
-    float: left;
-}
-
-.control_toggle_push_container input[type="checkbox"] {
-    display: none;
-}
-
-.control_toggle_push_container label {
-    color: #333;
-    font-size: large;
-    display: inline-block;
-    line-height: 170%;
-}
-
-.toggle_left{
-    float:left;
-}
-
-.toggle_right{
-    float: right;
-}
-
-
-.control_toggle_push_container .containing_span {
-    position:relative;
-    background-color: transparent;
-    background-image: url("./src/border_blue.png");
-    background-size: 100% 100%;
-    display: inline-block;
-    width: 55%;
-    height: 25px;
-    cursor: pointer;
-    left:5%;
-
-}
-
-.control_toggle_push_container .contained_span {
-    position:relative;
-    display: inline-block;
-    width: 25px;
-    height: 25px;
-    bottom:0;
-    cursor: pointer;
-    background-color: transparent;
-    background-image: url("./src/toggle_thumb.png");
-    background-size: 100% 100%;
-    -webkit-transition: .4s;
-    transition: .4s;
-    left:5%;
-}
-
-.control_toggle_push_container input[type="checkbox"]:checked + .contained_span{
-    left:60%;
-}
 
 .control_button{
     outline:none;
@@ -250,7 +185,7 @@ body{
 
 .language_div {
     position: absolute;
-    top: 33%;
+    top: 15%;
     left: 8%;
     height: 1.5rem;
     text-align: center;
@@ -264,25 +199,15 @@ body{
     vertical-align: top;
 }
 
-.trial_run {
+.mode_hint {
     position: absolute;
-    top: 33%;
+    top: 15%;
     right: 8%;
     width: auto;
     height: 1.5rem;
-        font-family: Komplexitater;
+    font-family: Komplexitater;
     font-size: large;
     display: inline-block;
-    cursor: pointer;
-}
-
-.trial_run input {
-    display: inline-block;
-    vertical-align: top;
-}
-.trial_run label {
-    display: inline-block;
-    vertical-align: top;
 }
 
 .active{
@@ -906,4 +831,100 @@ body{
 
 .button_finish_item_off {
     visibility: hidden;
+}
+
+.overlay{
+    position: absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height: 100%;
+    background-color: rgba(123,123,123,0.5);
+    cursor: default;
+    z-index: 100;
+    padding: 5%;
+}
+
+.modal_window {
+    font-family: Komplexitater;
+    font-size: x-large;
+    position: relative;
+    padding: 0.1rem;
+    width: 40%;
+    height: auto;
+    margin: auto;
+    z-index: 101;
+    background-color: rgb(213, 237, 252);
+    text-align: center;
+}
+
+.modal_content {
+    margin: 1.5rem;
+    background: white;
+    padding-top: 0.1rem ;
+}
+
+.close_new_round_dialog {
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 100%;
+    background-image:url("./src/cross_red.png");
+    background-size: contain;
+    position: absolute;
+    top: 0.1rem;
+    right: 0.1rem;
+}
+
+.close_new_round_dialog:hover{
+    transform: rotate(20deg);
+    cursor: pointer;
+}
+
+.toggle_buttons button{
+    width: 40%;
+    font-family: Komplexitater;
+    font-size: large;
+    height: 2rem;
+    outline:none;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100% 100%;
+    border: none;
+    margin: 1rem 0.1rem;
+    background-color: transparent;
+}
+
+.toggle_buttons span{
+    font-size: large;
+}
+
+.tb_active {
+    background-image: url("./src/station_label_3.png");
+    color: orange;
+    transform: rotate(1deg);
+}
+
+.tb_inactive {
+    background-image: url("./src/toggle_button_inactive.png");
+    color: #656565;
+    cursor: pointer;
+    transform: rotate(-1deg);
+}
+
+#new_round_btn{
+    font-family: Komplexitater;
+    font-size: x-large;
+    width: 60%;
+    height: 2.5rem;
+    outline:none;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100% 100%;
+    border: none;
+    cursor: pointer;
+    color: green;
+    background-color: transparent;
+    background-image: url("./src/border_round_green_large.png");
+    margin: 2rem 1rem 1.5rem 1rem;
+;
 }

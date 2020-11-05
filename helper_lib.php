@@ -216,7 +216,7 @@ function save_execution_time($link, $simulation_id, $session_key, $execution_tim
     }
 }
 
-function update_current_round($link, $simulation_id, $action) {
+function update_current_round($link, $simulation_id, $action, $trial_run, $auto_pull) {
 
     /*
      * query current_round data, if round is set
@@ -288,17 +288,20 @@ function update_current_round($link, $simulation_id, $action) {
 
     /* RESET (a stopped current_round) */
     if ($action == 'reset') {
-        /* there is a stopped current round */
+        /* there is a stopped or unstarted current round */
         if ($current_round->current_round_id != null
-            && $current_round->last_start_time != null
-            && $current_round->last_stop_time != null) {
+            && (
+                ($current_round->last_start_time != null  && $current_round->last_stop_time != null)
+             || ($current_round->last_start_time == null  && $current_round->last_stop_time == null)
+                )
+        ){
             /*
              * alternative style, but 'no round' == 'no tasks to display'
              * -- $sql = 'UPDATE kfs_simulation_tbl SET current_round_id=null WHERE simulation_id='.$simulation_id;
              * -- array_push($sql_dml, $sql);
              * so we better create a new round and add it to the simulations current_round now
              */
-            $sql ='INSERT INTO kfs_rounds_tbl(simulation_id) VALUES ('.$simulation_id.')';
+            $sql ="INSERT INTO kfs_rounds_tbl(simulation_id, trial_run, auto_pull) VALUES ($simulation_id, $trial_run, $auto_pull)";
             array_push($sql_dml, $sql);
             $sql ='UPDATE kfs_simulation_tbl SET current_round_id = LAST_INSERT_ID() WHERE simulation_id='.$simulation_id;
             array_push($sql_dml, $sql);

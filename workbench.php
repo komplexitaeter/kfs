@@ -129,7 +129,7 @@ function update_workbench($link,
             $offset = $obj->cnt;
 
             if ($item_options != null && $item_options == 'red') {
-                update_current_round($link, $simulation_id, 'stop');
+                update_current_round($link, $simulation_id, 'stop', null, null);
             }
 
             $item_options = null;

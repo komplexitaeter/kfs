@@ -26,38 +26,27 @@
 </div>
 
 <div id="controls">
-    <button id="play" class="control_button button_play access_control" onclick="pressPlay()">&nbsp;</button>
-    <button id="pause" class="control_button button_pause access_control" onclick="pressPause()">&nbsp;</button>
-    <button id="reset" class="control_button button_reset access_control" onclick="pressReset()">&nbsp;</button>
-    <button id="debriefing" class="control_button button_debriefing access_control" onclick="pressDebriefing()">&nbsp;</button>
-    <button id="checkin" class="control_button button_checkin access_control" onclick="pressCheckIn()">&nbsp;</button>
 
     <div class="language_div">
         <span class="language" id="de" onclick="setLanguage(event)">DE</span>
         <span class="language" id="en" onclick="setLanguage(event)">EN</span>
     </div>
 
+    <div id="mode_hint_div" class="mode_hint"></div>
+    <input type="hidden" id="mode_hint_unlimited" />
+    <input type="hidden" id="mode_hint_limit" />
+
+    <div class="control_buttons">
+        <button id="play" class="control_button button_play access_control" onclick="pressPlay()">&nbsp;</button>
+        <button id="pause" class="control_button button_pause access_control" onclick="pressPause()">&nbsp;</button>
+        <button id="reset" class="control_button button_reset access_control" onclick="pressReset()">&nbsp;</button>
+        <button id="debriefing" class="control_button button_debriefing access_control" onclick="pressDebriefing()">&nbsp;</button>
+        <button id="checkin" class="control_button button_checkin access_control" onclick="pressCheckIn()">&nbsp;</button>
+    </div>
+
+
+
     <div id="clock" class="clock_display">&nbsp;</div>
-
-    <div class="trial_run access_control">
-        <input class="tr" type="checkbox"  id="trial_run_toggle" name="trial_run" onchange="toggleTrialRund()" />
-        <label id="trial_run_label" for="trial_run_toggle">Trial Run</label>
-    </div>
-
-
-    <div class="control_toggle_push_container access_control">
-        <div>
-            <label for="auto_pull" class="toggle_left">Pull</label>
-            <label for="auto_pull" class="toggle_right">Push</label>
-
-            <span class="containing_span" onclick="pressAutoPull()">
-                <input type="checkbox" class="control_toggle_push" id="auto_pull" name="auto_pull"  />
-                <span class="contained_span" onclick="">
-                </span>
-            </span>
-        </div>
-    </div>
-
 
 </div>
 
@@ -162,6 +151,27 @@
     </div>
 </div>
 <div id="brand"><a href="https://www.komplexitaeter.de" target="_blank"><img src="./src/brand.png" alt="Komplexitäter" /></a></div>
+
+<div id="new_round_dialog" class="overlay" hidden>
+    <div class="modal_window">
+        <div class="modal_content">
+            <div class="close_new_round_dialog" onclick="close_new_round_dialog()"></div>
+
+            <h3 id="new_round_dialog_header">Neue Runde beginnen</h3>
+            <div class="toggle_buttons">
+                <button id="btn_auto_pull_true" class="tb_active" onclick="toggleAutoPullBtn(true)"></button>
+                <span>oder</span>
+                <button id="btn_auto_pull_false" class="tb_inactive" onclick="toggleAutoPullBtn(false)"></button>
+            </div>
+            <div class="toggle_buttons">
+                <button id="btn_trial_true" class="tb_active"  onclick="toggleTrialBtn(true)"></button>
+                <span>oder</span>
+                <button id="btn_trial_false" class="tb_inactive" onclick="toggleTrialBtn(false)"></button>
+            </div>
+            <button id="new_round_btn" onclick="pressNewRound()">Los gehts</button>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>
