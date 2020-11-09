@@ -709,11 +709,13 @@ function toggleAccessControl(role){
                 div.classList.add("is_facilitator");
             }
         });
+        setCursorPermission(true);
     }
     if(role == "OBSERVER"){
         accessControlDivs.forEach( div => {
                 div.classList.remove("is_facilitator");
         });
+        setCursorPermission(false);
     }
 }
 

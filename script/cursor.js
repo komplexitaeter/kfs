@@ -5,6 +5,7 @@ let cursorSimulationId;
 let cursorSessionKey;
 let animationIntervalHandles = new Object();
 let cursorAvatarCode;
+let cursorPostPermission = false;
 
 
 function initializeCursor(simulationId, sessionKey) {
@@ -22,7 +23,7 @@ function cursorMoved(e) {
 
 function onKeyDown(e) {
     if (e.key === "Control") {
-        if (postIntervalHandle==null) {
+        if (postIntervalHandle==null && cursorPostPermission) {
             setCursorPostOn(cursorSimulationId, cursorSessionKey);
         }
         else {
@@ -126,4 +127,8 @@ function animateCursor(sessionKey, cursorX, cursorY, cursorDiv) {
         clearInterval(animationIntervalHandles[sessionKey]);
         animationIntervalHandles[sessionKey] = null;
     }
+}
+
+function setCursorPermission(cursorPermission) {
+    cursorPostPermission = cursorPermission;
 }
