@@ -160,8 +160,8 @@ function drawShipsCycleTime(data, cycle_time_per_ship_max, targetDiv) {
         } else {
             colorCode = wb.getColorByName('green').colorCode;
         }
-        gData.addRow([{v: sec2time(obj[0], false), f: sec2time(obj[0], true)}
-            , {v: sec2time(obj[1], false), f: sec2time(obj[1], true)}
+        gData.addRow([{v: sec2time(obj[0], false), f:sec2time(obj[0], true)}
+            , {v: sec2time(obj[1], false), f: document.getElementById("chart_cycle_time").value+": "+sec2time(obj[1], true)}
             ,colorCode]);
     });
 
@@ -170,7 +170,7 @@ function drawShipsCycleTime(data, cycle_time_per_ship_max, targetDiv) {
     var options = {
         title: '',
         hAxis: {
-            title: document.getElementById("chart_cycle_time").value,
+            title: document.getElementById("chart_delivery_time").value,
             format: 'mm:ss',
             titleTextStyle: {color: '#535353', fontName: 'Komplexitater', fontSize: 16},
             viewWindow: {
@@ -178,7 +178,7 @@ function drawShipsCycleTime(data, cycle_time_per_ship_max, targetDiv) {
             }
         },
         vAxis: {
-            title: document.getElementById("chart_delivery_time").value,
+            title: document.getElementById("chart_cycle_time").value,
             format: 'mm:ss',
             titleTextStyle: {color: '#535353', fontName: 'Komplexitater', fontSize: 16},
             textPosition: 'out',
@@ -218,7 +218,7 @@ function drawShipsPerMinute(data, ship_per_minute_max, wip_per_minute_max, targe
     if (!maxWip) maxWip = 4;
 
     gData.addColumn('string', 'min');
-    gData.addColumn('number', 'ships');
+    gData.addColumn('number', document.getElementById("chart_ships").value);
     gData.addColumn('number', 'wip');
     gData.addColumn( {'type': 'string', 'role': 'style'} );
 

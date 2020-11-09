@@ -37,19 +37,19 @@
   {
     "id": "chart_cycle_time",
     "en": {
-      "hidden": "cycle time (s)"
+      "hidden": "cycle time"
     },
     "de": {
-      "hidden": "Durchlaufzeit (s)"
+      "hidden": "Durchlaufzeit"
     }
   },
   {
     "id": "chart_delivery_time",
     "en": {
-      "hidden": "delivery time (s)"
+      "hidden": "delivery"
     },
     "de": {
-      "hidden": "Fertigstellung (s)"
+      "hidden": "Fertigstellung"
     }
   },
   {
