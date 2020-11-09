@@ -133,12 +133,14 @@ class Workbench {
     }
 
     setStatus(status) {
-        this.status = status;
-        if (!this.pending || status !== 'none') {
-            if (status === 'none') {
-                workbenchGlobal.enableWorkbench();
-            } else {
-                workbenchGlobal.disableWorkbench(status);
+        if (workbenchGlobal) {
+            this.status = status;
+            if (!this.pending || status !== 'none') {
+                if (status === 'none') {
+                    workbenchGlobal.enableWorkbench();
+                } else {
+                    workbenchGlobal.disableWorkbench(status);
+                }
             }
         }
     }
@@ -273,8 +275,23 @@ class Workbench {
     }
 
     finish() {
+        /*
+        let colorUsed = false;
+
+        if (!this.options || this.options === "multicolored") {
+            colorUsed = true;
+        } else {
+            fCanvas.getObjects().forEach(p => {
+                alert(p.canvas.freeDrawingBrush.color+" "+ this.getColorByName(this.options).colorCode);
+                if (p.canvas.freeDrawingBrush.color) {
+                    if (p.canvas.freeDrawingBrush.color === this.getColorByName(this.options).colorCode) colorUsed = true;
+                }
+            });
+        }
+         */
+
         if (this.objectsCountOrig === fCanvas.getObjects().length) {
-            return ['FAIL','No work has been done!'];
+            return ['FAIL', 'No work has been done!'];
         }
         else {
             let svg_code;
