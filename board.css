@@ -816,8 +816,9 @@ body{
 #button_finish_item {
     position: absolute;
     bottom: 61%;
-    left: 63%;
-    width: 10%;
+    left: 60%;
+    width: 12%;
+    height: 5%;
     z-index: 200;
     ouline:none;
     font-family: Komplexitater;
@@ -827,6 +828,11 @@ body{
     background-image: url("./src/border_round_green_large.png");
     background-size: 100% 100%;
     cursor: pointer;
+}
+
+#button_finish_item:hover {
+    transform: rotate(-2deg);
+    color: darkgreen;
 }
 
 .button_finish_item_on {
