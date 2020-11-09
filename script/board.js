@@ -217,7 +217,13 @@ function createItemsOnWorkbench(itemsToCreate, targetDivId) {
             div.innerText = "#" + item.order_number + " | " + item.price + "€";
             let optionDiv = document.createElement("img");
             optionDiv.classList.add("item_options");
-            optionDiv.src = './src/dot_aliceblue.png';
+
+            if (item.options && item.options!="") {
+                optionDiv.src = './src/dot_'+item.options+'.png';
+            } else {
+                optionDiv.src = './src/dot_multicolored.png';
+            }
+
             div.appendChild(optionDiv);
             document.getElementById(targetDivId).appendChild(div);
         });
@@ -550,8 +556,8 @@ function updateItemDivOptions(itemDiv, options){
             if(workbenchItemDiv!=null) Array.from(workbenchItemDiv.getElementsByTagName("img"))[0].src = "./src/dot_black.png";
             break;
         default:
-            Array.from(itemDiv.getElementsByTagName("img"))[0].src = "./src/dot_aliceblue.png";
-            if(workbenchItemDiv!=null) Array.from(workbenchItemDiv.getElementsByTagName("img"))[0].src = "./src/dot_aliceblue.png";
+            Array.from(itemDiv.getElementsByTagName("img"))[0].src = "./src/dot_multicolored.png";
+            if(workbenchItemDiv!=null) Array.from(workbenchItemDiv.getElementsByTagName("img"))[0].src = "./src/dot_multicolored.png";
     }
 }
 
@@ -567,7 +573,13 @@ function createItemDiv(obj, currentItemDivId){
 
     let optionDiv = document.createElement("img");
     optionDiv.classList.add("item_options");
-    optionDiv.src = './src/dot_aliceblue.png';
+
+    if (obj.options && obj.options!="") {
+        optionDiv.src = './src/dot_'+obj.options+'.png';
+    } else {
+        optionDiv.src = './src/dot_multicolored.png';
+    }
+
     optionDiv.style.pointerEvents = "none";
     div.appendChild(optionDiv);
     document.getElementById(obj.current_station_id).appendChild(div);

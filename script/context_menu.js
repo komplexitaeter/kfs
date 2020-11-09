@@ -23,7 +23,7 @@ function defineContextMenu(target_id, context){
                 if (key != "") {
                     option.src = "./src/dot_" + key + ".png";
                 } else {
-                    option.src = "./src/dot_aliceblue.png";
+                    option.src = "./src/dot_multicolored.png";
                 }
 
                 option.onclick = updateItemOption;
