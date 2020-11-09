@@ -210,7 +210,11 @@ function setAttendeeMood(attendeeDiv, attendee){
     let moodDiv = Array.from(attendeeDiv.getElementsByClassName("mood"));
 
     let toolDiv = Array.from(document.getElementById("tools").getElementsByClassName("tool"));
-    if(moodDiv[0].classList.contains(attendee.mood_code) == false){
+    if (
+        (attendee.mood_code &&  !moodDiv[0].classList.contains(attendee.mood_code))
+      ||  (!attendee.mood_code &&  moodDiv[0].classList.length > 0)
+    )
+    {
         moodDiv[0].className = "mood";
         switch(attendee.mood_code){
             case "light_bulb":
