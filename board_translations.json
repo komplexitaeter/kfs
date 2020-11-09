@@ -150,6 +150,51 @@
     "de": {
       "text": "oder"
     }
+  },
+  {
+    "id": "play",
+    "en": {
+      "title": "start round"
+    },
+    "de": {
+      "title": "Runde starten"
+    }
+  },
+  {
+    "id": "pause",
+    "en": {
+      "title": "pause round"
+    },
+    "de": {
+      "title": "Runde anhalten"
+    }
+  },
+  {
+    "id": "reset",
+    "en": {
+      "title": "new round"
+    },
+    "de": {
+      "title": "neue Runde"
+    }
+  },
+  {
+    "id": "debriefing",
+    "en": {
+      "title": "to debriefing"
+    },
+    "de": {
+      "title": "zum Debriefing"
+    }
+  },
+  {
+    "id": "checkin",
+    "en": {
+      "title": "to check-in"
+    },
+    "de": {
+      "title": "zum Check-in"
+    }
   }
 ]
 
