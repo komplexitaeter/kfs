@@ -25,6 +25,10 @@ body{
     margin: 0px;
     overflow: hidden;
     visibility: hidden;
+    -ms-user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 
