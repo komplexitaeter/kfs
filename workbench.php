@@ -42,6 +42,12 @@ function update_workbench($link,
             and itm.is_in_progress = true
             and itm.current_station_id = kat.station_id
          ) as current_work_item_id
+        ,(select max(itm.options)
+           from kfs_items_tbl itm
+          where itm.round_id = krt.round_id
+            and itm.is_in_progress = true
+            and itm.current_station_id = kat.station_id
+         ) as current_work_item_options
         ,(select count(1) 
            from kfs_workbench_tbl kwb
           where kwb.simulation_id = sim.simulation_id
@@ -182,6 +188,12 @@ function update_workbench($link,
                        )
                       ,item_svg = '" . $item_svg . "'
                  WHERE itm.item_id=" . $meta_data->current_work_item_id;
+
+            /* check if we are finishing the last item and pause, if so */
+            if ($meta_data->current_work_item_options != null && $meta_data->current_work_item_options == 'multicolored') {
+                update_current_round($link, $simulation_id, 'stop', null, null);
+            }
+
         } else {
             $sql = "UPDATE kfs_items_tbl 
                    SET is_in_progress=false

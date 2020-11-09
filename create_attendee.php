@@ -34,7 +34,6 @@ else {
                     $sql = "INSERT INTO kfs_attendees_tbl(simulation_id, session_key, avatar_code, language_code, role_code) 
                          VALUES ($simulation_id,'$session_key','1','$obj->default_language_code', 'FACILITATOR')";
                 }
-                error_log($sql);
                 $link->query($sql);
             }
         }
