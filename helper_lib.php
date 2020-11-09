@@ -46,7 +46,7 @@ function get_translation($context, $id, $language_code) {
 }
 
 function get_create_items_sql($round_id, $offset, $count, $item_options) {
-    $options = array('green','blue','yellow','brown','pink','black','purple');
+    $options = array('green','blue','yellow','brown','pink','black','purple','red');
 
     //$sids = array('null','null','null','123321','124421','125521','126621','127721','128821','129921','131131');
     $sids = array('null');

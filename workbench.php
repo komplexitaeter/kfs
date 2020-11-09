@@ -128,14 +128,14 @@ function update_workbench($link,
             $obj = $result->fetch_object();
             $offset = $obj->cnt;
 
-            if ($item_options != null && $item_options == 'red') {
+            if ($item_options != null && $item_options == 'multicolored') {
                 update_current_round($link, $simulation_id, 'stop', null, null);
             }
 
             $item_options = null;
             if ($offset <= 39) {
                 if ($offset == 39) {
-                    $item_options = 'red';
+                    $item_options = 'multicolored';
                 }
                 $sql_items = get_create_items_sql($meta_data->current_round_id, $offset, 1, $item_options);
                 $link->query($sql_items);

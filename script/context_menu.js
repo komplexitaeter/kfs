@@ -8,7 +8,7 @@ function defineContextMenu(target_id, context){
                 "green": "set item to green",
                // "yellow": "set item to yellow",
                // "blue": "set item to yellow",
-                "": "remove color"
+                "multicolored": "set item to multicolored"
             };
 
             contextMenu = document.createElement("div");
@@ -20,11 +20,8 @@ function defineContextMenu(target_id, context){
                 option.classList.add("context_menu_option");
                 option.id = target_id + "_" + key;
                 option.value = target_id;
-                if (key != "") {
-                    option.src = "./src/dot_" + key + ".png";
-                } else {
-                    option.src = "./src/dot_multicolored.png";
-                }
+
+                option.src = "./src/dot_" + key + ".png";
 
                 option.onclick = updateItemOption;
                 contextMenu.append(option);

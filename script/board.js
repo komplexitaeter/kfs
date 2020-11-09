@@ -218,11 +218,7 @@ function createItemsOnWorkbench(itemsToCreate, targetDivId) {
             let optionDiv = document.createElement("img");
             optionDiv.classList.add("item_options");
 
-            if (item.options && item.options!="") {
-                optionDiv.src = './src/dot_'+item.options+'.png';
-            } else {
-                optionDiv.src = './src/dot_multicolored.png';
-            }
+            optionDiv.src = './src/dot_'+item.options+'.png';
 
             div.appendChild(optionDiv);
             document.getElementById(targetDivId).appendChild(div);
@@ -520,44 +516,11 @@ function updateItemDiv(obj, currentItemDivId){
 }
 
 function updateItemDivOptions(itemDiv, options){
-    let workbenchItemDiv = document.getElementById("workbench_"+itemDiv.id.split('_')[1]);
-
-    switch(options){
-        case "red":
-            Array.from(itemDiv.getElementsByTagName("img"))[0].src = "./src/dot_red.png";
-            if(workbenchItemDiv!=null) Array.from(workbenchItemDiv.getElementsByTagName("img"))[0].src = "./src/dot_red.png";
-            break;
-        case "green":
-            Array.from(itemDiv.getElementsByTagName("img"))[0].src = "./src/dot_green.png";
-            if(workbenchItemDiv!=null) Array.from(workbenchItemDiv.getElementsByTagName("img"))[0].src = "./src/dot_green.png";
-            break;
-        case "yellow":
-            Array.from(itemDiv.getElementsByTagName("img"))[0].src = "./src/dot_yellow.png";
-            if(workbenchItemDiv!=null) Array.from(workbenchItemDiv.getElementsByTagName("img"))[0].src = "./src/dot_yellow.png";
-            break;
-        case "blue":
-            Array.from(itemDiv.getElementsByTagName("img"))[0].src = "./src/dot_blue.png";
-            if(workbenchItemDiv!=null) Array.from(workbenchItemDiv.getElementsByTagName("img"))[0].src = "./src/dot_blue.png";
-            break;
-        case "brown":
-            Array.from(itemDiv.getElementsByTagName("img"))[0].src = "./src/dot_brown.png";
-            if(workbenchItemDiv!=null) Array.from(workbenchItemDiv.getElementsByTagName("img"))[0].src = "./src/dot_brown.png";
-            break;
-        case "pink":
-            Array.from(itemDiv.getElementsByTagName("img"))[0].src = "./src/dot_pink.png";
-            if(workbenchItemDiv!=null) Array.from(workbenchItemDiv.getElementsByTagName("img"))[0].src = "./src/dot_pink.png";
-            break;
-        case "purple":
-            Array.from(itemDiv.getElementsByTagName("img"))[0].src = "./src/dot_purple.png";
-            if(workbenchItemDiv!=null) Array.from(workbenchItemDiv.getElementsByTagName("img"))[0].src = "./src/dot_purple.png";
-            break;
-        case "black":
-            Array.from(itemDiv.getElementsByTagName("img"))[0].src = "./src/dot_black.png";
-            if(workbenchItemDiv!=null) Array.from(workbenchItemDiv.getElementsByTagName("img"))[0].src = "./src/dot_black.png";
-            break;
-        default:
-            Array.from(itemDiv.getElementsByTagName("img"))[0].src = "./src/dot_multicolored.png";
-            if(workbenchItemDiv!=null) Array.from(workbenchItemDiv.getElementsByTagName("img"))[0].src = "./src/dot_multicolored.png";
+    let optionsItemDiv = Array.from(itemDiv.getElementsByTagName("img"))[0];
+    if (optionsItemDiv && !optionsItemDiv.src.includes(options)) {
+        optionsItemDiv.src = "./src/dot_" + options + ".png";
+        let workbenchItemDiv = document.getElementById("workbench_" + itemDiv.id.split('_')[1]);
+        if (workbenchItemDiv != null) Array.from(workbenchItemDiv.getElementsByTagName("img"))[0].src = "./src/dot_" + options + ".png";
     }
 }
 
@@ -574,11 +537,7 @@ function createItemDiv(obj, currentItemDivId){
     let optionDiv = document.createElement("img");
     optionDiv.classList.add("item_options");
 
-    if (obj.options && obj.options!="") {
-        optionDiv.src = './src/dot_'+obj.options+'.png';
-    } else {
-        optionDiv.src = './src/dot_multicolored.png';
-    }
+    optionDiv.src = './src/dot_'+obj.options+'.png';
 
     optionDiv.style.pointerEvents = "none";
     div.appendChild(optionDiv);

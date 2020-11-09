@@ -253,7 +253,7 @@ class Workbench {
                     that.instructionItemId = that.itemId;
 
                     let color;
-                    if (that.options) {
+                    if (that.options && that.options != 'multicolored') {
                         color = that.getColorByName(that.options);
                     } else {
                         color = that.colorArray[Math.floor(Math.random() * 8)]; //ignore index "8" because it's white and hence invisible
