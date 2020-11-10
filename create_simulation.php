@@ -21,8 +21,13 @@ if ($obj = $result->fetch_object()) {
     $login_id = $obj->login_id;
 } else exit();
 
-$sql = "INSERT INTO kfs_simulation_tbl(current_round_id, default_language_code, login_id) VALUES (NULL, '$default_language_code', $login_id)";
-if(!$result = $link->query($sql))
+$simulation_key = openssl_random_pseudo_bytes(8);
+$simulation_key = bin2hex($simulation_key);
+
+$sql = $link->prepare("INSERT INTO kfs_simulation_tbl(simulation_key, current_round_id, default_language_code, login_id) VALUES (?,NULL,?,?)");
+$sql->bind_param('ssi', $simulation_key, $default_language_code, $login_id);
+
+if(!$sql->execute())
 {
     if ($link->connect_errno) {
         printf("\n Fail: %s\n", $link->connect_error);
@@ -38,6 +43,8 @@ if ($result = $link->query($sql)) {
     $sql="INSERT INTO kfs_attendees_tbl(simulation_id, session_key, avatar_code, role_code, language_code) 
                                 VALUES ($obj->simulation_id,'$session_key','1','FACILITATOR', '$default_language_code')";
     $link->query($sql);
+
+    $obj->simulation_key = $simulation_key;
 
     $myJSON = json_encode($obj);
     echo $myJSON;

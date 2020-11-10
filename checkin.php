@@ -1,23 +1,27 @@
 <?php
-function get_checkin_obj($simulation_id, $session_key, $add_stats, $execution_time, $is_stream) {
+function get_checkin_obj($simulation_id, $simulation_key, $session_key, $add_stats, $execution_time, $is_stream) {
     $link = db_init();
 
     /* save performance stats */
     save_execution_time($link, $simulation_id, $session_key, $execution_time, 'checkin', $is_stream);
 
-    $sql = "SELECT if(kat.name is null, 'CHECKIN', s.status_code) as status_code 
-             ,s.configuration_name
-             ,s.default_language_code
-          FROM kfs_simulation_tbl s
-            LEFT OUTER JOIN kfs_attendees_tbl kat on kat.simulation_id = s.simulation_id
-                AND kat.session_key = '$session_key'
-        WHERE s.simulation_id=".$simulation_id;
-
     $configuration_name = null;
     $status_code = null;
     $default_language_code = 'en';
 
-    if ($result = $link->query($sql)) {
+    $sql = $link->prepare("SELECT if(kat.name is null, 'CHECKIN', s.status_code) as status_code 
+                                       ,s.configuration_name
+                                     ,s.default_language_code
+                                  FROM kfs_simulation_tbl s
+                                    LEFT OUTER JOIN kfs_attendees_tbl kat 
+                                        on kat.simulation_id = s.simulation_id
+                                        AND kat.session_key = ?
+                                    WHERE s.simulation_id=?
+                                    AND s.simulation_key=?");
+    $sql->bind_param('sis', $session_key, $simulation_id, $simulation_key);
+    $sql->execute();
+
+    if ($result = $sql->get_result()) {
         if($obj = $result->fetch_object()) {
             $status_code = $obj->status_code;
             $configuration_name = $obj->configuration_name;

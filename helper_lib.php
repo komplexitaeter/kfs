@@ -31,8 +31,13 @@ function set_header($content_type) {
     header('Expires: 0');
 }
 
-function translate_tl($language_code, $tl) {
-    return trim(json_encode(json_decode($tl, true)[$language_code], JSON_UNESCAPED_UNICODE), '"');
+function translate_tl($language_code, $tl)
+{
+    if ($tl != null &&$language_code != null) {
+        return trim(json_encode(json_decode($tl, true)[$language_code], JSON_UNESCAPED_UNICODE), '"');
+    } else {
+        return null;
+    }
 }
 
 function get_translation($context, $id, $language_code) {

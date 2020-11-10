@@ -1,5 +1,5 @@
 <?php
-function get_board_obj($simulation_id, $session_key, $add_stats, $execution_time, $is_stream) {
+function get_board_obj($simulation_id, $simulation_key, $session_key, $add_stats, $execution_time, $is_stream) {
     $link = db_init();
 
     $link->autocommit(false);
@@ -8,8 +8,13 @@ function get_board_obj($simulation_id, $session_key, $add_stats, $execution_time
     /* save performance stats */
     save_execution_time($link, $simulation_id, $session_key, $execution_time, 'board', $is_stream);
 
+    $status_code=null;
+    $role_code=null;
+    $language_code = null;
+    $do_auto_pull = null;
+
     /*verify status of the current simulation*/
-    $sql = "SELECT if(a.name is null, 'CHECKIN', s.status_code) as status_code
+    $sql = $link->prepare("SELECT if(a.name is null, 'CHECKIN', s.status_code) as status_code
               ,case  when s.status_code = 'RUNNING'
                       and r.last_start_time is not null
                       and r.last_stop_time is null
@@ -22,16 +27,13 @@ function get_board_obj($simulation_id, $session_key, $add_stats, $execution_time
        ON r.round_id = s.current_round_id
     LEFT OUTER JOIN kfs_attendees_tbl as a
        ON a.simulation_id = s.simulation_id
-      and a.session_key = '$session_key'
-        WHERE s.simulation_id=$simulation_id";
+      and a.session_key = ?
+        WHERE s.simulation_id = ?
+        AND s.simulation_key = ?");
+    $sql->bind_param('sis', $session_key, $simulation_id, $simulation_key);
+    $sql->execute();
 
-    $status_code=null;
-    $role_code=null;
-    $language_code = null;
-    $do_auto_pull = null;
-
-
-    if ($result = $link->query($sql)) {
+    if ($result = $sql->get_result()) {
         if($obj = $result->fetch_object()) {
             $status_code = $obj->status_code;
             $role_code = $obj->role_code;

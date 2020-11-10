@@ -16,6 +16,12 @@ function getSimulationId(){
     return c;
 }
 
+function getSimulationKey(){
+    var url = new URL(window.location.href);
+    var c = url.searchParams.get('simulation_key');
+    return c;
+}
+
 function getFacilitate(){
     var url = new URL(window.location.href);
     var c = url.searchParams.get('facilitate');
@@ -72,6 +78,7 @@ function toggleAccessControl(role){
 
 function updateDom(myJson){
     let simulation_id = getSimulationId();
+    let simulation_key = getSimulationKey();
     let session_key = getSessionKey();
 
     switch(myJson.status_code) {
@@ -152,10 +159,12 @@ function updateDom(myJson){
             location.href = './index.html';
             break;
         case "RUNNING":
-            location.href = './board.html?simulation_id='+simulation_id;
+            location.href = './board.html?simulation_id='+simulation_id
+                                        +'&simulation_key='+simulation_key;
             break;
         case "DEBRIEFING":
-            location.href = './debriefing.html?simulation_id='+simulation_id;
+            location.href = './debriefing.html?simulation_id='+simulation_id
+                                        +'&simulation_key='+simulation_key;
             break;
         default:
             //alert("Undefined status_code - this is an error. Sorry.");
@@ -242,7 +251,8 @@ function loadCheckIn() {
             +"&simulation_id="+getSimulationId()
             +"&facilitate=1";
         fetch(url).then(r => {
-            if (r) location.href = './checkin.html?simulation_id='+getSimulationId();
+            if (r) location.href = './checkin.html?simulation_id='+getSimulationId()
+                                                +"&simulation_key="+getSimulationKey();
         });
     }
     else {
@@ -250,6 +260,7 @@ function loadCheckIn() {
         let baseUrl = 'get_checkin';
         let params = {
             "simulation_id": getSimulationId(),
+            "simulation_key": getSimulationKey(),
             "session_key": getSessionKey()
         }
         initializeConnection(baseUrl, params, updateDom);
@@ -304,7 +315,8 @@ function createSimulation() {
         })
 
         .then((myJson) => {
-            location.href = './checkin.html?simulation_id='+myJson.simulation_id;
+            location.href = './checkin.html?simulation_id='+myJson.simulation_id
+                                            +"&simulation_key="+myJson.simulation_key;
         });
     }, 1);
 

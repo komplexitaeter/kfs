@@ -5,6 +5,7 @@ function loadBoard(){
     let baseUrl = 'get_board';
     let params = {
         "simulation_id" : getSimulationId(),
+        "simulation_key" : getSimulationKey(),
         "session_key" : getSessionKey()
     }
     initializeConnection(baseUrl, params, updateDom);
@@ -14,6 +15,7 @@ function loadBoard(){
 
 function updateDom(myJson){
     let simulationId = getSimulationId();
+    let simulation_key = getSimulationKey();
     let sessionKey = getSessionKey();
     let firstLoad = false;
     if (document.body.style.visibility != 'visible') firstLoad = true;
@@ -40,10 +42,12 @@ function updateDom(myJson){
             location.href = './index.html';
             break;
         case "CHECKIN":
-            location.href = './checkin.html?simulation_id='+simulationId;
+            location.href = './checkin.html?simulation_id='+simulationId
+                +'&simulation_key='+simulation_key;
             break;
         case "DEBRIEFING":
-            location.href = './debriefing.html?simulation_id='+simulationId;
+            location.href = './debriefing.html?simulation_id='+simulationId
+                +'&simulation_key='+simulation_key;
             break;
         default:
         //alert("Undefined status_code - this is an error. Sorry.");

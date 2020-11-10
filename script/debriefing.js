@@ -6,6 +6,7 @@ function loadDebriefing(){
     let baseUrl = 'get_debriefing';
     let params = {
         "simulation_id" : getSimulationId(),
+        "simulation_key": getSimulationKey(),
         "session_key" : getSessionKey()
     }
     initializeConnection(baseUrl, params, updateDom);
@@ -40,14 +41,16 @@ function updateDom(myJson){
 
     switch(myJson.status_code) {
         case "RUNNING":
-            location.href = './board.html?simulation_id=' + getSimulationId();
+            location.href = './board.html?simulation_id=' + getSimulationId()
+                +'&simulation_key='+getSimulationKey();
             break;
         case "NO_SIMULATION":
             // alert("The required simulation ID does not exit. You will be taken to the home page.");
             location.href = './index.html';
             break;
         case "CHECKIN":
-            location.href = './checkin.html?simulation_id=' + getSimulationId();
+            location.href = './checkin.html?simulation_id=' + getSimulationId()
+                +'&simulation_key='+getSimulationKey();
             break;
         case "DEBRIEFING":
             displayAttendees(myJson.attendees, getSessionKey());

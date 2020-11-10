@@ -171,7 +171,7 @@ function drawShipsCycleTime(data, cycle_time_per_ship_max, targetDiv) {
     let colorCode;
 
     data.forEach(obj => {
-        if (obj[2] && obj[2]==='red') {
+        if (obj[2] && obj[2]==='multicolored') {
             colorCode = wb.getColorByName('red').colorCode;
         } else {
             colorCode = wb.getColorByName('green').colorCode;

@@ -4,6 +4,7 @@ function initialize_streaming($resource_name) {
     ob_implicit_flush(1);
 
     $simulation_id = filter_input(INPUT_GET, 'simulation_id', FILTER_SANITIZE_NUMBER_INT);
+    $simulation_key = filter_input(INPUT_GET, 'simulation_key', FILTER_SANITIZE_STRING);
     $session_key = filter_input(INPUT_GET, 'session_key', FILTER_SANITIZE_STRING);
     $add_stats = filter_input(INPUT_GET, 'add_stats', FILTER_SANITIZE_NUMBER_INT);
 
@@ -15,7 +16,7 @@ function initialize_streaming($resource_name) {
         $data_obj = null;
 
         $t1 = microtime(true);
-        $data_obj = get_data_obj($resource_name, $simulation_id, $session_key, $add_stats, $execution_time, true);
+        $data_obj = get_data_obj($resource_name, $simulation_id, $simulation_key, $session_key, $add_stats, $execution_time, true);
 
         $str  = "event: update\n";
         $str .= "data: ".json_encode($data_obj, JSON_UNESCAPED_UNICODE);
@@ -46,26 +47,27 @@ function initialize_pulling($resource_name) {
     set_header('json');
 
     $simulation_id = filter_input(INPUT_GET, 'simulation_id', FILTER_SANITIZE_NUMBER_INT);
+    $simulation_key = filter_input(INPUT_GET, 'simulation_key', FILTER_SANITIZE_STRING);
     $session_key = filter_input(INPUT_GET, 'session_key', FILTER_SANITIZE_STRING);
     $execution_time = filter_input(INPUT_GET, 'execution_time', FILTER_SANITIZE_NUMBER_INT);
     $add_stats = filter_input(INPUT_GET, 'add_stats', FILTER_SANITIZE_NUMBER_INT);
 
-    $data_obj = get_data_obj($resource_name, $simulation_id, $session_key, $add_stats, $execution_time, false);
+    $data_obj = get_data_obj($resource_name, $simulation_id, $simulation_key, $session_key, $add_stats, $execution_time, false);
 
     echo json_encode($data_obj, JSON_UNESCAPED_UNICODE);
 }
 
-function get_data_obj($resource_name, $simulation_id, $session_key, $add_stats, $execution_time, $is_stream) {
+function get_data_obj($resource_name, $simulation_id, $simulation_key, $session_key, $add_stats, $execution_time, $is_stream) {
     $data_obj = null;
     switch($resource_name) {
         case 'checkin':
-            $data_obj = get_checkin_obj($simulation_id, $session_key, $add_stats, $execution_time, $is_stream);
+            $data_obj = get_checkin_obj($simulation_id, $simulation_key, $session_key, $add_stats, $execution_time, $is_stream);
             break;
         case 'board':
-            $data_obj = get_board_obj($simulation_id, $session_key, $add_stats, $execution_time, $is_stream);
+            $data_obj = get_board_obj($simulation_id, $simulation_key, $session_key, $add_stats, $execution_time, $is_stream);
             break;
         case 'debriefing':
-            $data_obj = get_debriefing_obj($simulation_id, $session_key, $add_stats, $execution_time, $is_stream);
+            $data_obj = get_debriefing_obj($simulation_id, $simulation_key, $session_key, $add_stats, $execution_time, $is_stream);
             break;
     }
     return $data_obj;
