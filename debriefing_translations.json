@@ -96,5 +96,104 @@
     "de": {
       "text": "Anzuzeigende Runde auswählen"
     }
+  },
+  {
+    "id": "light_bulb",
+    "en": {
+      "title": "I have an answer"
+    },
+    "de": {
+      "title": "ich habe eine Antwort"
+    }
+  },
+  {
+    "id": "waiving_hand",
+    "en": {
+      "title": "I like to say something"
+    },
+    "de": {
+      "title": "ich möchte etwas sagen"
+    }
+  },
+  {
+    "id": "gear",
+    "en": {
+      "title": "I am thinking about it"
+    },
+    "de": {
+      "title": "ich denke darüber nach"
+    }
+  },
+  {
+    "id": "explosion",
+    "en": {
+      "title": "I had one insight"
+    },
+    "de": {
+      "title": "ich hatte eine Erkenntnis"
+    }
+  },
+  {
+    "id": "wondering",
+    "en": {
+      "title": "this is unclear to me"
+    },
+    "de": {
+      "title": "das ist mir unklar"
+    }
+  },
+  {
+    "id": "unset_mood",
+    "en": {
+      "title": "reset me"
+    },
+    "de": {
+      "title": "zurücksetzen"
+    }
+  },
+  {
+    "id": "show_statements",
+    "en": {
+      "title": "questions for the participants"
+    },
+    "de": {
+      "title": "Fragen an die Teilnehmer"
+    }
+  },
+  {
+    "id": "gear_all",
+    "en": {
+      "title": "everyone thinks about it"
+    },
+    "de": {
+      "title": "alle denken darüber nach"
+    }
+  },
+  {
+    "id": "unset_mood_all",
+    "en": {
+      "title": "reset all participants"
+    },
+    "de": {
+      "title": "alle zurücksetzen"
+    }
+  },
+  {
+    "id": "back_to_simulation",
+    "en": {
+      "title": "back to simulation"
+    },
+    "de": {
+      "title": "zurück zur Simulation"
+    }
+  },
+  {
+    "id": "download_pdf",
+    "en": {
+      "title": "download summary"
+    },
+    "de": {
+      "title": "Zusammenfassung herunterladen"
+    }
   }
 ]
