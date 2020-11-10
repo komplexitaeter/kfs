@@ -103,8 +103,14 @@ function updateDisplayedRound(e){
 }
 
 function updateRoundStats(round_id, side){
+
+    let sides = ["left", "right"];
+    let display = document.getElementById("round_display_" + side);
+    let avgThroughputDisplay = document.getElementById("round_stats_" + side + "_bottom_value");
+    let shipsPerMinuteDiv = document.getElementById('round_stats_' + side + '_top_graph');
+    let shipsPerCycleTimeDiv = document.getElementById('round_stats_' + side + '_middle_graph');
+
     if (round_id!== null) {
-        let sides = ["left", "right"];
         const url = "./get_round_statistics.php" +
             "?round_id=" + round_id +
             "&side=" + sides.indexOf(side);
@@ -114,8 +120,13 @@ function updateRoundStats(round_id, side){
                 return response.json();
             })
             .then((myJson) => {
+
+                display.hidden = false;
+                avgThroughputDisplay.hidden = false;
+                shipsPerMinuteDiv.hidden = false;
+                shipsPerCycleTimeDiv.hidden = false;
+
                 /**update round display on the corresponding side**/
-                let display = document.getElementById("round_display_" + side);
                 let modeTitle;
                 if (myJson.push_mode === '1') {
                     modeTitle = document.getElementById("title_push").value
@@ -125,14 +136,19 @@ function updateRoundStats(round_id, side){
 
                 display.innerHTML = document.getElementById("title_round").value
                     + " " + myJson.title
-                    + ": " + modeTitle
-                    + '<div class="visibility_toggle facilitator_tool"></div>';
+                    + ": " + modeTitle;
 
                 /**generate and update graphs on the corresponding side**/
-                drawShipsPerMinute(myJson.per_minute, myJson.ship_per_minute_max, myJson.wip_per_minute_max, 'round_stats_' + side + '_top_graph');
-                drawShipsCycleTime(myJson.per_ship, myJson.cycle_time_per_ship_max, 'round_stats_' + side + '_middle_graph');
-                document.getElementById("round_stats_" + side + "_bottom_value").innerText = document.getElementById("chart_average_throughput").value + myJson.kpi.avg_throughput;
+                drawShipsPerMinute(myJson.per_minute, myJson.ship_per_minute_max, myJson.wip_per_minute_max, shipsPerMinuteDiv);
+                drawShipsCycleTime(myJson.per_ship, myJson.cycle_time_per_ship_max, shipsPerCycleTimeDiv);
+                avgThroughputDisplay.innerText = document.getElementById("chart_average_throughput").value + myJson.kpi.avg_throughput;
+
             });
+    } else {
+        display.hidden = true;
+        avgThroughputDisplay.hidden = true;
+        shipsPerMinuteDiv.hidden = true;
+        shipsPerCycleTimeDiv.hidden = true;
     }
 }
 
@@ -204,7 +220,7 @@ function drawShipsCycleTime(data, cycle_time_per_ship_max, targetDiv) {
     };
 
 
-    let chart = new google.visualization.ScatterChart(document.getElementById(targetDiv));
+    let chart = new google.visualization.ScatterChart(targetDiv);
     chart.draw(gData, options);
 }
 
@@ -298,7 +314,7 @@ function drawShipsPerMinute(data, ship_per_minute_max, wip_per_minute_max, targe
         }
     };
 
-    let chart = new google.visualization.ComboChart(document.getElementById(targetDiv));
+    let chart = new google.visualization.ComboChart(targetDiv);
     chart.draw(gData, options);
 }
 

@@ -61,7 +61,7 @@ if(isset($_GET['stats_round_id'])){
     if ($side!=null && $side>=0 && $side<2) {
         $stats_round_id = filter_input(INPUT_GET, 'stats_round_id', FILTER_SANITIZE_NUMBER_INT);
         if ($stats_round_id != null) array_push($sql_set, "stats_round_id_$side = $stats_round_id");
-
+        else array_push($sql_set, "stats_round_id_$side = null");
     }
 }
 
