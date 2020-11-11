@@ -44,17 +44,19 @@ function updateReadyStatus(session_key, ready_to_start, name){
         current_object = e.querySelector('.ready_button_active');
     }
 
-    if(ready_to_start==1){
-            current_object.className = "ready_button_active";
-            current_object.disabled=false;
-        }
-    else{
-            current_object.className = "ready_button";
-            current_object.disabled=false;
-        }
-    if(name==null){
-        current_object.className="ready_button";
-        current_object.disabled=true;
+    if(ready_to_start==1 && name!=null){
+        addStyleClass(current_object, "ready_button_active");
+        removeStyleClass(current_object, "ready_button");
+    }
+    else {
+        addStyleClass(current_object, "ready_button");
+        removeStyleClass(current_object, "ready_button_active");
+    }
+
+    if(name==null) {
+        disableElement(current_object);
+    } else {
+        enableElement(current_object);
     }
 }
 
@@ -62,15 +64,13 @@ function toggleAccessControl(role){
     let accessControlDivs = Array.from(document.getElementsByClassName("access_control"));
     if(role == "FACILITATOR"){
         accessControlDivs.forEach( div => {
-            if(div.classList.contains("is_facilitator") == false){
-                div.classList.add("is_facilitator");
-            }
+            addStyleClass(div, "is_facilitator");
         });
         setCursorPermission(true);
     }
     if(role == "OBSERVER"){
         accessControlDivs.forEach( div => {
-            div.classList.remove("is_facilitator");
+            removeStyleClass(div, "is_facilitator");
         });
         setCursorPermission(false);
     }
@@ -132,21 +132,24 @@ function updateDom(myJson){
                 });
             }
 
+
+            let btn = document.getElementById('start_simulation_button');
+
             if (myJson.role_code == "FACILITATOR") {
                 if (readiness_level == myJson.attendees.length) {
-                    document.getElementById('start_simulation_button').classList.remove('start_button_invisible');
-                    document.getElementById('start_simulation_button').classList.add('start_button_ready');
-                    document.getElementById('start_simulation_button').classList.remove('start_button_pending');
+                    removeStyleClass(btn, 'start_button_invisible');
+                    addStyleClass(btn, 'start_button_ready');
+                    removeStyleClass(btn, 'start_button_pending');
                 } else {
-                    document.getElementById('start_simulation_button').classList.remove('start_button_invisible');
-                    document.getElementById('start_simulation_button').classList.remove('start_button_ready');
-                    document.getElementById('start_simulation_button').classList.add('start_button_pending');
+                    removeStyleClass(btn, 'start_button_invisible');
+                    removeStyleClass(btn, 'start_button_ready');
+                    addStyleClass(btn, 'start_button_pending');
                 }
             }
             else {
-                document.getElementById('start_simulation_button').classList.add('start_button_invisible');
-                document.getElementById('start_simulation_button').classList.remove('start_button_ready');
-                document.getElementById('start_simulation_button').classList.remove('start_button_pending');
+                addStyleClass(btn, 'start_button_invisible');
+                removeStyleClass(btn, 'start_button_ready');
+                removeStyleClass(btn, 'start_button_pending');
             }
 
             if (document.body.getAttribute("data-value") !== myJson.language_code) {
@@ -239,9 +242,10 @@ function addAttendeeField(session_key, name,avatar_code){
 }
 
 function loadCheckIn() {
+
     if (checkBrowser()) {
-        document.getElementById("vertical_container").classList.remove("display_none");
-        document.getElementById("invalid_browser").classList.add("display_none");
+        removeStyleClass(document.getElementById("vertical_container"), "display_none");
+        addStyleClass(document.getElementById("invalid_browser"), "display_none")
     }
     
     let facilitate = getFacilitate();
