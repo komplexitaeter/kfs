@@ -42,8 +42,10 @@ class Workbench {
 
             this.disableWorkbench('pending');
         } else {
-            if (fCanvas !== undefined &&  fCanvas) fCanvas.clear();
-            document.getElementById("toolbox_default_draw").className = "invisible_div";
+            if (implParam) {
+                fCanvas.clear();
+                document.getElementById("toolbox_default_draw").className = "invisible_div";
+            }
         }
     }
 
