@@ -11,7 +11,7 @@ class Workbench {
             {colorName: "yellow", colorCode: "#ffe573", letter:"C"},
             {colorName: "red", colorCode: "#ef0000", letter:"D"},
             {colorName: "brown", colorCode: "#dfa372", letter:"E"},
-            {colorName: "pink", colorCode: "#ff78e7", letter:"F"},
+              {colorName: "pink", colorCode: "#ff78e7", letter:"F"},
             {colorName: "black", colorCode: "#484848", letter:"G"},
             {colorName: "purple", colorCode: "#a105b1", letter:"H"},
         ];
@@ -42,7 +42,7 @@ class Workbench {
 
             this.disableWorkbench('pending');
         } else {
-            fCanvas.clear();
+            if (fCanvas) fCanvas.clear();
             document.getElementById("toolbox_default_draw").className = "invisible_div";
         }
     }
