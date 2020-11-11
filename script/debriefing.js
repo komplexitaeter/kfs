@@ -228,7 +228,6 @@ function setAttendeeMood(attendeeDiv, attendee){
         moodCode = attendee.mood_code;
     }
 
-
     let moodDiv = Array.from(attendeeDiv.getElementsByClassName("mood"));
 
     let toolDiv = Array.from(document.getElementById("tools").getElementsByClassName("tool"));
@@ -239,36 +238,36 @@ function setAttendeeMood(attendeeDiv, attendee){
     {
             switch(moodCode){
             case "light_bulb":
-                moodDiv[0].classList.add("light_bulb");
+                resetMood(moodDiv[0]);
                 moodDiv[0].style.animation = "light_bulb 2.5s 2 ease-out";
+                moodDiv[0].classList.add("light_bulb");
                 playSound("light_bulb");
                 break;
             case "waiving_hand":
-                moodDiv[0].classList.add("waiving_hand");
+                resetMood(moodDiv[0]);
                 moodDiv[0].style.animation = "waiving_hand  1.5s infinite linear";
+                moodDiv[0].classList.add("waiving_hand");
                 playSound("waiving_hand");
                 break;
             case "gear":
-                moodDiv[0].classList.add("gear");
+                resetMood(moodDiv[0]);
                 moodDiv[0].style.animation = "gear 3.5s infinite ease-in-out";
+                moodDiv[0].classList.add("gear");
                 break;
             case "explosion":
-                moodDiv[0].classList.add("explosion");
+                resetMood(moodDiv[0]);
                 moodDiv[0].style.animation = "explosion 3.5s 1 linear";
+                moodDiv[0].classList.add("explosion");
                 playSound("explosion");
                 break;
             case "wondering":
-                moodDiv[0].classList.add("wondering");
+                resetMood(moodDiv[0]);
                 moodDiv[0].style.animation = "wondering 3.5s infinite ease-in-out";
+                moodDiv[0].classList.add("wondering");
                 playSound("wondering");
                 break;
             default:
-                removeStyleClass(moodDiv[0],"light_bulb");
-                removeStyleClass(moodDiv[0],"waiving_hand");
-                removeStyleClass(moodDiv[0],"gear");
-                removeStyleClass(moodDiv[0],"explosion");
-                removeStyleClass(moodDiv[0],"wondering");
-                moodDiv[0].style.animation = "";
+                resetMood(moodDiv[0]);
         }
     }
 
@@ -281,6 +280,15 @@ function setAttendeeMood(attendeeDiv, attendee){
             }
         });
     }
+}
+
+function resetMood(div) {
+    div.style.animation = "";
+    removeStyleClass(div,"light_bulb");
+    removeStyleClass(div,"waiving_hand");
+    removeStyleClass(div,"gear");
+    removeStyleClass(div,"explosion");
+    removeStyleClass(div,"wondering");
 }
 
 
