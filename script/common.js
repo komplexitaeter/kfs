@@ -1,13 +1,13 @@
 /*>>>DOM:
-*
+* add to onLoadXYZ:
 * observer.observe(document.body, {attributes: true, childList: true, subtree: true});
 * document.body.addEventListener('dom-changed', e => console.log(e));
-*/
+
 const observer = new MutationObserver( list => {
     const evt = new CustomEvent('dom-changed', {detail: list});
     document.body.dispatchEvent(evt)
 });
-/*DOM<<<*/
+DOM<<<*/
 
 function addStyleClass(element, className) {
     if (!element.classList.contains(className)) element.classList.add(className);

@@ -1,7 +1,7 @@
 let language_code = 'en';
 let audioFiles;
 
-function loadDebriefing(){
+function loadDebriefing() {
 
     let baseUrl = 'get_debriefing';
     let params = {
@@ -85,7 +85,20 @@ function checkedDisplayedRounds(round_id_left, round_id_right) {
     let currentRoundLeft = document.getElementById("round_display_left");
     let currentRoundRight = document.getElementById("round_display_right");
 
-    if((currentRoundLeft.getAttribute("data-value") !== round_id_left)||(currentRoundRight.getAttribute("data-value") !== round_id_right)){
+    let currentAttrLeft = null;
+    if (currentRoundLeft.hasAttribute("data-value")) {
+        currentAttrLeft = currentRoundLeft.getAttribute("data-value").toString();
+    }
+
+    let currentAttrRight = null;
+    if (currentRoundRight.hasAttribute("data-value")) {
+        currentAttrRight = currentRoundRight.getAttribute("data-value").toString();
+    }
+
+    if((currentAttrLeft != round_id_left) || (currentAttrRight != round_id_right)){
+
+        //alert(currentAttrLeft+':'+round_id_left+' | '+currentAttrRight+':'+round_id_right);
+
         if (round_id_left == null) {
             currentRoundLeft.removeAttribute("data-value");
         }
@@ -149,10 +162,10 @@ function displayControls(language_code, mood_code, role_code){
     let language = Array.from(document.getElementsByClassName("language"));
     language.forEach( lang => {
         if(lang.id !== language_code) {
-            lang.classList.remove("active");
+            removeStyleClass(lang, "active");
         }
         else{
-            lang.classList.add("active");
+            addStyleClass(lang, "active");
         }
     });
     if(role_code === "FACILITATOR") {
@@ -210,16 +223,21 @@ function displayAttendees(attendees, session_key){
 
 
 function setAttendeeMood(attendeeDiv, attendee){
+    let moodCode = null;
+    if (attendee.mood_code && attendee.mood_code.length>0 && attendee.mood_code != 'unset_mood') {
+        moodCode = attendee.mood_code;
+    }
+
+
     let moodDiv = Array.from(attendeeDiv.getElementsByClassName("mood"));
 
     let toolDiv = Array.from(document.getElementById("tools").getElementsByClassName("tool"));
     if (
-        (attendee.mood_code &&  !moodDiv[0].classList.contains(attendee.mood_code))
-      ||  (!attendee.mood_code &&  moodDiv[0].classList.length > 0)
+        (moodCode &&  !moodDiv[0].classList.contains(attendee.mood_code))
+      ||  (!moodCode && moodDiv[0].classList.length > 1)
     )
     {
-        moodDiv[0].className = "mood";
-        switch(attendee.mood_code){
+            switch(moodCode){
             case "light_bulb":
                 moodDiv[0].classList.add("light_bulb");
                 moodDiv[0].style.animation = "light_bulb 2.5s 2 ease-out";
@@ -245,6 +263,11 @@ function setAttendeeMood(attendeeDiv, attendee){
                 playSound("wondering");
                 break;
             default:
+                removeStyleClass(moodDiv[0],"light_bulb");
+                removeStyleClass(moodDiv[0],"waiving_hand");
+                removeStyleClass(moodDiv[0],"gear");
+                removeStyleClass(moodDiv[0],"explosion");
+                removeStyleClass(moodDiv[0],"wondering");
                 moodDiv[0].style.animation = "";
         }
     }
@@ -252,9 +275,9 @@ function setAttendeeMood(attendeeDiv, attendee){
     if(attendee.session_key === getSessionKey()) {
         toolDiv.forEach(tool => {
             if (tool.id === attendee.mood_code) {
-                tool.classList.add("active_tool");
+                addStyleClass(tool, "active_tool");
             } else {
-                tool.classList.remove("active_tool");
+                removeStyleClass(tool, "active_tool");
             }
         });
     }
@@ -286,15 +309,13 @@ function toggleAccessControl(role){
     let accessControlDivs = Array.from(document.getElementsByClassName("access_control"));
     if(role == "FACILITATOR"){
         accessControlDivs.forEach( div => {
-            if(div.classList.contains("is_facilitator") == false){
-                div.classList.add("is_facilitator");
-            }
+            addStyleClass(div, "is_facilitator");
         });
         setCursorPermission(true);
     }
     if(role == "OBSERVER"){
         accessControlDivs.forEach( div => {
-            div.classList.remove("is_facilitator");
+            removeStyleClass(div, "is_facilitator");
         });
         setCursorPermission(false);
     }

@@ -49,10 +49,10 @@ function displayPresentation(domList, role_code, wip_visibility){
     toggles.forEach( dom => {
            dom.onclick = toggleParentDomVisibility;
            if(role_code === "OBSERVER") {
-               dom.parentElement.classList.remove("is_facilitator");
+               removeStyleClass(dom.parentElement, "is_facilitator");
            }
            if(role_code === "FACILITATOR"){
-               dom.parentElement.classList.add("is_facilitator");
+               addStyleClass(dom.parentElement, "is_facilitator");
            }
     });
 
@@ -225,7 +225,6 @@ function drawShipsCycleTime(data, cycle_time_per_ship_max, targetDiv) {
 }
 
 function drawShipsPerMinute(data, ship_per_minute_max, wip_per_minute_max, targetDiv) {
-
     let gData = new google.visualization.DataTable();
     let maxShip = Math.ceil(ship_per_minute_max*1.1);
     let maxWip = Math.ceil(wip_per_minute_max*1.1);
