@@ -16,7 +16,7 @@ class Workbench {
             {colorName: "purple", colorCode: "#a105b1", letter:"H"},
         ];
 
-        if (implParam || stationId) {
+        if (implParam && stationId) {
 
             this.stationId = stationId;
             this.pending = true;
@@ -41,6 +41,9 @@ class Workbench {
             fCanvas.freeDrawingBrush.width = gcLineWith;
 
             this.disableWorkbench('pending');
+        } else {
+            fCanvas.clear();
+            document.getElementById("toolbox_default_draw").className = "invisible_div";
         }
     }
 
@@ -316,7 +319,8 @@ class Workbench {
 }
 
 function loadWorkbench(implParam, stationId) {
-    if (workbenchGlobal == null || workbenchGlobal.getStationId() !== stationId) {
+    if (workbenchGlobal == null || workbenchGlobal.getStationId() != stationId
+    ) {
         workbenchGlobal = new Workbench(implParam, stationId);
     }
 }
