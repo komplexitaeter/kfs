@@ -42,7 +42,7 @@ class Workbench {
 
             this.disableWorkbench('pending');
         } else {
-            if (fCanvas) fCanvas.clear();
+            if (fCanvas !== undefined &&  fCanvas) fCanvas.clear();
             document.getElementById("toolbox_default_draw").className = "invisible_div";
         }
     }
