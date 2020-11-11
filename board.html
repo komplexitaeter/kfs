@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>Board Kanban Ship Building Flow Simulation Online</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/3.6.3/fabric.min.js"></script>
+
+    <script src="./script/common.js"></script>
     <script src="./script/ajax.js"></script>
     <script src="./script/flow.js"></script>
 
@@ -44,9 +46,16 @@
         <button id="checkin" class="control_button button_checkin access_control" onclick="pressCheckIn()">&nbsp;</button>
     </div>
 
-
-
-    <div id="clock" class="clock_display">&nbsp;</div>
+    <div id="clock" class="clock_display">
+        <img id="clock_digit_0" src='./src/0.png' class='clock_digit' />
+        <img id="clock_digit_1" src='./src/0.png' class='clock_digit' />
+        <img id="clock_digit_2" src='./src/dots.png' class='clock_digit'/>
+        <img id="clock_digit_3" src='./src/0.png' class='clock_digit' />
+        <img id="clock_digit_4" src='./src/0.png' class='clock_digit' />
+        <img id="clock_digit_5" src='./src/dots.png' class='clock_digit' />
+        <img id="clock_digit_6" src='./src/0.png' class='clock_digit' />
+        <img id="clock_digit_7" src='./src/0.png' class='clock_digit' />
+    </div>
 
 </div>
 

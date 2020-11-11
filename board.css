@@ -123,15 +123,17 @@ body{
 }
 
 .clock_digit{
-    width:12%;
+    display: inline-flex;
+    width: 8%;
 }
 
 .clock_display{
     position:absolute;
-    bottom: 0;
-    left: 10%;
-    width:75%;
-    padding: 0.5em 0.5em 0.2em;
+    bottom: 0%;
+    width: 80%;
+    height: auto;
+    padding: 8% 2% 6%;
+    text-align: center;
     background-image: url("./src/border_round_orange.png");
     background-repeat: no-repeat;
     background-size: 100%;

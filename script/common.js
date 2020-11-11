@@ -24,3 +24,7 @@ function enableElement(element) {
 function disableElement(element) {
     if (!element.disabled) element.disabled = true;
 }
+
+function setSrc(element, srcPath, srcFile) {
+    if (!element.src.includes(srcFile)) element.src = srcPath+srcFile;
+}

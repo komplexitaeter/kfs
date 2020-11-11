@@ -76,52 +76,52 @@ class Workbench {
 
         switch(state) {
             case "coffee_break":
-                lockedDiv.classList.add("coffee_break");
-                lockedDiv.classList.remove("simulation_paused");
-                lockedDiv.classList.remove("pull_ready");
-                lockedDiv.classList.remove("unattended");
-                lockedDiv.classList.remove("pending");
-                lockedDiv.classList.remove("none");
+                addStyleClass(lockedDiv, "coffee_break");
+                removeStyleClass(lockedDiv, "simulation_paused");
+                removeStyleClass(lockedDiv, "pull_ready");
+                removeStyleClass(lockedDiv, "unattended");
+                removeStyleClass(lockedDiv, "pending");
+                removeStyleClass(lockedDiv, "none");
                 break;
             case "simulation_paused":
-                lockedDiv.classList.remove("coffee_break");
-                lockedDiv.classList.add("simulation_paused");
-                lockedDiv.classList.remove("pull_ready");
-                lockedDiv.classList.remove("unattended");
-                lockedDiv.classList.remove("pending");
-                lockedDiv.classList.remove("none");
+                removeStyleClass(lockedDiv, "coffee_break");
+                addStyleClass(lockedDiv, "simulation_paused");
+                removeStyleClass(lockedDiv, "pull_ready");
+                removeStyleClass(lockedDiv, "unattended");
+                removeStyleClass(lockedDiv, "pending");
+                removeStyleClass(lockedDiv, "none");
                 break;
             case "pull_ready":
-                lockedDiv.classList.remove("coffee_break");
-                lockedDiv.classList.remove("simulation_paused");
-                lockedDiv.classList.add("pull_ready");
-                lockedDiv.classList.remove("unattended");
-                lockedDiv.classList.remove("pending");
-                lockedDiv.classList.remove("none");
+                removeStyleClass(lockedDiv, "coffee_break");
+                removeStyleClass(lockedDiv, "simulation_paused");
+                addStyleClass(lockedDiv, "pull_ready");
+                removeStyleClass(lockedDiv, "unattended");
+                removeStyleClass(lockedDiv, "pending");
+                removeStyleClass(lockedDiv, "none");
                 break;
             case "unattended":
-                lockedDiv.classList.remove("coffee_break");
-                lockedDiv.classList.remove("simulation_paused");
-                lockedDiv.classList.remove("pull_ready");
-                lockedDiv.classList.add("unattended");
-                lockedDiv.classList.remove("pending");
-                lockedDiv.classList.remove("none");
+                removeStyleClass(lockedDiv, "coffee_break");
+                removeStyleClass(lockedDiv, "simulation_paused");
+                removeStyleClass(lockedDiv, "pull_ready");
+                addStyleClass(lockedDiv, "unattended");
+                removeStyleClass(lockedDiv, "pending");
+                removeStyleClass(lockedDiv, "none");
                 break;
             case "pending":
-                lockedDiv.classList.remove("coffee_break");
-                lockedDiv.classList.remove("simulation_paused");
-                lockedDiv.classList.remove("pull_ready");
-                lockedDiv.classList.remove("unattended");
-                lockedDiv.classList.add("pending");
-                lockedDiv.classList.remove("none");
+                removeStyleClass(lockedDiv, "coffee_break");
+                removeStyleClass(lockedDiv, "simulation_paused");
+                removeStyleClass(lockedDiv, "pull_ready");
+                removeStyleClass(lockedDiv, "unattended");
+                addStyleClass(lockedDiv, "pending");
+                removeStyleClass(lockedDiv, "none");
                 break;
             default:
-                lockedDiv.classList.remove("coffee_break");
-                lockedDiv.classList.remove("simulation_paused");
-                lockedDiv.classList.remove("pull_ready");
-                lockedDiv.classList.remove("unattended");
-                lockedDiv.classList.remove("pending");
-                lockedDiv.classList.add("none");
+                removeStyleClass(lockedDiv, "coffee_break");
+                removeStyleClass(lockedDiv, "simulation_paused");
+                removeStyleClass(lockedDiv, "pull_ready");
+                removeStyleClass(lockedDiv, "unattended");
+                removeStyleClass(lockedDiv, "pending");
+                addStyleClass(lockedDiv, "none");
                 break;
         }
     }

@@ -2,6 +2,7 @@ let fCanvas;
 let language_code = 'en';
 
 function loadBoard(){
+
     let baseUrl = 'get_board';
     let params = {
         "simulation_id" : getSimulationId(),
@@ -76,18 +77,12 @@ function sec2time(timeInSeconds, getHours) {
 }
 
 function complexClock(time){
-    let digits = [];
-    let clockDisplay="";
-    for(var i=0; i<10;i++){
-        digits[i]="<img src='./src/"+i+".png' class='clock_digit'>";
+    let strTime = time.toString();
+    for(let i=0; i<strTime.length; i++){
+       if ("0123456789".includes( strTime.charAt(i) )) {
+           setSrc(document.getElementById('clock_digit_'+i.toString()), './src/', strTime.charAt(i)+'.png')
+       }
     }
-    digits[':']="<img src='./src/dots.png' class='clock_digit'>";
-    let stime = time.toString();
-    for(i=0;i<stime.length;i++){
-            clockDisplay += digits[stime.charAt(i)];
-    }
-    return clockDisplay;
-
 }
 
 function displayWorkbench(workbench, current_round, simulation_id){
@@ -160,38 +155,39 @@ deleteOutdatedItemsOnWorkbench("work_in_progress",[workbench.current_item]);
 
     /* set the status of the workbenches pull button (start next item) */
     if (workbench.meta_data.pull == 'active') {
-        document.getElementById("pull_button").disabled=false;
+        enableElement(document.getElementById("pull_button"));
     }
     else {
-        document.getElementById("pull_button").disabled=true;
+        disableElement(document.getElementById("pull_button"));
     }
 
     /* set the status of the workbenches work-area (aka locked_div) */
     workbenchGlobal.setStatus(workbench.meta_data.locked_div);
 
     /* set the status of the workbenches push button (finish current item) */
+    let pushButton = document.getElementById("push_button");
     if (workbench.meta_data.push == 'active') {
-        document.getElementById("push_button").disabled=false;
-        document.getElementById("push_button").classList.remove("glass_hour");
+        enableElement(pushButton);
+        removeStyleClass(pushButton, "glass_hour");
     }
     else if (workbench.meta_data.push == 'glass_hour') {
-        /* todo: set a css class for button image with a glass hour  */
-        document.getElementById("push_button").disabled=true;
-        document.getElementById("push_button").classList.add("glass_hour");
+        disableElement(pushButton);
+        addStyleClass(pushButton, "glass_hour");
     }
     else {
-        document.getElementById("push_button").disabled=true;
-        document.getElementById("push_button").classList.remove("glass_hour");
+        disableElement(pushButton);
+        removeStyleClass(pushButton, "glass_hour");
     }
 
     /* set the status of the "Finish Item" button */
+    let finishItemButton = document.getElementById("button_finish_item");
     if (workbench.meta_data.push == 'active') {
-        document.getElementById("button_finish_item").classList.add('button_finish_item_on')
-        document.getElementById("button_finish_item").classList.remove('button_finish_item_off')
+        addStyleClass(finishItemButton, 'button_finish_item_on');
+        removeStyleClass(finishItemButton, 'button_finish_item_off');
     }
     else {
-        document.getElementById("button_finish_item").classList.remove('button_finish_item_on')
-        document.getElementById("button_finish_item").classList.add('button_finish_item_off')
+        removeStyleClass(finishItemButton, 'button_finish_item_on');
+        addStyleClass(finishItemButton, 'button_finish_item_off');
     }
 
 }
@@ -397,53 +393,53 @@ function displayControls(round){
     let language = Array.from(document.getElementsByClassName("language"));
     language.forEach( lang => {
         if(lang.id !== language_code) {
-            lang.classList.remove("active");
+            removeStyleClass(lang, "active");
         }
         else{
-            lang.classList.add("active");
+            addStyleClass(lang, "active");
         }
     });
 
     if (round.trial_run==1) {
-        document.getElementById('clock').classList.add("clock_hidden");
+        addStyleClass(document.getElementById('clock'), "clock_hidden");
     }
     else {
-        document.getElementById('clock').classList.remove("clock_hidden");
+        removeStyleClass(document.getElementById('clock'), "clock_hidden");
     }
 
     if((round.last_start_time == null)&&(round.last_stop_time == null)){
-        playButton.disabled=false;
-        stopButton.disabled=true;
-        resetButton.disabled=false;
-        debriefingButton.disabled=false;
+        enableElement(playButton);
+        disableElement(stopButton);
+        enableElement(resetButton);
+        enableElement(debriefingButton);
     }
 
     if((round.last_start_time == null)&&(round.last_stop_time != null)){
-        playButton.disabled = true;
-        stopButton.disabled = true;
-        resetButton.disabled = true;
-        debriefingButton.disabled = true;
+        disableElement(playButton);
+        disableElement(stopButton);
+        disableElement(resetButton);
+        disableElement(debriefingButton);
         console.log("Unfortunately there is an error");
     }
 
     if((round.last_start_time != null)&&(round.last_stop_time == null)){
-        playButton.disabled = true;
-        stopButton.disabled = false;
-        resetButton.disabled = true;
-        debriefingButton.disabled = true;
+        disableElement(playButton);
+        enableElement(stopButton);
+        disableElement(resetButton);
+        disableElement(debriefingButton);
     }
 
     if((round.last_start_time != null)&&(round.last_stop_time != null)){
-        playButton.disabled = false;
-        stopButton.disabled = true;
-        resetButton.disabled = false;
-        debriefingButton.disabled = false;
+        enableElement(playButton);
+        disableElement(stopButton);
+        enableElement(resetButton);
+        enableElement(debriefingButton);
     }
 
     if (round.last_start_time != null) {
-        checkinButton.disabled = true;
+        disableElement(checkinButton);
     } else {
-        checkinButton.disabled = false;
+        enableElement(checkinButton);
     }
 
     let modeHint;
@@ -462,8 +458,9 @@ function displayControls(round){
     totalDuration = sec2time(parseInt(round.total_time_s));
     document.getElementById("clock").innerText = totalDuration;
     */
-    totalDuration = complexClock(sec2time(parseInt(round.total_time_s), 1));
-    document.getElementById("clock").innerHTML = totalDuration;
+    if (!document.getElementById('clock').classList.contains("clock_hidden")) {
+        complexClock(sec2time(parseInt(round.total_time_s), 1));
+    }
 }
 
 function displayStations(stations, simulation_id, override){
@@ -503,16 +500,16 @@ function updateItemDiv(obj, currentItemDivId){
     let item = document.getElementById(currentItemDivId);
     //item.innerText = "#"+obj.order_number+" | "+sec2time(obj.cycle_time_s)+" | "+obj.price+"€";
     if (obj.wip == '0') {
-        item.classList.remove('wip_item');
-        item.classList.remove('done_item');
+        removeStyleClass(item, 'wip_item');
+        removeStyleClass(item, 'done_item');
     }
     else if (obj.wip == '1') {
-        item.classList.add('wip_item');
-        item.classList.remove('done_item');
+        addStyleClass(item, 'wip_item');
+        removeStyleClass(item, 'done_item');
     }
     else {
-        item.classList.remove('wip_item');
-        item.classList.add('done_item');
+        removeStyleClass(item, 'wip_item');
+        addStyleClass(item, 'done_item');
     }
 
     updateItemDivOptions(item, obj.options);
@@ -651,10 +648,10 @@ function putAttendeeDivAtTheRightPosition(myDiv, obj){
 
 function switchTimeoutAttendee(myDiv, bool){
     if(bool){
-        myDiv.classList.add("timeout_user");
+        addStyleClass(myDiv, "timeout_user");
     }
     else{
-        myDiv.classList.remove("timeout_user");
+        removeStyleClass(myDiv, "timeout_user");
     }
 }
 
@@ -709,15 +706,13 @@ function toggleAccessControl(role){
     let accessControlDivs = Array.from(document.getElementsByClassName("access_control"));
     if(role == "FACILITATOR"){
         accessControlDivs.forEach( div => {
-            if(div.classList.contains("is_facilitator") == false){
-                div.classList.add("is_facilitator");
-            }
+            addStyleClass(div, "is_facilitator");
         });
         setCursorPermission(true);
     }
     if(role == "OBSERVER"){
         accessControlDivs.forEach( div => {
-                div.classList.remove("is_facilitator");
+            removeStyleClass(div, "is_facilitator");
         });
         setCursorPermission(false);
     }
@@ -791,30 +786,34 @@ function close_new_round_dialog() {
 }
 
 function toggleTrialBtn(isTrial) {
+    let trialButtonTrue = document.getElementById('btn_trial_true');
+    let trialButtonFalse = document.getElementById('btn_trial_false');
     if (isTrial) {
-        document.getElementById('btn_trial_true').classList.add('tb_active');
-        document.getElementById('btn_trial_true').classList.remove('tb_inactive');
-        document.getElementById('btn_trial_false').classList.add('tb_inactive');
-        document.getElementById('btn_trial_false').classList.remove('tb_active');
+        addStyleClass(trialButtonTrue, 'tb_active');
+        removeStyleClass(trialButtonTrue, 'tb_inactive');
+        addStyleClass(trialButtonFalse, 'tb_inactive');
+        removeStyleClass(trialButtonFalse, 'tb_active')
     } else {
-        document.getElementById('btn_trial_true').classList.add('tb_inactive');
-        document.getElementById('btn_trial_true').classList.remove('tb_active');
-        document.getElementById('btn_trial_false').classList.add('tb_active');
-        document.getElementById('btn_trial_false').classList.remove('tb_inactive');
+        addStyleClass(trialButtonTrue, 'tb_inactive');
+        removeStyleClass(trialButtonTrue, 'tb_active');
+        addStyleClass(trialButtonFalse, 'tb_active');
+        removeStyleClass(trialButtonFalse, 'tb_inactive')
     }
 }
 
 function toggleAutoPullBtn(isAutoPull) {
+    let autoPullButtonTrue = document.getElementById('btn_auto_pull_true');
+    let autoPullButtonFalse = document.getElementById('btn_auto_pull_false');
     if (isAutoPull) {
-        document.getElementById('btn_auto_pull_true').classList.add('tb_active');
-        document.getElementById('btn_auto_pull_true').classList.remove('tb_inactive');
-        document.getElementById('btn_auto_pull_false').classList.add('tb_inactive');
-        document.getElementById('btn_auto_pull_false').classList.remove('tb_active');
+        addStyleClass(autoPullButtonTrue, 'tb_active');
+        removeStyleClass(autoPullButtonTrue, 'tb_inactive');
+        addStyleClass(autoPullButtonFalse, 'tb_inactive');
+        removeStyleClass(autoPullButtonFalse, 'tb_active')
     } else {
-        document.getElementById('btn_auto_pull_true').classList.add('tb_inactive');
-        document.getElementById('btn_auto_pull_true').classList.remove('tb_active');
-        document.getElementById('btn_auto_pull_false').classList.add('tb_active');
-        document.getElementById('btn_auto_pull_false').classList.remove('tb_inactive');
+        addStyleClass(autoPullButtonTrue, 'tb_inactive');
+        removeStyleClass(autoPullButtonTrue, 'tb_active');
+        addStyleClass(autoPullButtonFalse, 'tb_active');
+        removeStyleClass(autoPullButtonFalse, 'tb_inactive')
     }
 }
 
@@ -934,34 +933,49 @@ function updateThumbnail(simulation_id, station_id, last_item_id, locked_div) {
                         obj.src = url + url_param;
                     }
                 } else {
-                    obj.src =  url + url_miss;
+                    if (!obj.src.includes(url_miss)) {
+                        obj.src = url + url_miss;
+                    }
                 }
             } else {
-                obj.src = url + url_miss;
+                if (!obj.src.includes(url_miss)) {
+                    obj.src = url + url_miss;
+                }
             }
         }
 
 
         switch(locked_div){
             case "coffee_break":
-                obj.classList.remove("simulation_paused", "pull_ready", "unattended", "none");
-                obj.classList.add("coffee_break");
+                if (!obj.classList.contains("coffee_break")) {
+                    obj.classList.remove("simulation_paused", "pull_ready", "unattended", "none");
+                    obj.classList.add("coffee_break");
+                }
                 break;
             case "simulation_paused":
-                obj.classList.remove("coffee_break", "pull_ready", "unattended", "none");
-                obj.classList.add("simulation_paused");
+                if (!obj.classList.contains("simulation_paused")) {
+                    obj.classList.remove("coffee_break", "pull_ready", "unattended", "none");
+                    obj.classList.add("simulation_paused");
+                }
                 break;
             case "pull_ready":
-                obj.classList.remove("coffee_break", "simulation_paused", "unattended", "none");
-                obj.classList.add("pull_ready");
+                if (!obj.classList.contains("pull_ready")) {
+                    obj.classList.remove("coffee_break", "simulation_paused", "unattended", "none");
+                    obj.classList.add("pull_ready");
+                }
                 break;
             case "unattended":
-                obj.classList.remove("coffee_break", "simulation_paused", "pull_ready", "none");
-                obj.classList.add("unattended");
+                if (!obj.classList.contains("unattended")) {
+                    obj.classList.remove("coffee_break", "simulation_paused", "pull_ready", "none");
+                    obj.classList.add("unattended");
+                }
                 break;
             case "none":
-                obj.classList.remove("coffee_break", "simulation_paused", "pull_ready", "unattended");
-                break;
+                removeStyleClass(obj, "coffee_break");
+                removeStyleClass(obj, "simulation_paused");
+                removeStyleClass(obj, "pull_ready");
+                removeStyleClass(obj, "unattended");
+            break;
         }
     });
 }
