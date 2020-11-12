@@ -76,17 +76,17 @@ function displayPresentation(domList, role_code, wip_visibility){
     });
 
     let sides = ["left","right"];
-    for(i=0;i<=1;i++){
+    for(let i=0;i<=1;i++){
         let wip_toggle = document.getElementById(sides[i]+"_wip_visibility_toggle");
         if((wip_visibility[i] === 1)&&wip_toggle.classList.contains("wip_inactive")){
             wip_toggle.classList.remove("wip_inactive");
             wip_toggle.classList.add("wip_active");
-            document.getElementById("round_display_left").removeAttribute("data-value");
+            document.getElementById("round_display_"+sides[i]).removeAttribute("data-value");
         }
         if((wip_visibility[i] === 0)&&wip_toggle.classList.contains("wip_active")){
             wip_toggle.classList.remove("wip_active");
             wip_toggle.classList.add("wip_inactive");
-            document.getElementById("round_display_right").removeAttribute("data-value");
+            document.getElementById("round_display_"+sides[i]).removeAttribute("data-value");
         }
     }
 
