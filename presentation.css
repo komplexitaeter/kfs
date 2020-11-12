@@ -36,28 +36,27 @@ grid-area: start row / start column / end row / end column;
 }
 
 .wip_visibility_toggle{
-    width: 1.5rem;
-    height: 1.5rem;
-    border-radius: 100%;
-    right:2rem;
+    width: 60px;
+    height: 20px;
+    left:2rem;
     top:0.3rem;
     position: absolute;
     z-index: 5;
-    background-size: 100% 100%;
+    background-size: contain;
     background-repeat: no-repeat;
     font-family: Komplexitater;
     font-weight: bold;
     cursor: pointer;
+    padding-top: 3px;
+    font-size: 14px;
 }
 
 .wip_active{
-    text-decoration: none;
+    background-image: url("./src/toggle_active.png");
 }
 
 .wip_inactive{
-    text-decoration: line-through;
-    text-decoration-style: double;
-    text-decoration-color: darkgrey;
+    background-image: url("./src/toggle_inactive.png");
 }
 
 .dom_hidden .wip_visibility_toggle{
