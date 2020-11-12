@@ -1,33 +1,5 @@
 let firstLoad = true;
 
-function getSessionKey(){
-    var session_key = localStorage.getItem('SESSION_KEY');
-    if (session_key === null) {
-        var uid = (Date.now().toString(36) + Math.random().toString(36).substr(2, 8)).toUpperCase();
-        localStorage.setItem('SESSION_KEY', uid);
-        session_key=uid;
-    }
-    return session_key;
-}
-
-function getSimulationId(){
-    var url = new URL(window.location.href);
-    var c = url.searchParams.get('simulation_id');
-    return c;
-}
-
-function getSimulationKey(){
-    var url = new URL(window.location.href);
-    var c = url.searchParams.get('simulation_key');
-    return c;
-}
-
-function getFacilitate(){
-    var url = new URL(window.location.href);
-    var c = url.searchParams.get('facilitate');
-    return c;
-}
-
 function switchCurrentUserReadyStatus(){
     const url ='./update_attendee.php?simulation_id='+getSimulationId()+'&session_key='+getSessionKey()+'&switch_status=1';
     fetch(url);
@@ -57,22 +29,6 @@ function updateReadyStatus(session_key, ready_to_start, name){
         disableElement(current_object);
     } else {
         enableElement(current_object);
-    }
-}
-
-function toggleAccessControl(role){
-    let accessControlDivs = Array.from(document.getElementsByClassName("access_control"));
-    if(role == "FACILITATOR"){
-        accessControlDivs.forEach( div => {
-            addStyleClass(div, "is_facilitator");
-        });
-        setCursorPermission(true);
-    }
-    if(role == "OBSERVER"){
-        accessControlDivs.forEach( div => {
-            removeStyleClass(div, "is_facilitator");
-        });
-        setCursorPermission(false);
     }
 }
 
@@ -179,8 +135,6 @@ function updateDom(myJson){
     }
 
 }
-
-
 
 function editNameCurrentUser(){
     var new_name=document.getElementById("current_user").querySelector(".attendee_name").value;
@@ -300,34 +254,6 @@ function copyContent(content){
     document.execCommand("copy");
 }
 
-function createSimulation() {
-
-    setInterval(function(){
-    document.getElementById("create_simulation").style.backgroundColor='red';
-        setTimeout(function(){
-            document.getElementById("create_simulation").style.backgroundColor='blue';
-        }, 500);
-    }, 1000);
-
-    setTimeout(function(){
-    let defaultLanguage = document.querySelector('input[name="language_code"]:checked').value;
-    const url ='./create_simulation.php?session_key='+getSessionKey()
-        +"&demo_mode=1"
-        +'&default_language_code='+defaultLanguage;
-
-    fetch(url)
-        .then((response) => {
-            return response.json();
-        })
-
-        .then((myJson) => {
-            location.href = './checkin.html?simulation_id='+myJson.simulation_id
-                                            +"&simulation_key="+myJson.simulation_key;
-        });
-    }, 1);
-
-}
-
 function startSimulation(){
     const url = './update_simulation.php?simulation_id='+getSimulationId()+'&status_code=RUNNING';
     fetch(url);
@@ -362,14 +288,5 @@ function switchConfiguration(){
     let url = "./update_simulation.php?"
                 +"simulation_id="+getSimulationId()
                 +"&configuration_name="+list.value;
-    fetch(url);
-}
-
-function updateAttendeeRole(e){
-    /*reminder: option.id = session_key+"_"+role; */
-    let url = './update_attendee.php?'
-        +"session_key="+e.target.id.split('_')[0]
-        +"&role_code="+e.target.id.split('_')[1]
-        +"&simulation_id="+getSimulationId();
-    fetch(url);
+    fetch(url).then();
 }

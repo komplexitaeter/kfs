@@ -28,3 +28,53 @@ function disableElement(element) {
 function setSrc(element, srcPath, srcFile) {
     if (!element.src.includes(srcFile)) element.src = srcPath+srcFile;
 }
+
+function getSessionKey(){
+    var session_key = localStorage.getItem('SESSION_KEY');
+    if (session_key === null) {
+        var uid = (Date.now().toString(36) + Math.random().toString(36).substr(2, 8)).toUpperCase();
+        localStorage.setItem('SESSION_KEY', uid);
+        session_key=uid;
+    }
+    return session_key;
+}
+
+function getSimulationId() {
+    let url = new URL(window.location.href);
+    return url.searchParams.get('simulation_id');
+}
+
+function getSimulationKey(){
+    let url = new URL(window.location.href);
+    return url.searchParams.get('simulation_key');
+}
+
+function getFacilitate(){
+    let url = new URL(window.location.href);
+    return  url.searchParams.get('facilitate');
+}
+
+function toggleAccessControl(role){
+    let accessControlDivs = Array.from(document.getElementsByClassName("access_control"));
+    if(role === "FACILITATOR"){
+        accessControlDivs.forEach( div => {
+            addStyleClass(div, "is_facilitator");
+        });
+        setCursorPermission(true);
+    }
+    if(role === "OBSERVER"){
+        accessControlDivs.forEach( div => {
+            removeStyleClass(div, "is_facilitator");
+        });
+        setCursorPermission(false);
+    }
+}
+
+function updateAttendeeRole(e) {
+    /*reminder: option.id = session_key+"_"+role; */
+    let url = './update_attendee.php?'
+        +"session_key="+e.target.id.split('_')[0]
+        +"&role_code="+e.target.id.split('_')[1]
+        +"&simulation_id="+getSimulationId();
+    fetch(url).then();
+}

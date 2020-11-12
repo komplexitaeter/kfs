@@ -313,23 +313,6 @@ function createAttendeeDiv(attendee, session_key){
     return myDiv;
 }
 
-
-function toggleAccessControl(role){
-    let accessControlDivs = Array.from(document.getElementsByClassName("access_control"));
-    if(role == "FACILITATOR"){
-        accessControlDivs.forEach( div => {
-            addStyleClass(div, "is_facilitator");
-        });
-        setCursorPermission(true);
-    }
-    if(role == "OBSERVER"){
-        accessControlDivs.forEach( div => {
-            removeStyleClass(div, "is_facilitator");
-        });
-        setCursorPermission(false);
-    }
-}
-
 function updateRoundSwitch(leftRoundId, rightRoundId) {
     let leftId;
     let rightId;
@@ -473,15 +456,6 @@ function closeStatementsWindow(e){
             cur.style.visibility = "visible";
         });
     }
-}
-
-function updateAttendeeRole(e){
-    /*reminder: option.id = session_key+"_"+role; */
-    let url = './update_attendee.php?'
-        +"session_key="+e.target.id.split('_')[0]
-        +"&role_code="+e.target.id.split('_')[1]
-        +"&simulation_id="+getSimulationId();
-    fetch(url);
 }
 
 function updateItemOption(e){
