@@ -200,7 +200,7 @@ class Workbench {
             document.getElementById("tools").appendChild(document.getElementById("toolbox_default_draw"));
             document.getElementById("toolbox_default_draw").className = "visible_div";
 
-            if (loadItem) {
+            if (loadItem && that.itemId !== null) {
                 that.start(that);
             }
 

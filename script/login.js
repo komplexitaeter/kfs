@@ -32,8 +32,11 @@ function checkLogonStatus(targetUrl, isLogon, token) {
             if ((myJson.signed_on === 1) === isLogon ) {
                 /* logon for session_key found, so switch to target */
                 location.href = targetUrl;
-            } else if (myJson.user) {
-                document.getElementById("user").value = myJson.user;
+            } else {
+                if (myJson.user) {
+                    document.getElementById("user").value = myJson.user;
+                }
+                document.body.classList.remove("hidden");
             }
         } );
 }

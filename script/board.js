@@ -556,11 +556,13 @@ function displayItemPreview(e){
         div_preview.style.top = e.clientY + "px";
 
         let item_id = e.target.id.split('_')[1];
-        let url = "./get_item_svg.php?"
-            +"item_id="+item_id;
 
-        div_preview.src = url;
-        div_preview.style.visibility = "visible";
+        if (item_id && item_id.toString().length >0) {
+            let url = "./get_item_svg.php?"
+                + "item_id=" + item_id;
+            div_preview.src = url;
+            div_preview.style.visibility = "visible";
+        }
     }
 }
 
