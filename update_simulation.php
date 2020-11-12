@@ -69,7 +69,10 @@ if(isset($_GET['configuration_name'])){
     $configuration_name = filter_input(INPUT_GET, 'configuration_name', FILTER_SANITIZE_STRING);
     if ($configuration_name != null) {
 
-        $sql = $link->prepare( "select count(1) as cnt
+        $sql = $link->prepare( "select count(1) as items_cnt
+                                            ,(select ist.demo_mode 
+                                               from kfs_simulation_tbl ist 
+                                              where ist.simulation_id =?) as demo_mode
                   from kfs_simulation_tbl kst
                   join kfs_rounds_tbl krt on krt.round_id = kst.current_round_id
                   join kfs_items_tbl kit on kit.round_id = krt.round_id
@@ -78,12 +81,12 @@ if(isset($_GET['configuration_name'])){
                        or not isnull(kit.current_station_id)
                      )");
 
-        $sql->bind_param('i', $simulation_id);
+        $sql->bind_param('ii', $simulation_id, $simulation_id);
         $sql->execute();
         $result = $sql->get_result();
-        $items_cnt = $result->fetch_object()->cnt;
+        $obj = $result->fetch_object();
 
-        if ($items_cnt === 0) {
+        if ($obj->items_cnt === 0 && $obj->demo_mode === 0) {
 
             array_push($sql_set, "configuration_name = '$configuration_name'");
 

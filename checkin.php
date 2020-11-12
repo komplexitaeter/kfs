@@ -7,11 +7,13 @@ function get_checkin_obj($simulation_id, $simulation_key, $session_key, $add_sta
 
     $configuration_name = null;
     $status_code = null;
+    $demo_mode = 1;
     $default_language_code = 'en';
 
     $sql = $link->prepare("SELECT if(kat.name is null, 'CHECKIN', s.status_code) as status_code 
                                        ,s.configuration_name
                                      ,s.default_language_code
+                                        ,s.demo_mode
                                   FROM kfs_simulation_tbl s
                                     LEFT OUTER JOIN kfs_attendees_tbl kat 
                                         on kat.simulation_id = s.simulation_id
@@ -24,6 +26,7 @@ function get_checkin_obj($simulation_id, $simulation_key, $session_key, $add_sta
     if ($result = $sql->get_result()) {
         if($obj = $result->fetch_object()) {
             $status_code = $obj->status_code;
+            $demo_mode = $obj->demo_mode;
             $configuration_name = $obj->configuration_name;
             $default_language_code = $obj->default_language_code;
             if (strlen($default_language_code)!=2) {
@@ -161,6 +164,7 @@ function get_checkin_obj($simulation_id, $simulation_key, $session_key, $add_sta
     $link->close();
 
     return array("status_code"=>$status_code
+    , "demo_mode"=>(int)$demo_mode
     , "role_code"=>$role_code
     , "language_code" => $language_code
     , "attendees"=>$objs

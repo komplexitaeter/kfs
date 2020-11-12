@@ -84,7 +84,7 @@ function updateDom(myJson){
     switch(myJson.status_code) {
         case "CHECKIN":
 
-            displayConfigurationsList(myJson.configuration_name, myJson.configurations);
+            displayConfigurationsList(myJson.configuration_name, myJson.configurations, myJson.demo_mode);
 
             var list_of_session_keys = new Array();
             var readiness_level = 0;
@@ -311,7 +311,9 @@ function createSimulation() {
 
     setTimeout(function(){
     let defaultLanguage = document.querySelector('input[name="language_code"]:checked').value;
-    const url ='./create_simulation.php?session_key='+getSessionKey()+'&default_language_code='+defaultLanguage;
+    const url ='./create_simulation.php?session_key='+getSessionKey()
+        +"&demo_mode=1"
+        +'&default_language_code='+defaultLanguage;
 
     fetch(url)
         .then((response) => {
@@ -331,14 +333,24 @@ function startSimulation(){
     fetch(url);
 }
 
-function displayConfigurationsList(configuration_name, configurations){
+function displayConfigurationsList(configuration_name, configurations, demo_mode){
     let list = document.getElementById("pick_configuration");
+    let demoHint;
+
+    if (demo_mode===0) {
+        enableElement(list);
+        demoHint = '';
+    } else {
+        disableElement(list);
+        demoHint = ' (Demo)';
+    }
+
     if (list.childElementCount == 0) {
         configurations.forEach(item => {
             let option = document.createElement('option');
             option.value = item.configuration_name;
             option.id = item.configuration_name;
-            option.text = item.description;
+            option.text = item.description + demoHint;
             list.appendChild(option);
         });
     }

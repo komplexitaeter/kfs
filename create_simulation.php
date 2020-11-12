@@ -4,6 +4,8 @@ require 'helper_lib.php';
 
 $session_key = filter_input(INPUT_GET, 'session_key', FILTER_SANITIZE_STRING);
 $default_language_code = filter_input(INPUT_GET, 'default_language_code', FILTER_SANITIZE_STRING);
+$demo_mode = filter_input(INPUT_GET, 'demo_mode', FILTER_SANITIZE_NUMBER_INT);
+
 
 set_header('json');
 
@@ -11,6 +13,10 @@ $link = db_init();
 
 if (strlen($default_language_code)!=2) {
     $default_language_code = 'en';
+}
+
+if ($demo_mode != 0) {
+    $demo_mode = 1;
 }
 
 $sql = $link->prepare("SELECT login_id FROM kfs_login_tbl WHERE session_key=?");
@@ -24,8 +30,8 @@ if ($obj = $result->fetch_object()) {
 $simulation_key = openssl_random_pseudo_bytes(8);
 $simulation_key = bin2hex($simulation_key);
 
-$sql = $link->prepare("INSERT INTO kfs_simulation_tbl(simulation_key, current_round_id, default_language_code, login_id) VALUES (?,NULL,?,?)");
-$sql->bind_param('ssi', $simulation_key, $default_language_code, $login_id);
+$sql = $link->prepare("INSERT INTO kfs_simulation_tbl(simulation_key, current_round_id, default_language_code, login_id, demo_mode) VALUES (?,NULL,?,?,?)");
+$sql->bind_param('ssii', $simulation_key, $default_language_code, $login_id, $demo_mode);
 
 if(!$sql->execute())
 {
