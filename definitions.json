@@ -16,7 +16,7 @@
   },
   "de": {
     "title": "Durchsatz",
-    "text": "Menge fertiggstellter Arbeit pro Zeiteinheit (Shiffe/Minute)"
+    "text": "Menge fertiggstellter Arbeit pro Zeiteinheit (Schiffe/Minute)"
   }
 }, {
   "id": "definition_cycle_time",

@@ -458,14 +458,6 @@ function closeStatementsWindow(e){
     }
 }
 
-function updateItemOption(e){
-    /*reminder: option.id = item_id+"_"+key; */
-    let url = './update_items.php?'
-        +"item_id="+e.target.id.split('_')[0]
-        +"&options="+e.target.id.split('_')[1];
-    fetch(url);
-}
-
 function playSound(file){
     if (audioFiles!=null) {
         audioFiles[file].play();
