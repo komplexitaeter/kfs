@@ -379,6 +379,7 @@ body{
     position:absolute;
     text-align: center;
     font-size: large;
+    font-size-adjust: 0.4;
     font-family: Komplexitater;
     font-variant: small-caps;
     padding-top: 0.3em;
@@ -618,6 +619,7 @@ body{
     position:absolute;
     text-align: center;
     font-size: large;
+    font-size-adjust: 0.4;
     font-family: Komplexitater;
     font-variant: small-caps;
     padding-top: 0.3em;

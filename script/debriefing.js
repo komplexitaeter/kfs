@@ -228,6 +228,7 @@ function setAttendeeMood(attendeeDiv, attendee){
         moodCode = attendee.mood_code;
     }
 
+
     let moodDiv = Array.from(attendeeDiv.getElementsByClassName("mood"));
 
     let toolDiv = Array.from(document.getElementById("tools").getElementsByClassName("tool"));
