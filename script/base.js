@@ -23,7 +23,7 @@ function createSimulation() {
     setTimeout(function(){
         let defaultLanguage = document.querySelector('input[name="language_code"]:checked').value;
         const url ='./create_simulation.php?session_key='+getSessionKey()
-            +"&demo_mode=0"
+            +"&demo_mode=1"
             +'&default_language_code='+defaultLanguage;
 
         fetch(url)
