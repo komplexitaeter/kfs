@@ -3,14 +3,12 @@ let gLanguageCode = "de";
 let gModeCode = "SIGN_ON";
 
 function loadLogin() {
-    /* check if already logged on */
-    checkLogonStatus(gConsTargetURL, true, getURLParam("token"));
-
-    let languageCode = getURLParam("language");
+    let languageCode = getURLParam("language_code");
     if (   languageCode === "en"
         || languageCode === "de") {
         gLanguageCode = languageCode;
     }
+    checkLogonStatus(gConsTargetURL+'?language_code='+gLanguageCode, true, getURLParam("token"));
     setLanguage();
 
     let modeCode = getURLParam("mode");
@@ -188,7 +186,8 @@ function handleHttpResponse(readyState, status, responseText) {
                     submitBtn.classList.add("submit_btn_active");
 
                     /* refer to target location */
-                    location.href = gConsTargetURL;
+                    location.href = gConsTargetURL+'?language_code='+gLanguageCode;
+
                 } else if (!responseJSON.hasOwnProperty("error_code")
                         || responseJSON.error_code === null
                         || responseJSON.error_code.length === 0) {

@@ -1,0 +1,101 @@
+[
+  {
+    "id": "home_link",
+    "en": {
+      "href": "https://www.komplexitaeter.de/en/"
+    },
+    "de": {
+      "href": "https://www.komplexitaeter.de/"
+    }
+  },
+  {
+    "id": "imprint_link",
+    "en": {
+      "text": "Imprint"
+    },
+    "de": {
+      "text": "Impressum"
+    }
+  },
+  {
+    "id": "imprint_link",
+    "en": {
+      "href": "https://www.komplexitaeter.de/en/imprint/"
+    },
+    "de": {
+      "href": "https://www.komplexitaeter.de/impressum/"
+    }
+  },
+  {
+    "id": "privacy_policy_link",
+    "en": {
+      "text": "Privacy Policy"
+    },
+    "de": {
+      "text": "Datenschutz"
+    }
+  },
+  {
+    "id": "privacy_policy_link",
+    "en": {
+      "href": "https://www.komplexitaeter.de/en/privacy-policy/"
+    },
+    "de": {
+      "href": "https://www.komplexitaeter.de/datenschutz/"
+    }
+  },
+  {
+    "id": "privacy_policy_link",
+    "en": {
+      "href": "https://www.komplexitaeter.de/en/privacy-policy/"
+    },
+    "de": {
+      "href": "https://www.komplexitaeter.de/datenschutz/"
+    }
+  },
+  {
+    "id": "language_toggle",
+    "en": {
+      "src": "src/flag_de.png"
+    },
+    "de": {
+      "src": "src/flag_en.png"
+    }
+  },
+  {
+    "id": "logout_btn_label",
+    "en": {
+      "text": "Logout"
+    },
+    "de": {
+      "text": "Abmelden"
+    }
+  },
+  {
+    "id": "open_credits_txt",
+    "en": {
+      "hidden": " Live Simulations"
+    },
+    "de": {
+      "hidden": " Live Simulationen"
+    }
+  },
+  {
+    "id": "open_credit_txt",
+    "en": {
+      "hidden": " Live Simulation"
+    },
+    "de": {
+      "hidden": " Live Simulatione"
+    }
+  },
+  {
+    "id": "buy_credits_btn_label",
+    "en": {
+      "text": " Buy Live Simulations"
+    },
+    "de": {
+      "text": " Live Simulationen kaufen"
+    }
+  }
+]

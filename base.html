@@ -3,14 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <script src="./script/common.js"></script>
-    <script src="./script/base.js"></script>
+    <script src="./script/translate.js"></script>
+    <script src="./script/ajax.js"></script>
     <script src="./script/login.js"></script>
-    <link rel="stylesheet" type="text/css" href="./index.css">
+    <script src="./script/base.js"></script>
+    <link rel="stylesheet" type="text/css" href="./base.css">
     <title>Komplexitäter - Toolbox</title>
 </head>
-<body onload="loadBase()">
+<body onload="loadBase()"  class="hidden">
 
-<input type="submit" value="Logout" onclick="logoutBtnClick()" />
+<div id="header">
+    <button id="credits_btn" class="hidden" onclick="open_purchase_dialog()">
+        <img src="./src/wallet_icon.png" alt="" />
+        <span id="credits_btn_label"></span>
+        <img src="./src/dropdown_icon.png" alt="" />
+    </button>
+    <button id="buy_credits_btn" class="hidden" onclick="open_purchase_dialog()">
+        <img src="./src/cart.png" alt="" />
+        <span id="buy_credits_btn_label"></span>
+    </button>
+    <a id="home_link" href="https://www.komplexitaeter.de/en/">
+        <img id="logo" src="./src/logo_big-7.png" alt="Komplexitäter" />
+    </a>
+    <button id="logout_btn" onclick="logoutBtnClick()">
+        <span id="logout_btn_label">Logout</span>
+        <img src="./src/logout_btn.png" alt="Logout" />
+    </button>
+</div>
+
+<div id="content">
+</div>
+
+<div id="footer">
+    <a id="imprint_link" href="">Impressum</a>
+    <a id="privacy_policy_link" href="">Datenschutz</a>
+    <img id="language_toggle" src="" onclick="toggleLanguage()" alt="toggle language" />
+</div>
+
+
+<!--
 
 <div id="create_simulation" class="display_block">
     <button type="button" value="" onclick="createSimulation()">Simulation organisieren</button>
@@ -21,6 +52,33 @@
     <input type="radio" id="en" name="language_code" value="en" checked>
     <input type="radio" id="de" name="language_code" value="de">
     <label for="de">DE</label>
+</div>-->
+
+
+<div id="purchase_dialog" class="overlay" hidden>
+    <div class="modal_window">
+        <div class="close_purchase_dialog" onclick="close_purchase_dialog()">
+            <img src="./src/cross_black.png" alt="X">
+        </div>
+        <div class="purchase_qty">
+            <div>
+                <span id="purchase_qty">1x</span>
+                <span id="purchase_unit_price" class="small_hint">á</span>
+            </div>
+            <div>
+                <span>Live Simulation</span>
+                <span class="small_hint">mit bis zu 8 Teilnehmern</span>
+            </div>
+            <div>
+                <img src="./src/btn_minus.png" alt="-" onclick="btn_purchase_qty_minus()"/>
+                <img src="./src/btn_plus.png" alt="+" onclick="btn_purchase_qty_plus()"/>
+            </div>
+            <div>
+                <span id="purchase_total_price">90€</span>
+                <span class="small_hint">inkl. MwSt.</span>
+            </div>
+        </div>
+    </div>
 </div>
 
 </body>

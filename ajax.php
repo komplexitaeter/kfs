@@ -60,6 +60,9 @@ function initialize_pulling($resource_name) {
 function get_data_obj($resource_name, $simulation_id, $simulation_key, $session_key, $add_stats, $execution_time, $is_stream) {
     $data_obj = null;
     switch($resource_name) {
+        case 'base':
+            $data_obj = get_base_obj($session_key);
+            break;
         case 'checkin':
             $data_obj = get_checkin_obj($simulation_id, $simulation_key, $session_key, $add_stats, $execution_time, $is_stream);
             break;
