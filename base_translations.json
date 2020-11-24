@@ -97,5 +97,122 @@
     "de": {
       "text": " Live Simulationen kaufen"
     }
+  },
+  {
+    "id": "purchase_title",
+    "en": {
+      "text": "Live Simulation"
+    },
+    "de": {
+      "text": "Live Simulation"
+    }
+  },
+  {
+    "id": "purchase_desc",
+    "en": {
+      "text": "up to 10 participants"
+    },
+    "de": {
+      "text": "mit bis zu 8 Teilnehmern"
+    }
+  },
+  {
+    "id": "purchase_vat_desc",
+    "en": {
+      "text": "incl. VAT"
+    },
+    "de": {
+      "text": "inkl. MwSt."
+    }
+  },
+  {
+    "id": "purchase_method_invoice_header",
+    "en": {
+      "text": "Simply by invoice"
+    },
+    "de": {
+      "text": "Einfach per Rechnung"
+    }
+  },
+  {
+    "id": "purchase_method_invoice_hint",
+    "en": {
+      "text": "You will receive an e-mail invoice and pay by SEPA bank transfer."
+    },
+    "de": {
+      "text": "Du erhältst eine E-Mail Rechnung und bezahlst per SEPA Überweisung."
+    }
+  },
+  {
+    "id": "purchase_method_offer_header",
+    "en": {
+      "text": "Process with offer"
+    },
+    "de": {
+      "text": "Prozess mit Angebot"
+    }
+  },
+  {
+    "id": "purchase_method_offer_hint",
+    "en": {
+      "text": "Before invoicing, you need an offer for your internal processes."
+    },
+    "de": {
+      "text": "Vor der Rechnung benötigst du für deine internen Prozesse ein Angebot."
+    }
+  },
+  {
+    "id": "purchase_method_custom_header",
+    "en": {
+      "text": "Permit A38"
+    },
+    "de": {
+      "text": "Passierschein A38"
+    }
+  },
+  {
+    "id": "purchase_method_custom_hint",
+    "en": {
+      "text": "It is complex. We will contact you and find a solution together."
+    },
+    "de": {
+      "text": "Es ist komplex. Wir kontaktieren dich und suchen gemeinsam eine Lösung."
+    }
+  },
+  {
+    "id": "purchase_address_label_invoice",
+    "en": {
+      "hidden": "Invoice address"
+    },
+    "de": {
+      "hidden": "Rechnungsanschrift"
+    }
+  },
+  {
+    "id": "purchase_address_placeholder_invoice",
+    "en": {
+      "hidden": "What shall we put on your invoice?"
+    },
+    "de": {
+      "hidden": "Was sollen wir auf deine Rechnung schreiben?"
+    }
+  },
+  {
+    "id": "purchase_address_label_offer",
+    "en": {
+      "hidden": "Offer address"
+    },
+    "de": {
+      "hidden": "Angebotsadresse"
+    }
+  },
+  {
+    "id": "purchase_address_placeholder_offer",
+    "en": {
+      "hidden": "What shall we put on your offer?"
+    },
+    "de": {
+      "hidden": "Was sollen wir auf dein Angebot schreiben?"
+    }
   }
 ]

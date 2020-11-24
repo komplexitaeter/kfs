@@ -1,6 +1,7 @@
 let gConsLoginUrl = "./login.html";
 let gPriceList;
 let gPurchaseQty = 1;
+let gPurchaseMethod = "INVOICE";
 
 function loadBase() {
     let languageCode = getURLParam("language_code");
@@ -77,9 +78,15 @@ function logoutBtnClick() {
     });
 }
 
+function focusPurchasingTextarea() {
+    setTimeout(function() {
+        document.getElementById("purchase_address").focus();
+    }, 0);
+}
+
 function open_purchase_dialog(){
-    gPurchaseQty = 1;
     updatePurchaseQty();
+    updatePurchaseMethod();
     document.getElementById('purchase_dialog').hidden=false;
 }
 
@@ -101,9 +108,61 @@ function updatePurchaseQty() {
     document.getElementById("purchase_qty").textContent
         = gPurchaseQty.toString() + "x";
     document.getElementById("purchase_unit_price").textContent
-        = "á " + gPriceList[gPurchaseQty].toString() + "€";;
+        = "á " + gPriceList[gPurchaseQty].toString() + "€";
     document.getElementById("purchase_total_price").textContent
         = (gPurchaseQty * gPriceList[gPurchaseQty]).toString() + "€";
+    focusPurchasingTextarea();
+}
+
+function set_purchase_method(purchaseMethod) {
+    gPurchaseMethod = purchaseMethod;
+    updatePurchaseMethod();
+}
+
+function updatePurchaseMethod() {
+    let div_invoice = document.getElementById("purchase_method_invoice");
+    let div_offer = document.getElementById("purchase_method_offer");
+    let div_custom = document.getElementById("purchase_method_custom");
+    let div_address = document.getElementById("purchase_address_div");
+
+    let address_label = document.getElementById("purchase_address_label");
+    let purchase_address = document.getElementById("purchase_address");
+    let address_label_tl;
+    let address_placeholder_tl;
+
+    switch (gPurchaseMethod) {
+        case "INVOICE":
+            toggleStyleClass(div_invoice, "active", "inactive");
+            toggleStyleClass(div_offer, "inactive", "active");
+            toggleStyleClass(div_custom, "inactive", "active");
+            toggleStyleClass(div_address, "purchase_address_active", "purchase_address_hidden");
+            address_label_tl = document.getElementById("purchase_address_label_invoice");
+            address_placeholder_tl = document.getElementById("purchase_address_placeholder_invoice");
+            if (!address_label.textContent.includes(address_label_tl.value)) {
+                address_label.textContent = address_label_tl.value;
+                purchase_address.placeholder = address_placeholder_tl.value;
+            }
+            break;
+        case "OFFER":
+            toggleStyleClass(div_invoice, "inactive", "active");
+            toggleStyleClass(div_offer, "active", "inactive");
+            toggleStyleClass(div_custom, "inactive", "active");
+            toggleStyleClass(div_address, "purchase_address_active", "purchase_address_hidden");
+            address_label_tl = document.getElementById("purchase_address_label_offer");
+            address_placeholder_tl = document.getElementById("purchase_address_placeholder_offer");
+            if (!address_label.textContent.includes(address_label_tl.value)) {
+                address_label.textContent = address_label_tl.value;
+                purchase_address.placeholder = address_placeholder_tl.value;
+            }
+            break;
+        case "CUSTOM":
+            toggleStyleClass(div_invoice, "inactive", "active");
+            toggleStyleClass(div_offer, "inactive", "active");
+            toggleStyleClass(div_custom, "active", "inactive");
+            toggleStyleClass(div_address, "purchase_address_hidden", "purchase_address_active");
+            break;
+    }
+    focusPurchasingTextarea();
 }
 
 function createSimulation() {

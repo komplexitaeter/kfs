@@ -17,6 +17,11 @@ function removeStyleClass(element, className) {
     if (element.classList.contains(className)) element.classList.remove(className);
 }
 
+function toggleStyleClass(element, addClassName, removeClassName) {
+    removeStyleClass(element, removeClassName);
+    addStyleClass(element, addClassName);
+}
+
 function enableElement(element) {
     if (element.disabled) element.disabled = false;
 }

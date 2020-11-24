@@ -57,25 +57,51 @@
 
 <div id="purchase_dialog" class="overlay" hidden>
     <div class="modal_window">
-        <div class="close_purchase_dialog" onclick="close_purchase_dialog()">
-            <img src="./src/cross_black.png" alt="X">
+        <div class="close_purchase_dialog">
+            <img src="./src/cross_black.png" alt="X" onclick="close_purchase_dialog()">
         </div>
-        <div class="purchase_qty">
-            <div>
-                <span id="purchase_qty">1x</span>
-                <span id="purchase_unit_price" class="small_hint">á</span>
+        <div>
+            <div class="purchase_qty">
+                <div>
+                    <span id="purchase_qty">1x</span>
+                    <span id="purchase_unit_price" class="small_hint">á</span>
+                </div>
+                <div>
+                    <span id="purchase_title"></span>
+                    <span id="purchase_desc" class="small_hint"></span>
+                </div>
+                <div>
+                    <img src="./src/btn_minus.png" alt="-" onclick="btn_purchase_qty_minus()"/>
+                    <img src="./src/btn_plus.png" alt="+" onclick="btn_purchase_qty_plus()"/>
+                </div>
+                <div>
+                    <span id="purchase_total_price">90€</span>
+                    <span id="purchase_vat_desc" class="small_hint">inkl. MwSt.</span>
+                </div>
             </div>
-            <div>
-                <span>Live Simulation</span>
-                <span class="small_hint">mit bis zu 8 Teilnehmern</span>
+            <div class="purchase_method">
+                <div id="purchase_method_invoice" class="inactive" onclick="set_purchase_method('INVOICE')">
+                    <img src="./src/icon_system_simple.png" alt="-" onclick="set_purchase_method('INVOICE')">
+                    <h1 id="purchase_method_invoice_header" onclick="set_purchase_method('INVOICE')"></h1>
+                    <span id="purchase_method_invoice_hint" onclick="set_purchase_method('INVOICE')">Ich erhalte eine Rechnung per E-Mail und bezahl per SEPA Überweisung.</span>
+                </div>
+                <div id="purchase_method_offer" class="inactive" onclick="set_purchase_method('OFFER')">
+                    <img src="./src/icon_system_complecated.png" alt="-" onclick="set_purchase_method('OFFER')">
+                    <h1 id="purchase_method_offer_header" onclick="set_purchase_method('OFFER')"></h1>
+                    <span id="purchase_method_offer_hint" onclick="set_purchase_method('OFFER')">Vor der Rechnung benötige ich für unseren internen Prozesse ein Angebot.</span>
+                </div>
+                <div id="purchase_method_custom" class="inactive" onclick="set_purchase_method('CUSTOM')">
+                    <img src="./src/icon_system_complex.png" alt="-" onclick="set_purchase_method('CUSTOM')">
+                    <h1 id="purchase_method_custom_header" onclick="set_purchase_method('CUSTOM')"></h1>
+                    <span id="purchase_method_custom_hint" onclick="set_purchase_method('CUSTOM')">Es ist komplex. Bitte nehmt mit mir Kontakt auf, um eine Lösung zu finden.</span>
+                </div>
             </div>
-            <div>
-                <img src="./src/btn_minus.png" alt="-" onclick="btn_purchase_qty_minus()"/>
-                <img src="./src/btn_plus.png" alt="+" onclick="btn_purchase_qty_plus()"/>
+            <div id="purchase_address_div" class="purchase_address purchase_address_active">
+                <label id="purchase_address_label" for="purchase_address"></label>
+                <textarea id="purchase_address" placeholder="Was sollen wir auf deine Rechnung schreiben?"></textarea>
             </div>
-            <div>
-                <span id="purchase_total_price">90€</span>
-                <span class="small_hint">inkl. MwSt.</span>
+            <div class="purchase_footer">
+                <input type="submit" class="submit_btn submit_btn_active" value="Live Simulation freischalten" />
             </div>
         </div>
     </div>
