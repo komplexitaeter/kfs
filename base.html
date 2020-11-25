@@ -60,7 +60,7 @@
         <div class="close_purchase_dialog">
             <img src="./src/cross_black.png" alt="X" onclick="close_purchase_dialog()">
         </div>
-        <div>
+        <div id="purchase_new">
             <div class="purchase_qty">
                 <div>
                     <span id="purchase_qty">1x</span>
@@ -83,26 +83,35 @@
                 <div id="purchase_method_invoice" class="inactive" onclick="set_purchase_method('INVOICE')">
                     <img src="./src/icon_system_simple.png" alt="-" onclick="set_purchase_method('INVOICE')">
                     <h1 id="purchase_method_invoice_header" onclick="set_purchase_method('INVOICE')"></h1>
-                    <span id="purchase_method_invoice_hint" onclick="set_purchase_method('INVOICE')">Ich erhalte eine Rechnung per E-Mail und bezahl per SEPA Überweisung.</span>
+                    <span id="purchase_method_invoice_hint" onclick="set_purchase_method('INVOICE')"></span>
                 </div>
                 <div id="purchase_method_offer" class="inactive" onclick="set_purchase_method('OFFER')">
                     <img src="./src/icon_system_complecated.png" alt="-" onclick="set_purchase_method('OFFER')">
                     <h1 id="purchase_method_offer_header" onclick="set_purchase_method('OFFER')"></h1>
-                    <span id="purchase_method_offer_hint" onclick="set_purchase_method('OFFER')">Vor der Rechnung benötige ich für unseren internen Prozesse ein Angebot.</span>
+                    <span id="purchase_method_offer_hint" onclick="set_purchase_method('OFFER')"></span>
                 </div>
                 <div id="purchase_method_custom" class="inactive" onclick="set_purchase_method('CUSTOM')">
                     <img src="./src/icon_system_complex.png" alt="-" onclick="set_purchase_method('CUSTOM')">
                     <h1 id="purchase_method_custom_header" onclick="set_purchase_method('CUSTOM')"></h1>
-                    <span id="purchase_method_custom_hint" onclick="set_purchase_method('CUSTOM')">Es ist komplex. Bitte nehmt mit mir Kontakt auf, um eine Lösung zu finden.</span>
+                    <span id="purchase_method_custom_hint" onclick="set_purchase_method('CUSTOM')"></span>
                 </div>
             </div>
             <div id="purchase_address_div" class="purchase_address purchase_address_active">
                 <label id="purchase_address_label" for="purchase_address"></label>
-                <textarea id="purchase_address" placeholder="Was sollen wir auf deine Rechnung schreiben?"></textarea>
+                <textarea id="purchase_address" placeholder="" maxlength="250"></textarea>
             </div>
             <div class="purchase_footer">
-                <input type="submit" class="submit_btn submit_btn_active" value="Live Simulation freischalten" />
+                <input id="purchase_submit_btn" type="submit" class="submit_btn submit_btn_active" value="" onclick="purchase_submit()" />
             </div>
+            <div id="purchase_warning_msg" class="warning_msg_inactive">&nbsp;</div>
+        </div>
+        <div id="purchase_open">
+            <h1 id="purchase_open_header">+20 Live Simulationen</h1>
+            <div id="purchase_open_feedback"></div>
+            <div id="purchase_open_invoice" class="hidden"></div>
+            <div id="purchase_open_offer" class="hidden"></div>
+            <div id="purchase_open_custom" class="hidden"></div>
+            <div id="purchase_open_rma"></div>
         </div>
     </div>
 </div>

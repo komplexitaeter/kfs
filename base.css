@@ -57,7 +57,7 @@ body {
     font-weight: bold;
     font-size: 12px;
     margin-top: 5px;
-    margin-left: -2px;
+    margin-left: 0px;
 }
 
 #credits_btn img {
@@ -197,9 +197,10 @@ body {
     margin: auto;
     position: relative;
     width: 70%;
-    min-width: 800px;
+    min-width: 700px;
+    max-width: 900px;
     max-height: 90%;
-    top: 5%;
+    top: 55px;
     bottom: 5%;
     z-index: 101;
     background-color: white;
@@ -400,30 +401,116 @@ label {
 .purchase_submit {
     display: inline-block;
     text-align: center;
-    margin-bottom: 50px;
     width: 100%;
 }
 
 .submit_btn {
-    border: 3px solid #41b2e8;
     font-size: 20px;
     font-weight: 500;
     background-color: white;
     padding: .3em 1em;
     line-height: 1.7em!important;
     border-radius: 26px;
-    color: #41b2e8;
     outline: none;
     margin-top: 10px;
-    margin-bottom: 40px;
+    margin-bottom: 10px;
     transition: width 0.8s;
 }
 
 .submit_btn_active {
+    border: 3px solid #41b2e8;
+    color: #41b2e8;
     cursor: pointer;
     width: 400px;
 }
 
 .submit_btn_active:hover {
+    width: 340px;
+}
+
+.submit_btn_waiting {
+    border: 3px solid rgba(0, 0, 0, 0.6);
+    color: rgba(0, 0, 0, 0.6);
     width: 300px;
+    cursor: default;
+    animation-name: waiting;
+    animation-duration: 2s;
+    animation-delay: 0s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes waiting {
+    0%    {width: 340px;}
+    50%   {width: 300px;}
+    100%   {width: 340px;}
+}
+
+#purchase_warning_msg {
+    display: inline-block;
+    text-align: center;
+    margin-bottom: 20px;
+    width: 100%;
+    color: mediumvioletred;
+}
+
+.warning_msg_active {
+    visibility: visible;
+}
+
+.warning_msg_inactive {
+    visibility: hidden;
+}
+
+#purchase_open h1 {
+    display: inline-block;
+    text-align: center;
+    margin-top: 35px;
+    color: #41b2e8;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+#purchase_open div {
+    text-align: justify;
+    margin-top: 15px;
+    margin-left: 15%;
+    margin-right: 10%;
+    padding: 0 40px;
+    background-repeat: no-repeat;
+    color: #666666;
+}
+
+#purchase_open a {
+    text-decoration: none;
+    color: #41b2e8;
+}
+
+#purchase_open_feedback {
+    background-size: auto 27px;
+    background-position: 2px 0px;
+    background-image: url("./src/wallet_icon_grey.png");
+}
+
+#purchase_open_invoice {
+    background-image: url("./src/icon_system_simple_grey.png");
+    background-size: auto 20px;
+}
+
+#purchase_open_offer {
+    background-image: url("./src/icon_system_complecated_grey.png");
+    background-position: 0px 2px;
+    background-size: auto 20px;
+}
+
+#purchase_open_custom {
+    background-image: url("./src/icon_system_complex_grey.png");
+    background-position: -2px 2px;
+    background-size: auto 20px;
+}
+
+#purchase_open_rma {
+    background-size: auto 20px;
+    background-position: 6px 3px;
+    background-image: url("./src/icon_retoure_grey.png");
+    margin-bottom:  65px;
 }

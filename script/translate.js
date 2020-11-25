@@ -43,6 +43,9 @@ function translateElements(file_prefix, language_code){
                     if(def[language_code].title) {
                         element.title = def[language_code].title;
                     }
+                    if(def[language_code].innerHTML) {
+                        element.innerHTML = def[language_code].innerHTML;
+                    }
                 }
                 else{
                     console.log(def.id);

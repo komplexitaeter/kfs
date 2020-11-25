@@ -27,6 +27,7 @@ function updateDom(myJson) {
     switch(myJson.status_code) {
         case "BASE":
             updateOpenCredits(myJson.open_credits);
+            updateOpenPurchaseTrx(myJson.open_purchase_trx, myJson.latest_trx);
             removeStyleClass(document.body, 'hidden');
             break;
         case "LOGIN":
@@ -60,6 +61,51 @@ function updateOpenCredits(openCredits) {
     }
 }
 
+function updateOpenPurchaseTrx(openPurchaseTrx, latestTrx) {
+    let purchase_new = document.getElementById("purchase_new");
+    let purchase_open = document.getElementById("purchase_open");
+
+    if (openPurchaseTrx > 0) {
+
+        let header = document.getElementById("purchase_open_header");
+        let headerTxt = "+"
+            + latestTrx.original_qty
+            + document.getElementById("open_credits_txt").value;
+
+        if (!header.textContent.includes(headerTxt)) {
+            header.textContent = headerTxt;
+        }
+
+        let div_invoice = document.getElementById("purchase_open_invoice");
+        let div_offer = document.getElementById("purchase_open_offer");
+        let div_custom = document.getElementById("purchase_open_custom");
+
+        switch (latestTrx.purchase_method) {
+            case "INVOICE":
+                removeStyleClass(div_invoice, "hidden");
+                addStyleClass(div_offer, "hidden");
+                addStyleClass(div_custom, "hidden");
+                break;
+            case "OFFER":
+                addStyleClass(div_invoice, "hidden");
+                removeStyleClass(div_offer, "hidden");
+                addStyleClass(div_custom, "hidden");
+                break;
+            case "CUSTOM":
+                addStyleClass(div_invoice, "hidden");
+                addStyleClass(div_offer, "hidden");
+                removeStyleClass(div_custom, "hidden");
+                break;
+        }
+
+        addStyleClass(purchase_new, "hidden");
+        removeStyleClass(purchase_open, "hidden");
+    } else {
+        addStyleClass(purchase_open, "hidden");
+        removeStyleClass(purchase_new, "hidden");
+    }
+}
+
 function loadPriceList() {
     let url = "./price_list.json";
     fetch(url)
@@ -87,7 +133,19 @@ function focusPurchasingTextarea() {
 function open_purchase_dialog(){
     updatePurchaseQty();
     updatePurchaseMethod();
+    blurPurchaseWarningMsg();
     document.getElementById('purchase_dialog').hidden=false;
+}
+
+function setPurchaseWarningMsg(msgText) {
+    let purchase_warning_msg = document.getElementById("purchase_warning_msg");
+    purchase_warning_msg.textContent = msgText;
+    toggleStyleClass(purchase_warning_msg, "warning_msg_active", "warning_msg_inactive")
+}
+
+function blurPurchaseWarningMsg() {
+    let purchase_warning_msg = document.getElementById("purchase_warning_msg");
+    toggleStyleClass(purchase_warning_msg, "warning_msg_inactive", "warning_msg_active")
 }
 
 function close_purchase_dialog() {
@@ -95,13 +153,19 @@ function close_purchase_dialog() {
 }
 
 function btn_purchase_qty_minus() {
-    if (gPurchaseQty > 1) gPurchaseQty--;
-    updatePurchaseQty();
+    if (gPurchaseQty > 1
+        && !document.getElementById("purchase_submit_btn").classList.contains("submit_btn_waiting")) {
+        gPurchaseQty--;
+        updatePurchaseQty();
+    }
 }
 
 function btn_purchase_qty_plus() {
-    if (gPurchaseQty < 50) gPurchaseQty++;
-    updatePurchaseQty();
+    if (gPurchaseQty < 50
+        && !document.getElementById("purchase_submit_btn").classList.contains("submit_btn_waiting")) {
+        gPurchaseQty++;
+        updatePurchaseQty();
+    }
 }
 
 function updatePurchaseQty() {
@@ -115,8 +179,10 @@ function updatePurchaseQty() {
 }
 
 function set_purchase_method(purchaseMethod) {
-    gPurchaseMethod = purchaseMethod;
-    updatePurchaseMethod();
+    if (!document.getElementById("purchase_submit_btn").classList.contains("submit_btn_waiting")) {
+        gPurchaseMethod = purchaseMethod;
+        updatePurchaseMethod();
+    }
 }
 
 function updatePurchaseMethod() {
@@ -162,7 +228,73 @@ function updatePurchaseMethod() {
             toggleStyleClass(div_address, "purchase_address_hidden", "purchase_address_active");
             break;
     }
+    blurPurchaseWarningMsg();
     focusPurchasingTextarea();
+}
+
+function purchase_submit() {
+    let purchase_address = document.getElementById("purchase_address");
+
+    if (gPurchaseMethod !== "CUSTOM" && (!purchase_address || purchase_address.value.length < 8 )) {
+        setPurchaseWarningMsg(document.getElementById("warning_no_purchase_address").value);
+        focusPurchasingTextarea();
+    } else {
+        setPurchaseSubmitWaiting();
+        submitPurchaseData(purchase_address.value);
+    }
+}
+
+function submitPurchaseData(purchaseAddress) {
+    const url = "./purchase.php?session_key="+getSessionKey();
+    let httpRequest = new XMLHttpRequest();
+
+    httpRequest.onreadystatechange = function() {handlePurchaseHttpResponse(this.readyState, this.status, this.responseText)};
+    httpRequest.open("POST", url, true);
+    httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    httpRequest.send(
+        "purchase_method" + gPurchaseMethod
+        +"&purchase_qty=" + gPurchaseQty
+        +"&language_code=" + gLanguageCode
+        +"&purchase_address" + purchaseAddress
+    );
+}
+
+function handlePurchaseHttpResponse(readyState, status, responseText) {
+    if (readyState === 4) {
+        if (status === 200) {
+            try {
+                let responseJSON = JSON.parse(responseText);
+                if (responseJSON.status_code !== 'SUCCESS') {
+                    setPurchaseWarningMsg('Internal Server Error!');
+                    setPurchaseSubmitActive();
+                }
+            }
+            catch (e) {
+                setPurchaseWarningMsg('Internal Error!');
+                setPurchaseSubmitActive();
+                console.error(e);
+            }
+        } else {
+            setPurchaseWarningMsg('Connection Error!');
+            setPurchaseSubmitActive();
+            console.error("HTTP Error Status="+status);
+        }
+    }
+}
+
+function setPurchaseSubmitWaiting() {
+    let purchase_address = document.getElementById("purchase_address");
+    let submit_btn = document.getElementById("purchase_submit_btn");
+    blurPurchaseWarningMsg();
+    purchase_address.disabled = true;
+    toggleStyleClass(submit_btn, "submit_btn_waiting", "submit_btn_active");
+}
+
+function setPurchaseSubmitActive() {
+    let purchase_address = document.getElementById("purchase_address");
+    let submit_btn = document.getElementById("purchase_submit_btn");
+    purchase_address.disabled = false;
+    toggleStyleClass(submit_btn, "submit_btn_active", "submit_btn_waiting");
 }
 
 function createSimulation() {
