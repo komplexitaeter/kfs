@@ -52,8 +52,8 @@ function get_base_obj($session_key) {
     } else {
         $status_code = 'ERROR';
     }
-    return array("status_code" => $status_code
-                ,"open_credits" => $open_credits
-                ,"open_purchase_trx" => $open_purchase_trx
-                ,"latest_trx" => $latest_trx);
+    return array("status_code" => (String)$status_code
+                ,"open_credits" => (int)$open_credits
+                ,"open_purchase_trx" => (int)$open_purchase_trx
+                ,"latest_trx" => (array)$latest_trx);
 }

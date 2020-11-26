@@ -68,9 +68,14 @@ function updateOpenPurchaseTrx(openPurchaseTrx, latestTrx) {
     if (openPurchaseTrx > 0) {
 
         let header = document.getElementById("purchase_open_header");
+        let simulationString;
+
+        if (latestTrx.original_qty===1) simulationString = document.getElementById("open_credit_txt").value;
+        else simulationString = document.getElementById("open_credits_txt").value;
+
         let headerTxt = "+"
             + latestTrx.original_qty
-            + document.getElementById("open_credits_txt").value;
+            + simulationString;
 
         if (!header.textContent.includes(headerTxt)) {
             header.textContent = headerTxt;
@@ -101,6 +106,7 @@ function updateOpenPurchaseTrx(openPurchaseTrx, latestTrx) {
         addStyleClass(purchase_new, "hidden");
         removeStyleClass(purchase_open, "hidden");
     } else {
+        setPurchaseSubmitActive();
         addStyleClass(purchase_open, "hidden");
         removeStyleClass(purchase_new, "hidden");
     }
@@ -252,10 +258,10 @@ function submitPurchaseData(purchaseAddress) {
     httpRequest.open("POST", url, true);
     httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     httpRequest.send(
-        "purchase_method" + gPurchaseMethod
+        "purchase_method=" + gPurchaseMethod
         +"&purchase_qty=" + gPurchaseQty
         +"&language_code=" + gLanguageCode
-        +"&purchase_address" + purchaseAddress
+        +"&purchase_address=" + purchaseAddress
     );
 }
 
