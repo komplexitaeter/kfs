@@ -14,4 +14,6 @@ define('_PWD_RESET_URL', 'http://localhost:8888/kfs_local/login.html?mode=RESET_
 
 define('_MAIL_REPLY_TO', 'hallo@komplexitaeter.de');
 
+define('_VAT_TAX_RATE', 16);
+
 

@@ -40,8 +40,11 @@ function translate_tl($language_code, $tl)
     }
 }
 
-function get_translation($context, $id, $language_code) {
-    $json = json_decode(file_get_contents('./'.$context.'_translations.json'), true);
+function get_translation_obj($context) {
+    return json_decode(file_get_contents('./'.$context.'_translations.json'), true);
+}
+
+function get_translation_val($json, $id, $language_code) {
     for ($i=0;$i<count($json);$i++) {
         if ($json[$i]["id"]===$id) {
             return $json[$i][$language_code]["text"];
@@ -49,6 +52,13 @@ function get_translation($context, $id, $language_code) {
     }
     return '';
 }
+
+function get_translation($context, $id, $language_code) {
+    $json = get_translation_obj($context);
+    return get_translation_val($json, $id, $language_code);
+}
+
+
 
 function get_create_items_sql($round_id, $offset, $count, $item_options) {
     $options = array('green','blue','yellow','brown','pink','black','purple','red');

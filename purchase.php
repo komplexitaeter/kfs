@@ -1,6 +1,7 @@
 <?php
 require 'config.php';
 require 'helper_lib.php';
+require 'document.php';
 
 set_header('json');
 
@@ -14,6 +15,8 @@ $language_code = filter_input(INPUT_POST, 'language_code', FILTER_SANITIZE_STRIN
 $purchase_address = filter_input(INPUT_POST, 'purchase_address', FILTER_SANITIZE_STRING);
 
 $link = db_init();
+$link->autocommit(false);
+
 $login_id = null;
 $purchase_address_arr = array();
 
@@ -56,9 +59,52 @@ if ($result = $sql->get_result()) {
             error_log('SQL_ERR'.$sql->error);
         } else {
             /* create documents */
+            if ($purchase_method != 'CUSTOM') {
+
+                $sql = $link->prepare("SELECT current_value+1 document_number
+                                               FROM kfs_sequences_tbl
+                                              WHERE document_type=?
+                                              FOR UPDATE");
+                $sql->bind_param('s', $purchase_method);
+                $sql->execute();
+                $result = $sql->get_result();
+                $document_number = $result->fetch_object()->document_number;
+                $sql = $link->prepare("UPDATE kfs_sequences_tbl
+                                                SET current_value = current_value+1
+                                              WHERE document_type=?");
+                $sql->bind_param('s', $purchase_method);
+                $sql->execute();
+
+                $tlo = get_translation_obj('document_php');
+                $pdf_doc = create_purchase_doc($language_code, $purchase_qty, $single_price, $purchase_method
+                    , $purchase_address_arr, $login->email_address, $document_number, $tlo);
+
+                $sql = $link->prepare("INSERT INTO kfs_documents_tbl(content, document_type, document_number
+                                            , content_type) VALUES(?, ? ,? , 'pdf' )");
+
+                $null = NULL;
+                $sql->bind_param('bsi', $null, $purchase_method, $document_number);
+                $sql->send_long_data(0, $pdf_doc);
+
+
+                if (!$sql->execute()) {
+                    $status_code = 'ERROR';
+                    error_log('SQL_ERR' . $sql->error);
+                } else {
+                    $link->commit();
+                    sent_purchase_doc($login->email_address, $pdf_doc, $document_number.'.pdf'
+                        , $purchase_method, $language_code, $tlo);
+                }
+
+            } else $link->commit();
         }
 
     } else $status_code = 'ERROR';
 } else $status_code = 'ERROR';
 
+if ($status_code == 'ERROR') $link->rollback();
+$link->close();
+
 echo json_encode( array("status_code" => $status_code), JSON_UNESCAPED_UNICODE);
+
+

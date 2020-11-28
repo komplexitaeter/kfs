@@ -1,0 +1,307 @@
+[ {
+    "id": "header_invoice",
+    "en": {
+      "text": "INVOICE"
+    },
+    "de": {
+      "text": "RECHNUNG"
+    }
+  },
+  {
+    "id": "header_offer",
+    "en": {
+      "text": "OFFER"
+    },
+    "de": {
+      "text": "ANGEBOT"
+    }
+  },
+  {
+    "id": "greeting",
+    "en": {
+      "text": "Bonjour,"
+    },
+    "de": {
+      "text": "Guten Tag,"
+    }
+  },
+  {
+    "id": "into_line_1_invoice",
+    "en": {
+      "text": "thank you very much for our cooperation, for that we charge the following rates:"
+    },
+    "de": {
+      "text": "vielen Dank für unsere Zusammenarbeit, für welche wir folgende Leistung in Rechnung stellen:"
+    }
+  },
+  {
+    "id": "into_line_1_offer",
+    "en": {
+      "text": "we thank you for your inquiry and hereby submit the following offer:"
+    },
+    "de": {
+      "text": "wir bedanken uns für die Anfrage und unterbreiten hiermit folgendes Angebot:"
+    }
+  },
+  {
+    "id": "number_label_invoice",
+    "en": {
+      "text": "Invoice No.:"
+    },
+    "de": {
+      "text": "Rechnung Nr.:"
+    }
+  },
+  {
+    "id": "number_label_offer",
+    "en": {
+      "text": "Offer No.:"
+    },
+    "de": {
+      "text": "Angebot Nr.:"
+    }
+  },
+  {
+    "id": "date_label",
+    "en": {
+      "text": "Date:"
+    },
+    "de": {
+      "text": "Datum:"
+    }
+  },
+  {
+    "id": "tbl_head_pos",
+    "en": {
+      "text": "No."
+    },
+    "de": {
+      "text": "Pos."
+    }
+  },
+  {
+    "id": "tbl_head_desc",
+    "en": {
+      "text": "Description"
+    },
+    "de": {
+      "text": "Beschreibung"
+    }
+  },
+  {
+    "id": "tbl_head_unit_price",
+    "en": {
+      "text": "Unit price"
+    },
+    "de": {
+      "text": "Einzelpreis"
+    }
+  },
+  {
+    "id": "tbl_head_qty",
+    "en": {
+      "text": "Quantity"
+    },
+    "de": {
+      "text": "Menge"
+    }
+  },
+  {
+    "id": "tbl_head_total",
+    "en": {
+      "text": "Total"
+    },
+    "de": {
+      "text": "Summe"
+    }
+  },
+  {
+    "id": "tbl_head_gross",
+    "en": {
+      "text": "(gross)"
+    },
+    "de": {
+      "text": "(brutto)"
+    }
+  },
+  {
+    "id": "tbl_item_line_1",
+    "en": {
+      "text": "Online Live Simulation"
+    },
+    "de": {
+      "text": "Online Live Simulation"
+    }
+  },
+  {
+    "id": "tbl_item_line_2",
+    "en": {
+      "text": "License for use of a web-based tool for one"
+    },
+    "de": {
+      "text": "Lizenz für die Nutzung eines webbasierten Tools für eine"
+    }
+  },
+  {
+    "id": "tbl_item_line_3",
+    "en": {
+      "text": "simulation session (max. 8 active participants)"
+    },
+    "de": {
+      "text": "Simulations-Sitzung (max. 8 aktive Teilnehmer)"
+    }
+  },
+  {
+    "id": "tbl_sum_net_lbl",
+    "en": {
+      "text": "Total net amount"
+    },
+    "de": {
+      "text": "Summe Nettobeträge"
+    }
+  },
+  {
+    "id": "tbl_sum_tax_lbl",
+    "en": {
+      "text": "VAT "
+    },
+    "de": {
+      "text": "Umsatzsteuer "
+    }
+  },
+  {
+    "id": "tbl_sum_total_lbl",
+    "en": {
+      "text": "Invoice amount"
+    },
+    "de": {
+      "text": "Rechnungsbetrag"
+    }
+  },
+  {
+  "id": "text_invoice_line_1",
+  "en": {
+    "text": "We kindly ask you to transfer the invoice amount to our account stated below,."
+  },
+  "de": {
+    "text": "Wir bitten um Überweisung des Rechnungsbetrages auf unser unten angegebenes Konto unter"
+  }
+},
+  {
+    "id": "text_invoice_line_2",
+    "en": {
+      "text": "quoting the invoice number"
+    },
+    "de": {
+      "text": "Angabe der Rechungsnummer."
+    }
+  },
+  {
+    "id": "text_invoice_line_3",
+    "en": {
+      "text": "The agreed payment term is 14 days after receipt of invoice."
+    },
+    "de": {
+      "text": "Das vereinbarte Zahlungsziel beträgt 14 Tage nach Rechnungseingang."
+    }
+  },
+  {
+    "id": "text_offer_line_1",
+    "en": {
+      "text": "An informal e-mail to hallo@komplexitaeter.de is sufficient for the acceptance of the offer. After acceptance of the"
+    },
+    "de": {
+      "text": "Für die Annahme des Angebotes genügt eine formlose E-Mail an hallo@komplexitaeter.de. Nach der Annahme des Angebotes"
+    }
+  },
+  {
+    "id": "text_offer_line_2",
+    "en": {
+      "text": "offer, the licenses can be used immediately under the specified login."
+    },
+    "de": {
+      "text": "können die Lizenzen unter dem angegebenen Login unmittelbar genutzt werden."
+    }
+  },
+  {
+    "id": "text_offer_line_3",
+    "en": {
+      "text": "The payment term is 14 days after receiving the invoice."
+    },
+    "de": {
+      "text": "Das Zahlungsziel beträgt 14 Tage nach Eingang der Rechnung."
+    }
+  },
+  {
+    "id": "regards_line_1",
+    "en": {
+      "text": "Kind Regards,"
+    },
+    "de": {
+      "text": "Mit freundlichen Grüßen"
+    }
+  },
+  {
+    "id": "regards_line_2",
+    "en": {
+      "text": "Your Komplexitäters"
+    },
+    "de": {
+      "text": "Eure Komplexitäter"
+    }
+  },
+  {
+    "id": "account_details_lbl",
+    "en": {
+      "text": "Account details"
+    },
+    "de": {
+      "text": "Bankverbindung"
+    }
+  },
+  {
+    "id": "account_to_lbl",
+    "en": {
+      "text": "Recipient"
+    },
+    "de": {
+      "text": "Empfänger"
+    }
+  },
+  {
+    "id": "mail_subject_invoice",
+    "en": {
+      "text": "Invoice - Komplexitäter Live Simulation"
+    },
+    "de": {
+      "text": "Rechnung - Komplexitäter Live Simulation"
+    }
+  },
+  {
+    "id": "mail_subject_offer",
+    "en": {
+      "text": "Offer - Komplexitäter Live Simulation"
+    },
+    "de": {
+      "text": "Angebot - Komplexitäter Live Simulation"
+    }
+  },
+  {
+    "id": "mail_msg_invoice",
+    "en": {
+      "text": "<p>Hallo,<br/>we are very happy that you would like to play our Online Simulation Live. We wish you a lot of fun with it. Please find the invoice attached.<br/>Kind Regards,<br/>The Komplexitäters<br/><p style=\"font-size:7pt;color:grey;\">Komplexitäter UG (haftungsbeschränkt)</br>Sitz der Gesellschaft: Berlin</br>Registergericht: Amtsgericht Berlin Charlottenburg, HRB 201687 B</br>Geschäftsführer Andreas Lehmann, Francois Canonne, Lars Nebe</p></p>"
+    },
+    "de": {
+      "text": "<p>Hallo,<br/>wir freuen uns sehr, dass du unsere Online Simulation Live spielen möchtest. Wir wünschen dir viel Spaß dabei. Die Rechnung findest Du im Anhang.<br/>Viele Grüße<br/>Die Komplexitäter<br/><p style=\"font-size:7pt;color:grey;\">Komplexitäter UG (haftungsbeschränkt)</br>Sitz der Gesellschaft: Berlin</br>Registergericht: Amtsgericht Berlin Charlottenburg, HRB 201687 B</br>Geschäftsführer Andreas Lehmann, Francois Canonne, Lars Nebe</p></p>"
+    }
+  },
+  {
+    "id": "mail_msg_offer",
+    "en": {
+      "text": "<p>Hallo,<br/>we are very happy that you would like to play our Online Simulation Live. Please find your requested offer attached.<br/>Kind Regards,<br/>The Komplexitäters<br/><p style=\"font-size:7pt;color:grey;\">Komplexitäter UG (haftungsbeschränkt)</br>Sitz der Gesellschaft: Berlin</br>Registergericht: Amtsgericht Berlin Charlottenburg, HRB 201687 B</br>Geschäftsführer Andreas Lehmann, Francois Canonne, Lars Nebe</p></p>"
+    },
+    "de": {
+      "text": "<p>Hallo,<br/>wir freuen uns sehr, dass du unsere Online Simulation Live spielen möchtest. Das angeforderte Angebot findest Du im Anhang.<br/>Viele Grüße<br/>Die Komplexitäter<br/><p style=\"font-size:7pt;color:grey;\">Komplexitäter UG (haftungsbeschränkt)</br>Sitz der Gesellschaft: Berlin</br>Registergericht: Amtsgericht Berlin Charlottenburg, HRB 201687 B</br>Geschäftsführer Andreas Lehmann, Francois Canonne, Lars Nebe</p></p>"
+    }
+  }
+]
