@@ -2,6 +2,7 @@ let gConsLoginUrl = "./login.html";
 let gPriceList;
 let gPurchaseQty = 1;
 let gPurchaseMethod = "INVOICE";
+let gLiveToggle = null;
 
 function loadBase() {
     let languageCode = getURLParam("language_code");
@@ -17,6 +18,8 @@ function loadBase() {
     }
     initializeConnection(baseUrl, params, updateDom);
     loadPriceList();
+
+    focusSimName();
 }
 
 function setLanguage() {
@@ -130,10 +133,34 @@ function logoutBtnClick() {
     });
 }
 
+function togglePlayground() {
+    gLiveToggle = 0;
+    let playground_div = document.getElementById("icon_playground");
+    let live_div = document.getElementById("icon_live");
+    toggleStyleClass(playground_div, "playground_toggle_active", "playground_toggle_inactive");
+    toggleStyleClass(live_div, "live_toggle_inactive", "live_toggle_active");
+    focusSimName();
+}
+
+function toggleLive() {
+    gLiveToggle = 1;
+    let playground_div = document.getElementById("icon_playground");
+    let live_div = document.getElementById("icon_live");
+    toggleStyleClass(playground_div, "playground_toggle_inactive", "playground_toggle_active");
+    toggleStyleClass(live_div, "live_toggle_active", "live_toggle_inactive");
+    focusSimName();
+}
+
 function focusPurchasingTextarea() {
     setTimeout(function() {
         document.getElementById("purchase_address").focus();
     }, 0);
+}
+
+function focusSimName() {
+    setTimeout(function() {
+        document.getElementById("sim_name").focus();
+    }, 500);
 }
 
 function open_purchase_dialog(){

@@ -199,10 +199,10 @@
   {
     "id": "text_invoice_line_3",
     "en": {
-      "text": "The agreed payment term is 14 days after receipt of invoice."
+      "text": "The payment term is 14 days after receipt of invoice."
     },
     "de": {
-      "text": "Das vereinbarte Zahlungsziel beträgt 14 Tage nach Rechnungseingang."
+      "text": "Das Zahlungsziel beträgt 14 Tage nach Rechnungseingang."
     }
   },
   {

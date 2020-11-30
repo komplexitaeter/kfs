@@ -32,11 +32,24 @@
 </div>
 
 <div id="content">
+    <div id="create_sim">
+        <div id="sim_type">
+                <div class="sim_title">Kanban Flow Simulation</div>
+        </div>
+        <div id="sim_config">
+            <div id="live_toggles">
+                <div id="icon_playground" class="live_toggle playground_toggle_active" onclick="togglePlayground()">Demo</div>
+                <div id="icon_live" class="live_toggle live_toggle_inactive" onclick="toggleLive()">Live</div>
+            </div>
+            <input type="text" id="sim_name" placeholder="Titel deiner Simulation?" />
+            <input type="submit" class="small_btn small_btn_active" value="Erstellen"  />
+        </div>
+    </div>
 </div>
 
 <div id="footer">
-    <a id="imprint_link" href="">Impressum</a>
-    <a id="privacy_policy_link" href="">Datenschutz</a>
+    <a id="imprint_link" href=""></a>
+    <a id="privacy_policy_link" href=""></a>
     <img id="language_toggle" src="" onclick="toggleLanguage()" alt="toggle language" />
 </div>
 

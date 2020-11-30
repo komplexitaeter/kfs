@@ -35,6 +35,7 @@ body {
     box-shadow: 0 0 7px rgba(0,0,0,.1)!important;
     -moz-box-shadow: 0 0 7px rgba(0,0,0,.1)!important;
     -webkit-box-shadow: 0 0 7px rgba(0,0,0,.1)!important;
+    background: white;
 }
 
 #credits_btn {
@@ -57,7 +58,7 @@ body {
     font-weight: bold;
     font-size: 12px;
     margin-top: 5px;
-    margin-left: 0px;
+    margin-left: 0;
 }
 
 #credits_btn img {
@@ -153,10 +154,135 @@ body {
     opacity: 50%;
 }
 
+
 #content {
     margin-top: 45px;
     flex: 1 0 auto;
 }
+
+#create_sim {
+    margin-left: auto;
+    margin-right: auto;
+    min-width: 450px;
+    max-width: 600px;
+    height: 120px;
+    background-color: rgba(169, 169, 170, 0.14);
+    border-left: 1px solid white;
+    border-bottom: 1px solid white;
+    border-right: 1px solid white;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    margin-bottom: 15px;
+}
+
+#sim_type {
+    width: 100%;
+    height: 60px;
+    border-bottom: 2px solid white;
+
+}
+
+.sim_title {
+    padding-top: 17px;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+#sim_config {
+    position: relative;
+    margin: 0;
+    padding: 0;
+    height: 55px;
+}
+
+#live_toggles {
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    left: 20px;
+}
+
+#sim_config .live_toggle {
+    display: inline-block;
+    width: 33px;
+    margin-top: 8px;
+    padding-top: 24px;
+    padding-bottom: 0;
+    background-size: contain;
+    background-repeat: no-repeat;
+    font-size: 11px;
+}
+
+.live_toggle_active {
+    background-image: url("./src/sim_live_active.png");
+}
+
+.live_toggle_inactive {
+    background-image: url("./src/sim_live_inactive.png");
+    opacity: 50%;
+}
+
+.live_toggle_inactive:hover {
+    opacity: 35%;
+    cursor: pointer;
+}
+
+.playground_toggle_active {
+    background-image: url("./src/sim_playground_active.png");
+}
+
+.playground_toggle_inactive {
+    background-image: url("./src/sim_playground_inactive.png");
+    opacity: 50%;
+}
+
+.playground_toggle_inactive:hover {
+    opacity: 35%;
+    cursor: pointer;
+}
+
+#sim_name {
+    position: absolute;
+    height: 30px;
+    font-size: 13px;
+    bottom: 9px;
+    left: 110px;
+    padding-left: 30px;
+    padding-right: 30px;
+    border: none;
+    border-bottom: 1px solid lightgray;
+    width: 250px;
+    color: #656565;
+    outline: none;
+    background-color: transparent;
+}
+
+.small_btn {
+    position: absolute;
+    bottom: 6px;
+    right: 12px;
+    font-size: 15px;
+    background-color: white;
+    padding: .3em 1em;
+    line-height: 1.6em!important;
+    border-radius: 26px;
+    outline: none;
+    transition: width 0.8s, right 0.8s;
+}
+
+.small_btn_active {
+    border: 2px solid #41b2e8;
+    color: #41b2e8;
+    cursor: pointer;
+    width: 130px;
+}
+
+.small_btn_active:hover {
+    width: 100px;
+    right: 27px;
+}
+
+
 
 #footer {
     flex-shrink: 0;
@@ -245,7 +371,7 @@ body {
     display: inline-block;
     vertical-align: top;
     text-align: left;
-    margin: 0px 10px;
+    margin: 0 10px;
     font-size: 20px;
 }
 
@@ -295,7 +421,7 @@ body {
     display: inline-block;
     vertical-align: top;
     text-align: center;
-    margin: 0px 5px;
+    margin: 0 5px;
     width: 26%;
     border-radius: 20px;
     padding: 20px 9px;
@@ -360,7 +486,7 @@ body {
 .purchase_address_hidden {
     height: 10px;
     visibility: hidden;
-    opacity: 0%;
+    opacity: 0;
 }
 
 
@@ -487,7 +613,7 @@ label {
 
 #purchase_open_feedback {
     background-size: auto 27px;
-    background-position: 2px 0px;
+    background-position: 2px 0;
     background-image: url("./src/wallet_icon_grey.png");
 }
 
@@ -498,7 +624,7 @@ label {
 
 #purchase_open_offer {
     background-image: url("./src/icon_system_complecated_grey.png");
-    background-position: 0px 2px;
+    background-position: 0 2px;
     background-size: auto 20px;
 }
 
