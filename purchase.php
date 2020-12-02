@@ -58,43 +58,19 @@ if ($result = $sql->get_result()) {
             $status_code = 'ERROR';
             error_log('SQL_ERR'.$sql->error);
         } else {
+            /* get credit id */
+            $sql = $link->prepare( "SELECT credit_id 
+                                            FROM kfs_credits_tbl
+                                           WHERE credit_id = last_insert_id()");
+            $sql->execute();
+            $credit_id  = $sql->get_result()->fetch_object()->credit_id;
+
+
             /* create documents */
             if ($purchase_method != 'CUSTOM') {
 
-                $sql = $link->prepare("SELECT current_value+1 document_number
-                                               FROM kfs_sequences_tbl
-                                              WHERE document_type=?
-                                              FOR UPDATE");
-                $sql->bind_param('s', $purchase_method);
-                $sql->execute();
-                $result = $sql->get_result();
-                $document_number = $result->fetch_object()->document_number;
-                $sql = $link->prepare("UPDATE kfs_sequences_tbl
-                                                SET current_value = current_value+1
-                                              WHERE document_type=?");
-                $sql->bind_param('s', $purchase_method);
-                $sql->execute();
-
-                $tlo = get_translation_obj('document_php');
-                $pdf_doc = create_purchase_doc($language_code, $purchase_qty, $single_price, $purchase_method
-                    , $purchase_address_arr, $login->email_address, $document_number, $tlo);
-
-                $sql = $link->prepare("INSERT INTO kfs_documents_tbl(content, document_type, document_number
-                                            , content_type) VALUES(?, ? ,? , 'pdf' )");
-
-                $null = NULL;
-                $sql->bind_param('bsi', $null, $purchase_method, $document_number);
-                $sql->send_long_data(0, $pdf_doc);
-
-
-                if (!$sql->execute()) {
-                    $status_code = 'ERROR';
-                    error_log('SQL_ERR' . $sql->error);
-                } else {
-                    $link->commit();
-                    sent_purchase_doc($login->email_address, $pdf_doc, $document_number.'.pdf'
-                        , $purchase_method, $language_code, $tlo);
-                }
+                generate_purchase_doc($link, $purchase_method, $language_code, $purchase_qty, $single_price
+                    , $purchase_address_arr, $login->email_address, $credit_id);
 
             } else $link->commit();
         }

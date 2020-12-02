@@ -137,10 +137,10 @@
   {
     "id": "purchase_method_invoice_hint",
     "en": {
-      "text": "You will receive an e-mail invoice and pay by SEPA bank transfer."
+      "text": "Start immediately. You will receive an e-mail invoice and pay by SEPA bank transfer."
     },
     "de": {
-      "text": "Du erhältst eine E-Mail Rechnung und bezahlst per SEPA Überweisung."
+      "text": "Sofort loslegen. Du erhältst eine E-Mail Rechnung und bezahlst per SEPA Überweisung."
     }
   },
   {
@@ -155,10 +155,10 @@
   {
     "id": "purchase_method_offer_hint",
     "en": {
-      "text": "Before invoicing, you need an offer for your internal processes."
+      "text": "You will receive an offer by e-mail and decide for yourselves when to start."
     },
     "de": {
-      "text": "Vor der Rechnung benötigst du für deine internen Prozesse ein Angebot."
+      "text": "Du erhältst von uns ein Angebot per E-Mail und entscheidest selbst, wann es los geht."
     }
   },
   {
@@ -173,10 +173,10 @@
   {
     "id": "purchase_method_custom_hint",
     "en": {
-      "text": "Is it complex? We will contact you and find a solution together."
+      "text": "Is it complex? We will contact you and find a solution together so that you can get started."
     },
     "de": {
-      "text": "Ist es komplex? Wir kontaktieren dich und suchen gemeinsam eine Lösung."
+      "text": "Ist es komplex? Wir kontaktieren dich und suchen gemeinsam eine Lösung, damit du loslegen kannst."
     }
   },
   {
@@ -216,15 +216,6 @@
     }
   },
   {
-    "id": "purchase_submit_btn",
-    "en": {
-      "hidden": "Activate Live Simulation"
-    },
-    "de": {
-      "hidden": "Live Simulation freischalten"
-    }
-  },
-  {
     "id": "warning_no_purchase_address",
     "en": {
       "hidden": "Please enter a valid address"
@@ -254,10 +245,10 @@
   {
     "id": "purchase_open_offer",
     "en": {
-      "innerHTML": "We will send you an offer via e-mail shortly. To confirm the offer, an informal e-mail to <a href=\"mailto:hallo@komplexitaeter.de\">hallo@komplexitaeter.de</a> is all it takes. Independently of this, you are welcome to start with your Live Simulations. Should something go wrong with the order processing, we will bear the risk."
+      "innerHTML": "We will send you an offer via e-mail shortly. To confirm the offer, just clicking the button below or sending an informal e-mail to <a href=\"mailto:hallo@komplexitaeter.de\">hallo@komplexitaeter.de</a> is all it takes. Afterwards you can start immediately. You will then receive an invoice via e-mail and can pay by SEPA bank transfer."
     },
     "de": {
-      "innerHTML": "Wir senden dir in Kürze eine Angebot per E-Mail zu. Zur Annahme des Angebotes reicht eine formlose E-Mail an <a href=\"mailto:hallo@komplexitaeter.de\">hallo@komplexitaeter.de</a>. Unabhängig davon kannst du gerne schon mit der Live Simulation loslegen. Sollte dann bei der Auftragsabwicklung etwas schiefgehen, tragen wir das Risiko mit."
+      "innerHTML": "Wir senden dir in Kürze eine Angebot per E-Mail zu. Zur Annahme des Angebotes reicht der Click auf den Button unten oder eine formlose E-Mail an <a href=\"mailto:hallo@komplexitaeter.de\">hallo@komplexitaeter.de</a>. Danach kannst du unmittelbar loslegen. Im Anschluss erhälst du eine Rechnung per E-Mail und bezahlst per SEPA Überweisung."
     }
   },
   {
@@ -272,10 +263,55 @@
   {
     "id": "purchase_open_rma",
     "en": {
-      "innerHTML": "If you are dissatisfied with a Live Simulation, or decide that you no longer wish to use the simulations you have bought, simply write to <a href=\"mailto:hallo@komplexitaeter.de\">hallo@komplexitaeter.de</a> and we will refund you the appropriate amount."
+      "innerHTML": "By the way: Should you ever be dissatisfied with a Live Simulation, or decide that you no longer wish to use the simulations you already bought, simply write to <a href=\"mailto:hallo@komplexitaeter.de\">hallo@komplexitaeter.de</a> and we will refund you the appropriate amount."
     },
     "de": {
-      "innerHTML": "Solltet du mit einer Live Simulation unzufrieden sein oder die gekauften Simulationen doch nicht mehr verwenden wollen, dann schreib einfach an <a href=\"mailto:hallo@komplexitaeter.de\">hallo@komplexitaeter.de</a> und wir erstatten dir den entsprechenden Betrag."
+      "innerHTML": "Übrigens: Solltest du mal mit einer Live Simulation unzufrieden sein oder eine bereits gekauften Simulationen doch nicht mehr verwenden wollen, dann schreib einfach an <a href=\"mailto:hallo@komplexitaeter.de\">hallo@komplexitaeter.de</a> und wir erstatten dir den entsprechenden Betrag."
+    }
+  },
+  {
+    "id": "submit_btn_invoice",
+    "en": {
+      "hidden": "Buy Now"
+    },
+    "de": {
+      "hidden": "Jetzt kaufen"
+    }
+  },
+  {
+    "id": "submit_btn_offer",
+    "en": {
+      "hidden": "Request Offer"
+    },
+    "de": {
+      "hidden": "Angebot anfordern"
+    }
+  },
+  {
+    "id": "submit_btn_custom",
+    "en": {
+      "hidden": "Get in Contact"
+    },
+    "de": {
+      "hidden": "Kontaktaufnahme"
+    }
+  },
+  {
+    "id": "pending_offer_label",
+    "en": {
+      "hidden": "Pending Offer"
+    },
+    "de": {
+      "hidden": "Ausstehendes Angebot"
+    }
+  },
+  {
+    "id": "confirm_offer_btn",
+    "en": {
+      "value": "Accept Offer"
+    },
+    "de": {
+      "value": "Angebot annehmen"
     }
   }
 ]

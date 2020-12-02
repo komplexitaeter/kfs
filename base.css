@@ -326,7 +326,7 @@ body {
     min-width: 700px;
     max-width: 900px;
     max-height: 90%;
-    top: 55px;
+    top: 40px;
     bottom: 5%;
     z-index: 101;
     background-color: white;
@@ -425,6 +425,7 @@ body {
     width: 26%;
     border-radius: 20px;
     padding: 20px 9px;
+    min-height: 145px;
 }
 
 .purchase_method .inactive {
@@ -587,6 +588,10 @@ label {
     visibility: hidden;
 }
 
+#purchase_open {
+    padding-bottom: 35px;
+}
+
 #purchase_open h1 {
     display: inline-block;
     text-align: center;
@@ -638,5 +643,5 @@ label {
     background-size: auto 20px;
     background-position: 6px 3px;
     background-image: url("./src/icon_retoure_grey.png");
-    margin-bottom:  65px;
+    margin-bottom: 15px;
 }

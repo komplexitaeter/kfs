@@ -2,6 +2,7 @@ let gConsLoginUrl = "./login.html";
 let gPriceList;
 let gPurchaseQty = 1;
 let gPurchaseMethod = "INVOICE";
+let gCreditId = null;
 let gLiveToggle = null;
 
 function loadBase() {
@@ -29,7 +30,7 @@ function setLanguage() {
 function updateDom(myJson) {
     switch(myJson.status_code) {
         case "BASE":
-            updateOpenCredits(myJson.open_credits);
+            updateOpenCredits(myJson.open_credits, myJson.open_purchase_trx, myJson.latest_trx);
             updateOpenPurchaseTrx(myJson.open_purchase_trx, myJson.latest_trx);
             removeStyleClass(document.body, 'hidden');
             break;
@@ -41,13 +42,14 @@ function updateDom(myJson) {
     }
 }
 
-function updateOpenCredits(openCredits) {
+function updateOpenCredits(openCredits, openPurchaseTrx, latestTrx) {
     let creditsBtn = document.getElementById("credits_btn");
     let buyCreditsBtn = document.getElementById("buy_credits_btn");
 
+    let creditsBtnLabel = document.getElementById("credits_btn_label");
+    let labelTxt;
+
     if (openCredits && openCredits >0 ) {
-        let creditsBtnLabel = document.getElementById("credits_btn_label");
-        let labelTxt;
         if (openCredits === 1) {
             labelTxt = openCredits + document.getElementById("open_credit_txt").value;
         } else {
@@ -58,7 +60,15 @@ function updateOpenCredits(openCredits) {
         }
         addStyleClass(buyCreditsBtn, "hidden");
         removeStyleClass(creditsBtn, "hidden");
-    } else {
+    } else if (openPurchaseTrx > 0 && latestTrx.purchase_method === "OFFER" ) {
+        labelTxt = document.getElementById("pending_offer_label").value;
+        if (!creditsBtnLabel.textContent.includes(labelTxt)) {
+            creditsBtnLabel.textContent = labelTxt;
+        }
+        addStyleClass(buyCreditsBtn, "hidden");
+        removeStyleClass(creditsBtn, "hidden");
+    }
+    else {
         addStyleClass(creditsBtn, "hidden");
         removeStyleClass(buyCreditsBtn, "hidden");
     }
@@ -73,6 +83,8 @@ function updateOpenPurchaseTrx(openPurchaseTrx, latestTrx) {
         let header = document.getElementById("purchase_open_header");
         let simulationString;
 
+        gCreditId = latestTrx.credit_id;
+
         if (latestTrx.original_qty===1) simulationString = document.getElementById("open_credit_txt").value;
         else simulationString = document.getElementById("open_credits_txt").value;
 
@@ -84,32 +96,50 @@ function updateOpenPurchaseTrx(openPurchaseTrx, latestTrx) {
             header.textContent = headerTxt;
         }
 
+        let div_feedback = document.getElementById("purchase_open_feedback");
         let div_invoice = document.getElementById("purchase_open_invoice");
         let div_offer = document.getElementById("purchase_open_offer");
         let div_custom = document.getElementById("purchase_open_custom");
 
+        let confirm_offer_btn = document.getElementById("confirm_offer_btn");
+
         switch (latestTrx.purchase_method) {
             case "INVOICE":
+                removeStyleClass(div_feedback, "hidden");
                 removeStyleClass(div_invoice, "hidden");
                 addStyleClass(div_offer, "hidden");
                 addStyleClass(div_custom, "hidden");
+                addStyleClass(confirm_offer_btn, "hidden");
                 break;
             case "OFFER":
-                addStyleClass(div_invoice, "hidden");
-                removeStyleClass(div_offer, "hidden");
-                addStyleClass(div_custom, "hidden");
+                if (latestTrx.pending_offer === 1) {
+                    addStyleClass(div_feedback, "hidden");
+                    addStyleClass(div_invoice, "hidden");
+                    removeStyleClass(div_offer, "hidden");
+                    addStyleClass(div_custom, "hidden");
+                    removeStyleClass(confirm_offer_btn, "hidden");
+                } else {
+                    removeStyleClass(div_feedback, "hidden");
+                    removeStyleClass(div_invoice, "hidden");
+                    addStyleClass(div_offer, "hidden");
+                    addStyleClass(div_custom, "hidden");
+                    addStyleClass(confirm_offer_btn, "hidden");
+                }
                 break;
             case "CUSTOM":
+                addStyleClass(div_feedback, "hidden");
                 addStyleClass(div_invoice, "hidden");
                 addStyleClass(div_offer, "hidden");
                 removeStyleClass(div_custom, "hidden");
+                addStyleClass(confirm_offer_btn, "hidden");
                 break;
         }
 
         addStyleClass(purchase_new, "hidden");
         removeStyleClass(purchase_open, "hidden");
-    } else {
         setPurchaseSubmitActive();
+
+    } else {
         addStyleClass(purchase_open, "hidden");
         removeStyleClass(purchase_new, "hidden");
     }
@@ -229,6 +259,9 @@ function updatePurchaseMethod() {
     let address_label_tl;
     let address_placeholder_tl;
 
+    let submit_btn = document.getElementById("purchase_submit_btn");
+    let submit_btn_val;
+
     switch (gPurchaseMethod) {
         case "INVOICE":
             toggleStyleClass(div_invoice, "active", "inactive");
@@ -237,9 +270,11 @@ function updatePurchaseMethod() {
             toggleStyleClass(div_address, "purchase_address_active", "purchase_address_hidden");
             address_label_tl = document.getElementById("purchase_address_label_invoice");
             address_placeholder_tl = document.getElementById("purchase_address_placeholder_invoice");
-            if (!address_label.textContent.includes(address_label_tl.value)) {
+            submit_btn_val = document.getElementById("submit_btn_invoice").value;
+            if (!submit_btn.value.includes(submit_btn_val)) {
                 address_label.textContent = address_label_tl.value;
                 purchase_address.placeholder = address_placeholder_tl.value;
+                submit_btn.value = submit_btn_val;
             }
             break;
         case "OFFER":
@@ -249,9 +284,11 @@ function updatePurchaseMethod() {
             toggleStyleClass(div_address, "purchase_address_active", "purchase_address_hidden");
             address_label_tl = document.getElementById("purchase_address_label_offer");
             address_placeholder_tl = document.getElementById("purchase_address_placeholder_offer");
-            if (!address_label.textContent.includes(address_label_tl.value)) {
+            submit_btn_val = document.getElementById("submit_btn_offer").value;
+            if (!submit_btn.value.includes(submit_btn_val)) {
                 address_label.textContent = address_label_tl.value;
                 purchase_address.placeholder = address_placeholder_tl.value;
+                submit_btn.value = submit_btn_val;
             }
             break;
         case "CUSTOM":
@@ -259,6 +296,10 @@ function updatePurchaseMethod() {
             toggleStyleClass(div_offer, "inactive", "active");
             toggleStyleClass(div_custom, "active", "inactive");
             toggleStyleClass(div_address, "purchase_address_hidden", "purchase_address_active");
+            submit_btn_val = document.getElementById("submit_btn_custom").value;
+            if (!submit_btn.value.includes(submit_btn_val)) {
+                submit_btn.value = submit_btn_val;
+            }
             break;
     }
     blurPurchaseWarningMsg();
@@ -275,6 +316,11 @@ function purchase_submit() {
         setPurchaseSubmitWaiting();
         submitPurchaseData(purchase_address.value);
     }
+
+    /* in this case we can re-enable the button for offer conformation */
+    let confirm_offer_btn = document.getElementById("confirm_offer_btn");
+    enableElement(confirm_offer_btn);
+    toggleStyleClass(confirm_offer_btn, "submit_btn_active", "submit_btn_waiting");
 }
 
 function submitPurchaseData(purchaseAddress) {
@@ -319,15 +365,27 @@ function setPurchaseSubmitWaiting() {
     let purchase_address = document.getElementById("purchase_address");
     let submit_btn = document.getElementById("purchase_submit_btn");
     blurPurchaseWarningMsg();
-    purchase_address.disabled = true;
+    disableElement(purchase_address);
+    disableElement(submit_btn);
     toggleStyleClass(submit_btn, "submit_btn_waiting", "submit_btn_active");
 }
 
 function setPurchaseSubmitActive() {
     let purchase_address = document.getElementById("purchase_address");
     let submit_btn = document.getElementById("purchase_submit_btn");
-    purchase_address.disabled = false;
+    enableElement(purchase_address);
+    enableElement(submit_btn);
     toggleStyleClass(submit_btn, "submit_btn_active", "submit_btn_waiting");
+}
+
+function confirm_offer() {
+    const url = "./confirm_offer.php?session_key="+getSessionKey()+"&credit_id="+gCreditId+"&language_code="+gLanguageCode;
+
+    let confirm_offer_btn = document.getElementById("confirm_offer_btn");
+    disableElement(confirm_offer_btn);
+    toggleStyleClass(confirm_offer_btn, "submit_btn_waiting", "submit_btn_active");
+
+    fetch(url).then();
 }
 
 function createSimulation() {

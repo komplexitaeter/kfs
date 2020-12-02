@@ -19,7 +19,7 @@
   {
     "id": "greeting",
     "en": {
-      "text": "Bonjour,"
+      "text": "Hello,"
     },
     "de": {
       "text": "Guten Tag,"
@@ -289,7 +289,7 @@
   {
     "id": "mail_msg_invoice",
     "en": {
-      "text": "<p>Hallo,<br/>we are very happy that you would like to play our Online Simulation Live. We wish you a lot of fun with it. Please find the invoice attached.<br/>Kind Regards,<br/>The Komplexitäters<br/><p style=\"font-size:7pt;color:grey;\">Komplexitäter UG (haftungsbeschränkt)</br>Sitz der Gesellschaft: Berlin</br>Registergericht: Amtsgericht Berlin Charlottenburg, HRB 201687 B</br>Geschäftsführer Andreas Lehmann, Francois Canonne, Lars Nebe</p></p>"
+      "text": "<p>Hello,<br/>we are very happy that you'ld like to play our Online Simulation Live. We wish you a lot of fun with it. Please find the invoice attached.<br/>Kind Regards,<br/>The Komplexitäters<br/><p style=\"font-size:7pt;color:grey;\">Komplexitäter UG (haftungsbeschränkt)</br>Sitz der Gesellschaft: Berlin</br>Registergericht: Amtsgericht Berlin Charlottenburg, HRB 201687 B</br>Geschäftsführer Andreas Lehmann, Francois Canonne, Lars Nebe</p></p>"
     },
     "de": {
       "text": "<p>Hallo,<br/>wir freuen uns sehr, dass du unsere Online Simulation Live spielen möchtest. Wir wünschen dir viel Spaß dabei. Die Rechnung findest Du im Anhang.<br/>Viele Grüße<br/>Die Komplexitäter<br/><p style=\"font-size:7pt;color:grey;\">Komplexitäter UG (haftungsbeschränkt)</br>Sitz der Gesellschaft: Berlin</br>Registergericht: Amtsgericht Berlin Charlottenburg, HRB 201687 B</br>Geschäftsführer Andreas Lehmann, Francois Canonne, Lars Nebe</p></p>"

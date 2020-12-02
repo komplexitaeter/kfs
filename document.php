@@ -223,3 +223,60 @@ function sent_purchase_doc($email_address, $pdf_doc, $filename, $document_type, 
     mail($to, $subject, $body, $headers);
 
 }
+
+
+function generate_purchase_doc($link, $purchase_method, $language_code, $purchase_qty, $single_price
+    , $purchase_address_arr, $email_address, $credit_id) {
+
+    $sql = $link->prepare("SELECT current_value+1 document_number
+                                               FROM kfs_sequences_tbl
+                                              WHERE document_type=?
+                                              FOR UPDATE");
+    $sql->bind_param('s', $purchase_method);
+    $sql->execute();
+    $result = $sql->get_result();
+    $document_number = $result->fetch_object()->document_number;
+    $sql = $link->prepare("UPDATE kfs_sequences_tbl
+                                                SET current_value = current_value+1
+                                              WHERE document_type=?");
+    $sql->bind_param('s', $purchase_method);
+    $sql->execute();
+
+    $tlo = get_translation_obj('document_php');
+    $pdf_doc = create_purchase_doc($language_code, $purchase_qty, $single_price, $purchase_method
+        , $purchase_address_arr, $email_address, $document_number, $tlo);
+
+    $sql = $link->prepare("INSERT INTO kfs_documents_tbl(content, document_type, document_number
+                                            , content_type) VALUES(?, ? ,? , 'pdf' )");
+
+    $null = NULL;
+    $sql->bind_param('bsi', $null, $purchase_method, $document_number);
+    $sql->send_long_data(0, $pdf_doc);
+
+
+    $sql->execute();
+
+    $sql_text = null;
+    if ($purchase_method == 'INVOICE') {
+        $sql_text = "UPDATE kfs_credits_tbl 
+                                    SET invoice_document_id = LAST_INSERT_ID() 
+                                  WHERE credit_id = ?";
+    }
+    if ($purchase_method == 'OFFER') {
+        $sql_text = "UPDATE kfs_credits_tbl 
+                                    SET offer_document_id = LAST_INSERT_ID() 
+                                  WHERE credit_id = ?";
+    }
+
+    if ($sql_text != null) {
+        $sql = $link->prepare($sql_text);
+        $sql->bind_param('i', $credit_id);
+        $sql->execute();
+    }
+
+    $link->commit();
+
+    sent_purchase_doc($email_address, $pdf_doc, $document_number . '.pdf'
+        , $purchase_method, $language_code, $tlo);
+
+}

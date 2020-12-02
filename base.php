@@ -9,7 +9,19 @@ function get_base_obj($session_key) {
     $latest_trx = null;
 
     $sql = $link->prepare("SELECT l.login_id
-                                       ,(select sum(c.original_qty - c.used_qty) 
+                                       ,(select sum(
+                                           case
+                                            when c.purchase_method = 'OFFER'
+                                            and isnull(c.invoice_document_id)
+                                            and open_flag = true
+                                            then 0
+                                            when c.purchase_method = 'CUSTOM'
+                                            and open_flag = true
+                                            then 0
+                                            else  c.original_qty
+                                        end
+                                      - c.used_qty
+                                           - c.used_qty) 
                                            from kfs_credits_tbl c
                                          where c.buyer_login_id = l.login_id) open_credits
                                        ,(select count(1) 
@@ -32,8 +44,12 @@ function get_base_obj($session_key) {
                 /* select the latest purchase transaction, that is still open
                  * ... and open means not payed yet
                  */
-                $sql = $link->prepare("SELECT c.purchase_method
+                $sql = $link->prepare("SELECT c.credit_id
+                                                    ,c.purchase_method
                                                     ,c.original_qty
+                                                    ,IF(c.purchase_method = 'OFFER'
+                                                        and isnull(c.invoice_document_id)
+                                                        and open_flag = true, true, false) pending_offer
                                                FROM kfs_credits_tbl c
                                               WHERE c.buyer_login_id = ?
                                                 AND c.open_flag = true
