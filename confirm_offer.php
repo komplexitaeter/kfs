@@ -23,12 +23,15 @@ $sql = $link->prepare("SELECT c.purchase_address
                                    ,c.single_gross_price
                                    ,c.original_qty
                                    ,l.email_address
+                                   ,document_number offer_no
                                FROM kfs_login_tbl l
                                    ,kfs_credits_tbl c
+                                   ,kfs_documents_tbl d
                               WHERE l.session_key = ?
                                 and c.buyer_login_id = l.login_id
                                 and c.credit_id = ?
-                                and c.open_flag = true");
+                                and c.open_flag = true
+                                and d.document_id = c.offer_document_id");
 
 $sql->bind_param('si', $session_key, $credit_id);
 $sql->execute();
@@ -49,7 +52,7 @@ if ($result = $sql->get_result()) {
         $single_price = $credit->single_gross_price;
 
         generate_purchase_doc($link, $purchase_method, $language_code, $purchase_qty, $single_price
-            , $purchase_address_arr, $credit->email_address, $credit_id);
+            , $purchase_address_arr, $credit->email_address, $credit_id, $credit->offer_no);
 
     }
 }

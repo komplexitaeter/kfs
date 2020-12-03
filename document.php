@@ -1,7 +1,7 @@
 <?php
 
 function create_purchase_doc($language_code, $purchase_qty, $single_price, $document_type, $purchase_address_arr
-            , $email_address, $document_number, $tlo) {
+            , $email_address, $document_number, $tlo, $offer_no) {
 
     require('./lib/fpdf.php');
 
@@ -21,6 +21,9 @@ function create_purchase_doc($language_code, $purchase_qty, $single_price, $docu
         $text_line_1 = get_translation_val($tlo, 'text_invoice_line_1', $language_code);
         $text_line_2 = get_translation_val($tlo, 'text_invoice_line_2', $language_code);
         $text_line_3 = get_translation_val($tlo, 'text_invoice_line_3', $language_code);
+        if ($offer_no != null) {
+            $offer_no_lbl = get_translation_val($tlo, 'number_label_offer', $language_code);
+        }
     }
 
     if ($language_code == 'en') {
@@ -90,8 +93,8 @@ function create_purchase_doc($language_code, $purchase_qty, $single_price, $docu
     $pdf->SetFont('Arial','',9);
     $pdf->Ln();
     /* next line is preserved for references but not implemented yet*/
-    $pdf->Cell(26,4 ,utf8_decode(''),0, 0, 'L');
-    $pdf->Cell(40,4 ,utf8_decode(''),0, 0, 'L');
+    $pdf->Cell(26,4 ,utf8_decode($offer_no_lbl),0, 0, 'L');
+    $pdf->Cell(40,4 ,utf8_decode($offer_no),0, 0, 'L');
     /* so we leave it blank now but print it to keep the spacings*/
     $pdf->Ln();
     $pdf->Ln();
@@ -226,7 +229,7 @@ function sent_purchase_doc($email_address, $pdf_doc, $filename, $document_type, 
 
 
 function generate_purchase_doc($link, $purchase_method, $language_code, $purchase_qty, $single_price
-    , $purchase_address_arr, $email_address, $credit_id) {
+    , $purchase_address_arr, $email_address, $credit_id, $offer_no=null) {
 
     $sql = $link->prepare("SELECT current_value+1 document_number
                                                FROM kfs_sequences_tbl
@@ -244,7 +247,7 @@ function generate_purchase_doc($link, $purchase_method, $language_code, $purchas
 
     $tlo = get_translation_obj('document_php');
     $pdf_doc = create_purchase_doc($language_code, $purchase_qty, $single_price, $purchase_method
-        , $purchase_address_arr, $email_address, $document_number, $tlo);
+        , $purchase_address_arr, $email_address, $document_number, $tlo, $offer_no);
 
     $sql = $link->prepare("INSERT INTO kfs_documents_tbl(content, document_type, document_number
                                             , content_type) VALUES(?, ? ,? , 'pdf' )");
