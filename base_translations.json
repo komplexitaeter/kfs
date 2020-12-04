@@ -254,16 +254,16 @@
   {
     "id": "purchase_open_custom",
     "en": {
-      "text": "We will get in touch with you shortly to coordinate the further procedure with you. Independently of this, you are welcome to start with your Live Simulations. Should something go wrong with the order processing, we will bear the risk."
+      "text": "We will contact you via email within the next 24 hours to coordinate the further proceeding together."
     },
     "de": {
-      "text": "Wir  werden uns in Kürze bei dir melden, um das weitere Vorgehen mir dir abzustimmen. Unabhängig davon kannst du gerne schon mit der Live Simulation loslegen. Sollte bei der Auftragsabwicklung etwas schief gehen, tragen wir das Risiko mit."
+      "text": "Wir werden uns innerhalb der nächsten 24 Stunden bei dir per E-Mail melden, um das weitere Vorgehen zusammen abzustimmen."
     }
   },
   {
     "id": "purchase_open_rma",
     "en": {
-      "innerHTML": "By the way: Should you ever be dissatisfied with a Live Simulation, or decide that you no longer wish to use the simulations you already bought, simply write to <a href=\"mailto:hallo@komplexitaeter.de\">hallo@komplexitaeter.de</a> and we will refund you the appropriate amount."
+      "innerHTML": "By the way: Should you ever be dissatisfied with a Live Simulation, or decide that you no longer wish to use the simulations you already bought, simply write to <a href=\"mailto:hallo@komplexitaeter.de\">hallo@komplexitaeter.de</a> and we will refund the corresponding amount."
     },
     "de": {
       "innerHTML": "Übrigens: Solltest du mal mit einer Live Simulation unzufrieden sein oder deine bereits gekauften Simulationen doch nicht mehr verwenden wollen, dann schreib einfach an <a href=\"mailto:hallo@komplexitaeter.de\">hallo@komplexitaeter.de</a> und wir erstatten dir den entsprechenden Betrag."

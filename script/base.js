@@ -67,6 +67,13 @@ function updateOpenCredits(openCredits, openPurchaseTrx, latestTrx) {
         }
         addStyleClass(buyCreditsBtn, "hidden");
         removeStyleClass(creditsBtn, "hidden");
+    } else if (openPurchaseTrx > 0 && latestTrx.purchase_method === "CUSTOM" ) {
+        labelTxt = document.getElementById("submit_btn_custom").value;
+        if (!creditsBtnLabel.textContent.includes(labelTxt)) {
+            creditsBtnLabel.textContent = labelTxt;
+        }
+        addStyleClass(buyCreditsBtn, "hidden");
+        removeStyleClass(creditsBtn, "hidden");
     }
     else {
         addStyleClass(creditsBtn, "hidden");
