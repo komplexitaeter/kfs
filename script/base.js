@@ -4,6 +4,7 @@ let gPurchaseQty = 1;
 let gPurchaseMethod = "INVOICE";
 let gCreditId = null;
 let gLiveToggle = null;
+let gHasCredits = false;
 
 function loadBase() {
     let languageCode = getURLParam("language_code");
@@ -60,6 +61,10 @@ function updateOpenCredits(openCredits, openPurchaseTrx, latestTrx) {
         }
         addStyleClass(buyCreditsBtn, "hidden");
         removeStyleClass(creditsBtn, "hidden");
+
+        if (gLiveToggle === null) toggleLive();
+
+        gHasCredits = true;
     } else if (openPurchaseTrx > 0 && latestTrx.purchase_method === "OFFER" ) {
         labelTxt = document.getElementById("pending_offer_label").value;
         if (!creditsBtnLabel.textContent.includes(labelTxt)) {
@@ -67,6 +72,8 @@ function updateOpenCredits(openCredits, openPurchaseTrx, latestTrx) {
         }
         addStyleClass(buyCreditsBtn, "hidden");
         removeStyleClass(creditsBtn, "hidden");
+
+        gHasCredits = false;
     } else if (openPurchaseTrx > 0 && latestTrx.purchase_method === "CUSTOM" ) {
         labelTxt = document.getElementById("submit_btn_custom").value;
         if (!creditsBtnLabel.textContent.includes(labelTxt)) {
@@ -74,10 +81,14 @@ function updateOpenCredits(openCredits, openPurchaseTrx, latestTrx) {
         }
         addStyleClass(buyCreditsBtn, "hidden");
         removeStyleClass(creditsBtn, "hidden");
+
+        gHasCredits = false;
     }
     else {
         addStyleClass(creditsBtn, "hidden");
         removeStyleClass(buyCreditsBtn, "hidden");
+
+        gHasCredits = false;
     }
 }
 
@@ -397,28 +408,43 @@ function confirm_offer() {
 
 function createSimulation() {
 
-    setInterval(function(){
-        document.getElementById("create_simulation").style.backgroundColor='red';
-        setTimeout(function(){
-            document.getElementById("create_simulation").style.backgroundColor='blue';
-        }, 500);
-    }, 1000);
+    if (gHasCredits || !gLiveToggle) {
 
-    setTimeout(function(){
-        let defaultLanguage = document.querySelector('input[name="language_code"]:checked').value;
-        const url ='./create_simulation.php?session_key='+getSessionKey()
-            +"&demo_mode=1"
-            +'&default_language_code='+defaultLanguage;
+        let url;
+        let demo_mode;
+        let sim_name = document.getElementById("sim_name");
+        ;
 
-        fetch(url)
-            .then((response) => {
-                return response.json();
-            })
+        if (sim_name.value && sim_name.value.length > 0) {
 
-            .then((myJson) => {
-                location.href = './checkin.html?simulation_id='+myJson.simulation_id
-                    +"&simulation_key="+myJson.simulation_key;
-            });
-    }, 1);
+            if (gLiveToggle === 1) demo_mode = 0;
+            else demo_mode = 1;
 
+            url = "./create_simulation.php?session_key=" + getSessionKey()
+                + "&demo_mode=" + demo_mode
+                + "&default_language_code=" + gLanguageCode
+                + "&simulation_name=" + sim_name.value;
+
+            fetch(url)
+                .then((response) => {
+                    if (response.ok) {
+                        sim_name.value = "";
+                    }
+                });
+
+        } else {
+
+            /* shake the Simulation Name filed and then focus it */
+            setTimeout(function () {
+                sim_name.classList.add("highlight");
+                setTimeout(function () {
+                    sim_name.focus();
+                    sim_name.classList.remove("highlight");
+                }, 750);
+            }, 100);
+        }
+    }
+    else {
+        open_purchase_dialog();
+    }
 }

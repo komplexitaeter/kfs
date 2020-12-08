@@ -34,15 +34,17 @@
 <div id="content">
     <div id="create_sim">
         <div id="sim_type">
+                <img src="./src/kfs_icon.png" alt="Kanban Simulation" />
                 <div class="sim_title">Kanban Flow Simulation</div>
+                <img src="./src/data_sheet_icon.png" alt="Data Sheet" />
         </div>
         <div id="sim_config">
             <div id="live_toggles">
                 <div id="icon_playground" class="live_toggle playground_toggle_active" onclick="togglePlayground()">Demo</div>
                 <div id="icon_live" class="live_toggle live_toggle_inactive" onclick="toggleLive()">Live</div>
             </div>
-            <input type="text" id="sim_name" placeholder="Titel deiner Simulation?" />
-            <input type="submit" class="small_btn small_btn_active" value="Erstellen"  />
+            <input type="text" id="sim_name" class="no_highlight" placeholder="" />
+            <input type="submit" id="create_sim_btn" class="small_btn small_btn_active" value="" onclick="createSimulation()"  />
         </div>
     </div>
 </div>
@@ -52,20 +54,6 @@
     <a id="privacy_policy_link" href=""></a>
     <img id="language_toggle" src="" onclick="toggleLanguage()" alt="toggle language" />
 </div>
-
-
-<!--
-
-<div id="create_simulation" class="display_block">
-    <button type="button" value="" onclick="createSimulation()">Simulation organisieren</button>
-</div>
-
-<div class="display_block">
-    <label for="en">EN</label>
-    <input type="radio" id="en" name="language_code" value="en" checked>
-    <input type="radio" id="de" name="language_code" value="de">
-    <label for="de">DE</label>
-</div>-->
 
 
 <div id="purchase_dialog" class="overlay" hidden>

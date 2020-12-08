@@ -20,7 +20,6 @@ function get_base_obj($session_key) {
                                             then 0
                                             else  c.original_qty
                                         end
-                                      - c.used_qty
                                            - c.used_qty) 
                                            from kfs_credits_tbl c
                                          where c.buyer_login_id = l.login_id) open_credits

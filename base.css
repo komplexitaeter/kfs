@@ -173,19 +173,31 @@ body {
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
     margin-bottom: 15px;
+    vert-align: middle;
 }
 
 #sim_type {
     width: 100%;
     height: 60px;
     border-bottom: 2px solid white;
+}
 
+#sim_type img {
+    display: inline-block;
+    height: 25px;
+    position: relative;
+    top: 15px;
+    margin-left: 8px;
+    margin-right: 10px;
 }
 
 .sim_title {
-    padding-top: 17px;
+    display: inline-block;
     font-size: 20px;
     font-weight: 600;
+    height: 30px;
+    position: relative;
+    top: 12px;
 }
 
 #sim_config {
@@ -256,6 +268,23 @@ body {
     outline: none;
     background-color: transparent;
 }
+
+.no_highlight {
+    animation-name: none;
+}
+.highlight {
+    animation-name: highlight;
+    animation-duration: .25s;
+    animation-delay: 0s;
+    animation-iteration-count: 3;
+}
+
+@keyframes highlight {
+    0%    {font-size: 13px; padding-left: 30px; padding-right: 30px;}
+    50%   {font-size: 15px; padding-left: 20px; padding-right: 40px;}
+    100%  {font-size: 13px; padding-left: 30px; padding-right: 30px;}
+}
+
 
 .small_btn {
     position: absolute;

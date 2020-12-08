@@ -313,5 +313,23 @@
     "de": {
       "value": "Angebot annehmen"
     }
+  },
+  {
+    "id": "sim_name",
+    "en": {
+      "placeholder": "Your simulations title?"
+    },
+    "de": {
+      "placeholder": "Titel deiner Simulation?"
+    }
+  },
+  {
+    "id": "create_sim_btn",
+    "en": {
+      "value": "Create"
+    },
+    "de": {
+      "value": "Erstellen"
+    }
   }
 ]

@@ -23,6 +23,8 @@ function create_purchase_doc($language_code, $purchase_qty, $single_price, $docu
         $text_line_3 = get_translation_val($tlo, 'text_invoice_line_3', $language_code);
         if ($offer_no != null) {
             $offer_no_lbl = get_translation_val($tlo, 'number_label_offer', $language_code);
+        } else {
+            $offer_no_lbl = '';
         }
     }
 
