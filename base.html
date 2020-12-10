@@ -47,12 +47,37 @@
             <input type="submit" id="create_sim_btn" class="small_btn small_btn_active" value="" onclick="createSimulation()"  />
         </div>
     </div>
+
+    <div id="sim_list"></div>
+
 </div>
 
 <div id="footer">
     <a id="imprint_link" href=""></a>
     <a id="privacy_policy_link" href=""></a>
     <img id="language_toggle" src="" onclick="toggleLanguage()" alt="toggle language" />
+</div>
+
+<div id="dom_templates" class="hidden">
+    <div class="sim sim_static" id="sim_template">
+        <img class="sim_icon" src="./src/kfs_icon.png" alt="" />
+        <div class="sim_date">1. Dez</div>
+
+        <div class="sim_name_dsp"><span>Team ABC - Workshop</span></div>
+        <div class="sim_status">Check-In</div>
+
+        <input type="submit" class="sim_start_btn sim_start_btn_active" value="Moderieren" onclick=""  />
+
+        <div class="sim_cs">&nbsp;</div>
+        <img class="sim_share" src="./src/share_icon.png" alt="" />
+        <div class="sim_copy">Copy</div>
+
+        <img class="sim_live_toggle" src="./src/sim_playground_inactive.png" alt="" />
+        <div class="sim_language_toggle">
+            <div class="sim_lang_de sim_lang_active">De</div>
+            <div class="sim_lang_en sim_lang_inactive">En</div>
+        </div>
+    </div>
 </div>
 
 
