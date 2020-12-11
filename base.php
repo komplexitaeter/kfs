@@ -7,6 +7,8 @@ function get_base_obj($session_key) {
     $open_credits = 0;
     $open_purchase_trx = 0;
     $latest_trx = null;
+    $simulations = array();
+    $month = get_month_tl();
 
     $sql = $link->prepare("SELECT l.login_id
                                        ,(select sum(
@@ -61,6 +63,39 @@ function get_base_obj($session_key) {
                 }
             }
 
+            /* query simulations */
+            $sql = $link->prepare("SELECT s.simulation_id
+                                                ,s.simulation_key
+                                                ,date_format(s.creation_date, '%e') creation_date_day
+                                                ,date_format(s.creation_date, '%c') creation_date_mon
+                                                ,s.simulation_name
+                                                ,'Check-In' status
+                                                ,s.default_language_code
+                                                ,s.demo_mode
+                                               FROM kfs_simulation_tbl s
+                                              WHERE s.login_id = ?
+                                              ORDER BY s.creation_date ASC");
+            $sql->bind_param('i', $login_id);
+            $sql->execute();
+
+            if ($result = $sql->get_result()) {
+                while ($obj = $result->fetch_object()) {
+
+                    $simulation = array(
+                        "simulation_id" => (int)$obj->simulation_id,
+                        "simulation_key" => (String)$obj->simulation_key,
+                        "date_day" => (String)$obj->creation_date_day,
+                        "date_mon" => (Array)$month[$obj->creation_date_mon],
+                        "simulation_name" => (String)$obj->simulation_name,
+                        "status" => (String)$obj->status,
+                        "default_language_code" => (String)$obj->default_language_code,
+                        "demo_mode" => (int)$obj->demo_mode
+                    );
+
+                    array_push($simulations, $simulation);
+                }
+            }
+
         } else {
             $status_code = 'LOGIN';
         }
@@ -70,5 +105,6 @@ function get_base_obj($session_key) {
     return array("status_code" => (String)$status_code
                 ,"open_credits" => (int)$open_credits
                 ,"open_purchase_trx" => (int)$open_purchase_trx
-                ,"latest_trx" => (array)$latest_trx);
+                ,"latest_trx" => (array)$latest_trx
+                ,"simulations" => (array)$simulations);
 }

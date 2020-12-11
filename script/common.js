@@ -34,10 +34,18 @@ function setSrc(element, srcPath, srcFile) {
     if (!element.src.includes(srcFile)) element.src = srcPath+srcFile;
 }
 
+function setTextContent(element, textContent) {
+    if (!element.textContent.includes(textContent)) element.textContent = textContent;
+}
+
+function setValue(element, value) {
+    if (!element.value.includes(value)) element.value = value;
+}
+
 function getSessionKey(){
-    var session_key = localStorage.getItem('SESSION_KEY');
+    let session_key = localStorage.getItem('SESSION_KEY');
     if (session_key === null) {
-        var uid = (Date.now().toString(36) + Math.random().toString(36).substr(2, 8)).toUpperCase();
+        let uid = (Date.now().toString(36) + Math.random().toString(36).substr(2, 8)).toUpperCase();
         localStorage.setItem('SESSION_KEY', uid);
         session_key=uid;
     }

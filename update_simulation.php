@@ -116,6 +116,17 @@ if(isset($_GET['action'])){
     }
 }
 
+if(isset($_GET['default_language_code'])){
+    $lang_code = filter_input(INPUT_GET, 'default_language_code', FILTER_SANITIZE_STRING);
+    if (strlen($lang_code)==2 && in_array($lang_code, ["de", "en"])) {
+        array_push($sql_set, "default_language_code = '".$lang_code."'");
+
+        $sql = $link->prepare( "UPDATE kfs_attendees_tbl SET language_code = ? WHERE simulation_id = ?");
+        $sql->bind_param('si', $lang_code, $simulation_id);
+        $sql->execute();
+    }
+}
+
 if(count($sql_set)==0){
     $link->close();
     exit(0);

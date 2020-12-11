@@ -16,7 +16,8 @@ function loadBase() {
 
     let baseUrl = 'get_base';
     let params = {
-        "session_key" : getSessionKey()
+        "session_key"  : getSessionKey(),
+        "language_code": gLanguageCode
     }
     initializeConnection(baseUrl, params, updateDom);
     loadPriceList();
@@ -34,6 +35,7 @@ function updateDom(myJson) {
             updateOpenCredits(myJson.open_credits, myJson.open_purchase_trx, myJson.latest_trx);
             updateOpenPurchaseTrx(myJson.open_purchase_trx, myJson.latest_trx);
             removeStyleClass(document.body, 'hidden');
+            updateSimulations(myJson.simulations);
             break;
         case "LOGIN":
             location.href = gConsLoginUrl+'?language_code='+gLanguageCode;
@@ -413,7 +415,6 @@ function createSimulation() {
         let url;
         let demo_mode;
         let sim_name = document.getElementById("sim_name");
-        ;
 
         if (sim_name.value && sim_name.value.length > 0) {
 
@@ -447,4 +448,108 @@ function createSimulation() {
     else {
         open_purchase_dialog();
     }
+}
+
+function updateSimulations(simulations) {
+    let sim_list = document.getElementById("sim_list");
+    let sim_template = document.getElementById("sim_template");
+
+    let create_sim_class = "sim_fade-in";
+    if (sim_list.childElementCount === 0) create_sim_class = "sim_static";
+
+    simulations.forEach(simulation=> {
+        let sim_div = document.getElementById(simulation.simulation_key);
+        if (sim_div) {
+            updateSimulation(sim_div, simulation);
+        } else {
+            sim_div = sim_template.cloneNode(true);
+            sim_div.id = simulation.simulation_key;
+            sim_div.setAttribute("data-id", simulation.simulation_id);
+            sim_div.classList.add(create_sim_class);
+            updateSimulation(sim_div, simulation);
+            if (sim_list.firstChild) {
+                sim_list.insertBefore(sim_div, sim_list.firstChild)
+            }
+            else {
+                sim_list.appendChild(sim_div);
+            }
+        }
+    });
+}
+
+function updateSimulation(sim_div, simulation) {
+    /* creation date */
+    let date_dsp;
+    if (gLanguageCode === "en") date_dsp = simulation.date_day + ". " + simulation.date_mon.en;
+    else date_dsp = simulation.date_day + ". " + simulation.date_mon.de;
+    setTextContent(sim_div.getElementsByClassName("sim_date")[0], date_dsp);
+
+    /* simulation name */
+    setTextContent(sim_div.getElementsByClassName("sim_name_txt")[0], simulation.simulation_name);
+
+    /* status */
+    let status_dsp = "Check-In";
+    setTextContent(sim_div.getElementsByClassName("sim_status")[0], status_dsp);
+
+    /* start button text */
+    let start_sim_btn_txt = document.getElementById("start_sim_btn_txt").value;
+    setValue(sim_div.getElementsByClassName("sim_start_btn")[0], start_sim_btn_txt);
+
+    /* live or demo */
+    let toggle_img_src;
+    if (simulation.demo_mode === 0) toggle_img_src = "sim_live_inactive.png"
+    else toggle_img_src = "sim_playground_inactive.png";
+    setSrc(sim_div.getElementsByClassName("sim_live_toggle")[0], "./src/", toggle_img_src);
+
+    /* default language  */
+    if (simulation.default_language_code === 'en') {
+        toggleStyleClass(sim_div.getElementsByClassName("sim_lang_de")[0], "sim_lang_inactive", "sim_lang_active");
+        toggleStyleClass(sim_div.getElementsByClassName("sim_lang_en")[0], "sim_lang_active", "sim_lang_inactive");
+    } else {
+        toggleStyleClass(sim_div.getElementsByClassName("sim_lang_de")[0], "sim_lang_active", "sim_lang_inactive");
+        toggleStyleClass(sim_div.getElementsByClassName("sim_lang_en")[0], "sim_lang_inactive", "sim_lang_active");
+    }
+
+}
+
+function getSimUrl(simDiv, fullPath) {
+    let baseURL = '.';
+    if (fullPath) {
+        let pathArray = window.location.pathname.split( '/' );
+        baseURL = window.location.origin + "/" + pathArray[1];
+    }
+    return baseURL + "/checkin.html?simulation_id="+simDiv.getAttribute("data-id")
+        +"&simulation_key="+simDiv.id
+        +"&facilitate=1";
+}
+
+function openSimulation(e) {
+    window.open(getSimUrl(e.target.parentElement, false));
+}
+
+function copyShareLink(e) {
+    let sim_cs_div = e.target;
+
+    let copy_cat = document.getElementById("copy_cat");
+    copy_cat.value = getSimUrl(sim_cs_div.parentElement, true);
+    copy_cat.select();
+    copy_cat.setSelectionRange(0, 99999); /*For mobile devices*/
+    document.execCommand("copy");
+    copy_cat.value = "";
+
+    /* feedback animation */
+    if (!sim_cs_div.classList.contains("sim_cs_clicked")) {
+        setTimeout(function () {
+            sim_cs_div.classList.add("sim_cs_clicked");
+            setTimeout(function () {
+                sim_cs_div.classList.remove("sim_cs_clicked");
+            }, 1000);
+        }, 10);
+    }
+}
+
+function setDefaultLang(e) {
+    const url = './update_simulation.php?simulation_id='+e.target.parentElement.parentElement.getAttribute("data-id")
+                +'&default_language_code='+e.target.getAttribute("data-language");
+    fetch(url).then();
 }

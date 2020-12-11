@@ -58,7 +58,21 @@ function get_translation($context, $id, $language_code) {
     return get_translation_val($json, $id, $language_code);
 }
 
-
+function get_month_tl() {
+    return array( null,
+        array("de"=>"Jan", "en"=>"Jan"),
+        array("de"=>"Feb", "en"=>"Feb"),
+        array("de"=>"Mär", "en"=>"Mar"),
+        array("de"=>"Apr", "en"=>"Apr"),
+        array("de"=>"Mai", "en"=>"May"),
+        array("de"=>"Jun", "en"=>"Jun"),
+        array("de"=>"Jul", "en"=>"Jul"),
+        array("de"=>"Aug", "en"=>"Aug"),
+        array("de"=>"Sep", "en"=>"Sep"),
+        array("de"=>"Okt", "en"=>"Oct"),
+        array("de"=>"Nov", "en"=>"Nov"),
+        array("de"=>"Dez", "en"=>"Dec"));
+}
 
 function get_create_items_sql($round_id, $offset, $count, $item_options) {
     $options = array('green','blue','yellow','brown','pink','black','purple','red');

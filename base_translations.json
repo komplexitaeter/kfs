@@ -331,5 +331,14 @@
     "de": {
       "value": "Erstellen"
     }
+  },
+  {
+    "id": "start_sim_btn_txt",
+    "en": {
+      "hidden": "Facilitate"
+    },
+    "de": {
+      "hidden": "Moderieren"
+    }
   }
 ]
