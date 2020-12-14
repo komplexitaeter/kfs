@@ -469,6 +469,7 @@ body {
     height: 100%;
     margin-left: 7px;
     cursor: pointer;
+    visibility: hidden;
 }
 
 .sim_copy {
@@ -480,6 +481,7 @@ body {
     text-align: left;
     margin-left: 5px;
     cursor: pointer;
+    visibility: hidden;
 }
 
 .sim_cs:hover {
@@ -491,20 +493,31 @@ body {
 .sim_cs:hover ~ .sim_copy {
     opacity: 80%;
 }
-
+.sim:hover > .sim_share {
+    visibility: visible;
+}
+.sim:hover > .sim_copy {
+    visibility: visible;
+}
 
 
 .sim_start_btn_active {
-    border: 2px solid #41b2e8;
-    color: #41b2e8;
+    border: 2px solid grey;
+    color: grey;
     cursor: pointer;
     width: 100%;
+}
+
+.sim:hover > .sim_start_btn_active {
+    border: 2px solid #41b2e8;
+    color: #41b2e8;
 }
 
 .sim_start_btn_active:hover {
     width: 90%;
     right: 27px;
 }
+
 
 
 .sim_live_toggle {
