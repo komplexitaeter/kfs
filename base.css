@@ -441,8 +441,8 @@ body {
 }
 @keyframes clicked {
     0% {
-        width: 0px;
-        height: 0px;
+        width: 0;
+        height: 0;
         opacity: 1;
         background-color: white;
         border-radius: 50%;
