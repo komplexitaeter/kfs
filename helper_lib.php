@@ -254,6 +254,7 @@ function update_current_round($link, $simulation_id, $action, $trial_run, $auto_
                ,sims.current_round_id
                ,round.last_start_time
                ,round.last_stop_time
+               ,round.trial_run
            FROM kfs_simulation_tbl AS sims
            LEFT OUTER JOIN kfs_rounds_tbl AS round ON round.round_id = sims.current_round_id
           WHERE sims.simulation_id = ".$simulation_id;
@@ -264,7 +265,6 @@ function update_current_round($link, $simulation_id, $action, $trial_run, $auto_
         if(!$current_round = $result->fetch_object()) exit('INVALID_SIMULATION_ID');
     }
     else exit('INTERNAL_ERROR');
-//print_r($current_round);
 
     $sql_dml = array();
 
@@ -282,6 +282,9 @@ function update_current_round($link, $simulation_id, $action, $trial_run, $auto_
             && $current_round->last_stop_time == null) {
             $sql = 'UPDATE kfs_rounds_tbl SET last_start_time=current_timestamp WHERE round_id='.$current_round->current_round_id;
             array_push($sql_dml, $sql);
+            if ($current_round->trial_run == 0) {
+                set_status($link, $simulation_id, 'FIRST_TIMED_ROUND_STARTED');
+            }
         }
         /* there is a stopped current round */
         elseif ($current_round->last_start_time != null

@@ -1,6 +1,7 @@
 <?php
 require 'config.php';
 require 'helper_lib.php';
+require 'status.php';
 
 $simulation_id = filter_input(INPUT_GET, 'simulation_id', FILTER_SANITIZE_NUMBER_INT);
 $action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_STRING);

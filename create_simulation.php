@@ -1,6 +1,7 @@
 <?php
 require 'config.php';
 require 'helper_lib.php';
+require 'status.php';
 
 function exit_on_error($link) {
     $link->rollback();
@@ -79,11 +80,9 @@ $sql = "SELECT LAST_INSERT_ID() AS simulation_id";
 if ($result = $link->query($sql)) {
     $obj = $result->fetch_object();
 
-    $sql="INSERT INTO kfs_attendees_tbl(simulation_id, session_key, avatar_code, role_code, language_code) 
-                                VALUES ($obj->simulation_id,'$session_key','1','FACILITATOR', '$default_language_code')";
-    $link->query($sql);
-
     $obj->simulation_key = $simulation_key;
+
+    initialize_status($link, $obj->simulation_id, 'KFS');
 
     $myJSON = json_encode($obj);
     echo $myJSON;

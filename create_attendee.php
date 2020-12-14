@@ -1,6 +1,7 @@
 <?php
 require 'config.php';
 require 'helper_lib.php';
+require 'status.php';
 
 $simulation_id = filter_input(INPUT_GET, 'simulation_id', FILTER_SANITIZE_NUMBER_INT);
 $session_key = filter_input(INPUT_GET, 'session_key', FILTER_SANITIZE_STRING);
@@ -35,6 +36,7 @@ else {
                          VALUES ($simulation_id,'$session_key','1','$obj->default_language_code', 'FACILITATOR')";
                 }
                 $link->query($sql);
+                set_status($link, $simulation_id, 'FIRST_FACILITATOR_KNOWN');
             }
         }
     }

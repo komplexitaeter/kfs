@@ -1,6 +1,7 @@
 <?php
 require 'config.php';
 require 'helper_lib.php';
+require 'status.php';
 
 $simulation_id = filter_input(INPUT_GET, 'simulation_id');
 
@@ -51,6 +52,8 @@ if(isset($_GET['status_code'])){
                 $sql = get_create_items_sql(null, null, null, null); /* get round id from last insert */
                 if (!$result = $link->query($sql)) exit('INTERNAL_ERROR');
             }
+
+            set_status($link, $simulation_id, 'FIRST_START');
         }
     }
 }
@@ -60,7 +63,10 @@ if(isset($_GET['stats_round_id'])){
 
     if ($side!=null && $side>=0 && $side<2) {
         $stats_round_id = filter_input(INPUT_GET, 'stats_round_id', FILTER_SANITIZE_NUMBER_INT);
-        if ($stats_round_id != null) array_push($sql_set, "stats_round_id_$side = $stats_round_id");
+        if ($stats_round_id != null) {
+            array_push($sql_set, "stats_round_id_$side = $stats_round_id");
+            set_status($link, $simulation_id, 'FIRST_ROUND_STATS_SELECTED');
+        }
         else array_push($sql_set, "stats_round_id_$side = null");
     }
 }
