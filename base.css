@@ -794,7 +794,7 @@ body {
 
 
 
-label {
+#purchase_address_label {
     margin-left: auto;
     margin-right: auto;
     padding-left: 20px;
@@ -932,3 +932,4 @@ label {
     background-image: url("./src/icon_retoure_grey.png");
     margin-bottom: 15px;
 }
+

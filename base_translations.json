@@ -340,5 +340,59 @@
     "de": {
       "hidden": "Moderieren"
     }
+  },
+  {
+    "id": "status_NEW",
+    "en": {
+      "hidden": "Ready for Check-In"
+    },
+    "de": {
+      "hidden": "Bereit für Check-In"
+    }
+  },
+  {
+    "id": "status_FIRST_FACILITATOR_KNOWN",
+    "en": {
+      "hidden": "Check-In"
+    },
+    "de": {
+      "hidden": "Check-In"
+    }
+  },
+  {
+    "id": "status_FIRST_START",
+    "en": {
+      "hidden": "Simulation"
+    },
+    "de": {
+      "hidden": "Simulation"
+    }
+  },
+  {
+    "id": "status_FIRST_TIMED_ROUND_STARTED",
+    "en": {
+      "hidden": "Simulation running"
+    },
+    "de": {
+      "hidden": "Simulation läuft"
+    }
+  },
+  {
+    "id": "status_FIRST_ROUND_STATS_SELECTED",
+    "en": {
+      "hidden": "Debriefing"
+    },
+    "de": {
+      "hidden": "Debriefing"
+    }
+  },
+  {
+    "id": "status_CLOSED",
+    "en": {
+      "hidden": "Closed"
+    },
+    "de": {
+      "hidden": "Geschlossen"
+    }
   }
 ]

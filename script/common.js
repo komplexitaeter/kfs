@@ -35,7 +35,9 @@ function setSrc(element, srcPath, srcFile) {
 }
 
 function setTextContent(element, textContent) {
-    if (!element.textContent.includes(textContent)) element.textContent = textContent;
+    if ((!element.textContent.includes(textContent))
+       | Math.abs(element.textContent.length - textContent.length) > 2
+    ) element.textContent = textContent;
 }
 
 function setValue(element, value) {

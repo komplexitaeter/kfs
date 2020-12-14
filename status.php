@@ -16,7 +16,8 @@ function set_status($link, $simulation_id, $status_code) {
     $sql= "UPDATE kfs_status_tbl
             SET event_date = current_timestamp
             WHERE simulation_id = $simulation_id
-            AND status_code = '$status_code'";
+            AND status_code = '$status_code'
+            AND event_date is null";
     $link->query($sql);
 }
 
@@ -26,7 +27,7 @@ function get_status($link, $simulation_id) {
               FROM kfs_status_tbl
              WHERE simulation_id = $simulation_id
                AND event_date is not null
-            ORDER BY event_date desc";
+            ORDER BY sequence desc";
     if ($result = $link->query($sql)) {
         if ($obj = $result->fetch_object()) {
             $status_code = $obj->status_code;

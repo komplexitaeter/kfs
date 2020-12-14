@@ -89,7 +89,8 @@ function get_base_obj($session_key) {
                         "simulation_name" => (String)$obj->simulation_name,
                         "status" => (String)$obj->status,
                         "default_language_code" => (String)$obj->default_language_code,
-                        "demo_mode" => (int)$obj->demo_mode
+                        "demo_mode" => (int)$obj->demo_mode,
+                        "status_code" => (String)get_status($link, $obj->simulation_id)
                     );
 
                     array_push($simulations, $simulation);

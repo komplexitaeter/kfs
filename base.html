@@ -43,14 +43,14 @@
                 <div id="icon_playground" class="live_toggle playground_toggle_active" onclick="togglePlayground()">Demo</div>
                 <div id="icon_live" class="live_toggle live_toggle_inactive" onclick="toggleLive()">Live</div>
             </div>
-            <input type="text" id="sim_name" class="no_highlight" placeholder="" />
+            <label for="sim_name" class="hidden"></label><input type="text" id="sim_name" class="no_highlight" placeholder="" />
             <input type="submit" id="create_sim_btn" class="small_btn small_btn_active" value="" onclick="createSimulation()"  />
         </div>
     </div>
 
     <div id="sim_list"></div>
 
-    <input type="text" id="copy_cat" />
+    <label for="copy_cat" class="hidden"></label><input type="text" id="copy_cat" />
 
 </div>
 
@@ -66,7 +66,7 @@
         <div class="sim_date"></div>
 
         <div class="sim_name_dsp"><span class="sim_name_txt"></span></div>
-        <div class="sim_status">Check-In</div>
+        <div class="sim_status"></div>
 
         <input type="submit" class="sim_start_btn sim_start_btn_active" value="" onclick="openSimulation(event)" />
 
@@ -134,7 +134,7 @@
             <div id="purchase_warning_msg" class="warning_msg_inactive">&nbsp;</div>
         </div>
         <div id="purchase_open">
-            <h1 id="purchase_open_header">+20 Live Simulationen</h1>
+            <h1 id="purchase_open_header"></h1>
             <div id="purchase_open_feedback"></div>
             <div id="purchase_open_invoice" class="hidden"></div>
             <div id="purchase_open_offer" class="hidden"></div>

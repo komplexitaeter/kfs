@@ -489,8 +489,13 @@ function updateSimulation(sim_div, simulation) {
     setTextContent(sim_div.getElementsByClassName("sim_name_txt")[0], simulation.simulation_name);
 
     /* status */
-    let status_dsp = "Check-In";
-    setTextContent(sim_div.getElementsByClassName("sim_status")[0], status_dsp);
+    let status_tl = document.getElementById("status_"+simulation.status_code);
+    if (status_tl && status_tl != null) {
+        let status_dsp = status_tl.value
+        setTextContent(sim_div.getElementsByClassName("sim_status")[0], status_dsp);
+    } else {
+        console.log("missing_translation: status_"+simulation.status_code);
+    }
 
     /* start button text */
     let start_sim_btn_txt = document.getElementById("start_sim_btn_txt").value;
