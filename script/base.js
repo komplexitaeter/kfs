@@ -459,8 +459,7 @@ function updateSimulations(simulations) {
 
     simulations.forEach(simulation=> {
         let sim_div = document.getElementById(simulation.simulation_key);
-        console.log(simulation.simulation_key);
-        console.log(sim_div);
+
         if (sim_div) {
             updateSimulation(sim_div, simulation);
         } else {
