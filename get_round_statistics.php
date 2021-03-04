@@ -187,7 +187,7 @@ if ($round_kpi->last_minute != null) {
         }
 
         array_push($per_minute, array(
-            (string)$min,
+            (string)($min+1),
             (int)$ships,
             (int)$wip,
             "opacity:".$wip_toggle
