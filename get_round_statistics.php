@@ -31,34 +31,22 @@ if ($side == 0 || $side == 1) {
 
 
 
-$sql = "select COALESCE(rnd.cumulative_time_s, 0) + TIMESTAMPDIFF(SECOND, rnd.last_start_time,
-    COALESCE(rnd.last_stop_time, CURRENT_TIMESTAMP)) as total_time_s
-       ,count(i.item_id) as total_items_cnt
-       ,sum(i.price) as total_money_earned
-       ,round(avg(i.end_time_s-i.start_time_s), 0) as avg_cycle_time
-       ,null as avg_throughput
+$sql = "select null as avg_throughput
        ,rnd.simulation_id
-       ,(   select max(floor((i.end_time_s)/60)) 
-              from kfs_items_tbl i
-             where i.round_id = rnd.round_id
-               and i.end_time_s is not null
-               and i.current_station_id is null) as last_minute
-       ,(     select max(i.end_time_s-i.start_time_s)
-                from kfs_simulation_tbl kst
-                    ,kfs_items_tbl i
-                where kst.simulation_id = rnd.simulation_id
-                  and (i.round_id = kst.stats_round_id_0
-                      or i.round_id = kst.stats_round_id_1
-                    )
-                  and i.end_time_s is not null
-                  and i.current_station_id is null) as last_minute_total
+       ,floor((COALESCE(rnd.cumulative_time_s, 0) + TIMESTAMPDIFF(SECOND, rnd.last_start_time,
+          COALESCE(rnd.last_stop_time, CURRENT_TIMESTAMP)) )/60) as last_minute
+       ,(
+           select max(floor((COALESCE(rto.cumulative_time_s, 0) + TIMESTAMPDIFF(SECOND, rto.last_start_time,
+                                                                     COALESCE(rto.last_stop_time, CURRENT_TIMESTAMP))) /
+                 60)
+           )
+                from kfs_simulation_tbl sim
+            ,kfs_rounds_tbl rto
+            where sim.simulation_id = rnd.simulation_id
+            and rto.round_id in (sim.stats_round_id_0, sim.stats_round_id_1)
+       ) as last_minute_total
   from kfs_rounds_tbl as rnd
-    left outer join  kfs_items_tbl i
-      on i.round_id = rnd.round_id
-and i.end_time_s is not null
-and i.current_station_id is null
-  where rnd.round_id = $round_id
-group by rnd.round_id, rnd.cumulative_time_s, rnd.last_start_time, rnd.last_stop_time";
+  where rnd.round_id = $round_id";
 
 $round_kpi = (Object) Array();
 if ($result = $link->query($sql)) {
@@ -112,7 +100,9 @@ $sql="select max(i.cnt) ship_per_minute_max from (
         )
       and i.end_time_s is not null
       and i.current_station_id is null
-group by floor((i.end_time_s)/60)) as i";
+    group by floor((i.end_time_s)/60)
+        ,i.round_id
+    ) as i";
 if ($result = $link->query($sql)) {
     if ($obj = $result->fetch_object()) {
         $ship_per_minute_max = $obj->ship_per_minute_max;
@@ -154,6 +144,7 @@ for ($i=0; $i<count($rounds); $i++) {
 
 $per_minute = array();
 
+
 if ($round_kpi->last_minute != null) {
     for ($min=0; $min<=$round_kpi->last_minute; $min++ ) {
 
@@ -176,8 +167,6 @@ if ($round_kpi->last_minute != null) {
         $sql = "select count(1) as wip
              from kfs_items_tbl i
             where i.round_id = $round_id
-              and i.end_time_s is not null
-              and i.current_station_id is null
               and i.start_time_s < ($min+1)*60
               and ifnull(i.end_time_s, ($min+2)*60) > (($min+1)*60)-1";
         if ($result = $link->query($sql)) {
@@ -209,8 +198,6 @@ if ($round_kpi->last_minute_total != null) {
                            and (i.round_id = kst.stats_round_id_0
                              or i.round_id = kst.stats_round_id_1
                              )
-                           and i.end_time_s is not null
-                           and i.current_station_id is null
                            and i.start_time_s < ($min + 1) * 60
                            and ifnull(i.end_time_s, ($min + 2) * 60) > (($min + 1) * 60) - 1
                          group by i.round_id
@@ -218,7 +205,7 @@ if ($round_kpi->last_minute_total != null) {
         if ($result = $link->query($sql)) {
             if ($obj = $result->fetch_object()) {
                 if ($obj->wip_per_minute_max != null
-                 && $obj->wip_per_minute_max > $wip_per_minute_max) {
+                    && $obj->wip_per_minute_max > $wip_per_minute_max) {
                     $wip_per_minute_max = $obj->wip_per_minute_max;
                 }
             }
