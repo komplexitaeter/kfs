@@ -12,6 +12,7 @@ function get_board_obj($simulation_id, $simulation_key, $session_key, $add_stats
     $role_code=null;
     $language_code = null;
     $do_auto_pull = null;
+    $limit_one_mode = null;
 
     /*verify status of the current simulation*/
     $sql = $link->prepare("SELECT if(a.name is null, 'CHECKIN', s.status_code) as status_code
@@ -21,6 +22,7 @@ function get_board_obj($simulation_id, $simulation_key, $session_key, $add_stats
                       and r.auto_pull
                then 1 end as auto_pull
               ,a.role_code
+              ,r.auto_pull as limit_one_mode
               ,coalesce(a.language_code, s.default_language_code) as language_code
          FROM kfs_simulation_tbl  as s
     LEFT OUTER JOIN kfs_rounds_tbl as r 
@@ -38,6 +40,7 @@ function get_board_obj($simulation_id, $simulation_key, $session_key, $add_stats
             $status_code = $obj->status_code;
             $role_code = $obj->role_code;
             $language_code = $obj->language_code;
+            $limit_one_mode = $obj->limit_one_mode;
 
             if ($obj->auto_pull === '1') {
                 $do_auto_pull = '1';
@@ -165,7 +168,7 @@ function get_board_obj($simulation_id, $simulation_key, $session_key, $add_stats
     }
 
     /* query all items for current round */
-    if ($meta_data != null && $meta_data->auto_pull =='0') {
+    if ($limit_one_mode =='0') {
         $sql = "SELECT item.item_id
           , item.order_number
      , item.price
@@ -283,7 +286,7 @@ WHERE sims.simulation_id=$simulation_id ORDER BY item.prio";
 
         /* query done items from Done column or from next station? */
 
-        if ($meta_data->auto_pull=='1') {
+        if ($limit_one_mode=='1') {
             if ($meta_data->station_pos == $meta_data->station_count) {
                 /* query all items from backlog */
                 $sql = 'SELECT item_id, order_number, price, options FROM kfs_items_tbl WHERE current_station_id is null and end_time is not null and round_id=' . $meta_data->current_round_id . ' ORDER BY prio';
