@@ -1,5 +1,6 @@
 let fCanvas;
 let language_code = 'en';
+let sanityCheckCanBeSent = true;
 
 function loadBoard(){
 
@@ -37,6 +38,7 @@ function updateDom(myJson){
             }
             language_code = myJson.language_code;
             updateNewRoundBtnPresets(myJson.current_round.auto_pull, myJson.current_round.trial_run);
+            if(myJson.current_round.auto_pull == "0" && sanityCheckCanBeSent){sanityCheck(myJson);}
             break;
         case "NO_SIMULATION":
             // alert("The required simulation ID does not exit. You will be taken to the home page.");
@@ -951,6 +953,30 @@ function updateThumbnail(simulation_id, station_id, last_item_id, locked_div) {
                 removeStyleClass(obj, "pull_ready");
                 removeStyleClass(obj, "unattended");
             break;
+        }
+    });
+}
+
+/***function that triggers if WIP = 1 is violated at one given station and registers the info****/
+function sanityCheck(myJson){
+    let faultyItems = "";
+    Array.from(document.getElementsByClassName("station")).forEach( stationDiv => {
+        if((stationDiv.id != "done")&&(Array.from(stationDiv.getElementsByClassName("item")).length > 0)){
+            Array.from(stationDiv.getElementsByClassName("item")).forEach( itemDiv => {
+            faultyItems += itemDiv.id+"; ";
+            });
+
+                const url = "./debug.php?session_key="+getSessionKey()+"&simulation_id="+getSimulationId()+"&context=wip_violation";
+                let httpRequest = new XMLHttpRequest();
+                httpRequest.open("POST", url, true);
+                httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                httpRequest.send(
+                    "station_id=" + stationDiv.id
+                    +"&items=" + faultyItems
+                    +"&json=" + JSON.stringify(myJson)
+                );
+            //console.log(stationDiv.id+", items: "+faultyItems+", json: "+JSON.stringify(myJson));
+            sanityCheckCanBeSent = false;
         }
     });
 }
