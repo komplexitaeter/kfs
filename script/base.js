@@ -190,6 +190,7 @@ function togglePlayground() {
     toggleStyleClass(playground_div, "playground_toggle_active", "playground_toggle_inactive");
     toggleStyleClass(live_div, "live_toggle_inactive", "live_toggle_active");
     focusSimName();
+    toggleSimulationsVisibility();
 }
 
 function toggleLive() {
@@ -199,6 +200,19 @@ function toggleLive() {
     toggleStyleClass(playground_div, "playground_toggle_inactive", "playground_toggle_active");
     toggleStyleClass(live_div, "live_toggle_active", "live_toggle_inactive");
     focusSimName();
+    toggleSimulationsVisibility();
+}
+
+function toggleSimulationsVisibility(){
+    Array.from(document.getElementsByClassName("sim")).forEach( sim_div => {
+        //toggleStyleClass(sim_div, "sim_static", "sim_fade-in");
+        if (sim_div.getAttribute("demo_mode") != gLiveToggle){
+            sim_div.style.display = "grid";
+        }
+        else{
+            sim_div.style.display = "none";
+        }
+    });
 }
 
 function focusPurchasingTextarea() {
@@ -466,6 +480,7 @@ function updateSimulations(simulations) {
             sim_div = sim_template.cloneNode(true);
             sim_div.id = simulation.simulation_key;
             sim_div.setAttribute("data-id", simulation.simulation_id);
+            sim_div.setAttribute("demo_mode", simulation.demo_mode);
             sim_div.classList.add(create_sim_class);
             updateSimulation(sim_div, simulation);
             if (sim_list.firstChild) {
@@ -475,7 +490,9 @@ function updateSimulations(simulations) {
                 sim_list.appendChild(sim_div);
             }
         }
+
     });
+    toggleSimulationsVisibility();
 }
 
 function updateSimulation(sim_div, simulation) {
@@ -506,6 +523,7 @@ function updateSimulation(sim_div, simulation) {
     if (simulation.demo_mode === 0) toggle_img_src = "sim_live_inactive.png"
     else toggle_img_src = "sim_playground_inactive.png";
     setSrc(sim_div.getElementsByClassName("sim_live_toggle")[0], "./src/", toggle_img_src);
+
 
     /* default language  */
     if (simulation.default_language_code === 'en') {
