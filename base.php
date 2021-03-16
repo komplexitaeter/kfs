@@ -19,7 +19,7 @@ function get_base_obj($session_key) {
                                         ,d.billing_email_address
                                         ,d.single_gross_price
                                    FROM kfs_login_tbl l
-                                  left outer join kfs_puchasing_details_tbl d 
+                                  left outer join kfs_purchasing_details_tbl d 
                                          on d.purchasing_detail_id = l.purchasing_detail_id
                                   WHERE l.session_key = ?");
     $sql->bind_param('s', $session_key);

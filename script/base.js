@@ -253,9 +253,9 @@ function updatePurchaseQty() {
     document.getElementById("purchase_qty").textContent
         = gPurchaseQty.toString() + "x";
     document.getElementById("purchase_unit_price").textContent
-        = "á " + gPriceList[gPurchaseQty].toString() + "€";
+        = "á " + gPriceList[0].toString() + "€";
     document.getElementById("purchase_total_price").textContent
-        = (gPurchaseQty * gPriceList[gPurchaseQty]).toString() + "€";
+        = (gPurchaseQty * gPriceList[0]).toString() + "€";
     focusPurchasingTextarea();
 }
 
@@ -350,7 +350,6 @@ function submitPurchaseData(purchaseAddress) {
     httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     httpRequest.send(
         "purchase_method=" + gPurchaseMethod
-        +"&purchase_qty=" + gPurchaseQty
         +"&language_code=" + gLanguageCode
         +"&purchase_address=" + purchaseAddress
     );

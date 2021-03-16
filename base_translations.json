@@ -146,10 +146,10 @@
   {
     "id": "purchase_method_offer_hint",
     "en": {
-      "text": "Start immediately. You will receive an offer by e-mail and decide when to start. You will receive an e-mail invoice at the end of the month for all users over all simulations you facilitated and pay with SEPA bank transfer."
+      "text": "You will receive an offer by e-mail and decide when to start. You will receive an e-mail invoice at the end of the month for all users over all simulations you facilitated and pay with SEPA bank transfer."
     },
     "de": {
-      "text": "Sofort loslegen. Du erhältst von uns ein Angebot per E-Mail und entscheidest selbst, wann es los geht. Du erhältst am Monatsende eine E-Mail Rechnung über alle Nutzer aller Simulationen, die du druchgeführt hast. Du bezahlst per SEPA Überweisung."
+      "text": "Du erhältst von uns ein Angebot per E-Mail und entscheidest selbst, wann es los geht. Du erhältst am Monatsende eine E-Mail Rechnung über alle Nutzer aller Simulationen, die du druchgeführt hast. Du bezahlst per SEPA Überweisung."
     }
   },
   {
