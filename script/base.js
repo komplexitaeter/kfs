@@ -184,12 +184,17 @@ function toggleLive() {
     toggleStyleClass(playground_div, "playground_toggle_inactive", "playground_toggle_active");
     toggleStyleClass(live_div, "live_toggle_active", "live_toggle_inactive");
     focusSimName();
+
+    // switch off fade-in animation to avoid re-animation of recently created sims
+    Array.from(document.getElementsByClassName("sim")).forEach( sim_div => {
+        toggleStyleClass(sim_div, "sim_static", "sim_fade-in");
+    });
+
     toggleSimulationsVisibility();
 }
 
 function toggleSimulationsVisibility(){
     Array.from(document.getElementsByClassName("sim")).forEach( sim_div => {
-        //toggleStyleClass(sim_div, "sim_static", "sim_fade-in");
         if (sim_div.getAttribute("demo_mode") != gLiveToggle){
             sim_div.style.display = "grid";
         }
