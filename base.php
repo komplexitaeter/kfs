@@ -4,12 +4,23 @@ function get_base_obj($session_key) {
     $link = db_init();
     $status_code = 'BASE';
     $login_id = null;
-    $latest_trx = null;
+    $purchasing_details_exists = 0;
+    $purchase_method = null;
+    $purchase_address = null;
+    $billing_email_address = null;
+    $single_gross_price = null;
     $simulations = array();
     $month = get_month_tl();
 
     $sql = $link->prepare("SELECT l.login_id
+                                        ,IF(isnull(d.purchasing_detail_id), 0, 1) as purchasing_details_exists
+                                        ,d.purchase_method
+                                        ,d.purchase_address
+                                        ,d.billing_email_address
+                                        ,d.single_gross_price
                                    FROM kfs_login_tbl l
+                                  left outer join kfs_puchasing_details_tbl d 
+                                         on d.purchasing_detail_id = l.purchasing_detail_id
                                   WHERE l.session_key = ?");
     $sql->bind_param('s', $session_key);
     $sql->execute();
@@ -18,6 +29,13 @@ function get_base_obj($session_key) {
         if ($obj = $result->fetch_object()) {
 
             $login_id = $obj->login_id;
+            $purchasing_details_exists = $obj->purchasing_details_exists;
+            if ($purchasing_details_exists == 1) {
+                $purchase_method = $obj->purchase_method;
+                $purchase_address = $obj->purchase_address;
+                $billing_email_address = $obj->billing_email_address;
+                $single_gross_price = $obj->single_gross_price;
+            }
 
             /* query simulations */
             $sql = $link->prepare("SELECT s.simulation_id
@@ -30,7 +48,7 @@ function get_base_obj($session_key) {
                                                 ,s.demo_mode
                                                FROM kfs_simulation_tbl s
                                               WHERE s.login_id = ?
-                                              ORDER BY s.creation_date ASC");
+                                              ORDER BY s.creation_date");
             $sql->bind_param('i', $login_id);
             $sql->execute();
 
@@ -60,10 +78,10 @@ function get_base_obj($session_key) {
         $status_code = 'ERROR';
     }
     return array("status_code" => (String)$status_code
-                ,"purchasing_detail_exists" => (int)0
-                ,"purchase_method" => (String)"INVOICE"
-                ,"purchase_address" => (String)""
-                ,"billing_email_address" => (String)""
-                ,"single_gross_price" => (int)15
+                ,"purchasing_detail_exists" => (int)$purchasing_details_exists
+                ,"purchase_method" => (String)$purchase_method
+                ,"purchase_address" => (String)$purchase_address
+                ,"billing_email_address" => (String)$billing_email_address
+                ,"single_gross_price" => (int)$single_gross_price
                 ,"simulations" => (array)$simulations);
 }
