@@ -18,7 +18,8 @@ html{
 body{
     display: grid;
     grid-template-columns: 12% 88%;
-    grid-template-rows: 30% 15% 0% 55%;
+    /* grid-template-rows: 30% 15% 0% 55%; */
+    grid-auto-rows: 30% minmax(15%, auto) 0% minmax(55%, auto);
     height: 100vh;
     width: 100vw;
     min-height: 100%;

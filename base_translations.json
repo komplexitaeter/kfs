@@ -128,7 +128,7 @@
   {
     "id": "purchase_method_invoice_header",
     "en": {
-      "text": "Simply by invoice"
+      "text": "Simply per invoice"
     },
     "de": {
       "text": "Einfach per Rechnung"
@@ -137,10 +137,10 @@
   {
     "id": "purchase_method_invoice_hint",
     "en": {
-      "text": "Start immediately. You will receive an e-mail invoice and pay by SEPA bank transfer."
+      "text": "Start immediately. You will receive an e-mail invoice at the end of the month for all users over all simulations you facilitated and pay with SEPA bank transfer."
     },
     "de": {
-      "text": "Sofort loslegen. Du erhältst eine E-Mail Rechnung und bezahlst per SEPA Überweisung."
+      "text": "Sofort loslegen. Du erhältst am Monatsende eine E-Mail Rechnung über alle Nutzer aller Simulationen, die du druchgeführt hast. Du bezahlst per SEPA Überweisung."
     }
   },
   {
@@ -155,10 +155,10 @@
   {
     "id": "purchase_method_offer_hint",
     "en": {
-      "text": "You will receive an offer by e-mail and decide for yourselves when to start."
+      "text": "Start immediately. You will receive an offer by e-mail and decide when to start. You will receive an e-mail invoice at the end of the month for all users over all simulations you facilitated and pay with SEPA bank transfer."
     },
     "de": {
-      "text": "Du erhältst von uns ein Angebot per E-Mail und entscheidest selbst, wann es los geht."
+      "text": "Sofort loslegen. Du erhältst von uns ein Angebot per E-Mail und entscheidest selbst, wann es los geht. Du erhältst am Monatsende eine E-Mail Rechnung über alle Nutzer aller Simulationen, die du druchgeführt hast. Du bezahlst per SEPA Überweisung."
     }
   },
   {
@@ -200,10 +200,10 @@
   {
     "id": "purchase_address_label_offer",
     "en": {
-      "hidden": "Offer address"
+      "hidden": "Offer and invoice address"
     },
     "de": {
-      "hidden": "Angebotsadresse"
+      "hidden": "Angebots- und Rechnungsadresse"
     }
   },
   {

@@ -32,7 +32,10 @@ function setLanguage() {
 function updateDom(myJson) {
     switch(myJson.status_code) {
         case "BASE":
-            updateOpenCredits(myJson.open_credits, myJson.open_purchase_trx, myJson.latest_trx);
+            updatePurchasingDetails(myJson.purchasing_detail_exists
+                , myJson.purchase_address
+                , myJson.single_gross_price
+                , myJson.purchase_method);
             updateOpenPurchaseTrx(myJson.open_purchase_trx, myJson.latest_trx);
             removeStyleClass(document.body, 'hidden');
             updateSimulations(myJson.simulations);
