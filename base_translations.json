@@ -72,30 +72,21 @@
     }
   },
   {
-    "id": "open_credits_txt",
+    "id": "purchasing_details_exist_txt",
     "en": {
-      "hidden": " Live Simulations"
+      "hidden": " Live simulations available (click to modify)"
     },
     "de": {
-      "hidden": " Live Simulationen"
-    }
-  },
-  {
-    "id": "open_credit_txt",
-    "en": {
-      "hidden": " Live Simulation"
-    },
-    "de": {
-      "hidden": " Live Simulation"
+      "hidden": " Live Simulationen freigeschaltet (anpassen)"
     }
   },
   {
     "id": "buy_credits_btn_label",
     "en": {
-      "text": " Buy Live Simulations"
+      "text": " Activate live simulation"
     },
     "de": {
-      "text": " Live Simulationen kaufen"
+      "text": " Live Simulationen freischalten"
     }
   },
   {

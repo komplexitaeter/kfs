@@ -4,7 +4,7 @@ let gPurchaseQty = 1;
 let gPurchaseMethod = "INVOICE";
 let gCreditId = null;
 let gLiveToggle = null;
-let gHasCredits = false;
+let gHasPurchasingDetails = false;
 
 function loadBase() {
     let languageCode = getURLParam("language_code");
@@ -48,53 +48,34 @@ function updateDom(myJson) {
     }
 }
 
-function updateOpenCredits(openCredits, openPurchaseTrx, latestTrx) {
-    let creditsBtn = document.getElementById("credits_btn");
+function updatePurchasingDetails(purchasing_detail_exists
+    , purchase_address
+    , single_gross_price
+    , purchase_method){
+
     let buyCreditsBtn = document.getElementById("buy_credits_btn");
+    let creditsBtn = document.getElementById("credits_btn");
 
     let creditsBtnLabel = document.getElementById("credits_btn_label");
     let labelTxt;
 
-    if (openCredits && openCredits >0 ) {
-        if (openCredits === 1) {
-            labelTxt = openCredits + document.getElementById("open_credit_txt").value;
-        } else {
-            labelTxt = openCredits + document.getElementById("open_credits_txt").value;
-        }
+    if (purchasing_detail_exists && purchasing_detail_exists  === 1 ) {
+        labelTxt = document.getElementById("purchasing_details_exist_txt").value;
+        addStyleClass(buyCreditsBtn, "hidden");
+        removeStyleClass(creditsBtn, "hidden");
         if (!creditsBtnLabel.textContent.includes(labelTxt)) {
             creditsBtnLabel.textContent = labelTxt;
         }
-        addStyleClass(buyCreditsBtn, "hidden");
-        removeStyleClass(creditsBtn, "hidden");
-
         if (gLiveToggle === null) toggleLive();
 
-        gHasCredits = true;
-    } else if (openPurchaseTrx > 0 && latestTrx.purchase_method === "OFFER" ) {
-        labelTxt = document.getElementById("pending_offer_label").value;
-        if (!creditsBtnLabel.textContent.includes(labelTxt)) {
-            creditsBtnLabel.textContent = labelTxt;
-        }
-        addStyleClass(buyCreditsBtn, "hidden");
-        removeStyleClass(creditsBtn, "hidden");
-
-        gHasCredits = false;
-    } else if (openPurchaseTrx > 0 && latestTrx.purchase_method === "CUSTOM" ) {
-        labelTxt = document.getElementById("submit_btn_custom").value;
-        if (!creditsBtnLabel.textContent.includes(labelTxt)) {
-            creditsBtnLabel.textContent = labelTxt;
-        }
-        addStyleClass(buyCreditsBtn, "hidden");
-        removeStyleClass(creditsBtn, "hidden");
-
-        gHasCredits = false;
-    }
-    else {
+        gHasPurchasingDetails = true;
+    } else {
         addStyleClass(creditsBtn, "hidden");
         removeStyleClass(buyCreditsBtn, "hidden");
 
-        gHasCredits = false;
+        gHasPurchasingDetails = false;
     }
+
 }
 
 function updateOpenPurchaseTrx(openPurchaseTrx, latestTrx) {
@@ -427,7 +408,7 @@ function confirm_offer() {
 
 function createSimulation() {
 
-    if (gHasCredits || !gLiveToggle) {
+    if (gHasPurchasingDetails || !gLiveToggle) {
 
         let url;
         let demo_mode;
