@@ -61,6 +61,7 @@ function get_base_obj($session_key) {
     }
     return array("status_code" => (String)$status_code
                 ,"purchasing_detail_exists" => (int)0
+                ,"purchase_method" => (String)"INVOICE"
                 ,"purchase_address" => (String)""
                 ,"billing_email_address" => (String)""
                 ,"single_gross_price" => (int)15
