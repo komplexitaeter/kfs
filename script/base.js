@@ -174,6 +174,7 @@ function togglePlayground() {
     toggleStyleClass(playground_div, "playground_toggle_active", "playground_toggle_inactive");
     toggleStyleClass(live_div, "live_toggle_inactive", "live_toggle_active");
     focusSimName();
+    revokeFadeInAnimation();
     toggleSimulationsVisibility();
 }
 
@@ -184,13 +185,15 @@ function toggleLive() {
     toggleStyleClass(playground_div, "playground_toggle_inactive", "playground_toggle_active");
     toggleStyleClass(live_div, "live_toggle_active", "live_toggle_inactive");
     focusSimName();
+    revokeFadeInAnimation();
+    toggleSimulationsVisibility();
+}
 
+function revokeFadeInAnimation() {
     // switch off fade-in animation to avoid re-animation of recently created sims
     Array.from(document.getElementsByClassName("sim")).forEach( sim_div => {
         toggleStyleClass(sim_div, "sim_static", "sim_fade-in");
     });
-
-    toggleSimulationsVisibility();
 }
 
 function toggleSimulationsVisibility(){
