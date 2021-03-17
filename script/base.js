@@ -191,7 +191,7 @@ function toggleLive() {
 
 function revokeFadeInAnimation() {
     // switch off fade-in animation to avoid re-animation of recently created sims
-    Array.from(document.getElementsByClassName("sim")).forEach( sim_div => {
+    Array.from(document.getElementsByClassName("sim_fade-in")).forEach( sim_div => {
         toggleStyleClass(sim_div, "sim_static", "sim_fade-in");
     });
 }
