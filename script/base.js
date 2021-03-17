@@ -179,14 +179,19 @@ function togglePlayground() {
 }
 
 function toggleLive() {
-    gLiveToggle = 1;
-    let playground_div = document.getElementById("icon_playground");
-    let live_div = document.getElementById("icon_live");
-    toggleStyleClass(playground_div, "playground_toggle_inactive", "playground_toggle_active");
-    toggleStyleClass(live_div, "live_toggle_active", "live_toggle_inactive");
-    focusSimName();
-    revokeFadeInAnimation();
-    toggleSimulationsVisibility();
+    if (gHasPurchasingDetails) {
+        gLiveToggle = 1;
+        let playground_div = document.getElementById("icon_playground");
+        let live_div = document.getElementById("icon_live");
+        toggleStyleClass(playground_div, "playground_toggle_inactive", "playground_toggle_active");
+        toggleStyleClass(live_div, "live_toggle_active", "live_toggle_inactive");
+        focusSimName();
+        revokeFadeInAnimation();
+        toggleSimulationsVisibility();
+    }
+    else {
+        open_purchase_dialog();
+    }
 }
 
 function revokeFadeInAnimation() {
