@@ -90,30 +90,12 @@
     }
   },
   {
-    "id": "purchase_title",
+    "id": "single_price_text",
     "en": {
-      "text": "Live Simulation"
+      "text": "€ per user per simulation"
     },
     "de": {
-      "text": "Live Simulation"
-    }
-  },
-  {
-    "id": "purchase_desc",
-    "en": {
-      "text": "up to 10 participants"
-    },
-    "de": {
-      "text": "mit bis zu 8 Teilnehmern"
-    }
-  },
-  {
-    "id": "purchase_vat_desc",
-    "en": {
-      "text": "incl. VAT"
-    },
-    "de": {
-      "text": "inkl. MwSt."
+      "text": "€ pro Nutzer pro Simulation"
     }
   },
   {
@@ -126,12 +108,12 @@
     }
   },
   {
-    "id": "purchase_method_invoice_hint",
+    "id": "purchase_method_invoice_text",
     "en": {
-      "text": "Start immediately. You will receive an e-mail invoice at the end of the month for all users over all simulations you facilitated and pay with SEPA bank transfer."
+      "text": "Start immediately."
     },
     "de": {
-      "text": "Sofort loslegen. Du erhältst am Monatsende eine E-Mail Rechnung über alle Nutzer aller Simulationen, die du druchgeführt hast. Du bezahlst per SEPA Überweisung."
+      "text": "Sofort loslegen."
     }
   },
   {
@@ -144,12 +126,12 @@
     }
   },
   {
-    "id": "purchase_method_offer_hint",
+    "id": "purchase_method_offer_text",
     "en": {
-      "text": "You will receive an offer by e-mail and decide when to start. You will receive an e-mail invoice at the end of the month for all users over all simulations you facilitated and pay with SEPA bank transfer."
+      "text": "You will receive an offer by e-mail and decide when to start."
     },
     "de": {
-      "text": "Du erhältst von uns ein Angebot per E-Mail und entscheidest selbst, wann es los geht. Du erhältst am Monatsende eine E-Mail Rechnung über alle Nutzer aller Simulationen, die du druchgeführt hast. Du bezahlst per SEPA Überweisung."
+      "text": "Du erhältst von uns ein Angebot per E-Mail und entscheidest selbst, wann es los geht."
     }
   },
   {
@@ -162,7 +144,7 @@
     }
   },
   {
-    "id": "purchase_method_custom_hint",
+    "id": "purchase_method_custom_text",
     "en": {
       "text": "Is it complex? We will contact you and find a solution together so that you can get started."
     },
@@ -216,48 +198,12 @@
     }
   },
   {
-    "id": "purchase_open_feedback",
+    "id": "purchase_pricing_model_text",
     "en": {
-      "text": "We have added the desired number of live simulations to your personal login. Hence you are able to start at any time. We wish you and your participants a lot of fun and would be happy to receive your feedback."
+      "text": "You will receive an e-mail invoice at the end of the month for all users over all simulations you facilitated and pay with SEPA bank transfer."
     },
     "de": {
-      "text": "Wir haben die gewünschte Anzahl an Live Simulationen für dein persönliches Login freigeschaltet. Du kannst also jederzeit loslegen. Wir wünschen dir und deinen Teilnehmern viel Spaß und freuen uns auf Feedback."
-    }
-  },
-  {
-    "id": "purchase_open_invoice",
-    "en": {
-      "text": "We will send you an invoice via e-mail shortly. Please transfer the open amount to the bank account given, mentioning the invoice number."
-    },
-    "de": {
-      "text": "Wir senden dir in Kürze eine Rechnung per E-Mail zu. Bitte überweise den offenen Betrag auf die angeben Bankverbindung unter Angabe der Rechnungsnummer."
-    }
-  },
-  {
-    "id": "purchase_open_offer",
-    "en": {
-      "innerHTML": "We will send you an offer via e-mail shortly. To confirm the offer, just clicking the button below or sending an informal e-mail to <a href=\"mailto:hallo@komplexitaeter.de\">hallo@komplexitaeter.de</a> is all it takes. Afterwards you can start immediately. You will then receive an invoice via e-mail and can pay by SEPA bank transfer."
-    },
-    "de": {
-      "innerHTML": "Wir senden dir in Kürze eine Angebot per E-Mail zu. Zur Annahme des Angebotes reicht der Click auf den Button unten oder eine formlose E-Mail an <a href=\"mailto:hallo@komplexitaeter.de\">hallo@komplexitaeter.de</a>. Danach kannst du unmittelbar loslegen. Im Anschluss erhälst du eine Rechnung per E-Mail und bezahlst per SEPA Überweisung."
-    }
-  },
-  {
-    "id": "purchase_open_custom",
-    "en": {
-      "text": "We will contact you via email within the next 24 hours to coordinate the further proceeding together."
-    },
-    "de": {
-      "text": "Wir werden uns innerhalb der nächsten 24 Stunden bei dir per E-Mail melden, um das weitere Vorgehen zusammen abzustimmen."
-    }
-  },
-  {
-    "id": "purchase_open_rma",
-    "en": {
-      "innerHTML": "By the way: Should you ever be dissatisfied with a Live Simulation, or decide that you no longer wish to use the simulations you already bought, simply write to <a href=\"mailto:hallo@komplexitaeter.de\">hallo@komplexitaeter.de</a> and we will refund the corresponding amount."
-    },
-    "de": {
-      "innerHTML": "Übrigens: Solltest du mal mit einer Live Simulation unzufrieden sein oder deine bereits gekauften Simulationen doch nicht mehr verwenden wollen, dann schreib einfach an <a href=\"mailto:hallo@komplexitaeter.de\">hallo@komplexitaeter.de</a> und wir erstatten dir den entsprechenden Betrag."
+      "text": "Du erhältst am Monatsende eine E-Mail Rechnung über alle Nutzer aller Simulationen, die du druchgeführt hast. Du bezahlst per SEPA Überweisung."
     }
   },
   {
@@ -285,24 +231,6 @@
     },
     "de": {
       "hidden": "Kontaktaufnahme"
-    }
-  },
-  {
-    "id": "pending_offer_label",
-    "en": {
-      "hidden": "Pending Offer"
-    },
-    "de": {
-      "hidden": "Ausstehendes Angebot"
-    }
-  },
-  {
-    "id": "confirm_offer_btn",
-    "en": {
-      "value": "Accept Offer"
-    },
-    "de": {
-      "value": "Angebot annehmen"
     }
   },
   {

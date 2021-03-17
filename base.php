@@ -22,6 +22,7 @@ function get_base_obj($session_key) {
                                   left outer join kfs_purchasing_details_tbl d 
                                          on d.purchasing_detail_id = l.purchasing_detail_id
                                   WHERE l.session_key = ?");
+
     $sql->bind_param('s', $session_key);
     $sql->execute();
 

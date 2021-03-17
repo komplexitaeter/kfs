@@ -648,60 +648,35 @@ body {
     -webkit-box-shadow: 0 0 7px rgba(0,0,0,.2)!important;
 }
 
-.purchase_qty {
+.single_price {
     display: inline-block;
     text-align: center;
     margin-top: 10px;
+    font-size: x-large;
+    border: 3px #41b2e8 solid;
+    border-radius: 50px;
+    padding: 12px;
+    background-color: #abddf5;
+    color: white;
 }
 
-.purchase_qty div {
-    display: inline-block;
-    vertical-align: top;
-    text-align: left;
-    margin: 0 10px;
-    font-size: 20px;
+#price_value{
+    display: inline;
 }
 
-.purchase_qty span {
-    display: block;
-    text-align: left;
-}
-
-.purchase_qty img {
-    width: 38px;
-    margin-top: 2px;
-    margin-left: 0;
-    margin-right: 0;
-    border: 3px solid #41b2e8;
-    border-radius: 8px;
-    padding: 0;
-}
-
-.purchase_qty img:hover {
-    opacity: 80%;
-    cursor: pointer;
-}
-
-#purchase_qty {
-    width: 50px;
-    text-align: right;
-}
-
-#purchase_unit_price {
-    width: 50px;
-    text-align: right;
+#single_price_text{
+    display: inline;
 }
 
 .small_hint {
     font-size: 13px;
 }
 
-
-
 .purchase_method {
     display: inline-block;
     text-align: center;
     margin-top: 25px;
+    width: 85%;
 }
 
 .purchase_method div {
@@ -712,7 +687,7 @@ body {
     width: 26%;
     border-radius: 20px;
     padding: 20px 9px;
-    min-height: 240px;
+    min-height: 100px;
 }
 
 .purchase_method .inactive {
@@ -875,6 +850,40 @@ body {
     visibility: hidden;
 }
 
+.purchase_pricing_model_div{
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.purchase_pricing_model_div h1 {
+    display: inline-block;
+    text-align: center;
+    margin-top: 35px;
+    color: #41b2e8;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.purchase_pricing_model_div div {
+    text-align: justify;
+    margin-top: 15px;
+    margin-left: 15%;
+    margin-right: 10%;
+    padding: 0 40px;
+    background-repeat: no-repeat;
+    color: #666666;
+}
+
+.purchase_pricing_model_div a {
+    text-decoration: none;
+    color: #41b2e8;
+}
+
+.purchase_pricing_model_text{
+    background-image: url("./src/icon_system_simple_grey.png");
+    background-size: auto 20px;
+}
+
 #purchase_open {
     padding-bottom: 35px;
 }
@@ -909,18 +918,18 @@ body {
     background-image: url("./src/wallet_icon_grey.png");
 }
 
-#purchase_open_invoice {
+#purchase_method_invoice_text {
     background-image: url("./src/icon_system_simple_grey.png");
     background-size: auto 20px;
 }
 
-#purchase_open_offer {
+#purchase_method_offer_text {
     background-image: url("./src/icon_system_complecated_grey.png");
     background-position: 0 2px;
     background-size: auto 20px;
 }
 
-#purchase_open_custom {
+#purchase_method_custom_text {
     background-image: url("./src/icon_system_complex_grey.png");
     background-position: -2px 2px;
     background-size: auto 20px;

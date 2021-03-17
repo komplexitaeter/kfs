@@ -89,23 +89,9 @@
             <img src="./src/cross_black.png" alt="X" onclick="close_purchase_dialog()">
         </div>
         <div id="purchase_new">
-            <div class="purchase_qty">
-                <div>
-                    <span id="purchase_qty">1x</span>
-                    <span id="purchase_unit_price" class="small_hint">á</span>
-                </div>
-                <div>
-                    <span id="purchase_title"></span>
-                    <span id="purchase_desc" class="small_hint"></span>
-                </div>
-                <div>
-                    <img src="./src/btn_minus.png" alt="-" onclick="btn_purchase_qty_minus()"/>
-                    <img src="./src/btn_plus.png" alt="+" onclick="btn_purchase_qty_plus()"/>
-                </div>
-                <div>
-                    <span id="purchase_total_price">90€</span>
-                    <span id="purchase_vat_desc" class="small_hint">inkl. MwSt.</span>
-                </div>
+            <div class="single_price"><div id="price_value"></div><div id="single_price_text"></div></div>
+            <div class="purchase_pricing_model_div">
+                <div id="purchase_pricing_model_text" class="purchase_pricing_model_text"></div>
             </div>
             <div class="purchase_method">
                 <div id="purchase_method_invoice" class="inactive" onclick="set_purchase_method('INVOICE')">
@@ -124,6 +110,11 @@
                     <span id="purchase_method_custom_hint" onclick="set_purchase_method('CUSTOM')"></span>
                 </div>
             </div>
+            <div class="purchase_pricing_model_div">
+                <div id="purchase_method_invoice_text" class=""></div>
+                <div id="purchase_method_offer_text" class="hidden"></div>
+                <div id="purchase_method_custom_text" class="hidden"></div>
+            </div>
             <div id="purchase_address_div" class="purchase_address purchase_address_active">
                 <label id="purchase_address_label" for="purchase_address"></label>
                 <textarea id="purchase_address" placeholder="" maxlength="250"></textarea>
@@ -132,15 +123,6 @@
                 <input id="purchase_submit_btn" type="submit" class="submit_btn submit_btn_active" value="" onclick="purchase_submit()" />
             </div>
             <div id="purchase_warning_msg" class="warning_msg_inactive">&nbsp;</div>
-        </div>
-        <div id="purchase_open">
-            <h1 id="purchase_open_header"></h1>
-            <div id="purchase_open_feedback"></div>
-            <div id="purchase_open_invoice" class="hidden"></div>
-            <div id="purchase_open_offer" class="hidden"></div>
-            <div id="purchase_open_custom" class="hidden"></div>
-            <div id="purchase_open_rma"></div>
-            <input id="confirm_offer_btn" type="submit" class="submit_btn submit_btn_active hidden" value="" onclick="confirm_offer()" />
         </div>
     </div>
 </div>

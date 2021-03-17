@@ -1,10 +1,10 @@
 let gConsLoginUrl = "./login.html";
 let gPriceList;
-let gPurchaseQty = 1;
 let gPurchaseMethod = "INVOICE";
 let gCreditId = null;
 let gLiveToggle = null;
 let gHasPurchasingDetails = false;
+let gPurchasingPrice;
 
 function loadBase() {
     let languageCode = getURLParam("language_code");
@@ -36,7 +36,6 @@ function updateDom(myJson) {
                 , myJson.purchase_address
                 , myJson.single_gross_price
                 , myJson.purchase_method);
-            updateOpenPurchaseTrx(myJson.open_purchase_trx, myJson.latest_trx);
             removeStyleClass(document.body, 'hidden');
             updateSimulations(myJson.simulations);
             break;
@@ -61,6 +60,8 @@ function updatePurchasingDetails(purchasing_detail_exists
 
     if (purchasing_detail_exists && purchasing_detail_exists  === 1 ) {
         labelTxt = document.getElementById("purchasing_details_exist_txt").value;
+        gHasPurchasingDetails = true;
+        gPurchasingPrice = single_gross_price;
         addStyleClass(buyCreditsBtn, "hidden");
         removeStyleClass(creditsBtn, "hidden");
         if (!creditsBtnLabel.textContent.includes(labelTxt)) {
@@ -68,7 +69,7 @@ function updatePurchasingDetails(purchasing_detail_exists
         }
         if (gLiveToggle === null) toggleLive();
 
-        gHasPurchasingDetails = true;
+
     } else {
         addStyleClass(creditsBtn, "hidden");
         removeStyleClass(buyCreditsBtn, "hidden");
@@ -76,77 +77,6 @@ function updatePurchasingDetails(purchasing_detail_exists
         gHasPurchasingDetails = false;
     }
 
-}
-
-function updateOpenPurchaseTrx(openPurchaseTrx, latestTrx) {
-    let purchase_new = document.getElementById("purchase_new");
-    let purchase_open = document.getElementById("purchase_open");
-
-    if (openPurchaseTrx > 0) {
-
-        let header = document.getElementById("purchase_open_header");
-        let simulationString;
-
-        gCreditId = latestTrx.credit_id;
-
-        if (latestTrx.original_qty===1) simulationString = document.getElementById("open_credit_txt").value;
-        else simulationString = document.getElementById("open_credits_txt").value;
-
-        let headerTxt = "+"
-            + latestTrx.original_qty
-            + simulationString;
-
-        if (!header.textContent.includes(headerTxt)) {
-            header.textContent = headerTxt;
-        }
-
-        let div_feedback = document.getElementById("purchase_open_feedback");
-        let div_invoice = document.getElementById("purchase_open_invoice");
-        let div_offer = document.getElementById("purchase_open_offer");
-        let div_custom = document.getElementById("purchase_open_custom");
-
-        let confirm_offer_btn = document.getElementById("confirm_offer_btn");
-
-        switch (latestTrx.purchase_method) {
-            case "INVOICE":
-                removeStyleClass(div_feedback, "hidden");
-                removeStyleClass(div_invoice, "hidden");
-                addStyleClass(div_offer, "hidden");
-                addStyleClass(div_custom, "hidden");
-                addStyleClass(confirm_offer_btn, "hidden");
-                break;
-            case "OFFER":
-                if (latestTrx.pending_offer === 1) {
-                    addStyleClass(div_feedback, "hidden");
-                    addStyleClass(div_invoice, "hidden");
-                    removeStyleClass(div_offer, "hidden");
-                    addStyleClass(div_custom, "hidden");
-                    removeStyleClass(confirm_offer_btn, "hidden");
-                } else {
-                    removeStyleClass(div_feedback, "hidden");
-                    removeStyleClass(div_invoice, "hidden");
-                    addStyleClass(div_offer, "hidden");
-                    addStyleClass(div_custom, "hidden");
-                    addStyleClass(confirm_offer_btn, "hidden");
-                }
-                break;
-            case "CUSTOM":
-                addStyleClass(div_feedback, "hidden");
-                addStyleClass(div_invoice, "hidden");
-                addStyleClass(div_offer, "hidden");
-                removeStyleClass(div_custom, "hidden");
-                addStyleClass(confirm_offer_btn, "hidden");
-                break;
-        }
-
-        addStyleClass(purchase_new, "hidden");
-        removeStyleClass(purchase_open, "hidden");
-        setPurchaseSubmitActive();
-
-    } else {
-        addStyleClass(purchase_open, "hidden");
-        removeStyleClass(purchase_new, "hidden");
-    }
 }
 
 function loadPriceList() {
@@ -225,7 +155,7 @@ function focusSimName() {
 }
 
 function open_purchase_dialog(){
-    updatePurchaseQty();
+    updatePurchasingPrice();
     updatePurchaseMethod();
     blurPurchaseWarningMsg();
     document.getElementById('purchase_dialog').hidden=false;
@@ -246,32 +176,6 @@ function close_purchase_dialog() {
     document.getElementById('purchase_dialog').hidden=true;
 }
 
-function btn_purchase_qty_minus() {
-    if (gPurchaseQty > 1
-        && !document.getElementById("purchase_submit_btn").classList.contains("submit_btn_waiting")) {
-        gPurchaseQty--;
-        updatePurchaseQty();
-    }
-}
-
-function btn_purchase_qty_plus() {
-    if (gPurchaseQty < 50
-        && !document.getElementById("purchase_submit_btn").classList.contains("submit_btn_waiting")) {
-        gPurchaseQty++;
-        updatePurchaseQty();
-    }
-}
-
-function updatePurchaseQty() {
-    document.getElementById("purchase_qty").textContent
-        = gPurchaseQty.toString() + "x";
-    document.getElementById("purchase_unit_price").textContent
-        = "á " + gPriceList[0].toString() + "€";
-    document.getElementById("purchase_total_price").textContent
-        = (gPurchaseQty * gPriceList[0]).toString() + "€";
-    focusPurchasingTextarea();
-}
-
 function set_purchase_method(purchaseMethod) {
     if (!document.getElementById("purchase_submit_btn").classList.contains("submit_btn_waiting")) {
         gPurchaseMethod = purchaseMethod;
@@ -279,7 +183,21 @@ function set_purchase_method(purchaseMethod) {
     }
 }
 
+function updatePurchasingPrice(){
+
+    let price_value = document.getElementById("price_value");
+    if(gHasPurchasingDetails){
+        price_value.textContent = gPurchasingPrice;
+    }
+    else{
+        price_value.textContent = gPriceList[0].toString();
+    }
+}
+
 function updatePurchaseMethod() {
+    let purchase_method_invoice_text = document.getElementById("purchase_method_invoice_text");
+    let purchase_method_offer_text = document.getElementById("purchase_method_offer_text");
+    let purchase_method_custom_text = document.getElementById("purchase_method_custom_text");
     let div_invoice = document.getElementById("purchase_method_invoice");
     let div_offer = document.getElementById("purchase_method_offer");
     let div_custom = document.getElementById("purchase_method_custom");
@@ -295,6 +213,9 @@ function updatePurchaseMethod() {
 
     switch (gPurchaseMethod) {
         case "INVOICE":
+            removeStyleClass(purchase_method_invoice_text, "hidden");
+            addStyleClass(purchase_method_offer_text, "hidden");
+            addStyleClass(purchase_method_custom_text, "hidden");
             toggleStyleClass(div_invoice, "active", "inactive");
             toggleStyleClass(div_offer, "inactive", "active");
             toggleStyleClass(div_custom, "inactive", "active");
@@ -309,6 +230,9 @@ function updatePurchaseMethod() {
             }
             break;
         case "OFFER":
+            addStyleClass(purchase_method_invoice_text, "hidden");
+            removeStyleClass(purchase_method_offer_text, "hidden");
+            addStyleClass(purchase_method_custom_text, "hidden");
             toggleStyleClass(div_invoice, "inactive", "active");
             toggleStyleClass(div_offer, "active", "inactive");
             toggleStyleClass(div_custom, "inactive", "active");
@@ -323,6 +247,9 @@ function updatePurchaseMethod() {
             }
             break;
         case "CUSTOM":
+            addStyleClass(purchase_method_invoice_text, "hidden");
+            addStyleClass(purchase_method_offer_text, "hidden");
+            removeStyleClass(purchase_method_custom_text, "hidden");
             toggleStyleClass(div_invoice, "inactive", "active");
             toggleStyleClass(div_offer, "inactive", "active");
             toggleStyleClass(div_custom, "active", "inactive");
@@ -348,7 +275,7 @@ function purchase_submit() {
         submitPurchaseData(purchase_address.value);
     }
 
-    /* in this case we can re-enable the button for offer conformation */
+    /* in this case we can re-enable the button for offer confirmation */
     let confirm_offer_btn = document.getElementById("confirm_offer_btn");
     enableElement(confirm_offer_btn);
     toggleStyleClass(confirm_offer_btn, "submit_btn_active", "submit_btn_waiting");
@@ -376,6 +303,11 @@ function handlePurchaseHttpResponse(readyState, status, responseText) {
                 if (responseJSON.status_code !== 'SUCCESS') {
                     setPurchaseWarningMsg('Internal Server Error!');
                     setPurchaseSubmitActive();
+                }
+                else{
+                    let purchase_submit_btn = document.getElementById("purchase_submit_btn");
+                    toggleStyleClass(purchase_submit_btn, "submit_btn_active", "submit_btn_waiting");
+                    close_purchase_dialog();
                 }
             }
             catch (e) {
