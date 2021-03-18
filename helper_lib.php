@@ -313,6 +313,31 @@ function update_current_round($link, $simulation_id, $action, $trial_run, $auto_
             array_push($sql_dml, $sql);
             $sql = 'UPDATE kfs_items_tbl SET last_pause_start_time=current_timestamp WHERE start_time is not null and end_time is null and round_id='.$current_round->current_round_id;
             array_push($sql_dml, $sql);
+
+            /*
+                measure the usage for billing purpose:
+                when stopping the second round, that is not a trail run,
+                whe count the number of all attendees (observers, players,
+                facilitators) that have been active (callback) during
+                the last 30 seconds
+             */
+            $sql = 'update kfs_simulation_tbl s
+                       set s.measured_use = (select count(1)
+                                               from kfs_attendees_tbl a
+                                              where a.simulation_id = s.simulation_id
+                                                and TIMESTAMPDIFF( SECOND, last_callback_date, CURRENT_TIMESTAMP) < 30
+                                         )
+                          ,s.measurement_date = CURRENT_TIMESTAMP
+                     where simulation_id = '.$simulation_id.'
+                       and (select count(1)
+                              from kfs_rounds_tbl r
+                             where r.simulation_id = s.simulation_id
+                               and r.trial_run = false
+                           ) > 1
+                       and isnull(s.measurement_date)
+                    ';
+            array_push($sql_dml, $sql);
+
         }
         else exit ('INVALID_STATE_TO_STOP_ROUND');
     }
