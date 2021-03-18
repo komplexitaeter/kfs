@@ -77,8 +77,7 @@ if ($result = $sql->get_result()) {
         } else {
             /* update existing row */
             $sql = $link->prepare("UPDATE kfs_purchasing_details_tbl 
-                                            SET single_gross_price = ?
-                                               ,purchase_method = ?
+                                            SET purchase_method = ?
                                                ,purchase_address = ?  
                                                ,billing_email_address = ?
                                           WHERE purchasing_detail_id = ?");
