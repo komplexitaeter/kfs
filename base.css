@@ -165,26 +165,22 @@ body {
 #create_sim {
     margin-left: auto;
     margin-right: auto;
+    margin-bottom: 7px;
     min-width: 450px;
     max-width: 600px;
-    height: 120px;
-    background-color: rgba(169, 169, 170, 0.14);
-    border-left: 1px solid white;
-    border-bottom: 1px solid white;
-    border-right: 1px solid white;
-    border-bottom-left-radius: 15px;
-    border-bottom-right-radius: 15px;
-    margin-bottom: 7px;
+    height: 185px;
     vert-align: middle;
-}
-#create_sim:hover {
-    background-color: rgba(169, 169, 170, 0.2);
+
 }
 
 #sim_type {
     width: 100%;
     height: 60px;
+    background-color: rgba(169, 169, 170, 0.14);
     border-bottom: 2px solid white;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    margin-bottom: 7px;
 }
 
 #sim_type img {
@@ -210,33 +206,47 @@ body {
     margin: 0;
     padding: 0;
     height: 55px;
+    background-color: rgba(169, 169, 170, 0.14);
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
 }
 
 #live_toggles {
-    position: absolute;
-    margin: 0;
-    padding: 0;
-    left: 20px;
+
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    background-color: rgba(169, 169, 170, 0.14);
+
 }
 
-#sim_config .live_toggle {
+.live_toggle {
     display: inline-block;
-    width: 33px;
+    height: 100%;
+    width: 48%;
     margin-top: 8px;
-    padding-top: 24px;
-    padding-bottom: 0;
-    background-size: contain;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    background-size: 12%;
     background-repeat: no-repeat;
-    font-size: 11px;
+    background-position: 25%;
+    font-size: 1.3rem;
+    border-bottom: 2px solid;
 }
 
 .live_toggle_active {
     background-image: url("./src/sim_live_active.png");
+    color: #41b2e8;
+    font-weight: bolder;
+    border-bottom-color: transparent;
+    border-left: 2px solid transparent;
 }
 
 .live_toggle_inactive {
     background-image: url("./src/sim_live_inactive.png");
-    opacity: 50%;
+    opacity: 60%;
+    border-bottom-color: white;
+    border-left: 2px solid white;
+    border-bottom-left-radius: 15px;
 }
 
 .live_toggle_inactive:hover {
@@ -246,11 +256,18 @@ body {
 
 .playground_toggle_active {
     background-image: url("./src/sim_playground_active.png");
+    color: #41b2e8;
+    font-weight: bolder;
+    border-bottom-color: transparent;
+    border-right: 2px solid transparent;
 }
 
 .playground_toggle_inactive {
     background-image: url("./src/sim_playground_inactive.png");
-    opacity: 50%;
+    opacity: 60%;
+    border-bottom-color: white;
+    border-right: 2px solid white;
+    border-bottom-right-radius: 15px;
 }
 
 .playground_toggle_inactive:hover {

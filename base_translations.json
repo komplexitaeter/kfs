@@ -236,7 +236,7 @@
   {
     "id": "sim_name",
     "en": {
-      "placeholder": "Your simulations title?"
+      "placeholder": "Your simulation's title?"
     },
     "de": {
       "placeholder": "Titel deiner Simulation?"

@@ -38,11 +38,11 @@
                 <div class="sim_title">Kanban Flow Simulation</div>
                 <img src="./src/data_sheet_icon.png" alt="Data Sheet" />
         </div>
+        <div id="live_toggles">
+            <div id="icon_playground" class="live_toggle playground_toggle_active" onclick="togglePlayground()">Demo</div>
+            <div id="icon_live" class="live_toggle live_toggle_inactive" onclick="toggleLive()">Live</div>
+        </div>
         <div id="sim_config">
-            <div id="live_toggles">
-                <div id="icon_playground" class="live_toggle playground_toggle_active" onclick="togglePlayground()">Demo</div>
-                <div id="icon_live" class="live_toggle live_toggle_inactive" onclick="toggleLive()">Live</div>
-            </div>
             <label for="sim_name" class="hidden"></label><input type="text" id="sim_name" class="no_highlight" placeholder="" />
             <input type="submit" id="create_sim_btn" class="small_btn small_btn_active" value="" onclick="createSimulation()"  />
         </div>
