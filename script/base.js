@@ -1,10 +1,10 @@
 let gConsLoginUrl = "./login.html";
 let gPriceList;
 let gPurchaseMethod = "INVOICE";
-let gCreditId = null;
 let gLiveToggle = null;
 let gHasPurchasingDetails = false;
 let gPurchasingPrice;
+let gPurchasingAddress;
 
 function loadBase() {
     let languageCode = getURLParam("language_code");
@@ -60,8 +60,13 @@ function updatePurchasingDetails(purchasing_detail_exists
 
     if (purchasing_detail_exists && purchasing_detail_exists  === 1 ) {
         labelTxt = document.getElementById("purchasing_details_exist_txt").value;
-        gHasPurchasingDetails = true;
-        gPurchasingPrice = single_gross_price;
+        if(document.getElementById('purchase_dialog').hidden){
+            gHasPurchasingDetails = true;
+            gPurchasingPrice = single_gross_price;
+            gPurchaseMethod = purchase_method;
+            gPurchasingAddress = purchase_address;
+        }
+
         addStyleClass(buyCreditsBtn, "hidden");
         removeStyleClass(creditsBtn, "hidden");
         if (!creditsBtnLabel.textContent.includes(labelTxt)) {
@@ -156,6 +161,7 @@ function focusSimName() {
 
 function open_purchase_dialog(){
     updatePurchasingPrice();
+    updatePurchasingAdress();
     updatePurchaseMethod();
     blurPurchaseWarningMsg();
     document.getElementById('purchase_dialog').hidden=false;
@@ -177,6 +183,7 @@ function close_purchase_dialog() {
 }
 
 function set_purchase_method(purchaseMethod) {
+
     if (!document.getElementById("purchase_submit_btn").classList.contains("submit_btn_waiting")) {
         gPurchaseMethod = purchaseMethod;
         updatePurchaseMethod();
@@ -191,6 +198,16 @@ function updatePurchasingPrice(){
     }
     else{
         price_value.textContent = gPriceList[0].toString();
+    }
+}
+
+function updatePurchasingAdress(){
+    let purchase_address = document.getElementById("purchase_address");
+    if(gHasPurchasingDetails){
+        purchase_address.textContent = gPurchasingAddress;
+    }
+    else{
+        purchase_address.textContent = null;
     }
 }
 
@@ -223,12 +240,11 @@ function updatePurchaseMethod() {
             address_label_tl = document.getElementById("purchase_address_label_invoice");
             address_placeholder_tl = document.getElementById("purchase_address_placeholder_invoice");
             submit_btn_val = document.getElementById("submit_btn_invoice").value;
-            if (!submit_btn.value.includes(submit_btn_val)) {
-                address_label.textContent = address_label_tl.value;
-                purchase_address.placeholder = address_placeholder_tl.value;
-                submit_btn.value = submit_btn_val;
-            }
+            address_label.textContent = address_label_tl.value;
+            purchase_address.placeholder = address_placeholder_tl.value;
+            submit_btn.value = submit_btn_val;
             break;
+
         case "OFFER":
             addStyleClass(purchase_method_invoice_text, "hidden");
             removeStyleClass(purchase_method_offer_text, "hidden");
@@ -240,12 +256,11 @@ function updatePurchaseMethod() {
             address_label_tl = document.getElementById("purchase_address_label_offer");
             address_placeholder_tl = document.getElementById("purchase_address_placeholder_offer");
             submit_btn_val = document.getElementById("submit_btn_offer").value;
-            if (!submit_btn.value.includes(submit_btn_val)) {
-                address_label.textContent = address_label_tl.value;
-                purchase_address.placeholder = address_placeholder_tl.value;
-                submit_btn.value = submit_btn_val;
-            }
+            address_label.textContent = address_label_tl.value;
+            purchase_address.placeholder = address_placeholder_tl.value;
+            submit_btn.value = submit_btn_val;
             break;
+
         case "CUSTOM":
             addStyleClass(purchase_method_invoice_text, "hidden");
             addStyleClass(purchase_method_offer_text, "hidden");
@@ -255,10 +270,14 @@ function updatePurchaseMethod() {
             toggleStyleClass(div_custom, "active", "inactive");
             toggleStyleClass(div_address, "purchase_address_hidden", "purchase_address_active");
             submit_btn_val = document.getElementById("submit_btn_custom").value;
-            if (!submit_btn.value.includes(submit_btn_val)) {
-                submit_btn.value = submit_btn_val;
-            }
+            submit_btn.value = submit_btn_val;
             break;
+    }
+    if(gHasPurchasingDetails) {
+        submit_btn_val = document.getElementById("submit_btn_update").value;
+        if (!submit_btn.value.includes(submit_btn_val)) {
+            submit_btn.value = submit_btn_val;
+        }
     }
     blurPurchaseWarningMsg();
     focusPurchasingTextarea();
@@ -275,10 +294,6 @@ function purchase_submit() {
         submitPurchaseData(purchase_address.value);
     }
 
-    /* in this case we can re-enable the button for offer confirmation */
-    let confirm_offer_btn = document.getElementById("confirm_offer_btn");
-    enableElement(confirm_offer_btn);
-    toggleStyleClass(confirm_offer_btn, "submit_btn_active", "submit_btn_waiting");
 }
 
 function submitPurchaseData(purchaseAddress) {
@@ -306,7 +321,7 @@ function handlePurchaseHttpResponse(readyState, status, responseText) {
                 }
                 else{
                     let purchase_submit_btn = document.getElementById("purchase_submit_btn");
-                    toggleStyleClass(purchase_submit_btn, "submit_btn_active", "submit_btn_waiting");
+                    setPurchaseSubmitActive();
                     close_purchase_dialog();
                 }
             }
@@ -338,16 +353,6 @@ function setPurchaseSubmitActive() {
     enableElement(purchase_address);
     enableElement(submit_btn);
     toggleStyleClass(submit_btn, "submit_btn_active", "submit_btn_waiting");
-}
-
-function confirm_offer() {
-    const url = "./confirm_offer.php?session_key="+getSessionKey()+"&credit_id="+gCreditId+"&language_code="+gLanguageCode;
-
-    let confirm_offer_btn = document.getElementById("confirm_offer_btn");
-    disableElement(confirm_offer_btn);
-    toggleStyleClass(confirm_offer_btn, "submit_btn_waiting", "submit_btn_active");
-
-    fetch(url).then();
 }
 
 function createSimulation() {

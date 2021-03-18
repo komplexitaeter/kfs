@@ -110,10 +110,10 @@
   {
     "id": "purchase_method_invoice_text",
     "en": {
-      "text": "Start immediately."
+      "text": "Provide us with a billing adress and start immediately."
     },
     "de": {
-      "text": "Sofort loslegen."
+      "text": "Rechnungsadresse angeben und sofort loslegen."
     }
   },
   {
@@ -198,6 +198,24 @@
     }
   },
   {
+    "id": "purchase_optin_label",
+    "en": {
+      "text": "I understand that I hereby commit to pay for the live simulations I will use."
+    },
+    "de": {
+      "text": "Ich verstehe, dass ich ab jetzt kostenpflichtige Simulationen anlegen kann."
+    }
+  },
+  {
+    "id": "warning_no_purchase_optin",
+    "en": {
+      "hidden": "Please tick the box ensure you are ready to start with live simulations."
+    },
+    "de": {
+      "hidden": "Bitte Checkbox anklicken, um sicherzustellen, dass du bereit bist, mit live Simulationen zu starten."
+    }
+  },
+  {
     "id": "purchase_pricing_model_text",
     "en": {
       "text": "You will receive an e-mail invoice at the end of the month for all users over all simulations you facilitated and pay with SEPA bank transfer."
@@ -207,21 +225,30 @@
     }
   },
   {
-    "id": "submit_btn_invoice",
+    "id": "submit_btn_update",
     "en": {
-      "hidden": "Buy Now"
+      "hidden": "Save changes"
     },
     "de": {
-      "hidden": "Jetzt kaufen"
+      "hidden": "Änderung speichern"
+    }
+  },
+  {
+    "id": "submit_btn_invoice",
+    "en": {
+      "hidden": "Activate live simulations"
+    },
+    "de": {
+      "hidden": "Live Simulationen freischalten"
     }
   },
   {
     "id": "submit_btn_offer",
     "en": {
-      "hidden": "Request Offer"
+      "hidden": "Request offer & activate live simulations"
     },
     "de": {
-      "hidden": "Angebot anfordern"
+      "hidden": "Angebot anfordern & Live Simulationen freischalten"
     }
   },
   {
