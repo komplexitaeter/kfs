@@ -110,10 +110,10 @@
   {
     "id": "purchase_method_invoice_text",
     "en": {
-      "text": "Start immediately."
+      "text": "Provide us with a billing adress and start immediately."
     },
     "de": {
-      "text": "Sofort loslegen."
+      "text": "Rechnungsadresse angeben und sofort loslegen."
     }
   },
   {
@@ -195,6 +195,24 @@
     },
     "de": {
       "hidden": "Bitte eine gültige Adresse eingeben"
+    }
+  },
+  {
+    "id": "purchase_optin_label",
+    "en": {
+      "text": "I understand that I hereby commit to pay for the live simulations I will use."
+    },
+    "de": {
+      "text": "Ich verstehe, dass ich ab jetzt kostenpflichtige Simulationen anlegen kann."
+    }
+  },
+  {
+    "id": "warning_no_purchase_optin",
+    "en": {
+      "hidden": "Please tick the box ensure you are ready to start with live simulations."
+    },
+    "de": {
+      "hidden": "Bitte Checkbox anklicken, um sicherzustellen, dass du bereit bist, mit live Simulationen zu starten."
     }
   },
   {

@@ -1,7 +1,6 @@
 let gConsLoginUrl = "./login.html";
 let gPriceList;
 let gPurchaseMethod = "INVOICE";
-let gCreditId = null;
 let gLiveToggle = null;
 let gHasPurchasingDetails = false;
 let gPurchasingPrice;
@@ -184,6 +183,7 @@ function close_purchase_dialog() {
 }
 
 function set_purchase_method(purchaseMethod) {
+
     if (!document.getElementById("purchase_submit_btn").classList.contains("submit_btn_waiting")) {
         gPurchaseMethod = purchaseMethod;
         updatePurchaseMethod();
@@ -240,12 +240,11 @@ function updatePurchaseMethod() {
             address_label_tl = document.getElementById("purchase_address_label_invoice");
             address_placeholder_tl = document.getElementById("purchase_address_placeholder_invoice");
             submit_btn_val = document.getElementById("submit_btn_invoice").value;
-            if (!submit_btn.value.includes(submit_btn_val)) {
-                address_label.textContent = address_label_tl.value;
-                purchase_address.placeholder = address_placeholder_tl.value;
-                submit_btn.value = submit_btn_val;
-            }
+            address_label.textContent = address_label_tl.value;
+            purchase_address.placeholder = address_placeholder_tl.value;
+            submit_btn.value = submit_btn_val;
             break;
+
         case "OFFER":
             addStyleClass(purchase_method_invoice_text, "hidden");
             removeStyleClass(purchase_method_offer_text, "hidden");
@@ -257,12 +256,11 @@ function updatePurchaseMethod() {
             address_label_tl = document.getElementById("purchase_address_label_offer");
             address_placeholder_tl = document.getElementById("purchase_address_placeholder_offer");
             submit_btn_val = document.getElementById("submit_btn_offer").value;
-            if (!submit_btn.value.includes(submit_btn_val)) {
-                address_label.textContent = address_label_tl.value;
-                purchase_address.placeholder = address_placeholder_tl.value;
-                submit_btn.value = submit_btn_val;
-            }
+            address_label.textContent = address_label_tl.value;
+            purchase_address.placeholder = address_placeholder_tl.value;
+            submit_btn.value = submit_btn_val;
             break;
+
         case "CUSTOM":
             addStyleClass(purchase_method_invoice_text, "hidden");
             addStyleClass(purchase_method_offer_text, "hidden");
@@ -272,9 +270,7 @@ function updatePurchaseMethod() {
             toggleStyleClass(div_custom, "active", "inactive");
             toggleStyleClass(div_address, "purchase_address_hidden", "purchase_address_active");
             submit_btn_val = document.getElementById("submit_btn_custom").value;
-            if (!submit_btn.value.includes(submit_btn_val)) {
-                submit_btn.value = submit_btn_val;
-            }
+            submit_btn.value = submit_btn_val;
             break;
     }
     if(gHasPurchasingDetails) {

@@ -636,7 +636,7 @@ body {
     background-color: white;
     border-radius: 20px;
     text-align: center;
-    overflow: scroll;
+    overflow: auto;
 }
 
 .close_purchase_dialog {
@@ -671,7 +671,8 @@ body {
     margin-top: 10px;
     font-size: x-large;
     border: 3px #41b2e8 solid;
-    border-radius: 50px;
+    border-radius: 15px;
+    width: 75%;
     padding: 12px;
     background-color: #abddf5;
     color: white;
@@ -750,15 +751,46 @@ body {
     opacity: 80%;
 }
 
+.purchase_optin{
+    width: auto;
+    transition: height 1s ease-out, opacity 1s ease-in;
+    height: auto;
+    opacity: 100%;
+    visibility: visible;
+}
+
+.purchase_optin label{
+    vertical-align:middle;
+}
+
+.purchase_optin input[type="checkbox"] {
+    vertical-align:middle;
+    visibility: hidden;
+}
+.purchase_optin input[type="checkbox"]+label::before {
+    width: 15px;
+    height: 15px;
+    border-radius: 5px;
+    border: 2px solid #41b2e8;
+    background-color: #fff;
+    display: inline-block;
+    content: "";
+    margin-right: 5px;
+    vertical-align: top;
+}
+.purchase_optin input[type="checkbox"]:checked+label::before {
+    box-shadow: inset 0px 0px 0px 3px #fff;
+    background-color: #41b2e8;
+}
+
 .purchase_address {
     text-align: center;
-    margin-top: 30px;
     width: 100%;
     transition: height 1s ease-out, opacity 1s ease-in;
+    padding-top: 20px;
 }
 
 .purchase_address_active {
-    height: 130px;
     opacity: 100%;
     visibility: visible;
 }
@@ -886,7 +918,10 @@ body {
     margin-top: 15px;
     margin-left: 15%;
     margin-right: 10%;
-    padding: 0 40px;
+    padding-top: 0;
+    padding-right: 40px;
+    padding-left: 60px;
+    padding-bottom: 0;
     background-repeat: no-repeat;
     color: #666666;
 }
@@ -897,8 +932,9 @@ body {
 }
 
 .purchase_pricing_model_text{
-    background-image: url("./src/icon_system_simple_grey.png");
-    background-size: auto 20px;
+    background-image: url("./src/cart.png");
+    background-size: auto;
+    background-position: left;
 }
 
 #purchase_open {

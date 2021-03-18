@@ -95,19 +95,19 @@
             </div>
             <div class="purchase_method">
                 <div id="purchase_method_invoice" class="inactive" onclick="set_purchase_method('INVOICE')">
-                    <img src="./src/icon_system_simple.png" alt="-" onclick="set_purchase_method('INVOICE')">
-                    <h1 id="purchase_method_invoice_header" onclick="set_purchase_method('INVOICE')"></h1>
-                    <span id="purchase_method_invoice_hint" onclick="set_purchase_method('INVOICE')"></span>
+                    <img src="./src/icon_system_simple.png" alt="-">
+                    <h1 id="purchase_method_invoice_header"></h1>
+                    <span id="purchase_method_invoice_hint"></span>
                 </div>
                 <div id="purchase_method_offer" class="inactive" onclick="set_purchase_method('OFFER')">
-                    <img src="./src/icon_system_complecated.png" alt="-" onclick="set_purchase_method('OFFER')">
-                    <h1 id="purchase_method_offer_header" onclick="set_purchase_method('OFFER')"></h1>
-                    <span id="purchase_method_offer_hint" onclick="set_purchase_method('OFFER')"></span>
+                    <img src="./src/icon_system_complecated.png" alt="-">
+                    <h1 id="purchase_method_offer_header"></h1>
+                    <span id="purchase_method_offer_hint"></span>
                 </div>
                 <div id="purchase_method_custom" class="inactive" onclick="set_purchase_method('CUSTOM')">
-                    <img src="./src/icon_system_complex.png" alt="-" onclick="set_purchase_method('CUSTOM')">
-                    <h1 id="purchase_method_custom_header" onclick="set_purchase_method('CUSTOM')"></h1>
-                    <span id="purchase_method_custom_hint" onclick="set_purchase_method('CUSTOM')"></span>
+                    <img src="./src/icon_system_complex.png" alt="-" >
+                    <h1 id="purchase_method_custom_header" ></h1>
+                    <span id="purchase_method_custom_hint" ></span>
                 </div>
             </div>
             <div class="purchase_pricing_model_div">
@@ -118,6 +118,10 @@
             <div id="purchase_address_div" class="purchase_address purchase_address_active">
                 <label id="purchase_address_label" for="purchase_address"></label>
                 <textarea id="purchase_address" placeholder="" maxlength="250"></textarea>
+            </div>
+            <div id="purchase_optin" class="purchase_optin">
+                <input id="purchase_optin_checkbox" type="checkbox">
+                <label id="purchase_optin_label" for="purchase_optin_checkbox"></label>
             </div>
             <div class="purchase_footer">
                 <input id="purchase_submit_btn" type="submit" class="submit_btn submit_btn_active" value="" onclick="purchase_submit()" />
