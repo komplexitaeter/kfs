@@ -24,7 +24,9 @@ $purchase_address_arr = array();
 $sql = $link->prepare("SELECT l.login_id
                                     ,l.email_address
                                     ,l.purchasing_detail_id
+                                    ,kpdt.single_gross_price
                                FROM kfs_login_tbl l
+                            left outer join kfs_purchasing_details_tbl kpdt on l.purchasing_detail_id = kpdt.purchasing_detail_id 
                               WHERE l.session_key = ?");
 $sql->bind_param('s', $session_key);
 $sql->execute();
@@ -75,6 +77,9 @@ if ($result = $sql->get_result()) {
             }
 
         } else {
+
+            $single_price = $login->single_gross_price;
+
             /* update existing row */
             $sql = $link->prepare("UPDATE kfs_purchasing_details_tbl 
                                             SET purchase_method = ?
@@ -93,15 +98,12 @@ if ($result = $sql->get_result()) {
 
 
 
-            /* create documents */
-            /*
-            if ($purchase_method != 'CUSTOM') {
+        if ($purchase_method == 'OFFER') {
 
-                generate_purchase_doc($link, $purchase_method, $language_code, $purchase_qty, $single_price
-                    , $purchase_address_arr, $login->email_address, $credit_id);
+            generate_purchase_doc($link, $purchase_method, $language_code, null, $single_price
+                , $purchase_address_arr, $login->email_address, $login->purchasing_detail_id);
 
-            } else $link->commit();
-            */
+        } else $link->commit();
 
 
     } else $status_code = 'ERROR';

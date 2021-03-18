@@ -6,6 +6,7 @@ function create_purchase_doc($language_code, $purchase_qty, $single_price, $docu
     require('./lib/fpdf.php');
 
     for ($i = count($purchase_address_arr); $i<7; $i++) $purchase_address_arr[$i] = '';
+    $offer_no_lbl = null;
 
     if ($document_type == 'OFFER') {
         $header = get_translation_val($tlo, 'header_offer', $language_code);
@@ -231,7 +232,7 @@ function sent_purchase_doc($email_address, $pdf_doc, $filename, $document_type, 
 
 
 function generate_purchase_doc($link, $purchase_method, $language_code, $purchase_qty, $single_price
-    , $purchase_address_arr, $email_address, $credit_id, $offer_no=null) {
+    , $purchase_address_arr, $email_address, $purchasing_detail_id, $offer_no=null) {
 
     $sql = $link->prepare("SELECT current_value+1 document_number
                                                FROM kfs_sequences_tbl
@@ -263,19 +264,17 @@ function generate_purchase_doc($link, $purchase_method, $language_code, $purchas
 
     $sql_text = null;
     if ($purchase_method == 'INVOICE') {
-        $sql_text = "UPDATE kfs_credits_tbl 
-                                    SET invoice_document_id = LAST_INSERT_ID() 
-                                  WHERE credit_id = ?";
+       null;
     }
     if ($purchase_method == 'OFFER') {
-        $sql_text = "UPDATE kfs_credits_tbl 
-                                    SET offer_document_id = LAST_INSERT_ID() 
-                                  WHERE credit_id = ?";
+        $sql_text = "UPDATE kfs_purchasing_details_tbl d
+                        SET d.offer_document_id = LAST_INSERT_ID() 
+                      WHERE d.purchasing_detail_id = ?";
     }
 
     if ($sql_text != null) {
         $sql = $link->prepare($sql_text);
-        $sql->bind_param('i', $credit_id);
+        $sql->bind_param('i', $purchasing_detail_id);
         $sql->execute();
     }
 
