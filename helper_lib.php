@@ -335,6 +335,7 @@ function update_current_round($link, $simulation_id, $action, $trial_run, $auto_
                                and r.trial_run = false
                            ) > 1
                        and isnull(s.measurement_date)
+                       and s.demo_mode = false
                     ';
             array_push($sql_dml, $sql);
 
