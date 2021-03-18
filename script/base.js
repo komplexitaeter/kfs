@@ -153,6 +153,12 @@ function focusPurchasingTextarea() {
     }, 0);
 }
 
+function focusOptin() {
+    setTimeout(function() {
+        document.getElementById("purchase_optin_checkbox").focus();
+    }, 0);
+}
+
 function focusSimName() {
     setTimeout(function() {
         document.getElementById("sim_name").focus();
@@ -161,8 +167,9 @@ function focusSimName() {
 
 function open_purchase_dialog(){
     updatePurchasingPrice();
-    updatePurchasingAdress();
+    updatePurchasingAddress();
     updatePurchaseMethod();
+    updateOptin();
     blurPurchaseWarningMsg();
     document.getElementById('purchase_dialog').hidden=false;
 }
@@ -201,13 +208,23 @@ function updatePurchasingPrice(){
     }
 }
 
-function updatePurchasingAdress(){
+function updatePurchasingAddress(){
     let purchase_address = document.getElementById("purchase_address");
     if(gHasPurchasingDetails){
         purchase_address.textContent = gPurchasingAddress;
     }
     else{
         purchase_address.textContent = null;
+    }
+}
+
+function updateOptin() {
+    let optin_div = document.getElementById("purchase_optin");
+    if(gHasPurchasingDetails){
+        addStyleClass(optin_div, "hidden");
+    }
+    else{
+        removeStyleClass(optin_div, "hidden");
     }
 }
 
@@ -285,11 +302,16 @@ function updatePurchaseMethod() {
 
 function purchase_submit() {
     let purchase_address = document.getElementById("purchase_address");
+    let purchase_optin_checkbox = document.getElementById("purchase_optin_checkbox");
 
     if (gPurchaseMethod !== "CUSTOM" && (!purchase_address || purchase_address.value.length < 8 )) {
         setPurchaseWarningMsg(document.getElementById("warning_no_purchase_address").value);
         focusPurchasingTextarea();
-    } else {
+    } else if (!gHasPurchasingDetails && !purchase_optin_checkbox.checked) {
+        setPurchaseWarningMsg(document.getElementById("warning_no_optin").value);
+        focusOptin();
+    }
+    else {
         setPurchaseSubmitWaiting();
         submitPurchaseData(purchase_address.value);
     }

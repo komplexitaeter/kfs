@@ -198,6 +198,15 @@
     }
   },
   {
+  "id": "warning_no_optin",
+  "en": {
+    "hidden": "Please confirm the checkbox before proceeding"
+  },
+  "de": {
+    "hidden": "Bitte die Checkbox bestätigen, bevor es lostehen kann"
+  }
+},
+  {
     "id": "purchase_optin_label",
     "en": {
       "text": "I understand that I hereby commit to pay for the live simulations I will use."
