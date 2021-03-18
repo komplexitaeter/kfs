@@ -31,7 +31,6 @@ $sql->execute();
 
 if ($result = $sql->get_result()) {
     if ($login = $result->fetch_object()) {
-
         /* check and default input params */
         if (!in_array($purchase_method, array('INVOICE', 'OFFER', 'CUSTOM'))) $purchase_method = 'INVOICE';
         if (!in_array($language_code, array('de', 'en'))) $language_code = 'de';
@@ -53,6 +52,7 @@ if ($result = $sql->get_result()) {
         }
 
         if ($login->purchasing_detail_id == null) {
+
             $sql = $link->prepare("INSERT INTO kfs_purchasing_details_tbl (single_gross_price, purchase_method
                                                                           ,purchase_address, billing_email_address) 
                                             VALUES(?,?,?,?)");
@@ -82,7 +82,7 @@ if ($result = $sql->get_result()) {
                                                ,billing_email_address = ?
                                           WHERE purchasing_detail_id = ?");
 
-            $sql->bind_param('isssi', $single_price, $purchase_method, $purchase_address
+            $sql->bind_param('sssi',  $purchase_method, $purchase_address
                                                 , $billing_email_address, $login->purchasing_detail_id);
 
             if (!$sql->execute()) {
