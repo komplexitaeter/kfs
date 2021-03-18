@@ -207,21 +207,30 @@
     }
   },
   {
-    "id": "submit_btn_invoice",
+    "id": "submit_btn_update",
     "en": {
-      "hidden": "Buy Now"
+      "hidden": "Save changes"
     },
     "de": {
-      "hidden": "Jetzt kaufen"
+      "hidden": "Änderung speichern"
+    }
+  },
+  {
+    "id": "submit_btn_invoice",
+    "en": {
+      "hidden": "Activate live simulations"
+    },
+    "de": {
+      "hidden": "Live Simulationen freischalten"
     }
   },
   {
     "id": "submit_btn_offer",
     "en": {
-      "hidden": "Request Offer"
+      "hidden": "Request offer & activate live simulations"
     },
     "de": {
-      "hidden": "Angebot anfordern"
+      "hidden": "Angebot anfordern & Live Simulationen freischalten"
     }
   },
   {
