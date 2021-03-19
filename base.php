@@ -4,6 +4,7 @@ function get_base_obj($session_key) {
     $link = db_init();
     $status_code = 'BASE';
     $login_id = null;
+    $display_warning_live_simulation = null;
     $purchasing_details_exists = 0;
     $purchase_method = null;
     $purchase_address = null;
@@ -18,6 +19,7 @@ function get_base_obj($session_key) {
                                         ,d.purchase_address
                                         ,d.billing_email_address
                                         ,d.single_gross_price
+                                        ,l.display_warning_live_simulation
                                    FROM kfs_login_tbl l
                                   left outer join kfs_purchasing_details_tbl d 
                                          on d.purchasing_detail_id = l.purchasing_detail_id
@@ -31,6 +33,7 @@ function get_base_obj($session_key) {
 
             $login_id = $obj->login_id;
             $purchasing_details_exists = $obj->purchasing_details_exists;
+            $display_warning_live_simulation = $obj->display_warning_live_simulation;
             if ($purchasing_details_exists == 1) {
                 $purchase_method = $obj->purchase_method;
                 $purchase_address = $obj->purchase_address;
@@ -47,6 +50,7 @@ function get_base_obj($session_key) {
                                                 ,'Check-In' status
                                                 ,s.default_language_code
                                                 ,s.demo_mode
+                                                ,s.measured_use
                                                FROM kfs_simulation_tbl s
                                               WHERE s.login_id = ?
                                               ORDER BY s.creation_date");
@@ -55,7 +59,6 @@ function get_base_obj($session_key) {
 
             if ($result = $sql->get_result()) {
                 while ($obj = $result->fetch_object()) {
-
                     $simulation = array(
                         "simulation_id" => (int)$obj->simulation_id,
                         "simulation_key" => (String)$obj->simulation_key,
@@ -65,7 +68,8 @@ function get_base_obj($session_key) {
                         "status" => (String)$obj->status,
                         "default_language_code" => (String)$obj->default_language_code,
                         "demo_mode" => (int)$obj->demo_mode,
-                        "status_code" => (String)get_status($link, $obj->simulation_id)
+                        "status_code" => (String)get_status($link, $obj->simulation_id),
+                        "measured_use" => (int)$obj->measured_use
                     );
 
                     array_push($simulations, $simulation);
@@ -84,5 +88,6 @@ function get_base_obj($session_key) {
                 ,"purchase_address" => (String)$purchase_address
                 ,"billing_email_address" => (String)$billing_email_address
                 ,"single_gross_price" => (int)$single_gross_price
+                ,"display_warning_live_simulation" => (bool)$display_warning_live_simulation
                 ,"simulations" => (array)$simulations);
 }

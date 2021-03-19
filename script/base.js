@@ -5,6 +5,7 @@ let gLiveToggle = null;
 let gHasPurchasingDetails = false;
 let gPurchasingPrice;
 let gPurchasingAddress;
+let gDisplayWarningLiveSimulation = true;
 
 function loadBase() {
     let languageCode = getURLParam("language_code");
@@ -38,6 +39,7 @@ function updateDom(myJson) {
                 , myJson.purchase_method);
             removeStyleClass(document.body, 'hidden');
             updateSimulations(myJson.simulations);
+            gDisplayWarningLiveSimulation = myJson.display_warning_live_simulation;
             break;
         case "LOGIN":
             location.href = gConsLoginUrl+'?language_code='+gLanguageCode;
@@ -172,6 +174,40 @@ function open_purchase_dialog(){
     updateOptin();
     blurPurchaseWarningMsg();
     document.getElementById('purchase_dialog').hidden=false;
+}
+
+function open_warning_dialog(){
+
+    let sim_name = document.getElementById("sim_name");
+
+    if (gHasPurchasingDetails || !gLiveToggle) {
+
+        if (!(sim_name.value && sim_name.value.length > 0)) {
+            /* shake the Simulation Name filed and then focus it */
+            setTimeout(function () {
+                sim_name.classList.add("highlight");
+                setTimeout(function () {
+                    sim_name.focus();
+                    sim_name.classList.remove("highlight");
+                }, 750);
+            }, 100);
+        }
+        else {
+            if (!gDisplayWarningLiveSimulation || !gLiveToggle) {
+                createSimulation();
+            } else {
+                document.getElementById('warning_dialog').hidden = false;
+            }
+        }
+    }
+    else
+        {
+            open_purchase_dialog();
+        }
+}
+
+function close_warning_dialog(){
+    document.getElementById('warning_dialog').hidden=true;
 }
 
 function setPurchaseWarningMsg(msgText) {
@@ -379,13 +415,11 @@ function setPurchaseSubmitActive() {
 
 function createSimulation() {
 
-    if (gHasPurchasingDetails || !gLiveToggle) {
-
         let url;
         let demo_mode;
         let sim_name = document.getElementById("sim_name");
-
-        if (sim_name.value && sim_name.value.length > 0) {
+        document.getElementById('warning_dialog').hidden = true;
+        let warning_optin_checkbox = document.getElementById("warning_optin_checkbox").checked;
 
             if (gLiveToggle === 1) demo_mode = 0;
             else demo_mode = 1;
@@ -395,6 +429,8 @@ function createSimulation() {
                 + "&default_language_code=" + gLanguageCode
                 + "&simulation_name=" + sim_name.value;
 
+            if(warning_optin_checkbox && gLiveToggle === 1 ) url += "&display_warning_live_simulation=0";
+
             fetch(url)
                 .then((response) => {
                     if (response.ok) {
@@ -402,21 +438,6 @@ function createSimulation() {
                     }
                 });
 
-        } else {
-
-            /* shake the Simulation Name filed and then focus it */
-            setTimeout(function () {
-                sim_name.classList.add("highlight");
-                setTimeout(function () {
-                    sim_name.focus();
-                    sim_name.classList.remove("highlight");
-                }, 750);
-            }, 100);
-        }
-    }
-    else {
-        open_purchase_dialog();
-    }
 }
 
 function updateSimulations(simulations) {
@@ -479,6 +500,16 @@ function updateSimulation(sim_div, simulation) {
     else toggle_img_src = "sim_playground_inactive.png";
     setSrc(sim_div.getElementsByClassName("sim_icon")[0], "./src/", toggle_img_src);
 
+    /*measured used display*/
+    let measured_use_div = sim_div.getElementsByClassName("sim_use_count")[0];
+    if(!simulation.measured_use){
+        addStyleClass(measured_use_div,"hidden");
+    }
+    else{
+        removeStyleClass(measured_use_div,"hidden");
+        measured_use_div.innerText = simulation.measured_use;
+    }
+
 
     /* default language  */
     if (simulation.default_language_code === 'en') {
@@ -507,6 +538,9 @@ function openSimulation(e) {
 
 function copyShareLink(e) {
     let sim_cs_div = e.target;
+    let share_clicked_div = document.createElement("div");
+    share_clicked_div.classList.add("sim_cs_clicked");
+    share_clicked_div.innerText = "link copied to clipboard";
 
     let copy_cat = document.getElementById("copy_cat");
     copy_cat.value = getSimUrl(sim_cs_div.parentElement, true);
@@ -518,10 +552,10 @@ function copyShareLink(e) {
     /* feedback animation */
     if (!sim_cs_div.classList.contains("sim_cs_clicked")) {
         setTimeout(function () {
-            sim_cs_div.classList.add("sim_cs_clicked");
+            sim_cs_div.appendChild(share_clicked_div);
             setTimeout(function () {
-                sim_cs_div.classList.remove("sim_cs_clicked");
-            }, 1000);
+                sim_cs_div.removeChild(share_clicked_div);
+            }, 1500);
         }, 10);
     }
 }

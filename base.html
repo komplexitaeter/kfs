@@ -44,7 +44,7 @@
         </div>
         <div id="sim_config">
             <label for="sim_name" class="hidden"></label><input type="text" id="sim_name" class="no_highlight" placeholder="" />
-            <input type="submit" id="create_sim_btn" class="small_btn small_btn_active" value="" onclick="createSimulation()"  />
+            <input type="submit" id="create_sim_btn" class="small_btn small_btn_active" value="" onclick="open_warning_dialog()"  />
         </div>
     </div>
 
@@ -72,7 +72,7 @@
 
         <div class="sim_cs" onclick="copyShareLink(event)">Share</div>
 
-        <div class="sim_use_count">5</div>
+        <div class="sim_use_count"></div>
         <div class="sim_language_toggle">
             <div class="sim_lang_de sim_lang_active" data-language="de" onclick="setDefaultLang(event)">De</div>
             <div class="sim_lang_en sim_lang_inactive" data-language="en" onclick="setDefaultLang(event)">En</div>
@@ -81,9 +81,25 @@
 </div>
 
 
+<div id="warning_dialog" class="overlay" hidden>
+    <div class="modal_window">
+        <div class="close_dialog">
+            <img src="./src/cross_black.png" alt="X" onclick="close_warning_dialog()">
+        </div>
+        <div id="warning_optin" class="optin">
+            <input id="warning_optin_checkbox" type="checkbox">
+            <label id="warning_optin_label" for="warning_optin_checkbox"></label>
+        </div>
+        <div id="warning_simulation_creation" class="">
+            <input type="submit" value="yes" onclick="createSimulation()"/>
+            <input type="submit" value="no" onclick="close_warning_dialog()"/>
+        </div>
+    </div>
+</div>
+
 <div id="purchase_dialog" class="overlay" hidden>
     <div class="modal_window">
-        <div class="close_purchase_dialog">
+        <div class="close_dialog">
             <img src="./src/cross_black.png" alt="X" onclick="close_purchase_dialog()">
         </div>
         <div id="purchase_new">
@@ -117,7 +133,7 @@
                 <label id="purchase_address_label" for="purchase_address"></label>
                 <textarea id="purchase_address" placeholder="" maxlength="250"></textarea>
             </div>
-            <div id="purchase_optin" class="purchase_optin">
+            <div id="purchase_optin" class="optin">
                 <input id="purchase_optin_checkbox" type="checkbox">
                 <label id="purchase_optin_label" for="purchase_optin_checkbox"></label>
             </div>

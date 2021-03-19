@@ -216,6 +216,15 @@
     }
   },
   {
+    "id": "warning_optin_label",
+    "en": {
+      "text": "Don't ask me again."
+    },
+    "de": {
+      "text": "Nicht mehr fragen."
+    }
+  },
+  {
     "id": "purchase_pricing_model_text",
     "en": {
       "text": "You will receive an e-mail invoice at the end of the month for all users (incl. facilitator) over all simulations you facilitated and pay with SEPA bank transfer."
