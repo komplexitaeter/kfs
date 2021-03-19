@@ -477,7 +477,7 @@ function updateSimulation(sim_div, simulation) {
     let toggle_img_src;
     if (simulation.demo_mode === 0) toggle_img_src = "sim_live_inactive.png"
     else toggle_img_src = "sim_playground_inactive.png";
-    setSrc(sim_div.getElementsByClassName("sim_live_toggle")[0], "./src/", toggle_img_src);
+    setSrc(sim_div.getElementsByClassName("sim_icon")[0], "./src/", toggle_img_src);
 
 
     /* default language  */
@@ -498,8 +498,7 @@ function getSimUrl(simDiv, fullPath) {
         baseURL = window.location.origin + "/" + pathArray[1];
     }
     return baseURL + "/checkin.html?simulation_id="+simDiv.getAttribute("data-id")
-        +"&simulation_key="+simDiv.id
-        +"&facilitate=1";
+        +"&simulation_key="+simDiv.id;
 }
 
 function openSimulation(e) {

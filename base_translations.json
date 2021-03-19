@@ -200,10 +200,10 @@
   {
   "id": "warning_no_optin",
   "en": {
-    "hidden": "Please confirm the checkbox before proceeding"
+    "hidden": "Please tick the box ensure you are ready to start with live simulations."
   },
   "de": {
-    "hidden": "Bitte die Checkbox bestätigen, bevor es lostehen kann"
+    "hidden": "Bitte Checkbox anklicken, um sicherzustellen, dass du bereit bist, mit live Simulationen zu starten."
   }
 },
   {
@@ -216,21 +216,12 @@
     }
   },
   {
-    "id": "warning_no_purchase_optin",
-    "en": {
-      "hidden": "Please tick the box ensure you are ready to start with live simulations."
-    },
-    "de": {
-      "hidden": "Bitte Checkbox anklicken, um sicherzustellen, dass du bereit bist, mit live Simulationen zu starten."
-    }
-  },
-  {
     "id": "purchase_pricing_model_text",
     "en": {
-      "text": "You will receive an e-mail invoice at the end of the month for all users over all simulations you facilitated and pay with SEPA bank transfer."
+      "text": "You will receive an e-mail invoice at the end of the month for all users (incl. facilitator) over all simulations you facilitated and pay with SEPA bank transfer."
     },
     "de": {
-      "text": "Du erhältst am Monatsende eine E-Mail Rechnung über alle Nutzer aller Simulationen, die du druchgeführt hast. Du bezahlst per SEPA Überweisung."
+      "text": "Du erhältst am Monatsende eine E-Mail Rechnung über alle Nutzer (inkl. Moderator) aller Simulationen, die du druchgeführt hast. Du bezahlst per SEPA Überweisung."
     }
   },
   {
