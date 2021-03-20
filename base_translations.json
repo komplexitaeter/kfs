@@ -225,6 +225,33 @@
     }
   },
   {
+    "id": "warning_dialog_text",
+    "en": {
+      "text": "Warning! You are about to create a live simulation which will induce costs upon use. You'll receive an invoice at the end of the month based on the number of users during all your live simulations."
+    },
+    "de": {
+      "text": "Achtung! Du bist gerade dabei, eine kostenpflichtige live Simulation anzulegen. Am Ende des Monats erhälst du eine Rechnung über alle tatäschliche Nutzer in allen live Simulationen."
+    }
+  },
+  {
+    "id": "warning_simulation_creation_accept",
+    "en": {
+      "value": "Accept"
+    },
+    "de": {
+      "value": "Aktzeptieren"
+    }
+  },
+  {
+    "id": "warning_simulation_creation_refuse",
+    "en": {
+      "value": "Refuse"
+    },
+    "de": {
+      "value": "Ablehnen"
+    }
+  },
+  {
     "id": "purchase_pricing_model_text",
     "en": {
       "text": "You will receive an e-mail invoice at the end of the month for all users (incl. facilitator) over all simulations you facilitated and pay with SEPA bank transfer."

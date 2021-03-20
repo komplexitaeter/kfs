@@ -583,6 +583,65 @@ body {
     opacity: 0;
 }
 
+.warning_simulation_creation{
+    margin-bottom: 3%;
+    margin-top: 2%;
+}
+
+.warning_simulation_creation input[type=submit]{
+    border: 2px solid grey;
+    color: grey;
+    cursor: pointer;
+    width: 15%;
+    font-size: 15px;
+    background-color: white;
+    border-radius: 26px;
+    margin-left: auto;
+    margin-right: auto;
+    padding:5px;
+    height: 85%;
+    outline: none;
+}
+
+.warning_simulation_creation input[type=submit]:hover{
+    border-color: #41b2e8;
+    color: #41b2e8;
+}
+
+.warning_dialog_div{
+    padding-top: 15px;
+    padding-bottom: 15px;
+    display: inline-flex;
+    margin-bottom: 3%;
+    margin-top: 3%;
+}
+
+.warning_dialog_text{
+    text-align: justify;
+    margin-left: 15%;
+    margin-right: 10%;
+    padding-top: 0;
+    padding-right: 40px;
+    padding-left: 60px;
+    padding-bottom: 0;
+    color: #666666;
+}
+
+.warning_exclamation_mark{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 2rem;
+    width: 2rem;
+    border: 3px solid #41b2e8;
+    border-radius: 100%;
+    color: #41b2e8;
+    font-size: 25px;
+    font-weight: bolder;
+    margin-top: 0.2rem;
+    margin-left: 15%;
+}
 
 #footer {
     flex-shrink: 0;
@@ -763,6 +822,7 @@ body {
 .optin input[type="checkbox"] {
     vertical-align:middle;
     visibility: hidden;
+    cursor: pointer;
 }
 .optin input[type="checkbox"]+label::before {
     width: 15px;
@@ -774,10 +834,12 @@ body {
     content: "";
     margin-right: 5px;
     vertical-align: top;
+    cursor: pointer;
 }
 .optin input[type="checkbox"]:checked+label::before {
     box-shadow: inset 0px 0px 0px 3px #fff;
     background-color: #41b2e8;
+    cursor: pointer;
 }
 
 .purchase_address {

@@ -86,13 +86,18 @@
         <div class="close_dialog">
             <img src="./src/cross_black.png" alt="X" onclick="close_warning_dialog()">
         </div>
+        <div class="warning_dialog_div">
+            <div class="warning_exclamation_mark">!</div>
+            <div class="warning_dialog_text" id="warning_dialog_text">
+            </div>
+        </div>
         <div id="warning_optin" class="optin">
             <input id="warning_optin_checkbox" type="checkbox">
             <label id="warning_optin_label" for="warning_optin_checkbox"></label>
         </div>
-        <div id="warning_simulation_creation" class="">
-            <input type="submit" value="yes" onclick="createSimulation()"/>
-            <input type="submit" value="no" onclick="close_warning_dialog()"/>
+        <div id="warning_simulation_creation" class="warning_simulation_creation">
+            <input id="warning_simulation_creation_accept" type="submit" value="yes" onclick="createSimulation()"/>
+            <input id="warning_simulation_creation_refuse" type="submit" value="no" onclick="close_warning_dialog()"/>
         </div>
     </div>
 </div>
