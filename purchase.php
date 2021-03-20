@@ -100,7 +100,7 @@ if ($result = $sql->get_result()) {
 
         if ($purchase_method == 'OFFER') {
 
-            generate_purchase_doc($link, $purchase_method, $language_code, null, $single_price
+            generate_purchase_doc($link, $purchase_method, $language_code, 1, $single_price
                 , $purchase_address_arr, $login->email_address, $login->purchasing_detail_id);
 
         } else $link->commit();

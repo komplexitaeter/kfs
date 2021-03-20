@@ -136,19 +136,19 @@
   {
     "id": "tbl_item_line_2",
     "en": {
-      "text": "License for use of a web-based tool for one"
+      "text": "Price per use (incl. facilitators) - e.g. one simulation"
     },
     "de": {
-      "text": "Lizenz für die Nutzung eines webbasierten Tools für eine"
+      "text": "Preis je Nutzung (inkl. Moderatoren) - z.B.: eine Simulation "
     }
   },
   {
     "id": "tbl_item_line_3",
     "en": {
-      "text": "simulation session (max. 8 active participants)"
+      "text": "with 5 participants and one facilitator adds up to 6 uses."
     },
     "de": {
-      "text": "Simulations-Sitzung (max. 8 aktive Teilnehmer)"
+      "text": "mit 5 Teilnehmern und einem Moderator ergibt 6 Nutzungen."
     }
   },
   {
@@ -208,19 +208,19 @@
   {
     "id": "text_offer_line_1",
     "en": {
-      "text": "An informal e-mail to hallo@komplexitaeter.de is sufficient for the acceptance of the offer. After acceptance of the"
+      "text": "The creation of a live simulation is sufficient for the acceptance of the offer. Billing"
     },
     "de": {
-      "text": "Für die Annahme des Angebotes genügt eine formlose E-Mail an hallo@komplexitaeter.de. Nach der Annahme des Angebotes"
+      "text": "Für die Annahme des Angebotes genügt die Anlage einer Live-Simulation. Die Abrechnung"
     }
   },
   {
     "id": "text_offer_line_2",
     "en": {
-      "text": "offer, the licenses can be used immediately under the specified login."
+      "text": "is done at the end of the month by invoice to the email address provided above."
     },
     "de": {
-      "text": "können die Lizenzen unter dem angegebenen Login unmittelbar genutzt werden."
+      "text": "erfolgt zum Monatsende per Rechnung an die oben angegebene E-Mail-Adresse."
     }
   },
   {
