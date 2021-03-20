@@ -65,15 +65,15 @@ body{
 }
 
 .configuration_pick select{
-    border:none;
     outline: none;
     background-color: transparent;
     vertical-align: middle;
     font-family: Komplexitater;
     font-size: x-large;
-    -webkit-appearance: none;
     -moz-appearance: none;
-    appearance: none;       /* Remove default arrow */
+    height: 2rem;
+    padding-left: 0.4rem;
+    padding-right: 0.4rem;
 }
 
 .configuration_pick option{
