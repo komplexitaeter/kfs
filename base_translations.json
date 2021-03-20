@@ -281,10 +281,10 @@
   {
     "id": "submit_btn_offer",
     "en": {
-      "hidden": "Request offer & activate live simulations"
+      "hidden": "Request offer & get started"
     },
     "de": {
-      "hidden": "Angebot anfordern & Live Simulationen freischalten"
+      "hidden": "Angebot anfordern & loslegen"
     }
   },
   {
