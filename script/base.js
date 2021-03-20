@@ -522,18 +522,24 @@ function updateSimulation(sim_div, simulation) {
 
 }
 
-function getSimUrl(simDiv, fullPath) {
+function getSimUrl(simDiv, fullPath, facilitate=false) {
     let baseURL = '.';
     if (fullPath) {
         let pathArray = window.location.pathname.split( '/' );
         baseURL = window.location.origin + "/" + pathArray[1];
     }
-    return baseURL + "/checkin.html?simulation_id="+simDiv.getAttribute("data-id")
+    baseURL += "/checkin.html?simulation_id="+simDiv.getAttribute("data-id")
         +"&simulation_key="+simDiv.id;
+
+    if (facilitate) {
+        baseURL += "&facilitate=1";
+    }
+
+    return baseURL;
 }
 
 function openSimulation(e) {
-    window.open(getSimUrl(e.target.parentElement, false));
+    window.open(getSimUrl(e.target.parentElement, false, true));
 }
 
 function copyShareLink(e) {
