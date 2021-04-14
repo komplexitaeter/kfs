@@ -180,16 +180,20 @@ body {
     border-bottom: 2px solid white;
     border-bottom-left-radius: 15px;
     border-bottom-right-radius: 15px;
-    margin-bottom: 7px;
+    margin-bottom: 8px;
 }
 
 #sim_type img {
     display: inline-block;
-    height: 25px;
+    height: 30px;
     position: relative;
     top: 15px;
     margin-left: 8px;
     margin-right: 10px;
+}
+
+#sim_type>a:hover>img {
+    opacity: 0.8;
 }
 
 .sim_title {
@@ -198,7 +202,7 @@ body {
     font-weight: 600;
     height: 30px;
     position: relative;
-    top: 12px;
+    top: 9px;
 }
 
 #sim_config {
