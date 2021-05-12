@@ -5,7 +5,7 @@ ini_set('log_errors', 'on');
 
 define('_MYSQL_HOST', 'localhost');
 define('_MYSQL_USER', 'root');
-define('_MYSQL_PWD', 'root');
+define('_MYSQL_PWD', '');
 define('_MYSQL_DB', 'kfs_local');
 define('_MYSQL_PORT', 3306);
 
@@ -14,6 +14,6 @@ define('_PWD_RESET_URL', 'http://localhost:8888/kfs_local/login.html?mode=RESET_
 
 define('_MAIL_REPLY_TO', 'hallo@komplexitaeter.de');
 
-define('_VAT_TAX_RATE', 16);
+define('_VAT_TAX_RATE', 19);
 
 
