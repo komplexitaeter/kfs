@@ -33,6 +33,15 @@
     "de": {
       "text": "Konfiguration"
     }
-  }]
+  },
+  {
+    "id": "user_manual",
+    "en" : {
+      "text": "Never used this tool before? Here's a facilitation handbook!"
+    },
+    "de" : {
+      "text": "Das Tool noch nie benutzt? Hier ist das Moderation-Handbuch!"
+  }
+}]
 
 
