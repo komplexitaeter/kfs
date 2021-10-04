@@ -16,4 +16,6 @@ define('_MAIL_REPLY_TO', 'hallo@komplexitaeter.de');
 
 define('_VAT_TAX_RATE', 19);
 
+define('_PAYPAL_CLIENT_ID', 'ASwe4sAXlJiNsayfurrvdDHvS-2M44kObtKTwbsIpkRUulUiIAHXItLdDR4L0mTnJxby9p33cuxQpaTv');
+
 
