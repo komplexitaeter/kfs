@@ -132,6 +132,9 @@
 
             onError: function (err) {
                 console.log(err);
+                const element = document.getElementById('paypal-button-container');
+                element.innerHTML = '';
+                element.innerHTML = '<h3>Unfortunately, the payment could not be processed - please contact us!</h3></br>'+err;
             }
         }).render('#paypal-button-container');
     }
