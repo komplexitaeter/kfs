@@ -139,8 +139,8 @@ function update_workbench($link,
             }
 
             $item_options = null;
-            if ($offset <= 39) {
-                if ($offset == 39) {
+            if ($offset <= 29) {
+                if ($offset == 29) {
                     $item_options = 'multicolored';
                 }
                 $sql_items = get_create_items_sql($meta_data->current_round_id, $offset, 1, $item_options);
