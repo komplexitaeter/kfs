@@ -2,9 +2,32 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <script src="admin.js" type="text/javascript" async></script>
+    <link rel="stylesheet" type="text/css" href="admin.css">
+    <title>Simulations list</title>
 </head>
-<body>
+<body onload="loadSimulationsList()">
+    <div class="header">KFS Simulations</div>
+    <div class="main">
+        <table class="styledTable">
+            <thead>
+                <tr>
+                    <th>email</th>
+                    <th>billing adress</th>
+                    <th>date</th>
+                    <th>demo</th>
+                    <th>title<img class="icon" src="open_in_new_tab.png"/></th>
+                    <th>price per use (€)</th>
+                    <th>measured uses</th>
+                    <th>measure date</th>
+                    <th>purchase method</th>
+                    <th>invoice number</th>
+                </tr>
+            </thead>
+            <tbody id="table_body">
 
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>
