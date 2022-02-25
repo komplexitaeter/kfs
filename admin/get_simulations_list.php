@@ -24,7 +24,7 @@ $sql = $link->prepare("SELECT s.simulation_id
               FROM kfs_simulation_tbl as s
               JOIN kfs_login_tbl as l ON l.login_id = s.login_id 
             LEFT OUTER JOIN kfs_purchasing_details_tbl as p ON p.purchasing_detail_id = l.purchasing_detail_id                     
-              ORDER BY s.creation_date");
+              ORDER BY s.creation_date DESC");
 $sql->execute();
 
 if ($result = $sql->get_result()) {

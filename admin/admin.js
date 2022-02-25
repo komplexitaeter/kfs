@@ -53,7 +53,7 @@ function loadSimulationsList(){
                 table_row.append(table_data);
 
                 table_data = document.createElement("td");
-                invoice_number_input = document.createElement("input");
+                let invoice_number_input = document.createElement("input");
                 invoice_number_input.type = "text";
                 invoice_number_input.size = 11;
                 invoice_number_input.maxLength= 11;
