@@ -9,6 +9,24 @@ $link = db_init();
 $data_obj = array();
 $status_code = "UNAUTHORIZED";
 
+$sql_where ="";
+$sql_where .= "AND NOT (1=1 ";
+if (isset($_GET["invoiced"])) $sql_where.="AND invoice_number IS NULL ";
+if (isset($_GET["invoice_pending"])) $sql_where.="AND invoice_number IS NOT NULL ";
+$sql_where .= ") ";
+
+$sql_where .= "AND NOT (1=1 ";
+if (isset($_GET["live"])) $sql_where.="AND demo_mode = false ";
+if (isset($_GET["demo"])) $sql_where.="AND demo_mode = true ";
+$sql_where .= ") ";
+
+$sql_where .= "AND NOT (1=1 ";
+if (isset($_GET["measured_use_not_zero"])) $sql_where.="AND measured_use != 0 ";
+if (isset($_GET["measured_use_zero"])) $sql_where.="AND measured_use = 0 ";
+$sql_where .= ") ";
+
+echo($sql_where);
+
 /*verify status of the current simulation*/
 $sql = $link->prepare("SELECT count(1) cnt
                                 FROM kfs_login_tbl
@@ -37,6 +55,7 @@ if ($result->fetch_object()->cnt == 1) {
               FROM kfs_simulation_tbl as s
               JOIN kfs_login_tbl as l ON l.login_id = s.login_id 
             LEFT OUTER JOIN kfs_purchasing_details_tbl as p ON p.purchasing_detail_id = l.purchasing_detail_id                     
+           WHERE 1=1 ".$sql_where."
               ORDER BY s.creation_date DESC");
     $sql->execute();
 
