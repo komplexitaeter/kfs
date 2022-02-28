@@ -25,8 +25,6 @@ if (isset($_GET["measured_use_not_zero"])) $sql_where.="AND measured_use != 0 ";
 if (isset($_GET["measured_use_zero"])) $sql_where.="AND measured_use = 0 ";
 $sql_where .= ") ";
 
-echo($sql_where);
-
 /*verify status of the current simulation*/
 $sql = $link->prepare("SELECT count(1) cnt
                                 FROM kfs_login_tbl
