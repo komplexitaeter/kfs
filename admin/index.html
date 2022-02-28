@@ -8,7 +8,37 @@
     <title>Simulations list</title>
 </head>
 <body onload="loadSimulationsList()">
-    <div class="header">KFS Simulations</div>
+    <div class="header">KFS Simulations
+        <form method="post" id="filters">
+            <div class="formrow">
+                <input id="invoiced" name="invoiced" type="checkbox" aria-labelledby="Invoiced-ariaLabel" checked/>
+                <span><label for="invoiced" id="Invoiced-ariaLabel">Invoiced</label></span>
+                <input id="invoice_pending" name="invoice_pending" type="checkbox" aria-labelledby="Invoicepending-ariaLabel" checked/>
+                <span><label for="invoice_pending" id="Invoicepending-ariaLabel">Invoice pending</label></span>
+                <input id="demo" name="demo" type="checkbox" aria-labelledby="Demo-ariaLabel" checked/>
+                <span><label for="demo" id="Demo-ariaLabel">Demo</label></span>
+                <input id="live" name="live" type="checkbox" aria-labelledby="Live-ariaLabel" checked/>
+                <span><label for="live" id="Live-ariaLabel">Live</label></span>
+                <input id="measured_use_not_zero" name="measured_use_not_zero" type="checkbox" aria-labelledby="Measureduse>0-ariaLabel" checked/>
+                <span><label for="measured_use_not_zero" id="Measureduse>0-ariaLabel">Measured use > 0</label></span>
+                <input id="measured_use_zero" name="measured_use_zero" type="checkbox" aria-labelledby="Measureduse0-ariaLabel" checked/>
+                <span><label for="measured_use_zero" id="Measureduse0-ariaLabel">Measured use = 0</label></span>
+            </div>
+            <div class="formrow">
+                <fieldset>
+                    <legend>Order by</legend>
+                    <span><input value="creation_date_ascending" id="rad_Orderby_8" name="order_by" type="radio" aria-labelledby="Orderby-ariaLabel" /> <label for="rad_Orderby_8">Creation date ascending</label></span>
+                    <span><input value="creation_date_descending" id="rad_Orderby_9" name="order_by" type="radio" aria-labelledby="Orderby-ariaLabel" checked="checked"/> <label for="rad_Orderby_9">Creation date descending</label></span>
+                    <span><input value="measurement_date_ascending" id="rad_Orderby_10" name="order_by" type="radio" aria-labelledby="Orderby-ariaLabel" /> <label for="rad_Orderby_10">Measurement date ascending</label></span>
+                    <span><input value="measurement_date_descending" id="rad_Orderby_11" name="order_by" type="radio" aria-labelledby="Orderby-ariaLabel" /> <label for="rad_Orderby_11">Measurement date descending</label></span>
+                </fieldset>
+            </div>
+            <div class="row">
+                <input type="submit" value="Apply" onclick="handleSubmit(event)"/>
+                <input type="submit" value="Default" onclick="loadSimulationsList()"/>
+            </div>
+        </form>
+    </div>
     <div class="main">
         <table class="styledTable">
             <thead>
