@@ -4,6 +4,8 @@ require '../helper_lib.php';
 
 set_header('json');
 $session_key = filter_input(INPUT_GET, 'session_key', FILTER_SANITIZE_STRING);
+$order_by = filter_input(INPUT_GET, 'order_by', FILTER_SANITIZE_STRING);
+
 
 $link = db_init();
 $data_obj = array();
@@ -23,6 +25,15 @@ $sql_where .= "AND NOT (1=1 ";
 if (isset($_GET["measured_use_not_zero"])) $sql_where.="AND IFNULL(measured_use, 0) = 0 ";
 if (isset($_GET["measured_use_zero"])) $sql_where.="AND IFNULL(measured_use, 0) != 0 ";
 $sql_where .= ") ";
+
+
+$sql_sort_order = "DESC";
+if (substr_count(strtoupper($order_by), "ASCENDING") > 0) $sql_sort_order = "ASC";
+
+$sql_sort_option = "s.creation_date $sql_sort_order";
+if (substr_count(strtoupper($order_by), "MEASUREMENT_DATE") > 0) {
+    $sql_sort_option = "s.measurement_date $sql_sort_order, s.creation_date DESC";
+}
 
 /*verify status of the current simulation*/
 $sql = $link->prepare("SELECT count(1) cnt
@@ -52,8 +63,8 @@ if ($result->fetch_object()->cnt == 1) {
               FROM kfs_simulation_tbl as s
               JOIN kfs_login_tbl as l ON l.login_id = s.login_id 
             LEFT OUTER JOIN kfs_purchasing_details_tbl as p ON p.purchasing_detail_id = l.purchasing_detail_id                     
-           WHERE 1=1 ".$sql_where."
-              ORDER BY s.creation_date DESC");
+           WHERE 1=1 $sql_where
+              ORDER BY $sql_sort_option");
     $sql->execute();
 
     if ($result = $sql->get_result()) {
