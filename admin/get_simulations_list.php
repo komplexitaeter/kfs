@@ -16,13 +16,13 @@ if (isset($_GET["invoice_pending"])) $sql_where.="AND invoice_number IS NOT NULL
 $sql_where .= ") ";
 
 $sql_where .= "AND NOT (1=1 ";
-if (isset($_GET["live"])) $sql_where.="AND demo_mode = false ";
-if (isset($_GET["demo"])) $sql_where.="AND demo_mode = true ";
+if (isset($_GET["live"])) $sql_where.="AND demo_mode = true ";
+if (isset($_GET["demo"])) $sql_where.="AND demo_mode = false ";
 $sql_where .= ") ";
 
 $sql_where .= "AND NOT (1=1 ";
-if (isset($_GET["measured_use_not_zero"])) $sql_where.="AND measured_use != 0 ";
-if (isset($_GET["measured_use_zero"])) $sql_where.="AND measured_use = 0 ";
+if (isset($_GET["measured_use_not_zero"])) $sql_where.="AND measured_use = 0 ";
+if (isset($_GET["measured_use_zero"])) $sql_where.="AND measured_use IS NOT NULL ";
 $sql_where .= ") ";
 
 /*verify status of the current simulation*/

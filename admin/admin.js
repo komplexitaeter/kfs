@@ -113,7 +113,7 @@ function handleSubmit(e) {
     let formData = new FormData(form);
     let url = "./get_simulations_list.php?session_key="+getSessionKey();
         Array.from(formData).forEach( key => {
-            if(key[1]=="on"){
+            if(key[1]==="on"){
                 url += "&"+key[0];
             }
             else{
