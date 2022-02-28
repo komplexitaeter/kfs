@@ -13,6 +13,7 @@ $data_obj = array();
 $sql = $link->prepare("UPDATE kfs_simulation_tbl
                               SET invoice_number = ? 
                              WHERE simulation_id = ?");
+if (strlen($invoice_number ) == 0) $invoice_number = null;
 $sql->bind_param('si', $invoice_number, $simulation_id);
 $sql->execute();
 
