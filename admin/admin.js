@@ -1,14 +1,18 @@
 function loadSimulationsList(){
 
-    let url = "./get_simulations_list.php";
+    let url = "./get_simulations_list.php?session_key="+getSessionKey();
     fetch(url)
         .then((response) => {
             return response.json();
         })
         .then((myJson) => {
 
+            if (myJson.status_code !== "SUCCESS") {
+                location.href = "../";
+            }
+
             let table_body = document.getElementById("table_body");
-            myJson.forEach( sim => {
+            myJson.simulations.forEach( sim => {
                 let table_row = document.createElement("tr");
                 let table_data;
 
