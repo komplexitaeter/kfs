@@ -9,8 +9,7 @@ $link = db_init();
 $data_obj = array();
 $status_code = "UNAUTHORIZED";
 
-$sql_where ="";
-$sql_where .= "AND NOT (1=1 ";
+$sql_where =" AND NOT (1=1 ";
 if (isset($_GET["invoiced"])) $sql_where.="AND invoice_number IS NULL ";
 if (isset($_GET["invoice_pending"])) $sql_where.="AND invoice_number IS NOT NULL ";
 $sql_where .= ") ";
@@ -21,8 +20,8 @@ if (isset($_GET["demo"])) $sql_where.="AND demo_mode = false ";
 $sql_where .= ") ";
 
 $sql_where .= "AND NOT (1=1 ";
-if (isset($_GET["measured_use_not_zero"])) $sql_where.="AND measured_use = 0 ";
-if (isset($_GET["measured_use_zero"])) $sql_where.="AND measured_use IS NOT NULL ";
+if (isset($_GET["measured_use_not_zero"])) $sql_where.="AND IFNULL(measured_use, 0) = 0 ";
+if (isset($_GET["measured_use_zero"])) $sql_where.="AND IFNULL(measured_use, 0) != 0 ";
 $sql_where .= ") ";
 
 /*verify status of the current simulation*/
