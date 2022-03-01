@@ -8,10 +8,40 @@
     background: -moz-linear-gradient(top, #5592bb 0%, #327cad 66%, #1C6EA4 100%);
     background: -webkit-linear-gradient(top, #5592bb 0%, #327cad 66%, #1C6EA4 100%);
     background: linear-gradient(to bottom, #5592bb 0%, #327cad 66%, #1C6EA4 100%);
+    display: flex;
 }
 
 .header form{
     font-size: medium;
+    flex: 1;
+    margin-right: 5%;
+    padding: 1rem;
+}
+
+.revenue{
+    font-size: large;
+    padding: 1rem;
+    width: auto;
+    height: fit-content;
+    margin-top: auto;
+    margin-bottom: auto;
+    display: block;
+    text-align: center;
+    margin-inline-start: 2px;
+    margin-inline-end: 2px;
+    padding-block-start: 0.35em;
+    padding-inline-start: 0.75em;
+    padding-inline-end: 0.75em;
+    padding-block-end: 0.625em;
+    min-inline-size: min-content;
+    border-width: 2px;
+    border-style: groove;
+    border-color: threedface;
+    border-image: initial;
+}
+
+.filters_form{
+    width:75%;
 }
 
 .formrow{

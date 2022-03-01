@@ -9,7 +9,7 @@
 </head>
 <body onload="loadSimulationsList()">
     <div class="header">KFS Simulations
-        <form method="post" id="filters">
+        <form class="filters_form" method="post" id="filters">
             <div class="formrow">
                 <input id="invoiced" name="invoiced" type="checkbox" aria-labelledby="Invoiced-ariaLabel" checked/>
                 <span><label for="invoiced" id="Invoiced-ariaLabel">Invoiced</label></span>
@@ -38,6 +38,7 @@
                 <input type="submit" value="Default" onclick="loadSimulationsList()"/>
             </div>
         </form>
+        <fieldset class="revenue"><legend>Gross revenue for selection:</legend><div id="revenue_value"></div></fieldset>
     </div>
     <div class="main">
         <table class="styledTable">

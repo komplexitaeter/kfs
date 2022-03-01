@@ -12,6 +12,7 @@ function loadSimulationsList(url){
                 }
 
                 let table_body = document.getElementById("table_body");
+                let gross_revenue = 0;
                 while (table_body.firstChild) {
                     table_body.removeChild(table_body.firstChild);
                 }
@@ -51,6 +52,8 @@ function loadSimulationsList(url){
                     table_data.innerText = sim.measured_use;
                     table_row.append(table_data);
 
+                    gross_revenue += sim.single_gross_price * sim.measured_use;
+
                     table_data = document.createElement("td");
                     table_data.innerText = sim.measurement_date;
                     table_row.append(table_data);
@@ -60,21 +63,24 @@ function loadSimulationsList(url){
                     table_row.append(table_data);
 
                     table_data = document.createElement("td");
-                    let invoice_number_input = document.createElement("input");
-                    invoice_number_input.type = "text";
-                    invoice_number_input.size = 11;
-                    invoice_number_input.maxLength = 11;
-                    invoice_number_input.readOnly = true;
-                    invoice_number_input.value = sim.invoice_number;
-                    invoice_number_input.addEventListener("dblclick", editInvoiceNumber);
-                    invoice_number_input.addEventListener("blur", stopEditInvoiceNumber);
-                    invoice_number_input.addEventListener("change", stopEditInvoiceNumber);
-                    table_data.append(invoice_number_input);
+                    if (!sim.demo_mode) {
+                        let invoice_number_input = document.createElement("input");
+                        invoice_number_input.type = "text";
+                        invoice_number_input.size = 11;
+                        invoice_number_input.maxLength = 11;
+                        invoice_number_input.readOnly = true;
+                        invoice_number_input.value = sim.invoice_number;
+                        invoice_number_input.addEventListener("dblclick", editInvoiceNumber);
+                        invoice_number_input.addEventListener("blur", stopEditInvoiceNumber);
+                        invoice_number_input.addEventListener("change", stopEditInvoiceNumber);
+                        table_data.append(invoice_number_input);
+                     }
                     table_row.append(table_data);
-
                     table_body.append(table_row);
                 });
+                document.getElementById("revenue_value").innerText = gross_revenue+" €";
             });
+
 
 }
 
