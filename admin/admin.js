@@ -13,6 +13,7 @@ function loadSimulationsList(url){
 
                 let table_body = document.getElementById("table_body");
                 let gross_revenue = 0;
+                let gross_revenue_potential = 0;
                 while (table_body.firstChild) {
                     table_body.removeChild(table_body.firstChild);
                 }
@@ -52,7 +53,8 @@ function loadSimulationsList(url){
                     table_data.innerText = sim.measured_use;
                     table_row.append(table_data);
 
-                    gross_revenue += sim.single_gross_price * sim.measured_use;
+                    gross_revenue += sim.single_gross_price * sim.measured_use * (sim.invoice_number ? 1 : 0);
+                    gross_revenue_potential += sim.single_gross_price * sim.measured_use;
 
                     table_data = document.createElement("td");
                     table_data.innerText = sim.measurement_date;
@@ -78,7 +80,7 @@ function loadSimulationsList(url){
                     table_row.append(table_data);
                     table_body.append(table_row);
                 });
-                document.getElementById("revenue_value").innerText = gross_revenue+" €";
+                document.getElementById("revenue_value").innerText = gross_revenue+" € ("+ gross_revenue_potential+" €)";
             });
 
 
