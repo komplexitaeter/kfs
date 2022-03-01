@@ -120,6 +120,6 @@ function handleSubmit(e) {
                 url += "&"+key[0]+"="+key[1];
             }
         });
-        console.log(url);
+
     loadSimulationsList(url);
 }

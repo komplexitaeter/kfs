@@ -24,6 +24,27 @@ if (isset($_GET["measured_use_not_zero"])) $sql_where.="AND IFNULL(measured_use,
 if (isset($_GET["measured_use_zero"])) $sql_where.="AND IFNULL(measured_use, 0) != 0 ";
 $sql_where .= ") ";
 
+/*determine sorting order depending on form values*/
+
+if (isset($_GET["order_by"])){
+    switch ($_GET["order_by"]) {
+        case "creation_date_ascending":
+            $sql_where .="ORDER BY s.creation_date ASC";
+            break;
+        case "creation_date_descending":
+            $sql_where .="ORDER BY s.creation_date DESC";
+            break;
+        case "measurement_date_ascending":
+            $sql_where .="ORDER BY s.measurement_date ASC";
+            break;
+        case "measurement_date_descending":
+            $sql_where .="ORDER BY s.measurement_date DESC";
+            break;
+        default:
+            $sql_where .="ORDER BY s.creation_date DESC";
+    }
+}
+
 /*verify status of the current simulation*/
 $sql = $link->prepare("SELECT count(1) cnt
                                 FROM kfs_login_tbl
@@ -52,8 +73,7 @@ if ($result->fetch_object()->cnt == 1) {
               FROM kfs_simulation_tbl as s
               JOIN kfs_login_tbl as l ON l.login_id = s.login_id 
             LEFT OUTER JOIN kfs_purchasing_details_tbl as p ON p.purchasing_detail_id = l.purchasing_detail_id                     
-           WHERE 1=1 ".$sql_where."
-              ORDER BY s.creation_date DESC");
+           WHERE 1=1 ".$sql_where);
     $sql->execute();
 
     if ($result = $sql->get_result()) {
