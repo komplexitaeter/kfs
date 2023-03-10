@@ -376,5 +376,14 @@
     "de": {
       "hidden": "Geschlossen"
     }
+  },
+  {
+    "id": "help_button",
+    "en": {
+      "text": "User manual"
+    },
+    "de": {
+      "text": "Handbuch"
+    }
   }
 ]

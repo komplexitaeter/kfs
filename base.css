@@ -50,6 +50,7 @@ body {
     background: transparent;
     cursor: pointer;
     outline: none;
+    display: none;
 }
 
 #credits_btn span {
@@ -87,6 +88,7 @@ body {
     background: transparent;
     cursor: pointer;
     outline: none;
+    display: none;
 }
 
 #buy_credits_btn span {
@@ -211,8 +213,9 @@ body {
     padding: 0;
     height: 55px;
     background-color: rgba(169, 169, 170, 0.14);
-    border-bottom-left-radius: 15px;
-    border-bottom-right-radius: 15px;
+    /*border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;*/
+    border-radius: 15px;
 }
 
 #live_toggles {
@@ -220,6 +223,7 @@ body {
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
     background-color: rgba(169, 169, 170, 0.14);
+    display: none;
 
 }
 
@@ -1058,3 +1062,23 @@ body {
     margin-bottom: 15px;
 }
 
+#help_button {
+    position: fixed;
+    right: 20px;
+    bottom: 15px;
+    z-index: 9998;
+    line-height: 2.9em;
+    display: block;
+    width: auto;
+    height: 2.9em;
+    border-radius: 25px;
+    box-shadow: rgba(0,0,0,.25) 0 2px 5px;
+    font-family: sans-serif;
+    font-weight: 700;
+    font-size: 1.0em;
+    padding: 0 30px;
+    cursor: pointer;
+    background-color: rgb(255, 138, 38);
+    color: rgb(255, 255, 255);
+
+}

@@ -25,12 +25,6 @@ function loadBase() {
 
     focusSimName();
 
-    Calendly.initBadgeWidget({
-        url: 'https://calendly.com/d/n299-dtnj/get-in-touch-with-us-kontakt-aufnehmen',
-        text: 'Questions? Fragen?',
-        color: '#FF8A26',
-        textColor: '#ffffff',
-        branding: undefined});
 }
 
 function setLanguage() {

@@ -26,9 +26,7 @@ if (strlen($default_language_code)!=2) {
     $default_language_code = 'en';
 }
 
-if ($demo_mode != 0) {
-    $demo_mode = 1;
-}
+$demo_mode = 0;
 
 $sql = $link->prepare("SELECT login_id, purchasing_detail_id
                                FROM kfs_login_tbl 
@@ -51,39 +49,38 @@ if($display_warning_live_simulation !== null && in_array($display_warning_live_s
     $sql->execute();
 }
 
-if ($demo_mode == 1 || $purchasing_detail_id != null) {
 
-    $simulation_key = openssl_random_pseudo_bytes(8);
-    $simulation_key = bin2hex($simulation_key);
+$simulation_key = openssl_random_pseudo_bytes(8);
+$simulation_key = bin2hex($simulation_key);
 
-    $sql = $link->prepare("INSERT INTO kfs_simulation_tbl(simulation_key, current_round_id, default_language_code, login_id, demo_mode, simulation_name) VALUES (?,NULL,?,?,?,?)");
-    $sql->bind_param('ssiis', $simulation_key, $default_language_code, $login_id, $demo_mode, $simulation_name);
+$sql = $link->prepare("INSERT INTO kfs_simulation_tbl(simulation_key, current_round_id, default_language_code, login_id, demo_mode, simulation_name) VALUES (?,NULL,?,?,?,?)");
+$sql->bind_param('ssiis', $simulation_key, $default_language_code, $login_id, $demo_mode, $simulation_name);
 
-    if (!$sql->execute()) {
-        if ($link->connect_errno) {
-            printf("\n Fail: %s\n", $link->connect_error);
-            exit();
-        }
-    }
-
-    $sql = "SELECT LAST_INSERT_ID() AS simulation_id";
-
-    if ($result = $link->query($sql)) {
-        $obj = $result->fetch_object();
-
-        $obj->simulation_key = $simulation_key;
-
-        initialize_status($link, $obj->simulation_id, 'KFS');
-
-        $myJSON = json_encode($obj);
-        echo $myJSON;
-    } else {
-        if ($link->connect_errno) {
-            printf("\n Fail: %s\n", $link->connect_error);
-            exit();
-        }
+if (!$sql->execute()) {
+    if ($link->connect_errno) {
+        printf("\n Fail: %s\n", $link->connect_error);
+        exit();
     }
 }
+
+$sql = "SELECT LAST_INSERT_ID() AS simulation_id";
+
+if ($result = $link->query($sql)) {
+    $obj = $result->fetch_object();
+
+    $obj->simulation_key = $simulation_key;
+
+    initialize_status($link, $obj->simulation_id, 'KFS');
+
+    $myJSON = json_encode($obj);
+    echo $myJSON;
+} else {
+    if ($link->connect_errno) {
+        printf("\n Fail: %s\n", $link->connect_error);
+        exit();
+    }
+}
+
 
 $link->commit();
 $link->close();
