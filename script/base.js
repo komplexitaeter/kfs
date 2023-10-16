@@ -181,7 +181,6 @@ function open_warning_dialog(){
 
     let sim_name = document.getElementById("sim_name");
 
-
     if (!(sim_name.value && sim_name.value.length > 0)) {
         /* shake the Simulation Name filed and then focus it */
         setTimeout(function () {
@@ -193,11 +192,7 @@ function open_warning_dialog(){
         }, 100);
     }
     else {
-        if (!gDisplayWarningLiveSimulation || !gLiveToggle) {
-            createSimulation();
-        } else {
-            document.getElementById('warning_dialog').hidden = false;
-        }
+        createSimulation();
     }
 
 }
