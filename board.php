@@ -243,6 +243,11 @@ WHERE sims.simulation_id=$simulation_id ORDER BY item.prio";
         else {
             $sql = 'SELECT item_id, order_number, price, options FROM kfs_items_tbl WHERE current_station_id='.$meta_data->station_id.' and is_in_progress = false and round_id='.$meta_data->current_round_id.' ORDER BY prio';
         }
+
+        error_log("Test:");
+        error_log($sql);
+        error_log("---");
+
         if ($result = $link->query($sql)) {
             while(  $obj = $result->fetch_object()) {
                 array_push($todo_items, $obj);
