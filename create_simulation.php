@@ -12,7 +12,6 @@ function exit_on_error($link) {
 $session_key = filter_input(INPUT_GET, 'session_key', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 $default_language_code = filter_input(INPUT_GET, 'default_language_code', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 $demo_mode = filter_input(INPUT_GET, 'demo_mode', FILTER_SANITIZE_NUMBER_INT);
-$simulation_name = substr(filter_input(INPUT_GET, 'simulation_name', FILTER_SANITIZE_FULL_SPECIAL_CHARS), 0, 50);
 
 
 set_header('json');
@@ -32,8 +31,8 @@ $simulation_key = openssl_random_pseudo_bytes(8);
 $simulation_key = bin2hex($simulation_key);
 
 $login_id=-1;
-$sql = $link->prepare("INSERT INTO kfs_simulation_tbl(simulation_key, current_round_id, default_language_code, login_id, demo_mode, simulation_name) VALUES (?,NULL,?,?,?,?)");
-$sql->bind_param('ssiis', $simulation_key, $default_language_code, $login_id, $demo_mode, $simulation_name);
+$sql = $link->prepare("INSERT INTO kfs_simulation_tbl(simulation_key, current_round_id, default_language_code, login_id, demo_mode) VALUES (?,NULL,?,?,?)");
+$sql->bind_param('ssiis', $simulation_key, $default_language_code, $login_id, $demo_mode);
 
 if (!$sql->execute()) {
     if ($link->connect_errno) {
