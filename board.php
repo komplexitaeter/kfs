@@ -234,7 +234,7 @@ WHERE sims.simulation_id=$simulation_id ORDER BY item.prio";
     $done_items = array();
 
 
-    if ($meta_data != null) {
+    if ($meta_data != null && $meta_data->station_pos != null) {
         /* query to-to items from Backlog or from previous station? */
         if ($meta_data->station_pos==1) {
             /* query all items from backlog */
@@ -244,9 +244,6 @@ WHERE sims.simulation_id=$simulation_id ORDER BY item.prio";
             $sql = 'SELECT item_id, order_number, price, options FROM kfs_items_tbl WHERE current_station_id='.$meta_data->station_id.' and is_in_progress = false and round_id='.$meta_data->current_round_id.' ORDER BY prio';
         }
 
-        error_log("Test:");
-        error_log($meta_data->station_pos);
-        error_log("---");
 
         if ($result = $link->query($sql)) {
             while(  $obj = $result->fetch_object()) {
