@@ -5,7 +5,7 @@ function initialize_streaming($resource_name) {
 
     $simulation_id = filter_input(INPUT_GET, 'simulation_id', FILTER_SANITIZE_NUMBER_INT);
     $simulation_key = filter_input(INPUT_GET, 'simulation_key', FILTER_SANITIZE_STRING);
-    $session_key = filter_input(INPUT_GET, 'session_key', FILTER_SANITIZE_STRING);
+    $session_key = filter_input(INPUT_GET, 'session_key', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $add_stats = filter_input(INPUT_GET, 'add_stats', FILTER_SANITIZE_NUMBER_INT);
 
     $execution_time = (int)-1;
@@ -47,8 +47,8 @@ function initialize_pulling($resource_name) {
     set_header('json');
 
     $simulation_id = filter_input(INPUT_GET, 'simulation_id', FILTER_SANITIZE_NUMBER_INT);
-    $simulation_key = filter_input(INPUT_GET, 'simulation_key', FILTER_SANITIZE_STRING);
-    $session_key = filter_input(INPUT_GET, 'session_key', FILTER_SANITIZE_STRING);
+    $simulation_key = filter_input(INPUT_GET, 'simulation_key', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $session_key = filter_input(INPUT_GET, 'session_key', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $execution_time = filter_input(INPUT_GET, 'execution_time', FILTER_SANITIZE_NUMBER_INT);
     $add_stats = filter_input(INPUT_GET, 'add_stats', FILTER_SANITIZE_NUMBER_INT);
 
