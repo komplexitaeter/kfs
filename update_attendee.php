@@ -3,7 +3,7 @@ require 'config.php';
 require 'helper_lib.php';
 
 $simulation_id = filter_input(INPUT_GET, 'simulation_id', FILTER_SANITIZE_NUMBER_INT);
-$session_key = filter_input(INPUT_GET, 'session_key', FILTER_SANITIZE_STRING);
+$session_key = filter_input(INPUT_GET, 'session_key', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
 set_header('json');
 
@@ -27,7 +27,7 @@ else {
 }
 
 if(isset($_GET['name'])){
-    $new_name = filter_input(INPUT_GET, 'name', FILTER_SANITIZE_STRING);
+    $new_name = filter_input(INPUT_GET, 'name', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     if (strlen($new_name)>0) {
         array_push($sql_set, "name = '".$new_name."'");
     }
@@ -37,7 +37,7 @@ if(isset($_GET['name'])){
 }
 
 if(isset($_GET['language_code'])){
-    $language_code = filter_input(INPUT_GET, 'language_code', FILTER_SANITIZE_STRING);
+    $language_code = filter_input(INPUT_GET, 'language_code', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     if (strlen($language_code)==2) {
         array_push($sql_set, "language_code = '".$language_code."'");
     }
@@ -47,7 +47,7 @@ if(isset($_GET['language_code'])){
 }
 
 if(isset($_GET['mood_code'])){
-    $mood_code = filter_input(INPUT_GET, 'mood_code', FILTER_SANITIZE_STRING);
+    $mood_code = filter_input(INPUT_GET, 'mood_code', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     if (strlen($mood_code)>0) {
         array_push($sql_set, "mood_code = '".$mood_code."'");
     }
@@ -77,7 +77,7 @@ if(isset($_GET['cursor_x'])&&isset($_GET['cursor_y'])){
 }
 
 if(isset($_GET['statement_code'])){
-    $statement_code = filter_input(INPUT_GET, 'statement_code', FILTER_SANITIZE_STRING);
+    $statement_code = filter_input(INPUT_GET, 'statement_code', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     if (strlen($statement_code)>0) {
         array_push($sql_set, "statement_code = '".$statement_code."'");
     }
@@ -86,7 +86,7 @@ if(isset($_GET['statement_code'])){
     }
 }
 else if(isset($_GET['statement_text'])) {
-    $statement_text = filter_input(INPUT_GET, 'statement_text', FILTER_SANITIZE_STRING);
+    $statement_text = filter_input(INPUT_GET, 'statement_text', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     if (strlen($statement_text)>0) {
         $sql = "select language_code 
                   from kfs_attendees_tbl 
@@ -101,7 +101,7 @@ else if(isset($_GET['statement_text'])) {
 }
 
     if(isset($_GET['role_code'])){
-    $role_code = filter_input(INPUT_GET, 'role_code', FILTER_SANITIZE_STRING);
+    $role_code = filter_input(INPUT_GET, 'role_code', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     if (strlen($role_code)>0 && in_array($role_code, array('OBSERVER','FACILITATOR'))) {
         /* check if not the last facilitator */
         if ($role_code=='OBSERVER') {

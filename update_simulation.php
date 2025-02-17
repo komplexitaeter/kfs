@@ -72,7 +72,7 @@ if(isset($_GET['stats_round_id'])){
 }
 
 if(isset($_GET['configuration_name'])){
-    $configuration_name = filter_input(INPUT_GET, 'configuration_name', FILTER_SANITIZE_STRING);
+    $configuration_name = filter_input(INPUT_GET, 'configuration_name', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     if ($configuration_name != null) {
 
         $sql = $link->prepare( "select count(1) as items_cnt
@@ -108,8 +108,8 @@ if(isset($_GET['configuration_name'])){
 }
 
 if(isset($_GET['action'])){
-    $action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_STRING);
-    $side = filter_input(INPUT_GET, 'side', FILTER_SANITIZE_STRING);
+    $action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $side = filter_input(INPUT_GET, 'side', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
     if ($action == 'toggle_wip_visibility') {
         if ($side==0) {
@@ -123,7 +123,7 @@ if(isset($_GET['action'])){
 }
 
 if(isset($_GET['default_language_code'])){
-    $lang_code = filter_input(INPUT_GET, 'default_language_code', FILTER_SANITIZE_STRING);
+    $lang_code = filter_input(INPUT_GET, 'default_language_code', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     if (strlen($lang_code)==2 && in_array($lang_code, ["de", "en"])) {
         array_push($sql_set, "default_language_code = '".$lang_code."'");
 

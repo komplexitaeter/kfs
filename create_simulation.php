@@ -9,10 +9,10 @@ function exit_on_error($link) {
     exit();
 }
 
-$session_key = filter_input(INPUT_GET, 'session_key', FILTER_SANITIZE_STRING);
-$default_language_code = filter_input(INPUT_GET, 'default_language_code', FILTER_SANITIZE_STRING);
+$session_key = filter_input(INPUT_GET, 'session_key', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+$default_language_code = filter_input(INPUT_GET, 'default_language_code', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 $demo_mode = filter_input(INPUT_GET, 'demo_mode', FILTER_SANITIZE_NUMBER_INT);
-$simulation_name = substr(filter_input(INPUT_GET, 'simulation_name', FILTER_SANITIZE_STRING), 0, 50);
+$simulation_name = substr(filter_input(INPUT_GET, 'simulation_name', FILTER_SANITIZE_FULL_SPECIAL_CHARS), 0, 50);
 
 
 set_header('json');

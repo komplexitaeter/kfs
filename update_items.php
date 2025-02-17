@@ -18,7 +18,7 @@ $link = db_init();
 $sql_set = array();
 
 if(isset($_GET['options'])){
-    $options = filter_input(INPUT_GET, 'options', FILTER_SANITIZE_STRING);
+    $options = filter_input(INPUT_GET, 'options', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     if (strlen($options)>0) {
         array_push($sql_set, "options = '".$options."'");
     }

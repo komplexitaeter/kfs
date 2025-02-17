@@ -6,15 +6,15 @@ $signed_on = 0;
 $error_code = null;
 $token_user = null;
 
-$session_key = filter_input(INPUT_GET, 'session_key', FILTER_SANITIZE_STRING);
-$get_token = filter_input(INPUT_GET, 'get_token', FILTER_SANITIZE_STRING);
+$session_key = filter_input(INPUT_GET, 'session_key', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+$get_token = filter_input(INPUT_GET, 'get_token', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-$mode = filter_input(INPUT_POST, 'mode', FILTER_SANITIZE_STRING);
-$user = filter_input(INPUT_POST, 'user', FILTER_SANITIZE_STRING);
-$password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
-$new_password = filter_input(INPUT_POST, 'new_password', FILTER_SANITIZE_STRING);
-$language_code = filter_input(INPUT_POST, 'language_code', FILTER_SANITIZE_STRING);
-$token = filter_input(INPUT_POST, 'token', FILTER_SANITIZE_STRING);
+$mode = filter_input(INPUT_POST, 'mode', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+$user = filter_input(INPUT_POST, 'user', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+$password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+$new_password = filter_input(INPUT_POST, 'new_password', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+$language_code = filter_input(INPUT_POST, 'language_code', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+$token = filter_input(INPUT_POST, 'token', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
 $link = db_init();
 

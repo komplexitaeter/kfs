@@ -7,12 +7,12 @@ set_header('json');
 
 $status_code = 'SUCCESS';
 
-$session_key = filter_input(INPUT_GET, 'session_key', FILTER_SANITIZE_STRING);
+$session_key = filter_input(INPUT_GET, 'session_key', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-$purchase_method = filter_input(INPUT_POST, 'purchase_method', FILTER_SANITIZE_STRING);
-$language_code = filter_input(INPUT_POST, 'language_code', FILTER_SANITIZE_STRING);
-$purchase_address = filter_input(INPUT_POST, 'purchase_address', FILTER_SANITIZE_STRING);
-$billing_email_address = filter_input(INPUT_POST, 'billing_email_address', FILTER_SANITIZE_STRING);
+$purchase_method = filter_input(INPUT_POST, 'purchase_method', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+$language_code = filter_input(INPUT_POST, 'language_code', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+$purchase_address = filter_input(INPUT_POST, 'purchase_address', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+$billing_email_address = filter_input(INPUT_POST, 'billing_email_address', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
 $link = db_init();
 $link->autocommit(false);

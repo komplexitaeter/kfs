@@ -4,7 +4,7 @@ require 'helper_lib.php';
 require 'status.php';
 
 $simulation_id = filter_input(INPUT_GET, 'simulation_id', FILTER_SANITIZE_NUMBER_INT);
-$session_key = filter_input(INPUT_GET, 'session_key', FILTER_SANITIZE_STRING);
+$session_key = filter_input(INPUT_GET, 'session_key', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 $facilitate = filter_input(INPUT_GET, 'facilitate', FILTER_SANITIZE_NUMBER_INT);
 
 

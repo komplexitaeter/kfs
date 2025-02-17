@@ -4,8 +4,8 @@ require 'helper_lib.php';
 
 /* GET Parameters */
 $simulation_id = filter_input(INPUT_GET, 'simulation_id', FILTER_SANITIZE_NUMBER_INT);
-$dom_id = filter_input(INPUT_GET, 'dom_id', FILTER_SANITIZE_STRING);
-$action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_STRING);
+$dom_id = filter_input(INPUT_GET, 'dom_id', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+$action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
 header('Content-Type: application/json');
 header('Pragma-directive: no-cache');

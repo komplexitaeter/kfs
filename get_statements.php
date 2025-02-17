@@ -2,7 +2,7 @@
 require 'config.php';
 require 'helper_lib.php';
 
-$language_code = substr(filter_input(INPUT_GET, 'language_code', FILTER_SANITIZE_STRING), 0, 2);
+$language_code = substr(filter_input(INPUT_GET, 'language_code', FILTER_SANITIZE_FULL_SPECIAL_CHARS), 0, 2);
 
 header('Content-Type: application/json');
 header("Pragma-directive: no-cache");

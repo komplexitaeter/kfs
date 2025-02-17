@@ -23,7 +23,7 @@ $link = db_init();
 if ($simulation_id == null) exit_with_status('NO_SIMULATION_ID_SET');
 
 if(isset($_GET['mood_code'])) {
-    $mood_code = filter_input(INPUT_GET, 'mood_code', FILTER_SANITIZE_STRING);
+    $mood_code = filter_input(INPUT_GET, 'mood_code', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     if (strlen($mood_code)>0) {
         $sql = "UPDATE kfs_attendees_tbl
                    SET mood_code = '$mood_code'

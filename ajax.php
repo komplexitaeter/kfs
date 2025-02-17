@@ -4,7 +4,7 @@ function initialize_streaming($resource_name) {
     ob_implicit_flush(1);
 
     $simulation_id = filter_input(INPUT_GET, 'simulation_id', FILTER_SANITIZE_NUMBER_INT);
-    $simulation_key = filter_input(INPUT_GET, 'simulation_key', FILTER_SANITIZE_STRING);
+    $simulation_key = filter_input(INPUT_GET, 'simulation_key', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $session_key = filter_input(INPUT_GET, 'session_key', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $add_stats = filter_input(INPUT_GET, 'add_stats', FILTER_SANITIZE_NUMBER_INT);
 

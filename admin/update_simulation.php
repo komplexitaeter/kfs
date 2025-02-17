@@ -5,7 +5,7 @@ require '../helper_lib.php';
 set_header('json');
 
 $simulation_id = filter_input(INPUT_GET, 'simulation_id', FILTER_SANITIZE_NUMBER_INT);
-$invoice_number = substr(filter_input(INPUT_GET, 'invoice_number', FILTER_SANITIZE_STRING),0,10);
+$invoice_number = substr(filter_input(INPUT_GET, 'invoice_number', FILTER_SANITIZE_FULL_SPECIAL_CHARS),0,10);
 
 $link = db_init();
 $data_obj = array();

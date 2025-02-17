@@ -3,8 +3,8 @@ require '../config.php';
 require '../helper_lib.php';
 
 set_header('json');
-$session_key = filter_input(INPUT_GET, 'session_key', FILTER_SANITIZE_STRING);
-$order_by = filter_input(INPUT_GET, 'order_by', FILTER_SANITIZE_STRING);
+$session_key = filter_input(INPUT_GET, 'session_key', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+$order_by = filter_input(INPUT_GET, 'order_by', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
 
 $link = db_init();

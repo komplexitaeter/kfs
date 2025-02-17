@@ -4,7 +4,7 @@ require 'helper_lib.php';
 require 'status.php';
 
 $simulation_id = filter_input(INPUT_GET, 'simulation_id', FILTER_SANITIZE_NUMBER_INT);
-$action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_STRING);
+$action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 $trial_run = filter_input(INPUT_GET, 'trial_run', FILTER_SANITIZE_NUMBER_INT);
 $auto_pull = filter_input(INPUT_GET, 'auto_pull', FILTER_SANITIZE_NUMBER_INT);
 
