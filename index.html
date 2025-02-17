@@ -2,9 +2,28 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Komplexitäter - Login</title>
+    <title>Kanban Ship Building Flow Simulation Online</title>
+    <script src="./script/common.js"></script>
+    <script src="./script/base.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="./index.css">
 </head>
-<body onload="location.href='./login.html'">
+<body>
+
+<div class="language-selection-container">
+    <!-- Kachel für Englisch -->
+    <div class="language-tile" onclick="createSimulationIdx('en')">
+        <p>My team speaks English</p>
+        <i class="fas fa-school"></i>
+    </div>
+
+    <!-- Kachel für Deutsch -->
+    <div class="language-tile" onclick="createSimulationIdx('de')">
+        <p>Mein Team spricht Deutsch</p>
+        <i class="fas fa-road"></i>
+    </div>
 </div>
+
+
 </body>
 </html>

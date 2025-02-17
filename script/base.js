@@ -1,4 +1,4 @@
-let gConsLoginUrl = "./login.html";
+let gConsLoginUrl = "./_login.html";
 let gPriceList;
 let gPurchaseMethod = "INVOICE";
 let gLiveToggle = null;
@@ -429,6 +429,36 @@ function createSimulation() {
                     }
                 });
 
+}
+
+function createSimulationIdx(languageCode) {
+
+    let url;
+    const demo_mode = 0;
+
+
+    url = "./create_simulation.php?session_key=" + getSessionKey()
+        + "&demo_mode=" + demo_mode
+        + "&default_language_code=" + languageCode
+
+    fetch(url)
+        .then((response) => {
+            if (response.ok) {
+                return response.json();
+            }
+            throw new Error('Network response was not ok');
+        })
+        .then((json) => {
+            if (json.simulation_id && json.simulation_key) {
+                const redirectUrl = `checkin.html?simulation_id=${json.simulation_id}&simulation_key=${json.simulation_key}&facilitate=1`;
+                window.location.href = redirectUrl;
+            } else {
+                console.error('Invalid response format: missing simulation_id or simulation_key');
+            }
+        })
+        .catch((error) => {
+            console.error('Error fetching simulation data:', error);
+        });
 }
 
 function updateSimulations(simulations) {

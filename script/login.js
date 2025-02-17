@@ -1,4 +1,4 @@
-const gConsTargetURL = "./base.html"
+const gConsTargetURL = "./_base.html"
 let gLanguageCode = "de";
 let gModeCode = "SIGN_ON";
 

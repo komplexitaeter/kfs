@@ -13,9 +13,7 @@ $session_key = filter_input(INPUT_GET, 'session_key', FILTER_SANITIZE_STRING);
 $default_language_code = filter_input(INPUT_GET, 'default_language_code', FILTER_SANITIZE_STRING);
 $demo_mode = filter_input(INPUT_GET, 'demo_mode', FILTER_SANITIZE_NUMBER_INT);
 $simulation_name = substr(filter_input(INPUT_GET, 'simulation_name', FILTER_SANITIZE_STRING), 0, 50);
-$display_warning_live_simulation = filter_input(INPUT_GET, 'display_warning_live_simulation', FILTER_SANITIZE_STRING);
 
-$purchasing_detail_id = null;
 
 set_header('json');
 
@@ -28,31 +26,12 @@ if (strlen($default_language_code)!=2) {
 
 $demo_mode = 0;
 
-$sql = $link->prepare("SELECT login_id, purchasing_detail_id
-                               FROM kfs_login_tbl 
-                              WHERE session_key=?");
-$sql->bind_param('s', $session_key);
-$sql->execute();
-$result = $sql->get_result();
-if ($obj = $result->fetch_object()) {
-    $login_id = $obj->login_id;
-    $purchasing_detail_id = $obj->purchasing_detail_id;
-} else {
-    exit_on_error($link);
-}
-
-if($display_warning_live_simulation !== null && in_array($display_warning_live_simulation, array('0', '1'))) {
-    $sql = $link->prepare("UPDATE kfs_login_tbl
-                               SET display_warning_live_simulation = ?
-                              WHERE login_id = ?");
-    $sql->bind_param('ii', $display_warning_live_simulation, $login_id);
-    $sql->execute();
-}
 
 
 $simulation_key = openssl_random_pseudo_bytes(8);
 $simulation_key = bin2hex($simulation_key);
 
+$login_id=-1;
 $sql = $link->prepare("INSERT INTO kfs_simulation_tbl(simulation_key, current_round_id, default_language_code, login_id, demo_mode, simulation_name) VALUES (?,NULL,?,?,?,?)");
 $sql->bind_param('ssiis', $simulation_key, $default_language_code, $login_id, $demo_mode, $simulation_name);
 
