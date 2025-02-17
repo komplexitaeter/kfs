@@ -245,7 +245,7 @@ WHERE sims.simulation_id=$simulation_id ORDER BY item.prio";
         }
 
         error_log("Test:");
-        error_log($sql);
+        error_log($meta_data->station_pos);
         error_log("---");
 
         if ($result = $link->query($sql)) {
